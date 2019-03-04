@@ -17,6 +17,7 @@ export default [
             path: '/goods/publish',
             name: '发布',
             component: './Goods/Base/SupplierPublish',
+            hideInMenu: true
           },
           {
             path: '/goods/spread/list',
