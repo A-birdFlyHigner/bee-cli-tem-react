@@ -4,7 +4,7 @@ import { filterConfig, operationConfig, tableConfig } from './config';
 import './index.less';
 import mockList from './mock/list'
 
-const listrConfig = {
+const listConfig = {
   filterConfig,
   operationConfig,
   tableConfig,
@@ -29,13 +29,13 @@ class ExampleDemo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listrConfig
+      listConfig
     };
   }
 
   render() {
     const { state } = this
-    return <LeList {...state.listrConfig} />;
+    return <LeList {...state.listConfig} />;
   }
 }
 
