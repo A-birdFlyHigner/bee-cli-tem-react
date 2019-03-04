@@ -1,5 +1,5 @@
 import { LeDialog } from '@lib/lepage';
-import sleep from '../../utils/sleep';
+import { sleep } from '../../common/utils';
 
 const onClickAdd = (err, values, formCore, listCore) => {
   LeDialog.show(

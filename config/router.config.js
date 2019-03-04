@@ -1,19 +1,4 @@
 export default [
-  // user
-  // {
-  //   path: '/user',
-  //   component: '../layouts/UserLayout',
-  //   routes: [
-  //     { path: '/user', redirect: '/user/login' },
-  //     { path: '/user/login', name: 'login', component: './User/Login' },
-  //     { path: '/user/register', name: 'register', component: './User/Register' },
-  //     {
-  //       path: '/user/register-result',
-  //       name: 'register.result',
-  //       component: './User/RegisterResult',
-  //     },
-  //   ],
-  // },
   // app
   {
     path: '/',
@@ -31,17 +16,17 @@ export default [
           {
             path: '/goods/publish',
             name: '发布',
-            component: './goods/base/s_publish/index',
+            component: './Goods/Base/SupplierPublish',
           },
           {
             path: '/goods/spread/list',
             name: '推广列表',
-            component: './goods/spread/s_list/index',
+            component: './Goods/Spread/SupplierList',
           },
           {
             path: '/goods/spread/setting',
             name: '设置推广',
-            component: './goods/spread/s_setting/index',
+            component: './Goods/Spread/SupplierSetting',
           },
         ],
       },
@@ -53,7 +38,7 @@ export default [
           {
             path: '/city/publish',
             name: '城市列表',
-            component: './city/s_list/index',
+            component: './City/SupplierList',
           },
         ]
       },
@@ -63,9 +48,9 @@ export default [
         icon: 'supply',
         routes: [
           {
-            path: '/supply/purchase',
+            path: '/supply/purchase/list',
             name: '采购单管理',
-            component: './supply/purchase/list/index',
+            component: './Supply/Purchase/SupplierList',
           },
         ]
       },
@@ -79,27 +64,27 @@ export default [
           {
             path: '/lepage/form',
             name: '表单',
-            component: './LePage/Form/index',
+            component: './LePage/Form',
           },
           {
             path: '/lepage/list',
             name: '列表',
-            component: './LePage/List/index',
+            component: './LePage/List',
           },
           {
             path: '/lepage/preview',
             name: '预览',
-            component: './LePage/Preview',
+            component: './LePage/Preview/Base',
           },
           {
             path: '/lepage/preview-dynamic',
             name: '预览-动态',
-            component: './LePage/PreviewDynamic',
+            component: './LePage/Preview/Dynamic',
           },
           {
             path: '/lepage/preview-columns',
             name: '预览-多列',
-            component: './LePage/PreviewColumns',
+            component: './LePage/Preview/Columns',
           },
         ],
       },
@@ -353,4 +338,20 @@ export default [
       },
     ],
   },
+
+  // user
+  // {
+  //   path: '/user',
+  //   component: '../layouts/UserLayout',
+  //   routes: [
+  //     { path: '/user', redirect: '/user/login' },
+  //     { path: '/user/login', name: 'login', component: './User/Login' },
+  //     { path: '/user/register', name: 'register', component: './User/Register' },
+  //     {
+  //       path: '/user/register-result',
+  //       name: 'register.result',
+  //       component: './User/RegisterResult',
+  //     },
+  //   ],
+  // },
 ];

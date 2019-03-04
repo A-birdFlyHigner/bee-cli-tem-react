@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LeForm } from '@lib/lepage';
 import { formConfig } from './config';
-import sleep from '../utils/sleep';
+import { sleep } from '../../common/utils';
 import './index.less';
 
 class PreviewDynamicDemo extends Component {
