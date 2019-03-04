@@ -25,15 +25,49 @@ export default [
       // goods
       {
         path: '/goods',
-        name: '商品',
+        name: '商品管理',
         icon: 'goods',
         routes: [
           {
             path: '/goods/publish',
             name: '发布',
-            component: './Goods/Publish/index',
+            component: './goods/base/s_publish/index',
+          },
+          {
+            path: '/goods/spread/list',
+            name: '推广列表',
+            component: './goods/spread/s_list/index',
+          },
+          {
+            path: '/goods/spread/setting',
+            name: '设置推广',
+            component: './goods/spread/s_setting/index',
           },
         ],
+      },
+      {
+        path: '/city',
+        name: '城市管理',
+        icon: 'city',
+        routes: [
+          {
+            path: '/city/publish',
+            name: '城市列表',
+            component: './city/s_list/index',
+          },
+        ]
+      },
+      {
+        path: '/supply',
+        name: '供应链',
+        icon: 'supply',
+        routes: [
+          {
+            path: '/supply/purchase',
+            name: '采购单管理',
+            component: './supply/purchase/list/index',
+          },
+        ]
       },
 
       // lepage
