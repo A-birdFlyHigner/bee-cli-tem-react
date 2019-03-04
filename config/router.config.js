@@ -1,69 +1,71 @@
 export default [
   // user
-  {
-    path: '/user',
-    component: '../layouts/UserLayout',
-    routes: [
-      { path: '/user', redirect: '/user/login' },
-      { path: '/user/login', name: 'login', component: './User/Login' },
-      { path: '/user/register', name: 'register', component: './User/Register' },
-      {
-        path: '/user/register-result',
-        name: 'register.result',
-        component: './User/RegisterResult',
-      },
-    ],
-  },
+  // {
+  //   path: '/user',
+  //   component: '../layouts/UserLayout',
+  //   routes: [
+  //     { path: '/user', redirect: '/user/login' },
+  //     { path: '/user/login', name: 'login', component: './User/Login' },
+  //     { path: '/user/register', name: 'register', component: './User/Register' },
+  //     {
+  //       path: '/user/register-result',
+  //       name: 'register.result',
+  //       component: './User/RegisterResult',
+  //     },
+  //   ],
+  // },
   // app
   {
     path: '/',
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
     routes: [
-      // lepage
       { path: '/', redirect: '/lepage/form' },
-      {
-        path: '/lepage',
-        name: 'lepage',
-        icon: 'lepage',
-        routes: [
-          {
-            path: '/lepage/form',
-            name: 'form',
-            component: './LePage/Form/index',
-          },
-          {
-            path: '/lepage/list',
-            name: 'list',
-            component: './LePage/List/index',
-          },
-          {
-            path: '/lepage/preview',
-            name: 'preview',
-            component: './LePage/Preview',
-          },
-          {
-            path: '/lepage/preview-dynamic',
-            name: 'preview.dynamic',
-            component: './LePage/PreviewDynamic',
-          },
-          {
-            path: '/lepage/preview-columns',
-            name: 'preview.columns',
-            component: './LePage/PreviewColumns',
-          },
-        ],
-      },
-
+      
+      // goods
       {
         path: '/goods',
-        name: 'goods',
+        name: '商品',
         icon: 'goods',
         routes: [
           {
             path: '/goods/publish',
-            name: 'publish',
+            name: '发布',
             component: './Goods/Publish/index',
+          },
+        ],
+      },
+
+      // lepage
+      {
+        path: '/lepage',
+        name: 'LePage 示例',
+        icon: 'lepage',
+        routes: [
+          {
+            path: '/lepage/form',
+            name: '表单',
+            component: './LePage/Form/index',
+          },
+          {
+            path: '/lepage/list',
+            name: '列表',
+            component: './LePage/List/index',
+          },
+          {
+            path: '/lepage/preview',
+            name: '预览',
+            component: './LePage/Preview',
+          },
+          {
+            path: '/lepage/preview-dynamic',
+            name: '预览-动态',
+            component: './LePage/PreviewDynamic',
+          },
+          {
+            path: '/lepage/preview-columns',
+            name: '预览-多列',
+            component: './LePage/PreviewColumns',
           },
         ],
       },

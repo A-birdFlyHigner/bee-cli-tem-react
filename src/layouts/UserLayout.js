@@ -5,7 +5,7 @@ import Link from 'umi/link';
 import { Icon } from 'antd';
 import GlobalFooter from '@/components/GlobalFooter';
 import DocumentTitle from 'react-document-title';
-import SelectLang from '@/components/SelectLang';
+// import SelectLang from '@/components/SelectLang';
 import styles from './UserLayout.less';
 import logo from '../assets/logo.svg';
 import getPageTitle from '@/utils/getPageTitle';
@@ -55,9 +55,9 @@ class UserLayout extends Component {
     return (
       <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
         <div className={styles.container}>
-          <div className={styles.lang}>
+          {/* <div className={styles.lang}>
             <SelectLang />
-          </div>
+          </div> */}
           <div className={styles.content}>
             <div className={styles.top}>
               <div className={styles.header}>
