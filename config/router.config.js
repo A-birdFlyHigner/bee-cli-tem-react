@@ -13,21 +13,37 @@ export default [
         name: '商品管理',
         icon: 'goods',
         routes: [
+          // 基础
+          {
+            path: '/goods/base/list',
+            name: '基础商品列表',
+            component: './Goods/Base/SupplierList'
+          },
           {
             path: '/goods/publish',
             name: '发布',
             component: './Goods/Base/SupplierPublish',
             hideInMenu: true
           },
+
+          // 推广
           {
             path: '/goods/spread/list',
-            name: '推广列表',
+            name: '推广商品列表',
             component: './Goods/Spread/SupplierList',
           },
           {
             path: '/goods/spread/setting',
             name: '设置推广',
             component: './Goods/Spread/SupplierSetting',
+            hideInMenu: true
+          },
+
+          // 排期
+          {
+            path: '/goods/schedule/list',
+            name: '排期商品列表',
+            component: './Goods/Schedule/SupplierList',
           },
         ],
       },
