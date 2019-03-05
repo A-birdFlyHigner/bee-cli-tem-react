@@ -1,4 +1,8 @@
 export default [{
+    label: '当前选择类目',
+    name: 'catogery',
+    value: '汽车/配件/用品'
+  }, {
     label: '基础信息',
     className: 'box-header',
   }, {
