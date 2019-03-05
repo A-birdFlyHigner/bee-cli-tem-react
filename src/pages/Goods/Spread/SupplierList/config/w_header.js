@@ -1,4 +1,5 @@
 import { LeDialog } from '@lib/lepage';
+import router from 'umi/router';
 import dialogFormConfig from '../../common/spreadDialog';
 
 const setBranchList = (err, values, formCore, listCore, self) => {
@@ -30,9 +31,14 @@ const setBranchList = (err, values, formCore, listCore, self) => {
           return `${p.title}（${cityName}）`;
         })
         .join('；');
-      // history.push({
-      //   pathname: `/productSpread/seting?productIds=${productIds}&cityIds=${cityIds.join(',')}&spreadName=${spreadName}`
-      // })
+      router.push({
+        pathname: `/goods/spread/setting`,
+        query: {
+          productIds: productIds,
+          cityIds: cityIds,
+          spreadName: spreadName
+        }
+      })
       suc();
     },
   });
