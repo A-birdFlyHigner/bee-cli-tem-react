@@ -5,3 +5,36 @@
   margin: 24px;
   padding-top: @layout-header-height;
 }
+
+:global(.no-form .no-form-item-inline) {
+  margin: 0 10px 12px 0;
+}
+
+:global(.operateBtn-container-inline) {
+  line-height: 20px;
+  span {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding: 0 5px;
+    &:before {
+      content: '|';
+    }
+  }
+}
+
+:global(.spread-tree) {
+  margin-top: -5px !important;
+  li {
+    ul {
+      padding: 0 !important;
+    }
+  }
+}
+
+:global(.ant-tree-switcher) {
+  display: none !important;
+}
+
+:global(.ant-tabs-content) {
+  margin-top: 30px;
+}

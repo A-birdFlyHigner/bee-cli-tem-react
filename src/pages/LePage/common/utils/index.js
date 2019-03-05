@@ -1,7 +1,4 @@
-import fetch from './fetch'
-import sleep from './sleep'
+import fetch from './fetch';
+import sleep from './sleep';
 
-export {
-    fetch,
-    sleep
-}
+export { fetch, sleep };

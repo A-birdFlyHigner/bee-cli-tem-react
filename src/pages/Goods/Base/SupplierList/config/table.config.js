@@ -52,24 +52,18 @@ const showDetail = values => {
 export default {
   columns: [
     {
-        title: '基础信息',
-        render (value, values, index) {
-
-        }
+      title: '基础信息',
+      render(value, values, index) {},
     },
     {
-        title: '类目',
-        dataIndex: 'pathName',
-        render (value, values, index) {
-
-        }
+      title: '类目',
+      dataIndex: 'pathName',
+      render(value, values, index) {},
     },
     {
-        title: '规格',
-        dataIndex: 'saleUnits',
-        render (value, values, index) {
-
-        }
+      title: '规格',
+      dataIndex: 'saleUnits',
+      render(value, values, index) {},
     },
     {
       title: '操作',
