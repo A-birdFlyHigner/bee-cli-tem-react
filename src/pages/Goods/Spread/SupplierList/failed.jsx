@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '@lib/lepage/lib/index.css';
 import { LeList } from '@lib/lepage';
 import filterConfig from './config/f_search';
 import tableConfig from './config/f_table';

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import '@lib/lepage/lib/index.css'
 import router from 'umi/router'
 import { formatSearch } from '@/utils/utils'
 import { LeForm, LeDialog } from '@lib/lepage'

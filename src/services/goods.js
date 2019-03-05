@@ -10,3 +10,12 @@ export async function queryCommunityManager(params) {
     },
   });
 }
+
+export async function queryProductDetail(params) {
+  return request(`${domain}/community/list`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}

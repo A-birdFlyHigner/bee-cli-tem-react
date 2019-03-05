@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '@lib/lepage/lib/index.css';
 import { LeList } from '@lib/lepage';
 import filterConfig from './config/w_search';
 import headerConfig from './config/w_header';

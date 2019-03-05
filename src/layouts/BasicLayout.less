@@ -10,6 +10,28 @@
   margin: 0 10px 12px 0;
 }
 
+:global(.no-form .box-header) {
+  background: #fff;
+  padding: 10px;
+}
+
+:global(.no-form .box-header .no-form-item-label) {
+  font-size: 18px;
+  font-weight: 600;
+  width: auto;
+  &:before {
+    content: '|';
+    font-weight: 600;
+    font-size: 30px;
+    position: relative;
+    margin-right: 5px;
+    top: 2px;
+  }
+  &:after {
+    content: ''
+  }
+}
+
 :global(.operateBtn-container-inline) {
   line-height: 20px;
   span {

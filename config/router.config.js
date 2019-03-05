@@ -25,6 +25,12 @@ export default [
             component: './Goods/Base/SupplierPublish',
             hideInMenu: true,
           },
+          {
+            path: '/goods/base/detail/:id',
+            name: '商品详情',
+            component: './Goods/Base/AdminDetail',
+            hideInMenu: true,
+          },
 
           // 推广
           {
