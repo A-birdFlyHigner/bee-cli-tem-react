@@ -6,7 +6,7 @@ export default [
     Routes: ['src/pages/Authorized'],
     routes: [
       { path: '/', redirect: '/lepage/form' },
-      
+
       // goods
       {
         path: '/goods',
@@ -17,13 +17,19 @@ export default [
           {
             path: '/goods/base/list',
             name: '基础商品列表',
-            component: './Goods/Base/SupplierList'
+            component: './Goods/Base/SupplierList',
           },
           {
             path: '/goods/publish',
             name: '发布',
             component: './Goods/Base/SupplierPublish',
-            hideInMenu: true
+            hideInMenu: true,
+          },
+          {
+            path: '/goods/base/detail/:id',
+            name: '商品详情',
+            component: './Goods/Base/AdminDetail',
+            hideInMenu: true,
           },
 
           // 推广
@@ -36,7 +42,7 @@ export default [
             path: '/goods/spread/setting',
             name: '设置推广',
             component: './Goods/Spread/SupplierSetting',
-            hideInMenu: true
+            hideInMenu: true,
           },
 
           // 排期
@@ -57,7 +63,7 @@ export default [
             name: '城市列表',
             component: './City/SupplierList',
           },
-        ]
+        ],
       },
       {
         path: '/supply',
@@ -69,7 +75,7 @@ export default [
             name: '采购单管理',
             component: './Supply/Purchase/SupplierList',
           },
-        ]
+        ],
       },
 
       // lepage
