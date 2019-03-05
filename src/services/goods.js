@@ -1,6 +1,13 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
 
-export async function queryCommunityManager(mobile) {
-  return request(`/api/goods/spread/list?mobile=${mobile}`);
+const domain = '/adminApi';
+
+export async function queryCommunityManager(params) {
+  return request(`${domain}/community/list`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
 }
