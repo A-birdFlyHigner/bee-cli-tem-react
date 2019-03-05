@@ -53,6 +53,7 @@ export default {
   columns: [
     {
         title: '基础信息',
+        dataIndex: 'categoryId',
         render (value, values, index) {
 
         }
@@ -60,15 +61,20 @@ export default {
     {
         title: '类目',
         dataIndex: 'pathName',
-        render (value, values, index) {
-
+        render (value) {
+          return value
         }
     },
     {
         title: '规格',
         dataIndex: 'saleUnits',
-        render (value, values, index) {
-
+        render (value) {
+          return (
+            <div>
+              {value.length}个<br />
+              <a onClick={() => {}}>查看</a>
+            </div>
+          )
         }
     },
     {

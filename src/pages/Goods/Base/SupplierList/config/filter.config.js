@@ -27,17 +27,17 @@ export default {
             },
         },
         {
-            label: '商品id',
+            label: '商品Id',
             name: 'productId',
             props: {
-                placeholder: '请输入商品id',
+                placeholder: '请输入商品Id',
             },
         },
         {
-            label: 'SKUid',
+            label: 'skuId',
             name: 'skuId',
             props: {
-                placeholder: '请输入SKUid',
+                placeholder: '请输入skuId',
             },
         },
     ],

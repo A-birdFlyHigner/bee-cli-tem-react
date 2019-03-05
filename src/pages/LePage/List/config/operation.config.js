@@ -4,6 +4,11 @@ import { sleep } from '../../common/utils';
 const onClickAdd = (err, values, formCore, listCore) => {
   LeDialog.show(
     {
+      core: {
+        values: {
+          purchasing: listCore.getSelectedRowKeys()
+        }
+      },
       form: {
         layout: {
           label: 'w120',
@@ -17,7 +22,7 @@ const onClickAdd = (err, values, formCore, listCore) => {
             type: 'string',
             required: true,
             message: '请填写内容',
-          },
+          }
         },
         {
           label: '仓库名称',

@@ -133,10 +133,12 @@ export default {
       props: {
         type: 'danger',
         children: '导出',
-        onClick(err, values, formCore, listCore) {},
+        onClick(err, values, formCore, listCore) {
+          console.log(values);
+        },
       },
       options: {
-        type: 'none',
+        type: 'export',
         validate: true,
       },
     },

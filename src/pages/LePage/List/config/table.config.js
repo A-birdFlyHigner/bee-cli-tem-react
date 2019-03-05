@@ -2,6 +2,7 @@ import React from 'react';
 import { LeDialog } from '@lib/lepage';
 
 const onSelectChange = (selectedRowKeys, listCore) => {
+  window.console.log(listCore.getSelectedRowKeys())
   window.console.log('selectedRowKeys changed: ', selectedRowKeys, listCore.getDataSource());
 };
 
@@ -54,20 +55,20 @@ const showDetail = values => {
 };
 
 export default {
-  rowSelection: {
-    selectedRowKeys: [1, 2],
-    onChange: onSelectChange,
-    selections: true,
-    onSelect(...args) {
-      // console.log(args)
-    },
-    getCheckboxProps(record) {
-      return {
-        disabled: false,
-        name: record.purchasing,
-      };
-    },
-  },
+  // rowSelection: {
+  //   selectedRowKeys: [1, 2],
+  //   onChange: onSelectChange,
+  //   selections: true,
+  //   onSelect(...args) {
+  //     // console.log(args)
+  //   },
+  //   getCheckboxProps(record) {
+  //     return {
+  //       disabled: false,
+  //       name: record.purchasing,
+  //     };
+  //   },
+  // },
   columns: [
     {
       title: '采购时间',
