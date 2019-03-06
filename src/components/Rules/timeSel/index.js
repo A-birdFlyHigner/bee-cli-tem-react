@@ -9,8 +9,7 @@ const DEFAULT_OPTIONS = {
 };
 
 export default (options = {}) => {
-  return function() {
-    const self = this;
+  return function(self) {
     const label = options.label || DEFAULT_OPTIONS.label;
     const name = options.name || DEFAULT_OPTIONS.name;
     const value = options.value || [];
