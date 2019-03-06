@@ -6,6 +6,7 @@ import * as Sty from '../index.less'
 
 import SkuDetail from '../../common/skuDetail'
 import StoreInfo from '../../common/storeInfo'
+import { dialogFormTextConfig } from '../../common/commonConfig.js'
 
 // 渠道商品规格详情
 const getSkuDetail = (id) => {
@@ -41,74 +42,18 @@ const getStoreInfo = (id) => {
   })
 }
 
-// 审核
+// 强制回退
 const goExamine = (record) => {
   LeDialog.show(
-    dialogFormConfig(), 
+    dialogFormTextConfig('审核'), 
     {
       title: '审核',
-      width: '600px',
+      width: '400px',
       onOk: (values, suc, core) => {
         suc()
       }
     }
   )
-}
-
-const dialogFormConfig =  () => {
-
-  return {
-    form: {
-      layout: { // 表单布局 左侧和右侧比例
-        label: 0,
-        control: 24
-      }
-    },
-    items: [
-      {
-        label: '',
-        name: 'text',
-        render: (values, core) => {
-          return(
-            <div>
-              <div className={Sty.dialogMb}>确定对商品进行以下审核？</div>
-            </div>
-          )
-        },
-      },
-      {
-        label: '',
-        name: 'chooseType',
-        component: 'RadioGroup',
-        follow: true,
-        props:{
-          options:[
-            {
-              label:'通过',
-              value:0,
-            },
-            {
-              label:'拒绝',
-              value:1,
-            }
-          ]
-        }
-      },
-      {
-        label:'',
-        name: 'reason',
-        component: 'Input',
-        className: Sty.rejectReason,
-        props:{
-          placeholder: '请输入拒绝原因，不超过20字'
-        },
-        // when true false 控制隐藏显示此组件
-        when: (val, core) => {
-          return val.chooseType == 1
-        }
-      }
-    ],
-  }
 }
 
 export default {
@@ -188,9 +133,9 @@ export default {
       )
     }
   }, {
-    title: '出售时间',
-    dataIndex: 'phoneNumber',
-    key: 'phoneNumber',
+    title: '推广城市',
+    dataIndex: 'spreadCity',
+    key: 'spreadCity',
     singleLine: true,
   }, {
     title: '库存信息',
@@ -206,31 +151,20 @@ export default {
       )
     }
   }, {
-    title: '地址信息',
-    dataIndex: 'addressInfo',
-    key: 'addressInfo',
-    render: (val, record) => {
-      return (
-        <div className={Sty.store}>
-          <span>分公司：长沙分公司</span><br></br>
-          <span>出售城市：长沙</span><br></br>
-          <span>店铺ID：10</span><br></br>        
-          <span>店铺名称：长沙一哥店铺</span><br></br>                  
-        </div> 
-      )
-    }
-  },  {
-    title: '审核状态',
-    dataIndex: 'examineStatus',
-    key: 'examineStatus',
-    render: (val, record) => {
-      return (
-        <div className={Sty.store}>
-          <span>已拒绝</span><br></br>
-          <span>原因：不符合规则</span><br></br>                
-        </div> 
-      )
-    }
+    title: '店铺名称',
+    dataIndex: 'shopName',
+    key: 'shopName',
+    singleLine: true,
+  }, {
+    title: '店铺Id',
+    dataIndex: 'shopId',
+    key: 'shopId',
+    singleLine: true,
+  }, {
+    title: '提审时间',
+    dataIndex: 'passTime',
+    key: 'passTime',
+    singleLine: true,
   }, {
     title: '操作',
     width: 140,

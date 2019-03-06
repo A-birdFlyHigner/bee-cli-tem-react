@@ -57,6 +57,13 @@ export default [
             component: './Goods/Schedule/BranchList',
           },
 
+          // 审核
+          {
+            path: '/goods/examine/branchlist',
+            name: '分公司商品审核列表',
+            component: './Goods/Examine/BranchList',
+          },
+
         ],
       },
       {
