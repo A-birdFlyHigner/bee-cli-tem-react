@@ -4,6 +4,9 @@ export default [
   {
     label: 'sku主图',
     className: 'box-header',
+    render (vals, cores) {
+      return <span className={Sty.headerSpan}>（销售属性项：颜色）</span>
+    }
   }, {
     render (vals, core) {
       return (

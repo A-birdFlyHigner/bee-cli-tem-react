@@ -4,8 +4,7 @@ import * as Sty from '../index.less'
 import Reg from '@/utils/reg'
 
 export default function (productIds) {
-  return function () {
-    const self = this
+  return function (self) {
     const itemList = []
     makeProductItem(productIds, self).forEach(p => {
       itemList.push(...p)

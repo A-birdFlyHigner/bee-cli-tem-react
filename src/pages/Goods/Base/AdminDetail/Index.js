@@ -4,6 +4,7 @@ import { LeForm } from '@lib/lepage'
 
 import baseInfo from './config/baseInfo'
 import salseInfo from './config/salseInfo'
+import salseEdit from './config/salseEdit'
 import wareHouse from './config/wareHouse'
 import skuMainImg from './config/skuImg'
 import productInfo from './config/productInfo'
@@ -30,6 +31,7 @@ export default class Detail extends Component {
         items: [
           ...baseInfo,
           ...salseInfo,
+          salseEdit(),
           ...wareHouse,
           ...skuMainImg,
           ...productInfo,
