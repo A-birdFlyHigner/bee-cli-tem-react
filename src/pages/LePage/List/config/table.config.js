@@ -1,57 +1,58 @@
 import React from 'react';
-import { LeDialog } from '@lib/lepage';
+import { LeForm, LeDialog } from '@lib/lepage';
 
-const onSelectChange = (selectedRowKeys, listCore) => {
-  window.console.log(listCore.getSelectedRowKeys())
-  window.console.log('selectedRowKeys changed: ', selectedRowKeys, listCore.getDataSource());
-};
+// const onSelectChange = (selectedRowKeys, listCore) => {
+//   window.console.log(listCore.getSelectedRowKeys())
+//   window.console.log('selectedRowKeys changed: ', selectedRowKeys, listCore.getDataSource());
+// };
 
 const showDetail = values => {
-  LeDialog.show(
-    {
-      core: {
-        values,
-        globalStatus: 'preview',
+  const formConfig = {
+    core: {
+      values,
+      globalStatus: 'preview',
+    },
+    form: {
+      layout: {
+        label: 'w120',
       },
-      form: {
-        layout: {
-          label: 'w120',
-        },
+    },
+    items: [
+      {
+        label: '采购时间',
+        name: 'purchasing',
       },
-      items: [
-        {
-          label: '采购时间',
-          name: 'purchasing',
-        },
-        {
-          label: '仓库名称',
-          name: 'warehouse',
-        },
-        {
-          label: '供应商名称',
-          name: 'supplier',
-        },
-        {
-          label: '采购订单状态',
-          name: 'status',
-        },
-        {
-          label: '采购订单来源',
-          name: 'origin',
-          props: {
-            onChange() {
-              this.setState({
-                dataSource: [],
-              });
-            },
+      {
+        label: '仓库名称',
+        name: 'warehouse',
+      },
+      {
+        label: '供应商名称',
+        name: 'supplier',
+      },
+      {
+        label: '采购订单状态',
+        name: 'status',
+      },
+      {
+        label: '采购订单来源',
+        name: 'origin',
+        props: {
+          onChange() {
+            this.setState({
+              dataSource: [],
+            });
           },
         },
-      ],
-    },
-    {
-      title: '查看详情',
+      },
+    ],
+  }
+  LeDialog.show({
+    title: '查看详情',
+    content () {
+      return <LeForm {...formConfig} />
     }
-  );
+  });
 };
 
 export default {

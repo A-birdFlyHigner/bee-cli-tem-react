@@ -50,17 +50,3 @@ export default FormDemo;
 //     }]
 // }
 
-// const buttons = [
-//     {
-//         props: {
-//             children: '弹窗',
-//             onClick (error, values, core,) {
-//                 LeDialog.show(dialogFormConfig, {})
-//             }
-//         },
-//         options: {
-//             type: 'submit',
-//             validate: false
-//         }
-//    }
-// ]

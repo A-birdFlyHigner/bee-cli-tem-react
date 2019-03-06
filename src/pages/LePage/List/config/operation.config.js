@@ -1,64 +1,73 @@
-import { LeDialog } from '@lib/lepage';
+import React from 'react'
+import { LeForm, LeDialog } from '@lib/lepage';
 import { sleep } from '../../common/utils';
 
 const onClickAdd = (err, values, formCore, listCore) => {
-  LeDialog.show(
-    {
-      core: {
-        values: {
-          purchasing: listCore.getSelectedRowKeys()
+  const formConfig = {
+    core: {
+      values: {
+        purchasing: listCore.getSelectedRowKeys()
+      }
+    },
+    form: {
+      layout: {
+        label: 'w120',
+      },
+    },
+    items: [
+      {
+        label: '采购时间',
+        name: 'purchasing',
+        rules: {
+          type: 'string',
+          required: true,
+          message: '请填写内容',
         }
       },
-      form: {
-        layout: {
-          label: 'w120',
-        },
+      {
+        label: '仓库名称',
+        name: 'warehouse',
+        rules: {
+          type: 'string',
+          required: true,
+          message: '请填写仓库名称',
+        }
       },
-      items: [
-        {
-          label: '采购时间',
-          name: 'purchasing',
-          rules: {
-            type: 'string',
-            required: true,
-            message: '请填写内容',
-          }
-        },
-        {
-          label: '仓库名称',
-          name: 'warehouse',
-        },
-        {
-          label: '供应商名称',
-          name: 'supplier',
-        },
-        {
-          label: '采购订单状态',
-          name: 'status',
-        },
-        {
-          label: '采购订单来源',
-          name: 'origin',
-        },
-        {
-          label: '供应商确认状态',
-          name: 'confirm',
-        },
-      ],
+      {
+        label: '供应商名称',
+        name: 'supplier',
+      },
+      {
+        label: '采购订单状态',
+        name: 'status',
+      },
+      {
+        label: '采购订单来源',
+        name: 'origin',
+      },
+      {
+        label: '供应商确认状态',
+        name: 'confirm',
+      },
+    ],
+  }
+
+  LeDialog.show({
+    title: '新建采购单',
+    width: '500px',
+    enableValidate: true,
+    content () {
+      return <LeForm {...formConfig} />
     },
-    {
-      title: '新建采购单',
-      width: '500px',
-      onOk: (values, hide) => {
-        return new Promise(async (resolve, reject) => {
-          await sleep(1500);
-          resolve();
-          hide();
-          listCore.refresh();
-        });
-      },
-    }
-  );
+    onOk: (values, hide) => {
+      return new Promise(async (resolve, reject) => {
+        await sleep(1500);
+        resolve();
+        hide();
+        listCore.refresh();
+      });
+    },
+  });
 };
 
 export default {

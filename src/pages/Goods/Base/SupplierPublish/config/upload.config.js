@@ -81,28 +81,28 @@ export default (options = {}) => {
     }
 
     const postFile = (file) => {
-      leForm.core.setProps(name, {
+      leForm.formCore.setProps(name, {
         isLoading: true
       })
       setTimeout(() => {
-        let val = leForm.core.getValue(name) || []
+        let val = leForm.formCore.getValue(name) || []
         val = [ ...val,
           {
             uid: '1',
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
           }]
-        leForm.core.setValue(name, val)
-        leForm.core.setProps(name, {
+        leForm.formCore.setValue(name, val)
+        leForm.formCore.setProps(name, {
           isLoading: false
         })
       }, 1000)
     }
 
     const handleChange = (fileList) => {
-      let len = leForm.core.getValue(name)
+      let len = leForm.formCore.getValue(name)
       len = len ? len.length : 0
       if (fileList.length < len) {
-        leForm.core.setValue(name, fileList)
+        leForm.formCore.setValue(name, fileList)
         this.setState({
           [stateKey]: { loading: false }
         })
@@ -110,7 +110,7 @@ export default (options = {}) => {
     }
 
     const children = (isLoading) => {
-      let len = leForm.core.getValue(name)
+      let len = leForm.formCore.getValue(name)
       if (len === undefined) {
         len = options.value ? options.value.length : 0
       } else {

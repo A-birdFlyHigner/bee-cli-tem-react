@@ -258,6 +258,13 @@ const getSalesPropertyConfig = (initSkus) => {
         return [].concat(...result)
     }
 
+    const code69 = () => {
+        return {
+            label: '商品是否有69码',
+            component: 'Checkbox'
+        }
+    }
+
     // 获取批量设置配置
     const getBatchConfig = (leForm) => {
         return [
@@ -306,6 +313,7 @@ const getSalesPropertyConfig = (initSkus) => {
             getHeadConfig('销售属性'),
             getTipConfig('注：商品规格根据类目规定显示，支持0-2级，没有规格时可不填'),
             ...getSkuChoosesConfig(leForm, initSkus),
+            code69(),
             ...getBatchConfig(leForm),
             getSkuCombConfig(leForm)
         ]
