@@ -6,7 +6,7 @@ export default [
     Routes: ['src/pages/Authorized'],
     routes: [
       { path: '/', redirect: '/lepage/form' },
-      
+
       // goods
       {
         path: '/goods',
@@ -17,13 +17,13 @@ export default [
           {
             path: '/goods/base/list',
             name: '基础商品列表',
-            component: './Goods/Base/SupplierList'
+            component: './Goods/Base/SupplierList',
           },
           {
             path: '/goods/publish',
             name: '发布',
             component: './Goods/Base/SupplierPublish',
-            hideInMenu: true
+            hideInMenu: true,
           },
 
           // 推广
@@ -36,7 +36,7 @@ export default [
             path: '/goods/spread/setting',
             name: '设置推广',
             component: './Goods/Spread/SupplierSetting',
-            hideInMenu: true
+            hideInMenu: true,
           },
 
           // 排期
@@ -57,7 +57,7 @@ export default [
             name: '城市列表',
             component: './City/SupplierList',
           },
-        ]
+        ],
       },
       {
         path: '/supply',
@@ -67,9 +67,54 @@ export default [
           {
             path: '/supply/purchase/list',
             name: '采购单管理',
-            component: './Supply/Purchase/SupplierList',
+            component: './Supply/Purchase/List',
           },
-        ]
+          {
+            path: '/supply/purchase/detail',
+            name: '采购单详情',
+            component: './Supply/Purchase/Detail',
+          },
+          {
+            path: '/supply/purchase/add',
+            name: '采购单添加',
+            component: './Supply/Purchase/Edit',
+          },
+          {
+            path: '/supply/purchase/edit',
+            name: '采购单编辑',
+            component: './Supply/Purchase/Edit',
+          },
+          {
+            path: '/supply/input/list',
+            name: '入库单管理',
+            component: './Supply/Input/List',
+          },
+          {
+            path: '/supply/delivery/list',
+            name: '配送单管理',
+            component: './Supply/Delivery/List',
+          },
+          {
+            path: '/supply/delivery/detail',
+            name: '配送单详情',
+            component: './Supply/Delivery/Detail',
+          },
+          {
+            path: '/supply/output/list',
+            name: '出库单管理',
+            component: './Supply/Output/list',
+          },
+          {
+            path: '/supply/warehouse/list',
+            name: '商品在仓库存管理',
+            component: './Supply/Warehouse/list',
+          },
+          {
+            path: '/supply/delivery/export',
+            name: '送货单导出',
+            component: './Supply/Delivery/Export',
+          },
+        ],
       },
 
       // lepage
