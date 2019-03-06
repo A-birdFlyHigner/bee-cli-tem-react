@@ -47,10 +47,7 @@ const showSpecDetailDialog = dataSource => {
     },
     maskClosable: true,
     content() {
-      return <LeList {
-        ...listConfig
-      }
-      />
+      return <LeList {...listConfig} />
     }
   });
 };

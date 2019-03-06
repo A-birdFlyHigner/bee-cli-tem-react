@@ -41,7 +41,7 @@ export default FormDemo;
 //         props: {
 //             type: 'primary',
 //             children: '导出2',
-//             onClick (error, values, core) {}
+//             onClick (error, values, leForm) {}
 //         },
 //         options: {
 //             type: 'none',

@@ -20,7 +20,7 @@ class GoodsList extends Component {
         tableConfig,
         // TODO: formatBefore、query、formatAfter 统一封装到 LeList
         formatBefore(queryParams) {
-          return queryParams.json
+          return queryParams
         },
         query(queryParams, url, method) {
           return new Promise((resolve, reject) => {

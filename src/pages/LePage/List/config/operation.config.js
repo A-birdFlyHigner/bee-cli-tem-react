@@ -2,11 +2,12 @@ import React from 'react'
 import { LeForm, LeDialog } from '@lib/lepage';
 import { sleep } from '../../common/utils';
 
-const onClickAdd = (err, values, formCore, listCore) => {
+const onClickAdd = (err, values, leForm, leList) => {
+  debugger
   const formConfig = {
-    core: {
+    settings: {
       values: {
-        purchasing: listCore.getSelectedRowKeys()
+        purchasing: leList.getSelectedRowKeys()
       }
     },
     form: {
@@ -64,7 +65,7 @@ const onClickAdd = (err, values, formCore, listCore) => {
         await sleep(1500);
         resolve();
         hide();
-        listCore.refresh();
+        leList.refresh();
       });
     },
   });
@@ -90,7 +91,7 @@ export default {
       props: {
         type: 'danger',
         children: '新增出库单',
-        onClick(err, values, formCore, listCore) {},
+        onClick(err, values, leForm, leList) {},
       },
     },
   ],

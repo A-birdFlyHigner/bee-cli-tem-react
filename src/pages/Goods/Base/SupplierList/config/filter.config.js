@@ -1,5 +1,5 @@
 export default {
-  core: {
+  settings: {
     initValues: {},
   },
   form: {

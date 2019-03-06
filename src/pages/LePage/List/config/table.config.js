@@ -1,14 +1,14 @@
 import React from 'react';
 import { LeForm, LeDialog } from '@lib/lepage';
 
-// const onSelectChange = (selectedRowKeys, listCore) => {
-//   window.console.log(listCore.getSelectedRowKeys())
-//   window.console.log('selectedRowKeys changed: ', selectedRowKeys, listCore.getDataSource());
+// const onSelectChange = (selectedRowKeys, leList) => {
+//   window.console.log(leList.getSelectedRowKeys())
+//   window.console.log('selectedRowKeys changed: ', selectedRowKeys, leList.getDataSource());
 // };
 
 const showDetail = values => {
   const formConfig = {
-    core: {
+    settings: {
       values,
       globalStatus: 'preview',
     },

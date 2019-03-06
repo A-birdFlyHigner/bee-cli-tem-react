@@ -81,28 +81,28 @@ export default (options = {}) => {
     }
 
     const postFile = (file) => {
-      leForm.formCore.setProps(name, {
+      leForm.setProps(name, {
         isLoading: true
       })
       setTimeout(() => {
-        let val = leForm.formCore.getValue(name) || []
+        let val = leForm.getValue(name) || []
         val = [ ...val,
           {
             uid: '1',
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
           }]
-        leForm.formCore.setValue(name, val)
-        leForm.formCore.setProps(name, {
+        leForm.setValue(name, val)
+        leForm.setProps(name, {
           isLoading: false
         })
       }, 1000)
     }
 
     const handleChange = (fileList) => {
-      let len = leForm.formCore.getValue(name)
+      let len = leForm.getValue(name)
       len = len ? len.length : 0
       if (fileList.length < len) {
-        leForm.formCore.setValue(name, fileList)
+        leForm.setValue(name, fileList)
         this.setState({
           [stateKey]: { loading: false }
         })
@@ -110,7 +110,7 @@ export default (options = {}) => {
     }
 
     const children = (isLoading) => {
-      let len = leForm.formCore.getValue(name)
+      let len = leForm.getValue(name)
       if (len === undefined) {
         len = options.value ? options.value.length : 0
       } else {
@@ -144,7 +144,7 @@ export default (options = {}) => {
       DEFAULT_OPTIONS,
       options,
       {
-        props: (props, core) => {
+        props: (props, leForm) => {
           let preProps = options.props || function () {}
           let result = typeof preProps === 'function' ? preProps() : preProps
           let curProps = {
