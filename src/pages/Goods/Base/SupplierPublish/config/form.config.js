@@ -24,7 +24,7 @@ const getTipConfig = (msg) => {
 const getSkusDataList = (chosenSkus) => {
     return chosenSkus.reduce((preOptions, curVal, index, arr) => {
         if (!preOptions || preOptions.length === 0) return curVal.options
-    
+
         const result = preOptions.map(preOption => {
             return curVal.options.map(curOption => {
                 const label = `${preOption.label}-${curOption.label}`
@@ -41,7 +41,7 @@ const getSkusDataList = (chosenSkus) => {
                 }
             })
         })
-    
+
         return [].concat(...result)
     }, null)
 }
@@ -73,38 +73,55 @@ const categoryConfig = [
 
 // 基础信息
 const baseInfoConfig = [
-    getHeadConfig('基础信息'),
-    {
-        name: 'longName',
-        label: '商品长名称',
-        component: 'Input',
-        props: {
-            required: true,
-            placeholder: '请输入长名称',
-            suffix: '简洁描述这是什么商品，展示在小程序端，限40字'
-        },
-        rules: {
-            type: 'string',
-            required: true,
-            message: '长名称不能为空，40个汉字以内',
-            max: 40
-        }
+  getHeadConfig('基础信息'),
+  {
+    name: 'longName',
+    label: '商品长名称',
+    component: 'Input',
+    props: {
+      required: true,
+      maxLength: 40,
+      placeholder: '请输入长名称',
+      suffix: '简洁描述这是什么商品，展示在小程序端，限40字'
     },
-    {
-        name: 'shortName',
-        label: '商品短名称',
-        props: {
-            required: true,
-            placeholder: '请输入短名称',
-            suffix: '提炼文案，展示在小程序端的描述，限20字'
-        },
-        rules: {
-            type: 'string',
-            required: true,
-            message: '短名称不能为空，20个汉字以内',
-            max: 20
-        }
+    rules: {
+      type: 'string',
+      required: true,
+      message: '长名称不能为空，40个汉字以内',
+      max: 40
     }
+  },
+  {
+    name: 'shortName',
+    label: '商品短名称',
+    props: {
+      required: true,
+      maxLength: 20,
+      placeholder: '请输入短名称',
+      suffix: '提炼文案，展示在小程序端的描述，限20字'
+    },
+    rules: {
+      type: 'string',
+      required: true,
+      message: '短名称不能为空，20个汉字以内',
+      max: 20
+    }
+  },
+  {
+    name: 'brandName',
+    label: '品牌',
+    props: {
+      maxLength: 20,
+      placeholder: '请填写品牌',
+      suffix: '非必填，填写后将品牌信息展示在商品详情页面'
+    },
+    rules: {
+      type: 'string',
+      required: true,
+      message: '品牌名不能超过20个字符',
+      max: 20
+    }
+  }
 ]
 
 // 销售属性
@@ -112,16 +129,14 @@ const getSalesPropertyConfig = (initSkus) => {
 
     // 更新sku组合
     const updateSkuCombs = (leForm) => {
-        const { core: formCore } = leForm
-        const skuCombs = formCore.getValue('skuCombs')
+        const skuCombs = leForm.getValue('skuCombs')
 
-        formCore.setValue('skuCombs', skuCombs.concat(skuCombs))
+        leForm.setValue('skuCombs', skuCombs.concat(skuCombs))
     }
 
     // 触发单个更新操作
     const onChangeUpdateSingle = (leForm, colKey, inputVal, itemIndex) => {
-        const { core: formCore } = leForm
-        const skuCombs = formCore.getValue('skuCombs')
+        const skuCombs = leForm.getValue('skuCombs')
         const result = skuCombs.map((item, index) => {
             if (itemIndex !== index) {
                 return item
@@ -131,22 +146,21 @@ const getSalesPropertyConfig = (initSkus) => {
                 [colKey]: inputVal
             }
         })
-        formCore.setValues({
+        leForm.setValues({
             skuCombs: result
         })
     }
 
     // 触发批量更新操作
     const onChangeUpdateBatch = (leForm, colKey, batchVal, batchKey) => {
-        const { core: formCore } = leForm
-        const skuCombs = formCore.getValue('skuCombs')
+        const skuCombs = leForm.getValue('skuCombs')
         const result = skuCombs.map((item) => {
             return {
                 ...item,
                 [colKey]: batchVal
             }
         })
-        formCore.setValues({
+        leForm.setValues({
             [batchKey]: batchVal,
             skuCombs: result
         })
@@ -154,8 +168,7 @@ const getSalesPropertyConfig = (initSkus) => {
 
     // 触发选择规格操作
     const onChangeSkuChoose = (leForm, name, value) => {
-        const { core: formCore } = leForm
-        formCore.setValue(name, value)
+        leForm.setValue(name, value)
 
         // 更新sku组合
         updateSkuCombs(leForm)
@@ -163,23 +176,22 @@ const getSalesPropertyConfig = (initSkus) => {
 
     // 触发添加规格操作
     const onPressEnterAddSku = (leForm, name, event) => {
-        const { core: formCore } = leForm
         const { target = {} } = event
         const { value: label = ''} = target
         if (!label) return
 
-        const value = [].concat(formCore.getValue(name) || [])
-        const props = formCore.getProps(name)
+        const value = [].concat(leForm.getValue(name) || [])
+        const props = leForm.getProps(name)
         const options = [].concat(props.options || [])
         const addValue = options.length + 1
 
         // add
         options.push({ label, value: addValue })
         value.push(addValue)
-        
+
         // update
-        formCore.setProps(name, { options })
-        formCore.setValue(name, value)
+        leForm.setProps(name, { options })
+        leForm.setValue(name, value)
 
         // clear
         target.value = ''
@@ -258,6 +270,13 @@ const getSalesPropertyConfig = (initSkus) => {
         return [].concat(...result)
     }
 
+    const code69 = () => {
+        return {
+            label: '商品是否有69码',
+            component: 'Checkbox'
+        }
+    }
+
     // 获取批量设置配置
     const getBatchConfig = (leForm) => {
         return [
@@ -306,6 +325,7 @@ const getSalesPropertyConfig = (initSkus) => {
             getHeadConfig('销售属性'),
             getTipConfig('注：商品规格根据类目规定显示，支持0-2级，没有规格时可不填'),
             ...getSkuChoosesConfig(leForm, initSkus),
+            code69(),
             ...getBatchConfig(leForm),
             getSkuCombConfig(leForm)
         ]
@@ -409,7 +429,7 @@ const buttonsConfig = [
         props: {
             type: 'primary',
             children: '保存',
-            onClick(err, values, formCore) {}
+            onClick(err, values, leForm) {}
         },
         options: {
             type: 'submit',
@@ -418,7 +438,7 @@ const buttonsConfig = [
     {
         props: {
             children: '取消',
-            onClick(err, values, formCore) {}
+            onClick(err, values, leForm) {}
         },
     }
 ]
@@ -449,7 +469,7 @@ const initSkus = [
 ]
 
 export default {
-    core: {
+    settings: {
         values: {
             skuCombs: getSkusDataList(initSkus)
         }

@@ -9,7 +9,7 @@ const listConfig = {
   operationConfig,
   tableConfig,
   formatBefore(queryParams) {
-    return queryParams.json
+    return queryParams
   },
   query(queryParams, url, method) {
     return new Promise((resolve, reject) => {

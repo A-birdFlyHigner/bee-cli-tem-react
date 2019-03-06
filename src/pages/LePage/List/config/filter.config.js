@@ -1,5 +1,5 @@
 export default {
-  core: {
+  settings: {
     // values: {
     //     confirm: 2
     // },
@@ -113,7 +113,7 @@ export default {
       props: {
         type: 'primary',
         children: '查询',
-        onClick(err, values, formCore, listCore) {},
+        onClick(err, values, leForm, leList) {},
       },
       options: {
         type: 'submit',
@@ -123,7 +123,7 @@ export default {
     {
       props: {
         children: '重置',
-        onClick(err, values, formCore, listCore) {},
+        onClick(err, values, leForm, leList) {},
       },
       options: {
         type: 'reset',
@@ -133,7 +133,7 @@ export default {
       props: {
         type: 'danger',
         children: '导出',
-        onClick(err, values, formCore, listCore) {
+        onClick(err, values, leForm, leList) {
           console.log(values);
         },
       },
