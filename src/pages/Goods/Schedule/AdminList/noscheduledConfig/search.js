@@ -1,6 +1,5 @@
 import Reg from '@/utils/reg'
 import cityRule from '@/components/Rules/citySel/index.js'
-import timeRule from '@/components/Rules/timeSel/index.js'
 
 const cascaderData = [{
   value: '类目1',
@@ -158,10 +157,17 @@ export default {
         placeholder: '请输入商品Id'
       },
     },
-    timeRule({
+    {
       label: '总部审核时间',
-      name: ['startTime1', 'endTime1'],
-    }),
+      name: 'examineTime',
+      component: 'RangePicker',
+      value: [],
+      props: {
+        format: 'YYYY-MM-DD HH:mm:ss',
+        placeholder: ['请选择开始时间', '请选择结束时间'],
+        showTime: true,
+      },
+    },
     {
       label: 'skuId',
       name: 'skuId',

@@ -1,6 +1,7 @@
 import Reg from '@/utils/reg'
 import cityRule from '@/components/Rules/citySel/index.js'
-import timeRule from '@/components/Rules/timeSel/index.js'
+import * as Sty from '../index.less'
+import moment from 'moment'
 
 const cascaderData = [{
   value: '类目1',
@@ -40,6 +41,10 @@ const cascaderData = [{
     }],
   }],
 }]
+
+const disabledDate = (current) => {
+  return current && current < moment().endOf('day')
+}
 
 export default {
   form: {
@@ -95,10 +100,18 @@ export default {
         placeholder: '请输入渠道商品Id'
       },
     },
-    timeRule({
+    {
       label: '提审时间',
-      name: ['startTime1', 'endTime1'],
-    }),
+      name: 'passTime',
+      component: 'RangePicker',
+      value: [],
+      props: {
+        format: 'YYYY-MM-DD HH:mm:ss',
+        placeholder: ['请选择开始时间', '请选择结束时间'],
+        showTime: true,
+        disabledDate: disabledDate,
+      },
+    },
     {
       label: '商品发货时效',
       name: 'spreadTime',
@@ -152,7 +165,8 @@ export default {
     props: {
       type: 'primary',
       children: '查询',
-      onClick(err, values, formCore, listCore) {}
+      onClick(err, values, formCore, listCore) {
+      },
     },
     options: {
       type: 'submit',
