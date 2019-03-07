@@ -1,75 +1,17 @@
 import Reg from '@/utils/reg';
 import cityRule from '@/components/Rules/citySel/index.js';
-
-const cascaderData = [
-  {
-    value: '类目1',
-    label: '类目1',
-    children: [
-      {
-        value: '水果',
-        label: '水果',
-        children: [
-          {
-            value: '苹果',
-            label: '苹果',
-          },
-          {
-            value: '香蕉',
-            label: '香蕉',
-          },
-          {
-            value: '梨子',
-            label: '梨子',
-          },
-          {
-            value: '苹果1',
-            label: '苹果1',
-          },
-          {
-            value: '香蕉1',
-            label: '香蕉1',
-          },
-          {
-            value: '梨子1',
-            label: '梨子1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '类目2',
-    label: '类目2',
-    children: [
-      {
-        value: '蔬菜',
-        label: '蔬菜',
-        children: [
-          {
-            value: '辣椒',
-            label: '辣椒',
-          },
-        ],
-      },
-    ],
-  },
-];
+import categoryRule from '@/components/Rules/category';
 
 export default {
   form: {
     inline: true, // 表单布局是否为行内样式
   },
   items: [
-    {
+    categoryRule({
       label: '类目',
       name: 'categoryId',
-      component: 'Cascader',
-      props: {
-        placeholder: '请选择类目',
-        options: cascaderData,
-      },
-    },
+      value: ["410000", "410300", "410304"]
+    }),
     {
       label: '商品名称',
       name: 'name',
