@@ -61,13 +61,8 @@ const dialogFormConfig =  () => {
         className: Sty.rejectReason,
         props:{
           placeholder: '请输入拒绝原因，不超过20字',
+          maxLength: 20,
         },
-        // rules: {
-        //   type: 'string',
-        //   required: true,
-        //   message: '拒绝原因不能为空，20个汉字以内',
-        //   max: 20,
-        // },
         // when true false 控制隐藏显示此组件
         when: (val, core) => {
           return val.chooseType == 1

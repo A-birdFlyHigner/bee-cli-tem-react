@@ -100,7 +100,8 @@ const dialogFormConfig =  () => {
         component: 'Input',
         className: Sty.rejectReason,
         props:{
-          placeholder: '请输入拒绝原因，不超过20字'
+          placeholder: '请输入拒绝原因，不超过20字',
+          maxLength: 20,
         },
         // when true false 控制隐藏显示此组件
         when: (val, core) => {

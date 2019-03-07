@@ -31,9 +31,9 @@ const dialogFormConfig =  () => {
         component: 'Input',
         follow: false,
         className: Sty.rejectReason,
-        maxlength: '20',
         props:{
           placeholder: '请输入拒绝原因，不超过20字',
+          maxLength: 20,
         }
       },
     ],
