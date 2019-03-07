@@ -54,20 +54,6 @@ const showDetail = values => {
 };
 
 export default {
-  rowSelection: {
-    selectedRowKeys: [],
-    onChange: onSelectChange,
-    selections: true,
-    onSelect(...args) {
-      // console.log(args)
-    },
-    getCheckboxProps(record) {
-      return {
-        disabled: false,
-        name: record.purchasing,
-      };
-    },
-  },
   columns: [
     {
       title: '序号',
