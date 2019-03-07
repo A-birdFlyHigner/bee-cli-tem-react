@@ -21,15 +21,15 @@ const inputItems = [{
 }]
 
 export default function () {
-  return function (self) {
+  return function (leForm) {
 
     const onBatchChange = (val, dataIndex) => {
       if (val !== '' && !Reg.Price.test(val)) return
-      const salseData = self.core.getValue('salseData').map(p => {
+      const salseData = leForm.getValue('salseData').map(p => {
         p[dataIndex] = val
         return p
       })
-      self.core.setValues({
+      leForm.setValues({
         [`batch${dataIndex}`]: val,
         salseData
       })
@@ -57,13 +57,12 @@ export default function () {
     }),
     {
       name: 'salseData',
-      className: 'form-long-table',
+      component: 'Item',
       render (values, core) {
         return (
           <Table 
             rowKey='sku' 
             scroll={{x: 1200}}
-            className={Sty.salseTable}
             columns={tabelColumns(core)} 
             pagination={false}
             dataSource={values.salseData}></Table>

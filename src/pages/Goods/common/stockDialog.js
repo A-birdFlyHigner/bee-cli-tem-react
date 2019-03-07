@@ -5,7 +5,7 @@ import { Input, Table, message } from 'antd';
 
 export default dataSource => {
   return {
-    core: {
+    settings: {
       values: { dataSource },
     },
     items: [

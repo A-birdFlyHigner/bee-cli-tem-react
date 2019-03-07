@@ -6,6 +6,7 @@
   "scripts": {
     "link:lepage": "rm -rf node_modules/@lib && yarn link @lib/lepage && npm run start",
     "presite": "cd functions && npm install",
+    "dev": "umi dev",
     "start": "cross-env APP_TYPE=site umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",
     "build": "umi build",

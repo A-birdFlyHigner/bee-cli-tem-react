@@ -20,7 +20,7 @@ export default class Detail extends Component {
     this.state = {
       productId: params.id,
       leFormConf: {
-        core: {
+        settings: {
           globalStatus: 'preview'
         },
         form: {

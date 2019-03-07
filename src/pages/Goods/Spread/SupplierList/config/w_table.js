@@ -27,16 +27,11 @@ const skuDetail = id => {
   });
 };
 
-const onSelectChange = (selectedRowKeys, listCore) => {
-  debugger;
-};
-
 export default {
   rowKey: 'id',
   scroll: { x: 1300 },
   rowSelection: {
-    selectedRowKeys: [133],
-    onChange: onSelectChange,
+    selectedRowKeys: [],
     selections: true,
     getCheckboxProps(record) {
       return {};

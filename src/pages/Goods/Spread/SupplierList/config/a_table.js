@@ -51,15 +51,10 @@ const showSkuDetail = id => {
   });
 };
 
-const onSelectChange = (selectedRowKeys, listCore) => {
-  debugger;
-};
-
 export default {
   rowKey: 'id',
   scroll: { x: 1500 },
   rowSelection: {
-    onChange: onSelectChange,
     selections: true,
     getCheckboxProps(record) {
       return {};

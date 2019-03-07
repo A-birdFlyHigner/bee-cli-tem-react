@@ -7,7 +7,7 @@ const DEFAULT_OPTIONS = {
 }
 
 export default (option = {}) => {
-  return function (self) {
+  return function (leFrom) {
     const { label, name, placeholder } = Object.assign({}, DEFAULT_OPTIONS, option)
     setTimeout(() => {
       queryProvinceList().then(res => setValueFun(0, res));
@@ -15,7 +15,7 @@ export default (option = {}) => {
 
     const setValueFun = (ind, val = []) => {
       if (!val) return;
-      self.core.setProps(name, {
+      leFrom.setProps(name, {
         options: val.map(p => {
           return {
             label: p.name,

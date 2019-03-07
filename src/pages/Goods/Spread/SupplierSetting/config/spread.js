@@ -4,11 +4,9 @@ import Reg from '@/utils/reg'
 
 export default (options, spreadName, configOption) => {
   return {
-    core: {
+    settings: {
       value: { ...options },
-      autoValidate: true
-    },
-    options: {
+      autoValidate: true,
       scrollToError: true,
     },
     form: {

@@ -73,9 +73,11 @@ export default class Detail extends Component {
 
   dialogAddSpread () {
     const tags = ['全部', '华南地区', '华东地区']
-    LeDialog.show(dialogFormConfig(tags), {
+    const formConf = dialogFormConfig(tags)
+    LeDialog.show({
       title: '可选推广渠道',
       width: '800px',
+      content: <LeForm {...formConf}></LeForm>,
       onOk: (values, suc, core) => {
         const { checkedKeys, halfCheckedKeys, spreadTree } = values
         const allSel = [

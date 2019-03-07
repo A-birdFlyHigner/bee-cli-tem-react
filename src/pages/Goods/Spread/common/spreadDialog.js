@@ -6,7 +6,7 @@ const { TreeNode } = Tree;
 
 export default tags => {
   return {
-    core: {
+    settings: {
       values: { checkedKeys: [], spreadTree: treeData, halfCheckedKeys: [] },
     },
     form: {
