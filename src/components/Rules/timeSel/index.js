@@ -9,8 +9,7 @@ const DEFAULT_OPTIONS = {
 };
 
 export default (options = {}) => {
-  return function() {
-    const self = this;
+  return function(leForm) {
     const label = options.label || DEFAULT_OPTIONS.label;
     const name = options.name || DEFAULT_OPTIONS.name;
     const value = options.value || [];
@@ -29,7 +28,7 @@ export default (options = {}) => {
           format: 'YYYY-MM-DD HH:mm:ss',
           dateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
           disabledDate: s => {
-            const e = self.core.value[name[1]];
+            const e = leForm.getValue[name[1]];
             if (!s || !e) return false;
             return s.valueOf() > e.valueOf();
           },
@@ -47,7 +46,7 @@ export default (options = {}) => {
           },
           format: 'YYYY-MM-DD HH:mm:ss',
           disabledDate: e => {
-            const s = self.core.value[name[0]];
+            const s = leForm.getValue[name[0]];
             if (!e || !s) return false;
             return e.valueOf() < s.valueOf();
           },

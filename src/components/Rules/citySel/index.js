@@ -8,28 +8,28 @@ const DEFAULT_OPTIONS = {
 };
 
 export default (options = {}) => {
-  return function(self) {
+  return function(leForm) {
     const deep = options.deep || DEFAULT_OPTIONS.deep;
     const value = options.value || [];
 
     const provinceChange = (value, opt) => {
-      self.core.setValue(DEFAULT_OPTIONS.name[0], value);
-      self.core.setValue(DEFAULT_OPTIONS.name[1], null);
-      self.core.setValue(DEFAULT_OPTIONS.name[2], null);
+      leForm.setValue(DEFAULT_OPTIONS.name[0], value);
+      leForm.setValue(DEFAULT_OPTIONS.name[1], null);
+      leForm.setValue(DEFAULT_OPTIONS.name[2], null);
       queryCityList({ provinceCode: value }).then(res => setValueFun(1, res));
       if (deep !== 3) return;
       setValueFun(2);
     };
 
     const cityChange = (value, opt) => {
-      self.core.setValue(DEFAULT_OPTIONS.name[1], value);
+      leForm.setValue(DEFAULT_OPTIONS.name[1], value);
       if (deep !== 3) return;
-      self.core.setValue(DEFAULT_OPTIONS.name[2], null);
+      leForm.setValue(DEFAULT_OPTIONS.name[2], null);
       queryDistrictList({ cityCode: value }).then(res => setValueFun(2, res));
     };
 
     const districtChange = (value, opt) => {
-      self.core.setValue(DEFAULT_OPTIONS.name[2], value);
+      leForm.setValue(DEFAULT_OPTIONS.name[2], value);
     };
 
     const makeItem = ind => {
@@ -69,21 +69,21 @@ export default (options = {}) => {
 
     setTimeout(() => {
       queryProvinceList().then(res => setValueFun(0, res));
-      if (self.core.value[DEFAULT_OPTIONS.name[0]]) {
+      if (leForm.getValue[DEFAULT_OPTIONS.name[0]]) {
         queryCityList({
-          provinceCode: self.core.value[DEFAULT_OPTIONS.name[0]],
+          provinceCode: leForm.getValue[DEFAULT_OPTIONS.name[0]],
         }).then(res => setValueFun(1, res));
       }
-      if (deep === 3 && self.core.value[DEFAULT_OPTIONS.name[1]]) {
+      if (deep === 3 && leForm.getValue[DEFAULT_OPTIONS.name[1]]) {
         queryDistrictList({
-          cityCode: self.core.value[DEFAULT_OPTIONS.name[1]],
+          cityCode: leForm.getValue[DEFAULT_OPTIONS.name[1]],
         }).then(res => setValueFun(2, res));
       }
     });
 
     const setValueFun = (ind, val = []) => {
       if (!val) return;
-      self.core.setProps(DEFAULT_OPTIONS.name[ind], {
+      leForm.setProps(DEFAULT_OPTIONS.name[ind], {
         options: val.map(p => {
           return {
             label: p.name,

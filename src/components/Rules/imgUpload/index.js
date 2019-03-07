@@ -45,7 +45,7 @@ function imgWH(imgSrc) {
 }
 
 export default (options = {}) => {
-  return function() {
+  return function(leForm) {
     const name = options.name || DEFAULT_OPTIONS.name;
     const stateKey = `${DEFAULT_STATE_KEY}_${name}`;
 
@@ -81,11 +81,11 @@ export default (options = {}) => {
     };
 
     const postFile = file => {
-      this.core.setProps(name, {
+      leForm.setProps(name, {
         isLoading: true,
       });
       setTimeout(() => {
-        let val = this.core.getValue(name) || [];
+        let val = leForm.getValue(name) || [];
         val = [
           ...val,
           {
@@ -93,18 +93,18 @@ export default (options = {}) => {
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
           },
         ];
-        this.core.setValue(name, val);
-        this.core.setProps(name, {
+        leForm.setValue(name, val);
+        leForm.setProps(name, {
           isLoading: false,
         });
       }, 1000);
     };
 
     const handleChange = fileList => {
-      let len = this.core.getValue(name);
+      let len = leForm.getValue(name);
       len = len ? len.length : 0;
       if (fileList.length < len) {
-        this.core.setValue(name, fileList);
+        leForm.setValue(name, fileList);
         this.setState({
           [stateKey]: { loading: false },
         });
@@ -112,7 +112,7 @@ export default (options = {}) => {
     };
 
     const children = isLoading => {
-      let len = this.core.getValue(name);
+      let len = leForm.getValue(name);
       if (len === undefined) {
         len = options.value ? options.value.length : 0;
       } else {

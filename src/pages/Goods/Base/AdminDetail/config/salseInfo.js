@@ -6,11 +6,11 @@ export default [{
     className: 'box-header',
   }, {
     name: 'salseData',
+    component: 'Item',
     render (values, cores) {
       return (
         <Table 
           rowKey='sku' 
-          className={Sty.salseTable}
           columns={tabelColumns(core)} 
           pagination={false}
           dataSource={values.salseData}></Table>

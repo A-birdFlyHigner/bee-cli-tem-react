@@ -1,12 +1,15 @@
-import { LeDialog } from '@lib/lepage';
+import { LeDialog, LeForm } from '@lib/lepage';
+import router from 'umi/router';
 import dialogFormConfig from '../../common/spreadDialog';
 
 const setBranchList = (err, values, formCore, listCore, self) => {
   const productIds = [1, 2];
   const tags = ['全部', '华南地区', '华东地区'];
-  LeDialog.show(dialogFormConfig(tags), {
+  const formFonf = dialogFormConfig(tags)
+  LeDialog.show({
     title: '可选推广渠道',
     width: '800px',
+    content: <LeForm {...formFonf}></LeForm>,
     onOk: (values, suc, core) => {
       const { checkedKeys, halfCheckedKeys, spreadTree } = values;
       const allSel = [...checkedKeys, ...halfCheckedKeys];
@@ -30,9 +33,14 @@ const setBranchList = (err, values, formCore, listCore, self) => {
           return `${p.title}（${cityName}）`;
         })
         .join('；');
-      // history.push({
-      //   pathname: `/productSpread/detail?productIds=${productIds}&cityIds=${cityIds.join(',')}&spreadName=${spreadName}`
-      // })
+      router.push({
+        pathname: `/goods/spread/setting`,
+        query: {
+          productIds: productIds,
+          cityIds: cityIds,
+          spreadName: spreadName
+        }
+      })
       suc();
     },
   });

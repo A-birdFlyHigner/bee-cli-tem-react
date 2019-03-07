@@ -4,17 +4,16 @@ import * as Sty from '../index.less'
 import Reg from '@/utils/reg'
 
 export default function (productIds) {
-  return function () {
-    const self = this
+  return function (leForm) {
     const itemList = []
-    makeProductItem(productIds, self).forEach(p => {
+    makeProductItem(productIds, leForm).forEach(p => {
       itemList.push(...p)
     })
     return itemList
   }
 }
 
-const makeProductItem = (productIds, self) => {
+const makeProductItem = (productIds, leForm) => {
   const brtchItems = [{
     label: '批量设置',
     name: 'costPrice',
@@ -25,11 +24,11 @@ const makeProductItem = (productIds, self) => {
   return productIds.map(p => {
     const onBatchChange = (val, name) => {
       if (val !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(val)) return
-      const dataSource = self.core.getValue(`dataSource${p}`).map(p => {
+      const dataSource = leForm.getValue(`dataSource${p}`).map(p => {
         p[name] = val
         return p
       })
-      self.core.setValues({
+      leForm.setValues({
         [`${name}${p}`]: val,
         [`dataSource${p}`]: dataSource,
       })

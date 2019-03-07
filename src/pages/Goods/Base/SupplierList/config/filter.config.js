@@ -41,8 +41,7 @@ export default {
     },
   ],
 
-  buttons: [
-    {
+  buttons: [{
       props: {
         type: 'primary',
         children: '查询',

@@ -196,11 +196,8 @@ export const importCDN = (url, name) =>
 export function leListQuery(service) {
   return {
     formatBefore(queryParams) {
-      const { json } = queryParams;
-      return {
-        page: json.currentPage,
-        ...json,
-      };
+      queryParams.page = queryParams.currentPage
+      return queryParams
     },
     query: async queryParams => {
       const data = await service(queryParams);

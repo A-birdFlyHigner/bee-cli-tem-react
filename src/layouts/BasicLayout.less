@@ -1,6 +1,20 @@
 @import '~antd/lib/style/themes/default.less';
 @import '~@lib/lepage/lib/index.css';
 
+.pageTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 20px;
+  &:before {
+    content: '|';
+    font-weight: 600;
+    font-size: 30px;
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
+  }
+}
+
 .content {
   margin: 24px;
   padding-top: @layout-header-height;
@@ -13,6 +27,8 @@
 :global(.no-form .box-header) {
   background: #fff;
   padding: 10px;
+  margin: 15px 0;
+  line-height: 37px;
 }
 
 :global(.no-form .box-header .no-form-item-label) {

@@ -6,8 +6,9 @@ import { filterConfig, tableConfig } from './config';
 import mockList from './mock/list'
 
 class GoodsList extends Component {
+
   static goToPublishPage() {
-    router.push('/goods/publish');
+    router.push('/goods/publish')
   }
 
   constructor(props) {

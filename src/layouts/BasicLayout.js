@@ -136,6 +136,9 @@ class BasicLayout extends React.Component {
             isMobile={isMobile}
             {...this.props}
           />
+          <div className={styles.pageTitle}>
+            <span>{ getPageTitle(pathname, breadcrumbNameMap).split(' - ')[0] }</span>
+          </div>
           <Content className={styles.content} style={contentStyle}>
             {children}
           </Content>

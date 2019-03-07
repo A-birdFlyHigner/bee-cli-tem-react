@@ -1,4 +1,5 @@
 import Reg from '@/utils/reg';
+import categoryRule from '@/components/Rules/category'
 
 const cascaderData = [
   {
@@ -69,6 +70,7 @@ export default {
         options: cascaderData,
       },
     },
+    categoryRule({label: '类目111'}),
     {
       label: '商品Id',
       name: 'productId',
