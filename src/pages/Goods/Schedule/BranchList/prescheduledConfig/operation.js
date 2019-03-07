@@ -1,18 +1,27 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
 import { Select } from 'antd'
-const Option = Select.Option
 import { dialogFormJoinGroupConfig } from '../../common/commonConfig.js'
-
+import { message } from 'antd'
 import * as Sty from '../index.less'
 
+const Option = Select.Option
+
 const batchBackList = (err, values, formCore, listCore) => {
+  const productIds = listCore.getSelectedRowKeys()
+  const count = productIds.length
+
+  if (!count) {
+    message.warning('请至少勾选一项！')
+    return
+  }
+
   LeDialog.show(
     {
       title: '批量回退',
       width: '500px',
       content () {
-        return <LeForm {...dialogFormConfig(88,'批量回退')} />
+        return <LeForm {...dialogFormConfig(count,'批量回退')} />
       },
       onOk: (values, suc, core) => {
         suc()
@@ -22,12 +31,20 @@ const batchBackList = (err, values, formCore, listCore) => {
 }
 
 const batchScheduleList = (err, values, formCore, listCore) => {
+  const productIds = listCore.getSelectedRowKeys()
+  const count = productIds.length
+
+  if (!count) {
+    message.warning('请至少勾选一项！')
+    return
+  }
+
   LeDialog.show(
     {
       title: '批量排期',
       width: '500px',
       content () {
-        return <LeForm {...dialogFormConfig(80,'批量排期')} />
+        return <LeForm {...dialogFormConfig(count,'批量排期')} />
       },
       onOk: (values, suc, core) => {
         suc()
@@ -37,12 +54,20 @@ const batchScheduleList = (err, values, formCore, listCore) => {
 }
 
 const joinGroup = (err, values, formCore, listCore) => {
+  const productIds = listCore.getSelectedRowKeys()
+  const count = productIds.length
+
+  if (!count) {
+    message.warning('请至少勾选一项！')
+    return
+  }
+
   LeDialog.show(
     {
       title: '加入分组',
       width: '500px',
       content () {
-        return <LeForm {...dialogFormJoinGroupConfig(8,'加入分组')} />
+        return <LeForm {...dialogFormJoinGroupConfig(count,'加入分组')} />
       },
       onOk: (values, suc, core) => {
         suc()

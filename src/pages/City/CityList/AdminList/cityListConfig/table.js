@@ -2,7 +2,7 @@ import React from 'react'
 import * as Sty from '../index.less'
 import router from 'umi/router'
 
-// 查看详情
+// 查看详情 TODO：点击查看城市排期详情
 const goCityDetail = (record) => {
   router.push({
     pathname: '/goods/base/detail/:id',
@@ -24,33 +24,33 @@ export default {
     singleLine: true,
   }, {
     title: '所属省份',
-    dataIndex: 'province',
-    key: 'province',
+    dataIndex: 'provinceName',
+    key: 'provinceName',
     singleLine: true,
   }, {
     title: '开抢时间',
-    dataIndex: 'openTime',
-    key: 'openTime',
+    dataIndex: 'activeTimeStr',
+    key: 'activeTimeStr',
     singleLine: true,
   }, {
-    title: '出售中商品',
-    dataIndex: 'saleingNumber',
-    key: 'saleingNumber',
+    title: '出售中商品数',
+    dataIndex: 'hotProductCount',
+    key: 'hotProductCount',
     singleLine: true,
   }, {
     title: '排期商品数',
-    dataIndex: 'schedulingNumber',
-    key: 'schedulingNumber',
+    dataIndex: 'schedulingProductCount',
+    key: 'schedulingProductCount',
     singleLine: true,
   }, {
     title: '预排期商品数',
-    dataIndex: 'preschedulingNumber',
-    key: 'preschedulingNumber',
+    dataIndex: 'preScheduleProductCount',
+    key: 'preScheduleProductCount',
     singleLine: true,
   }, {
     title: '所属分公司',
-    dataIndex: 'branchName',
-    key: 'branchName',
+    dataIndex: 'branchCompanyName',
+    key: 'branchCompanyName',
     singleLine: true,
   }, {
     title: '操作',
