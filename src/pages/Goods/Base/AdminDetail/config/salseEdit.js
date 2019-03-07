@@ -20,7 +20,8 @@ const inputItems = [{
   dataIndex: 'price4'
 }]
 
-export default function () {
+// preview为true则仅展示数据
+export default function (preview) {
   return function (leForm) {
 
     const onBatchChange = (val, dataIndex) => {
@@ -34,14 +35,9 @@ export default function () {
         salseData
       })
     }
-    
-    return [{
-      label: '销售属性',
-      className: 'box-header',
-    }, 
-    ...inputItems.map((item, index) => {
+    const batchItem = preview ? [] : inputItems.map((item, index) => {
       return {
-        label: index === 0 ? '批量设置' : '',
+        label: (index === 0) ? `批量设置${'      '}${item.title}` : item.title,
         name: `batch${item.dataIndex}`,
         follow: index === 0,
         inline: index !== 0,
@@ -54,7 +50,13 @@ export default function () {
           },
         },
       }
-    }),
+    })
+   
+    return [{
+      label: '销售属性',
+      className: 'box-header',
+    }, 
+    ...batchItem,
     {
       name: 'salseData',
       component: 'Item',
@@ -62,8 +64,8 @@ export default function () {
         return (
           <Table 
             rowKey='sku' 
-            scroll={{x: 1200}}
-            columns={tabelColumns(core)} 
+            scroll={{x: 1400}}
+            columns={tabelColumns(core, preview)} 
             pagination={false}
             dataSource={values.salseData}></Table>
         )
@@ -72,7 +74,7 @@ export default function () {
   }
 }
 
-const tabelColumns = (core) => {
+const tabelColumns = (core, preview) => {
 
   const onInputChange = (val, index, name) => {
     if (val !== '' && !Reg.Price.test(val)) return
@@ -85,7 +87,7 @@ const tabelColumns = (core) => {
     title: '状态',
     dataIndex: 'status',
     align: 'center',
-    width: 100,
+    width: 80,
     render: (value, row, index) => {
       return '可用'
     }
@@ -98,15 +100,16 @@ const tabelColumns = (core) => {
     title: 'sku编码（发货编码）',
     dataIndex: 'skuCode',
     align: 'center',
-    width: 240,
+    width: 150,
   }, 
   ...inputItems.map(item => {
     return {
       title: item.title,
       dataIndex: item.dataIndex,
-      width: item.width || 280,
+      width: item.width || 180,
+      align: 'center',
       render: (text, row, index) => {
-        return (
+        return preview ? text : (
           <Input 
             value={text} disabled={item.disabled}
             className={Sty.inputCenter}  

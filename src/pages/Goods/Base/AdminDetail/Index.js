@@ -32,6 +32,7 @@ export default class Detail extends Component {
           ...baseInfo,
           ...salseInfo,
           salseEdit(),
+          salseEdit(true),
           ...wareHouse,
           ...skuMainImg,
           ...productInfo,
@@ -51,6 +52,12 @@ export default class Detail extends Component {
       salseData: [{
         status: 1,
         sku: 1,
+        skuCode: 31212,
+        price: 124,
+        stock: 100
+      }, {
+        status: 4,
+        sku: 3,
         skuCode: 31212,
         price: 124,
         stock: 100

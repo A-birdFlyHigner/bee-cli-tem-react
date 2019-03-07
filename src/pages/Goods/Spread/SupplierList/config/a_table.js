@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog } from '@lib/nowrapper/lib/antd';
-import { LeDialog } from '@lib/lepage';
+import { LeDialog, LeForm } from '@lib/lepage';
 import { ImageTextCard } from '@/components/InfoCard';
 import SkuDetail from '../../../common/skuDetail';
 import stockConfig from '../../../common/stockDialog';
@@ -17,9 +17,10 @@ const editItemStock = record => {
       editStock: '',
     },
   ];
-  LeDialog.show(stockConfig(list), {
+  LeDialog.show({
     title: `商品名称：${record.provinceName}`,
     width: '900px',
+    content: <LeForm {...stockConfig(list)}></LeForm>,
     onOk(val, suc, core) {
       debugger;
     },
