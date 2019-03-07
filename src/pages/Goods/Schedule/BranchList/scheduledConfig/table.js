@@ -1,5 +1,5 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import { Dialog } from '@lib/nowrapper/lib/antd'
 import formConfig from './header.js'
 import { ImageTextCard } from '@/components/InfoCard'
@@ -11,10 +11,12 @@ import * as Sty from '../index.less'
 // 设置排序值
 const setGroupValue = (err, values, formCore, listCore) => {
   LeDialog.show(
-    dialogFormSetGroupConfig(),
     {
       title: '设置排序值',
       width: '600px',
+      content () {
+        return <LeForm {...dialogFormSetGroupConfig()} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }
@@ -42,10 +44,12 @@ const getStoreInfo = (id) => {
 // 单个回退
 const goBack = (record) => {
   LeDialog.show(
-    dialogFormTextConfig('回退'), 
     {
       title: '回退',
       width: '400px',
+      content () {
+        return <LeForm {...dialogFormTextConfig('回退')} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }

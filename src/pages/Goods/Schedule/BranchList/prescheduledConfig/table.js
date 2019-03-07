@@ -1,5 +1,5 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import { Dialog } from '@lib/nowrapper/lib/antd'
 import formConfig from './header.js'
 import Reg from '@/utils/reg'
@@ -16,10 +16,12 @@ import * as Sty from '../index.less'
 // 设置排序值
 const setGroupValue = (err, values, formCore, listCore) => {
   LeDialog.show(
-    dialogFormSetGroupConfig(),
     {
       title: '设置排序值',
       width: '600px',
+      content () {
+        return <LeForm {...dialogFormSetGroupConfig()} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }
@@ -30,10 +32,12 @@ const setGroupValue = (err, values, formCore, listCore) => {
 // 单个回退
 const goBack = (record) => {
   LeDialog.show(
-    dialogFormTextConfig('回退'), 
     {
       title: '回退',
       width: '400px',
+      content () {
+        return <LeForm {...dialogFormTextConfig('回退')} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }
@@ -86,10 +90,12 @@ const getStoreInfo = (id) => {
 // 排期
 const goSetTime = (id) => {
   LeDialog.show(
-    dialogFormSetTimeConfig(), 
     {
       title: '设置活动时间',
       width: '600px',
+      content () {
+        return <LeForm {...dialogFormSetTimeConfig()} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }
@@ -100,10 +106,12 @@ const goSetTime = (id) => {
 // 单个撤销推广
 const revocate = (id) => {
   LeDialog.show(
-    dialogFormTextConfig('撤销推广'), 
     {
       title: '撤销推广',
       width: '400px',
+      content () {
+        return <LeForm {...dialogFormTextConfig('撤销推广')} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }

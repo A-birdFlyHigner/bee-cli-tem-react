@@ -1,5 +1,5 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import { Dialog } from '@lib/nowrapper/lib/antd'
 import { ImageTextCard } from '@/components/InfoCard'
 import * as Sty from '../index.less'
@@ -44,11 +44,13 @@ const getStoreInfo = (id) => {
 
 // 强制回退
 const goBack = (record) => {
-  LeDialog.show(
-    dialogFormTextConfig('回退'), 
+  LeDialog.show( 
     {
       title: '回退',
       width: '400px',
+      content () {
+        return <LeForm {...dialogFormTextConfig('回退')} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }

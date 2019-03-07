@@ -1,5 +1,5 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import { Dialog } from '@lib/nowrapper/lib/antd'
 import { ImageTextCard } from '@/components/InfoCard'
 import * as Sty from '../index.less'
@@ -44,10 +44,12 @@ const getStoreInfo = (id) => {
 // 审核
 const goExamine = (record) => {
   LeDialog.show(
-    dialogFormConfig(), 
     {
       title: '审核',
       width: '600px',
+      content () {
+        return <LeForm {...dialogFormConfig()} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }

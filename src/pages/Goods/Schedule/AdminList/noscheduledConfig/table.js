@@ -1,5 +1,5 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import { Dialog } from '@lib/nowrapper/lib/antd'
 import SkuDetail from '../../common/skuDetail'
 import StoreInfo from '../../common/storeInfo'
@@ -46,10 +46,12 @@ const getStoreInfo = (id) => {
 // 单个撤销
 const goRevoke = (record) => {
   LeDialog.show(
-    dialogFormTextConfig('撤销推广'), 
     {
       title: '撤销推广',
       width: '400px',
+      content () {
+        return <LeForm {...dialogFormTextConfig('撤销推广')} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }

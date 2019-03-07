@@ -1,5 +1,5 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import { Dialog } from '@lib/nowrapper/lib/antd'
 import formConfig from './header.js'
 import { ImageTextCard } from '@/components/InfoCard'
@@ -92,10 +92,12 @@ const dialogFormRevokeConfig = () => {
 // 撤销
 const goRevoke = (record) => {
   LeDialog.show(
-    dialogFormRevokeConfig(), 
     {
       title: '撤销推广',
       width: '400px',
+      content () {
+        return <LeForm {...dialogFormRevokeConfig()} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }
