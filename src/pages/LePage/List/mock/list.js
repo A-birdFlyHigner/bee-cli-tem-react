@@ -28,6 +28,6 @@ export default queryParams => {
     total: 400,
     totalPage: 400 / pageSize,
     pageSize,
-    currentPage,
-  };
-};
+    currentPage
+  }
+}

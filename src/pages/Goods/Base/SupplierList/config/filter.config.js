@@ -1,5 +1,5 @@
 export default {
-  core: {
+  settings: {
     initValues: {},
   },
   form: {
@@ -10,10 +10,9 @@ export default {
     },
   },
 
-  items: [
-    {
-      label: '类目',
-      name: 'categoryId',
+  items: [{
+    label: '类目',
+      name: 'categoryId', // TODO: 没有实现类目组件
       component: 'Select',
       props: {
         placeholder: '请选择类目',
@@ -27,17 +26,17 @@ export default {
       },
     },
     {
-      label: '商品id',
+      label: '商品Id',
       name: 'productId',
       props: {
-        placeholder: '请输入商品id',
+        placeholder: '请输入商品Id',
       },
     },
     {
-      label: 'SKUid',
+      label: 'skuId',
       name: 'skuId',
       props: {
-        placeholder: '请输入SKUid',
+        placeholder: '请输入skuId',
       },
     },
   ],
