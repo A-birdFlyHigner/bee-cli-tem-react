@@ -1,14 +1,23 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
+import { message } from 'antd'
 import * as Sty from '../index.less'
 
 const setBranchList = (err, values, formCore, listCore) => {
+  const productIds = listCore.getSelectedRowKeys()
+  const count = productIds.length
+
+  if (!count) {
+    message.warning('请至少勾选一项！')
+    return
+  }
+
   LeDialog.show(
     {
       title: '批量操作',
       width: '600px',
       content () {
-        return <LeForm {...dialogFormConfig()} />
+        return <LeForm {...dialogFormConfig(count)} />
       },
       onOk: (values, suc, core) => {
         suc()
@@ -17,7 +26,7 @@ const setBranchList = (err, values, formCore, listCore) => {
   )
 }
 
-const dialogFormConfig =  () => {
+const dialogFormConfig = (count) => {
 
   return {
     form: {
@@ -33,7 +42,7 @@ const dialogFormConfig =  () => {
         render: (values, core) => {
           return(
             <div>
-              <div className={Sty.dialogMb}>已批量选中88个商品，确定对商品进行以下操作？</div>
+              <div className={Sty.dialogMb}>已批量选中{count}个商品，确定对商品进行以下操作？</div>
             </div>
           )
         },

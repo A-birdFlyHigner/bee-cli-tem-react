@@ -1,14 +1,23 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
 import * as Sty from '../index.less'
+import { message } from 'antd'
 
 const setBranchList = (err, values, formCore, listCore) => {
+  const productIds = listCore.getSelectedRowKeys()
+  const count = productIds.length
+
+  if (!count) {
+    message.warning('请至少勾选一项！')
+    return
+  }
+
   LeDialog.show(
     {
       title: '批量拒绝',
       width: '600px',
       content () {
-        return <LeForm {...dialogFormConfig()} />
+        return <LeForm {...dialogFormConfig(count)} />
       },
       onOk: (values, hide) => {
         // return new Promise(async (resolve, reject) => {
@@ -22,7 +31,7 @@ const setBranchList = (err, values, formCore, listCore) => {
   )
 }
 
-const dialogFormConfig = () => {
+const dialogFormConfig = (count) => {
   return {
     settings: {
       
@@ -35,7 +44,7 @@ const dialogFormConfig = () => {
     },
     items: [
       {
-        label: '已选中88个商品,请输入拒绝原因',
+        label: `已选中${count}个商品,请输入拒绝原因`,
         name: 'rejectReason',
         component: 'Input',
         follow: false,

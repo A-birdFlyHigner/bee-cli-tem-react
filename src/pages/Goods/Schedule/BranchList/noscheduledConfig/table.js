@@ -1,7 +1,6 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
 import { Dialog } from '@lib/nowrapper/lib/antd'
-import formConfig from './header.js'
 import { ImageTextCard } from '@/components/InfoCard'
 import router from 'umi/router'
 import SkuDetail from '../../common/skuDetail'
