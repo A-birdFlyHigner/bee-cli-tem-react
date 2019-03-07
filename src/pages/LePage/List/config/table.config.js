@@ -1,73 +1,75 @@
 import React from 'react';
-import { LeDialog } from '@lib/lepage';
+import { LeForm, LeDialog } from '@lib/lepage';
 
-const onSelectChange = (selectedRowKeys, listCore) => {
-  window.console.log('selectedRowKeys changed: ', selectedRowKeys, listCore.getDataSource());
-};
+// const onSelectChange = (selectedRowKeys, leList) => {
+//   window.console.log(leList.getSelectedRowKeys())
+//   window.console.log('selectedRowKeys changed: ', selectedRowKeys, leList.getDataSource());
+// };
 
 const showDetail = values => {
-  LeDialog.show(
-    {
-      core: {
-        values,
-        globalStatus: 'preview',
+  const formConfig = {
+    settings: {
+      values,
+      globalStatus: 'preview',
+    },
+    form: {
+      layout: {
+        label: 'w120',
       },
-      form: {
-        layout: {
-          label: 'w120',
-        },
+    },
+    items: [
+      {
+        label: '采购时间',
+        name: 'purchasing',
       },
-      items: [
-        {
-          label: '采购时间',
-          name: 'purchasing',
-        },
-        {
-          label: '仓库名称',
-          name: 'warehouse',
-        },
-        {
-          label: '供应商名称',
-          name: 'supplier',
-        },
-        {
-          label: '采购订单状态',
-          name: 'status',
-        },
-        {
-          label: '采购订单来源',
-          name: 'origin',
-          props: {
-            onChange() {
-              this.setState({
-                dataSource: [],
-              });
-            },
+      {
+        label: '仓库名称',
+        name: 'warehouse',
+      },
+      {
+        label: '供应商名称',
+        name: 'supplier',
+      },
+      {
+        label: '采购订单状态',
+        name: 'status',
+      },
+      {
+        label: '采购订单来源',
+        name: 'origin',
+        props: {
+          onChange() {
+            this.setState({
+              dataSource: [],
+            });
           },
         },
-      ],
+      },
+    ],
+  };
+  LeDialog.show({
+    title: '查看详情',
+    content() {
+      return <LeForm {...formConfig} />;
     },
-    {
-      title: '查看详情',
-    }
-  );
+  });
 };
 
 export default {
-  rowSelection: {
-    selectedRowKeys: [1, 2],
-    onChange: onSelectChange,
-    selections: true,
-    onSelect(...args) {
-      // console.log(args)
-    },
-    getCheckboxProps(record) {
-      return {
-        disabled: false,
-        name: record.purchasing,
-      };
-    },
-  },
+  // rowSelection: {
+  //   selectedRowKeys: [1, 2],
+  //   onChange: onSelectChange,
+  //   selections: true,
+  //   onSelect(...args) {
+  //     // console.log(args)
+  //   },
+  //   getCheckboxProps(record) {
+  //     return {
+  //       disabled: false,
+  //       name: record.purchasing,
+  //     };
+  //   },
+  // },
   columns: [
     {
       title: '采购时间',

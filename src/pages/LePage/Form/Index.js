@@ -41,7 +41,7 @@ export default FormDemo;
 //         props: {
 //             type: 'primary',
 //             children: '导出2',
-//             onClick (error, values, core) {}
+//             onClick (error, values, leForm) {}
 //         },
 //         options: {
 //             type: 'none',
@@ -50,17 +50,3 @@ export default FormDemo;
 //     }]
 // }
 
-// const buttons = [
-//     {
-//         props: {
-//             children: '弹窗',
-//             onClick (error, values, core,) {
-//                 LeDialog.show(dialogFormConfig, {})
-//             }
-//         },
-//         options: {
-//             type: 'submit',
-//             validate: false
-//         }
-//    }
-// ]

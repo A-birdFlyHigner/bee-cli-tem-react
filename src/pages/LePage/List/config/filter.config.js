@@ -1,5 +1,5 @@
 export default {
-  core: {
+  settings: {
     // values: {
     //     confirm: 2
     // },
@@ -17,7 +17,8 @@ export default {
     },
   },
 
-  items: [{
+  items: [
+    {
       label: '采购时间',
       name: 'purchasing',
       component: 'DatePicker',
@@ -28,7 +29,7 @@ export default {
     {
       label: '仓库名称',
       name: 'warehouse',
-      component: 'Input'
+      component: 'Input',
     },
     {
       label: '供应商名称',
@@ -42,7 +43,8 @@ export default {
       value: 0,
       props: {
         placeholder: '请选择采购订单状态',
-        options: [{
+        options: [
+          {
             label: '全部',
             value: 0,
           },
@@ -71,7 +73,8 @@ export default {
       component: 'Select',
       props: {
         placeholder: '请选择采购订单来源',
-        options: [{
+        options: [
+          {
             label: '全部',
             value: 0,
           },
@@ -92,7 +95,8 @@ export default {
       component: 'Select',
       props: {
         placeholder: '请选择供应商确认状态',
-        options: [{
+        options: [
+          {
             label: '全部',
             value: 0,
           },
@@ -109,11 +113,12 @@ export default {
     },
   ],
 
-  buttons: [{
+  buttons: [
+    {
       props: {
         type: 'primary',
         children: '查询',
-        onClick(err, values, formCore, listCore) {},
+        onClick(err, values, leForm, leList) {},
       },
       options: {
         type: 'submit',
@@ -123,7 +128,7 @@ export default {
     {
       props: {
         children: '重置',
-        onClick(err, values, formCore, listCore) {},
+        onClick(err, values, leForm, leList) {},
       },
       options: {
         type: 'reset',
@@ -133,10 +138,12 @@ export default {
       props: {
         type: 'danger',
         children: '导出',
-        onClick(err, values, formCore, listCore) {},
+        onClick(err, values, leForm, leList) {
+          console.log(values);
+        },
       },
       options: {
-        type: 'none',
+        type: 'export',
         validate: true,
       },
     },

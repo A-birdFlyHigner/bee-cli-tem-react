@@ -9,16 +9,13 @@ import treeData from '../data/tree-data';
 const { TreeNode } = Tree;
 
 export default {
-  core: {
+  settings: {
     values: {
       gsId: '',
     },
     autoValidate: true,
-    onChange: (changeKeys, values, core) => {},
-  },
-
-  options: {
     scrollToError: true,
+    onChange: (changeKeys, values, leForm) => {},
   },
 
   form: {
@@ -56,13 +53,13 @@ export default {
       name: 'search',
       component: 'Button',
       inline: true,
-      props(props, core) {
+      props(props, leForm) {
         return {
           type: 'primary',
           children: '搜索',
           icon: 'search',
-          loading: !!core.getValue('gsId'),
-          onClick(e, values, core) {},
+          loading: !!leForm.getValue('gsId'),
+          onClick(err, values, leForm) {},
         };
       },
     },
@@ -236,8 +233,8 @@ export default {
             value: 3,
           },
         ],
-        // onChange (e, core) {
-        //     // window.core.setError('urlText', '')
+        // onChange (e, leForm) {
+        //     // window.leForm.setError('urlText', '')
         // }
       },
     },
@@ -245,16 +242,16 @@ export default {
       label: '地址内容',
       name: 'urlText',
       component: 'Input',
-      props: (props, core) => {
-        let { options: urlTypeOptions } = core.getProps('urlType');
-        let urlType = core.getValue('urlType');
+      props: (props, leForm) => {
+        let { options: urlTypeOptions } = leForm.getProps('urlType');
+        let urlType = leForm.getValue('urlType');
         return {
           placeholder: '请输入地址' + urlTypeOptions[urlType].label,
         };
       },
-      rules: (values, core) => {
-        let { options: urlTypeOptions } = core.getProps('urlType');
-        let urlType = core.getValue('urlType');
+      rules: (values, leForm) => {
+        let { options: urlTypeOptions } = leForm.getProps('urlType');
+        let urlType = leForm.getValue('urlType');
 
         return {
           required: true,
@@ -431,7 +428,7 @@ export default {
       props: {
         type: 'primary',
         children: '查询',
-        onClick(error, values, core) {},
+        onClick(err, values, leForm) {},
       },
       options: {
         type: 'submit',
@@ -445,7 +442,7 @@ export default {
       inline: true,
       props: {
         children: '重置',
-        onClick(error, values, core) {
+        onClick(err, values, leForm) {
           debugger;
         },
       },
@@ -460,7 +457,7 @@ export default {
       inline: true,
       props: {
         children: '导出',
-        onClick(error, values, core) {},
+        onClick(err, values, leForm) {},
       },
       options: {
         type: 'none',
@@ -472,7 +469,7 @@ export default {
     {
       props: {
         children: '查询2',
-        onClick(error, values, core) {},
+        onClick(err, values, leForm) {},
       },
       options: {
         type: 'submit',
@@ -483,7 +480,7 @@ export default {
     {
       props: {
         children: '重置2',
-        onClick(error, values, core) {},
+        onClick(err, values, leForm) {},
       },
       options: {
         type: 'reset',
@@ -492,7 +489,7 @@ export default {
     {
       props: {
         children: '导出2',
-        onClick(error, values, core) {},
+        onClick(err, values, leForm) {},
       },
       options: {
         type: 'none',

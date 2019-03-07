@@ -1,4 +1,5 @@
 /functions/mock/**
 /scripts
 /config
-/src/pages/Supply
+/src/pages
+/src/temp
