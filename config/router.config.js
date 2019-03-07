@@ -47,10 +47,23 @@ export default [
 
           // 排期
           {
-            path: '/goods/schedule/list',
-            name: '排期商品列表',
-            component: './Goods/Schedule/SupplierList',
+            path: '/goods/schedule/adminlist',
+            name: '总部商品排期列表',
+            component: './Goods/Schedule/AdminList',
           },
+          {
+            path: '/goods/schedule/branchlist',
+            name: '分公司商品排期列表',
+            component: './Goods/Schedule/BranchList',
+          },
+
+          // 审核
+          {
+            path: '/goods/examine/branchlist',
+            name: '分公司商品审核列表',
+            component: './Goods/Examine/BranchList',
+          },
+
         ],
       },
       {
@@ -59,9 +72,14 @@ export default [
         icon: 'city',
         routes: [
           {
-            path: '/city/publish',
-            name: '城市列表',
-            component: './City/SupplierList',
+            path: '/city/cityList/adminList',
+            name: '总部城市列表',
+            component: './City/CityList/AdminList',
+          },
+          {
+            path: '/city/cityList/branchList',
+            name: '分公司城市列表',
+            component: './City/CityList/BranchList',
           },
         ],
       },
