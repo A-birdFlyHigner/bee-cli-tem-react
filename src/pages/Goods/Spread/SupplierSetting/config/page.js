@@ -7,6 +7,7 @@ import { Button } from 'antd'
 import * as Sty from '../index.less'
 import { message } from 'antd'
 import dialogFormConfig from '../../common/spreadDialog'
+import _ from 'lodash'
 
 const proList = [{
   productName: '面包',
@@ -37,10 +38,10 @@ export default class Detail extends Component {
     this.setState({
       spreadList: [{
         spreadName: query.spreadName,
-        cityIds: query.cityIds,
-        productIds: query.productIds
+        cityIds: _.concat(query.cityIds),
+        productIds: _.concat(query.productIds)
       }],
-      productIds: query.productIds
+      productIds: _.concat(query.productIds)
     })
   }
   

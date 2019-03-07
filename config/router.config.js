@@ -56,6 +56,11 @@ export default [
             name: '分公司商品排期列表',
             component: './Goods/Schedule/BranchList',
           },
+          {
+            path: '/goods/schedule/supplierlist',
+            name: '供应商商品排期列表',
+            component: './Goods/Schedule/SupplierList',
+          },
 
           // 审核
           {

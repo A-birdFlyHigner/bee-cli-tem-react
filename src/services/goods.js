@@ -3,7 +3,7 @@ import request from '@/utils/request';
 const domain = '/adminApi';
 
 export async function queryCommunityManager(params) {
-  return request(`${domain}/refund/list`, {
+  return request(`${domain}/communityManager/list`, {
     method: 'POST',
     body: {
       ...params,
