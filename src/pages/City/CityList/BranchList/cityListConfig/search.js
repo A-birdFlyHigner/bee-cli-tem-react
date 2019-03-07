@@ -1,6 +1,5 @@
 import Reg from '@/utils/reg'
 import cityRule from '@/components/Rules/citySel/index.js'
-import timeRule from '@/components/Rules/timeSel/index.js'
 
 export default {
   form: {

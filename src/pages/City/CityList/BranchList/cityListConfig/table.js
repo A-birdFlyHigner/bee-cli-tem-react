@@ -11,6 +11,7 @@ const goCityDetail = (record) => {
 
 export default {
   rowKey: 'id',
+  scroll: { x: 1500 },
   columns: [{
     title: '城市id',
     dataIndex: 'cityCode',

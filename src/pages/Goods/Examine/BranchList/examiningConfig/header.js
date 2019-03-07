@@ -1,23 +1,32 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import * as Sty from '../index.less'
 
 const setBranchList = (err, values, formCore, listCore) => {
   LeDialog.show(
-    dialogFormConfig(), 
     {
       title: '批量拒绝',
       width: '600px',
-      onOk: (values, suc, core) => {
-        suc()
-      }
+      content () {
+        return <LeForm {...dialogFormConfig()} />
+      },
+      onOk: (values, hide) => {
+        // return new Promise(async (resolve, reject) => {
+        //   await sleep(1500);
+        //   resolve();
+        //   hide();
+        //   leList.refresh();
+        // });
+      },
     }
   )
 }
 
-const dialogFormConfig =  () => {
-
+const dialogFormConfig = () => {
   return {
+    settings: {
+      
+    },
     form: {
       layout: { // 表单布局 左侧和右侧比例
         label: 0,

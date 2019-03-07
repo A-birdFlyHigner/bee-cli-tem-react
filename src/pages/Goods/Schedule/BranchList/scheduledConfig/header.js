@@ -1,5 +1,5 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import * as Sty from '../index.less'
 
 import { dialogFormJoinGroupConfig } from '../../common/commonConfig.js'
@@ -7,10 +7,12 @@ import { dialogFormJoinGroupConfig } from '../../common/commonConfig.js'
 // 批量回退
 const setBranchList = (err, values, formCore, listCore) => {
   LeDialog.show(
-    dialogFormConfig(), 
     {
       title: '批量回退',
       width: '400px',
+      content () {
+        return <LeForm {...dialogFormConfig()} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }
@@ -21,10 +23,12 @@ const setBranchList = (err, values, formCore, listCore) => {
 // 加入分组
 const joinGroup = (err, values, formCore, listCore) => {
   LeDialog.show(
-    dialogFormJoinGroupConfig(8,'加入分组'), 
     {
       title: '批量回退',
       width: '400px',
+      content () {
+        return <LeForm {...dialogFormJoinGroupConfig(8,'加入分组')} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }

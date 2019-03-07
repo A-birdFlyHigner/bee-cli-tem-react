@@ -16,7 +16,7 @@ export default class AdminCityList extends Component {
   render () {
     const config = {
       filterConfig,
-      headerConfig:{},
+      operationConfig:{},
       tableConfig,
       ...leListQuery(queryCommunityManager)
     }

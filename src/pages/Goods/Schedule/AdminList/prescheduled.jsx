@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '@lib/lepage/lib/index.css'
 import { LeList } from '@lib/lepage'
 import filterConfig from './prescheduledConfig/search'
-import headerConfig from './prescheduledConfig/header'
+import operationConfig from './prescheduledConfig/header'
 import tableConfig from './prescheduledConfig/table'
 import { queryCommunityManager } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
@@ -17,7 +17,7 @@ export default class Prescheduled extends Component {
   render () {
     const config = {
       filterConfig,
-      headerConfig,
+      operationConfig,
       tableConfig,
       ...leListQuery(queryCommunityManager)
     }

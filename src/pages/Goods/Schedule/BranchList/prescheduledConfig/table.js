@@ -113,6 +113,13 @@ const revocate = (id) => {
 
 export default {
   rowKey: 'id',
+  scroll: { x: 1500 },
+  rowSelection: {
+    selections: true,
+    getCheckboxProps(record) {
+      return {};
+    },
+  },
   columns: [{
     title: '渠道商品id',
     dataIndex: 'cityCode',

@@ -1,5 +1,5 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import { Select } from 'antd'
 const Option = Select.Option
 import { dialogFormJoinGroupConfig } from '../../common/commonConfig.js'
@@ -8,10 +8,12 @@ import * as Sty from '../index.less'
 
 const batchBackList = (err, values, formCore, listCore) => {
   LeDialog.show(
-    dialogFormConfig(88,'批量回退'), 
     {
       title: '批量回退',
       width: '500px',
+      content () {
+        return <LeForm {...dialogFormConfig(88,'批量回退')} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }
@@ -21,10 +23,12 @@ const batchBackList = (err, values, formCore, listCore) => {
 
 const batchScheduleList = (err, values, formCore, listCore) => {
   LeDialog.show(
-    dialogFormConfig(80,'批量排期'), 
     {
       title: '批量排期',
       width: '500px',
+      content () {
+        return <LeForm {...dialogFormConfig(80,'批量排期')} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }
@@ -34,10 +38,12 @@ const batchScheduleList = (err, values, formCore, listCore) => {
 
 const joinGroup = (err, values, formCore, listCore) => {
   LeDialog.show(
-    dialogFormJoinGroupConfig(8,'加入分组'), 
     {
       title: '加入分组',
       width: '500px',
+      content () {
+        return <LeForm {...dialogFormJoinGroupConfig(8,'加入分组')} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }

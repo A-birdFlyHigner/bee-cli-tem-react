@@ -1,13 +1,15 @@
 import React from 'react'
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import * as Sty from '../index.less'
 
 const setBranchList = (err, values, formCore, listCore) => {
   LeDialog.show(
-    dialogFormConfig(), 
     {
       title: '批量操作',
       width: '600px',
+      content () {
+        return <LeForm {...dialogFormConfig()} />
+      },
       onOk: (values, suc, core) => {
         suc()
       }

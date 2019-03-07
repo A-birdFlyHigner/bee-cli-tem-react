@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '@lib/lepage/lib/index.css'
 import { LeList } from '@lib/lepage'
 import filterConfig from './saleingConfig/search'
-import headerConfig from './saleingConfig/header'
+import operationConfig from './saleingConfig/header'
 import tableConfig from './saleingConfig/table'
 import { queryCommunityManager } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
@@ -17,7 +17,7 @@ export default class Saleing extends Component {
   render () {
     const config = {
       filterConfig,
-      headerConfig,
+      operationConfig,
       tableConfig,
       ...leListQuery(queryCommunityManager)
     }
