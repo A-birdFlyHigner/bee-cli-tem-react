@@ -3,7 +3,7 @@ import '@lib/lepage/lib/index.css'
 import { LeList } from '@lib/lepage'
 import filterConfig from './cityListConfig/search'
 import tableConfig from './cityListConfig/table'
-import { queryCommunityManager } from '@/services/goods'
+import { queryBranchCityManager } from '@/services/city'
 import { leListQuery } from '@/utils/utils'
 
 export default class BranchCityList extends Component {
@@ -18,7 +18,7 @@ export default class BranchCityList extends Component {
       filterConfig,
       operationConfig:{},
       tableConfig,
-      ...leListQuery(queryCommunityManager)
+      ...leListQuery(queryBranchCityManager)
     }
     return (
       <LeList {...config}></LeList>
