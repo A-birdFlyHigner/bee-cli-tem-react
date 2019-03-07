@@ -1,3 +1,5 @@
+import { purchaseState, purchaseSource, supplierState } from '../../../common/constants';
+
 export default {
   core: {
     initValues: {
@@ -47,28 +49,7 @@ export default {
       value: 0,
       props: {
         placeholder: '请选择采购订单状态',
-        options: [
-          {
-            label: '全部',
-            value: 0,
-          },
-          {
-            label: '待提交',
-            value: 1,
-          },
-          {
-            label: '未入库',
-            value: 2,
-          },
-          {
-            label: '入库完成',
-            value: 3,
-          },
-          {
-            label: '取消',
-            value: 4,
-          },
-        ],
+        options: purchaseState,
       },
     },
     {
@@ -77,20 +58,7 @@ export default {
       component: 'Select',
       props: {
         placeholder: '请选择采购订单来源',
-        options: [
-          {
-            label: '全部',
-            value: 0,
-          },
-          {
-            label: '系统生成',
-            value: 1,
-          },
-          {
-            label: '人工创建',
-            value: 2,
-          },
-        ],
+        options: purchaseSource,
       },
     },
     {
@@ -99,20 +67,7 @@ export default {
       component: 'Select',
       props: {
         placeholder: '请选择供应商确认状态',
-        options: [
-          {
-            label: '全部',
-            value: 0,
-          },
-          {
-            label: '待确认',
-            value: 1,
-          },
-          {
-            label: '已确认',
-            value: 2,
-          },
-        ],
+        options: supplierState,
       },
     },
   ],
@@ -138,16 +93,18 @@ export default {
         type: 'reset',
       },
     },
-    {
-      props: {
-        type: 'danger',
-        children: '导出',
-        onClick(err, values, formCore, listCore) {},
-      },
-      options: {
-        type: 'none',
-        validate: true,
-      },
-    },
+    // {
+    //   props: {
+    //     type: 'danger',
+    //     children: '导出',
+    //     onClick(err, values, formCore, listCore) {
+    //
+    //     },
+    //   },
+    //   options: {
+    //     type: 'none',
+    //     validate: true,
+    //   },
+    // },
   ],
 };

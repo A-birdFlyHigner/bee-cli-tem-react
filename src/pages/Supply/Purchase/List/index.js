@@ -25,18 +25,17 @@ const listConfig = {
   url: 'http://localhost:8899/getList',
 };
 
-class ExampleDemo extends Component {
+class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
       listConfig,
     };
   }
-
   render() {
     const { state } = this;
     return <LeList {...state.listConfig} />;
   }
 }
 
-export default ExampleDemo;
+export default List;
