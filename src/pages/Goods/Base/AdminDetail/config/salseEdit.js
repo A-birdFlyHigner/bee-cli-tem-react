@@ -27,8 +27,10 @@ export default function (preview) {
     const onBatchChange = (val, dataIndex) => {
       if (val !== '' && !Reg.Price.test(val)) return
       const salseData = leForm.getValue('salseData').map(p => {
-        p[dataIndex] = val
-        return p
+        return {
+          ...p,
+          [dataIndex]: val
+        }
       })
       leForm.setValues({
         [`batch${dataIndex}`]: val,

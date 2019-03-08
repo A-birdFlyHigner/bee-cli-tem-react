@@ -47,6 +47,9 @@ export default tags => {
             );
           });
         },
+        when: () => {
+          return false
+        }
       },
       {
         label: '推广渠道',

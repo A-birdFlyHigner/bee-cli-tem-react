@@ -15,7 +15,7 @@ export default class SkuDetail extends Component {
           align: 'center',
         },
         {
-          title: 'sku码（发货编码）',
+          title: 'sku码(发货编码)',
           dataIndex: 'age',
           key: 'age',
           align: 'center',
@@ -25,6 +25,14 @@ export default class SkuDetail extends Component {
           dataIndex: 'address',
           key: 'address',
           align: 'center',
+          render: (text, record) => {
+            return (
+              <div>
+                <span className='globalRed'>（停售）</span>
+                <span>{text}</span>
+              </div>
+            )
+          }
         },
         {
           title: '成本价',

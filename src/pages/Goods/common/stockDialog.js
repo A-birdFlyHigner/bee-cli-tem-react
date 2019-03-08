@@ -33,8 +33,10 @@ export default dataSource => {
           onClick: (err, val, core) => {
             if (err) return message.warning('请输入整数');
             let dataSource = core.getValue('dataSource').map(p => {
-              p.editStock = val.batchSetStock;
-              return p;
+              return {
+                ...p,
+                editStock: val.batchSetStock,
+              };
             });
             core.setValues({ dataSource });
           },
@@ -77,7 +79,7 @@ const tabelColumns = core => {
       align: 'center',
     },
     {
-      title: 'sku发货编码',
+      title: 'sku码(发货编码)',
       dataIndex: 'sku',
       align: 'center',
     },
@@ -85,6 +87,14 @@ const tabelColumns = core => {
       title: 'sku规格',
       dataIndex: 'skutype',
       align: 'center',
+      render: (text, record) => {
+        return (
+          <div>
+            <span className='globalRed'>（停售）</span>
+            <span>{text}</span>
+          </div>
+        )
+      }
     },
     {
       title: '总库存',

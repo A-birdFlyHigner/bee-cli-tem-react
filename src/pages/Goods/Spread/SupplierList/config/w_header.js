@@ -1,10 +1,11 @@
 import { LeDialog, LeForm } from '@lib/lepage';
 import router from 'umi/router';
+import { message } from 'antd';
 import dialogFormConfig from '../../common/spreadDialog';
 
 const setBranchList = (err, values, formCore, listCore, self) => {
   const productIds = listCore.getSelectedRowKeys()
-  if (!productIds.length) return 
+  if (!productIds.length) return message.warning('请至少勾选一项！')
   const tags = ['全部', '华南地区', '华东地区'];
   const formConf = dialogFormConfig(tags)
   LeDialog.show({

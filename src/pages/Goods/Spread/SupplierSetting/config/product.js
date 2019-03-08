@@ -25,8 +25,10 @@ const makeProductItem = (productIds, leForm) => {
     const onBatchChange = (val, name) => {
       if (val !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(val)) return
       const dataSource = leForm.getValue(`dataSource${p}`).map(p => {
-        p[name] = val
-        return p
+        return {
+          ...p,
+          [name]: val
+        }
       })
       leForm.setValues({
         [`${name}${p}`]: val,
