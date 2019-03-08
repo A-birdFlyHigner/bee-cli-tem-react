@@ -9,7 +9,7 @@ export default {
     categoryRule({
       label: '类目',
       name: 'categoryId',
-      value: ["410000", "410300", "410304"]
+      value: [20000, 20016, 20182]
     }),
     {
       label: '商品Id',

@@ -1,5 +1,5 @@
 import fetch from 'dva/fetch';
-import { notification } from 'antd';
+import { notification, message } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
@@ -21,6 +21,8 @@ const codeMessage = {
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
 };
+
+const localToken = '370f39b88efc44a8a3e783ffc53e9945:1156'
 
 const checkStatus = response => {
   if (response.status >= 200 && response.status < 300) {
@@ -118,6 +120,10 @@ export default function request(url, option) {
       sessionStorage.removeItem(`${hashcode}:timestamp`);
     }
   }
+  newOptions.headers = {
+    ...newOptions.headers,
+    token: localToken
+  }
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))
@@ -129,10 +135,11 @@ export default function request(url, option) {
       }
       return response.json();
     }).then(response => {
-      if (String(response.code) === '0') {
+      if (String(response.status) === '1') {
         return response.data || true
       }
-      return response
+      message.error(response.errorMessage || response.message)
+      return false
     })
     .catch(e => {
       const status = e.name;
@@ -154,7 +161,7 @@ export default function request(url, option) {
         return;
       }
       if (status >= 404 && status < 422) {
-        router.push('/exception/404');
+        // router.push('/exception/404');
       }
     });
 }

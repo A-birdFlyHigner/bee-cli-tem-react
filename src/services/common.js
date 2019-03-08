@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import { stringify } from 'qs';
 
 const domain = '/adminApi';
 
@@ -27,4 +28,8 @@ export async function queryDistrictList(params) {
       ...params,
     },
   });
+}
+
+export async function queryCategoryList(params) {
+  return request(`${domain}/revision/category/children?${stringify(params)}`);
 }
