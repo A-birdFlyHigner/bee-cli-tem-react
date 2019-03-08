@@ -57,7 +57,8 @@ const onClickAdd = (err, values, formCore, listCore) => {
 };
 
 export default {
-  core: {
+  settings: {
+    globalStatus: 'preview',
     initValues: {},
   },
   form: {

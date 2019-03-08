@@ -1,56 +1,35 @@
 import React from 'react';
-import { LeDialog } from '@lib/lepage';
+import {Tooltip, Icon, Modal} from 'antd'
 
-const onSelectChange = (selectedRowKeys, listCore) => {
-  window.console.log('selectedRowKeys changed: ', selectedRowKeys, listCore.getDataSource());
+const {confirm} = Modal
+
+const download = values => {
+  console.log('download', values)
 };
 
-const showDetail = values => {
-  LeDialog.show(
-    {
-      core: {
-        values,
-        globalStatus: 'preview',
-      },
-      form: {
-        layout: {
-          label: 'w120',
-        },
-      },
-      items: [
-        {
-          label: '采购时间',
-          name: 'purchasing',
-        },
-        {
-          label: '仓库名称',
-          name: 'warehouse',
-        },
-        {
-          label: '供应商名称',
-          name: 'supplier',
-        },
-        {
-          label: '采购订单状态',
-          name: 'status',
-        },
-        {
-          label: '采购订单来源',
-          name: 'origin',
-          props: {
-            onChange() {
-              this.setState({
-                dataSource: [],
-              });
-            },
-          },
-        },
-      ],
+const cancelConfirm = values => {
+  confirm({
+    title: '取消采购单',
+    content: '是否确定取消该采购单？',
+    onOk() {
+      console.log('cancelConfirm_OK');
     },
-    {
-      title: '查看详情',
-    }
-  );
+    onCancel() {
+      console.log('cancelConfirm_Cancel');
+    },
+  })
+};
+const submitConfirm = values => {
+  confirm({
+    title: '提交采购单',
+    content: '是否确定提交该采购单？',
+    onOk() {
+      console.log('submitConfirm_OK');
+    },
+    onCancel() {
+      console.log('submitConfirm_Cancel');
+    },
+  })
 };
 
 export default {
@@ -62,6 +41,13 @@ export default {
     {
       title: '采购单号',
       dataIndex: 'purchaseNo',
+      render(value, values, index) {
+        return (
+          <div>
+            <a href={`/supply/purchase/detail?purchaseNo=${value}`}>{value}</a>
+          </div>
+        );
+      },
     },
     {
       title: '采购时间',
@@ -74,7 +60,7 @@ export default {
     {
       title: (
         <div>
-          失效时间<span>666</span>
+          失效时间 <Tooltip title={`失效时间仅供业务方标记使用，不影响采购单的正常流转和操作`}><Icon type="question-circle" /></Tooltip>
         </div>
       ),
       dataIndex: 'invalidTime',
@@ -106,11 +92,13 @@ export default {
     {
       title: '销售订单',
       dataIndex: 'sellerOrder',
-      render(value, item, index) {
+      render(value, values, index) {
         return (
           <div>
-            <span>{value}</span>
-            <a href="http://www.mogujie.com">下载</a>
+            <span>{value}</span>;
+            <a href="javascript:;" onClick={download.bind(null, values)} >下载</a>;
+            {/**/}
+            {/*<a href="http://www.mogujie.com">下载</a>*/}
           </div>
         );
       },
@@ -118,10 +106,10 @@ export default {
     {
       title: '入库单',
       dataIndex: 'inputNo',
-      render(value, item, index) {
+      render(value, values, index) {
         return (
           <div>
-            <a href={`http://www.mogujie.com/${value}`}>查看</a>
+            <a href={`/supply/input/list?inputNo=${value}`}>查看</a>
           </div>
         );
       },
@@ -131,27 +119,13 @@ export default {
       render(value, values, index) {
         return (
           <div>
-            <span onClick={showDetail.bind(null, values)}>查看</span>;
-            <span onClick={showDetail.bind(null, values)}>编辑</span>;
-            <span onClick={showDetail.bind(null, values)}>取消</span>;
-            <span onClick={showDetail.bind(null, values)}>提交</span>;
+            <a href={`/supply/purchase/detail?purchaseNo=${values}`}>查看</a>;
+            <a href={`/supply/purchase/edit?purchaseNo=${values}`}>编辑</a>;
+            <a href="javascript:;" onClick={cancelConfirm.bind(null, values)} >取消</a>;
+            <a href="javascript:;" onClick={submitConfirm.bind(null, values)} >提交</a>;
           </div>
         );
       },
     },
   ],
 };
-
-// {
-//   title: '采购单状态',
-//     dataIndex: 'supplyState',
-//   render(value, item, index) {
-//   return <a href="http://www.mogujie.com">未入库</a>;
-// },
-// },
-// {
-//   title: '操作',
-//     render(value, values, index) {
-//   return <span onClick={showDetail.bind(null, values)}>查看</span>;
-// },
-// },

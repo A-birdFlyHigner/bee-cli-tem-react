@@ -34,16 +34,5 @@ export default {
       title: '采购数量',
       dataIndex: 'PurchaseQuantity',
     },
-    // {
-    //   title: '操作',
-    //   width: '80px',
-    //   render(value, values, index) {
-    //     return (
-    //       <div>
-    //         <a href="javascript:;" onClick={() => {deleteRow(values)}} >删除</a>
-    //       </div>
-    //     );
-    //   },
-    // },
   ],
 };

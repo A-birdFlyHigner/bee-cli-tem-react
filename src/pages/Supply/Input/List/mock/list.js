@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export default queryParams => {
   const { pageSize, currentPage } = queryParams;
-  const index = pageSize * (currentPage - 1);
+  const index = pageSize * (currentPage - 1) + 1;
 
   // 使用 Mock
   const data = Mock.mock({

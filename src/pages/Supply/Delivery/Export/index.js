@@ -6,10 +6,10 @@ import mockList from './mock/list';
 
 const listConfig = {
   filterConfig,
-  operationConfig,
+  // operationConfig,
   tableConfig,
   formatBefore(queryParams) {
-    return queryParams.json;
+    return queryParams;
   },
   query(queryParams, url, method) {
     return new Promise((resolve, reject) => {

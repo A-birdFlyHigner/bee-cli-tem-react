@@ -2,8 +2,13 @@ import moment from 'moment';
 
 export default {
   settings: {
-    initValues: {},
+    initValues: {
+      status: 0,
+      origin: 0,
+      confirm: 0,
+    },
   },
+
   form: {
     inline: false,
     layout: {
@@ -11,6 +16,7 @@ export default {
       columns: 3,
     },
   },
+
   items: [
     {
       label: '仓库名称',
@@ -47,5 +53,27 @@ export default {
       },
     },
   ],
-  buttons: []
+
+  buttons: [
+    {
+      props: {
+        type: 'primary',
+        children: '查询',
+        onClick(err, values, formCore, listCore) {},
+      },
+      options: {
+        type: 'submit',
+        validate: true, // default true
+      },
+    },
+    {
+      props: {
+        children: '重置',
+        onClick(err, values, formCore, listCore) {},
+      },
+      options: {
+        type: 'reset',
+      },
+    },
+  ],
 };

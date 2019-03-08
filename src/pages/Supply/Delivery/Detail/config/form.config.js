@@ -1,5 +1,5 @@
 export default {
-  core: {
+  settings: {
     globalStatus: 'preview',
   },
 
@@ -39,7 +39,7 @@ export default {
     {
       label: '详细信息',
       name: 'detail',
-      render(values, core) {
+      render(values, leForm) {
         return `姓名:${values.name} - 城市:${values.city}`;
       },
     },

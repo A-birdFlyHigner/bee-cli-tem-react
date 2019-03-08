@@ -1,54 +1,6 @@
 import React from 'react';
-import { LeDialog } from '@lib/lepage';
 
 const download = () => {};
-const showDetail = values => {
-  LeDialog.show(
-    {
-      core: {
-        values,
-        globalStatus: 'preview',
-      },
-      form: {
-        layout: {
-          label: 'w120',
-        },
-      },
-      items: [
-        {
-          label: '采购时间',
-          name: 'purchasing',
-        },
-        {
-          label: '仓库名称',
-          name: 'warehouse',
-        },
-        {
-          label: '供应商名称',
-          name: 'supplier',
-        },
-        {
-          label: '采购订单状态',
-          name: 'status',
-        },
-        {
-          label: '采购订单来源',
-          name: 'origin',
-          props: {
-            onChange() {
-              this.setState({
-                dataSource: [],
-              });
-            },
-          },
-        },
-      ],
-    },
-    {
-      title: '查看详情',
-    }
-  );
-};
 
 export default {
   columns: [
@@ -89,13 +41,24 @@ export default {
       dataIndex: 'deliverySurvey',
     },
     {
+      title: '入库单',
+      dataIndex: 'inputNo',
+      render(value, values, index) {
+        return (
+          <div>
+            <a href={`/supply/input/list?inputNo=${value}`}>查看</a>
+          </div>
+        );
+      },
+    },
+    {
       title: '用户订单',
       dataIndex: 'userOrder',
       render(value, record, index) {
         return (
           <div>
-            <span>value</span>
-            <span onClick={download.bind(null, record)}>下载</span>
+            <span>{value}</span>
+            <a href="javascript:;" onClick={download.bind(null, record)} >下载</a>
           </div>
         );
       },
@@ -103,7 +66,9 @@ export default {
     {
       title: '出库单',
       render(value, record, index) {
-        return <div>{<span onClick={showDetail.bind(null, record)}>查看</span>}</div>;
+        return <div>{
+          <a href={`/supply/output/list?outputNo=${value}`}>查看</a>
+        }</div>
       },
     },
     {
@@ -111,9 +76,9 @@ export default {
       render(value, record, index) {
         return (
           <div>
-            <span onClick={showDetail.bind(null, record)}>查看</span>
+            <a href={`/supply/delivery/list?inputNo=${value}`}>查看</a>
           </div>
-        );
+        )
       },
     },
   ],
