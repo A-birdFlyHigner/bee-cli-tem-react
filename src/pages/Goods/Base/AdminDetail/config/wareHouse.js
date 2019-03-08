@@ -1,4 +1,3 @@
-import { Input, Button, Table } from 'antd'
 
 export default [{
     label: '仓库属性',

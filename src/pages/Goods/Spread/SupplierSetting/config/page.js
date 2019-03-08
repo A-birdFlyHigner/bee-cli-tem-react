@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import router from 'umi/router'
-import { formatSearch } from '@/utils/utils'
 import { LeForm, LeDialog } from '@lib/lepage'
-import spreadConfig from './spread'
-import { Button } from 'antd'
-import * as Sty from '../index.less'
-import { message } from 'antd'
-import dialogFormConfig from '../../common/spreadDialog'
 import _ from 'lodash'
+import { Button, message } from 'antd'
+import spreadConfig from './spread'
+import * as Sty from '../Index.less'
+import dialogFormConfig from '../../common/spreadDialog'
+import ColumnGroup from 'antd/lib/table/ColumnGroup';
 
 const proList = [{
   productName: '面包',
@@ -47,14 +45,16 @@ export default class Detail extends Component {
   
   onMountLeForm (key, leForm) {
     this.leForm[key] = leForm
-    this.state.productIds.forEach(p => {
+    const { productIds } = this.state
+    productIds.forEach(p => {
       this.getSkuListByproductId(key, p)
     })
   }
 
   getSkuListByproductId (key, id) {
-    if (this.state[`dataSource${id}`]) {
-      this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(this.state[`dataSource${id}`])))
+    const { state } = this
+    if (state[`dataSource${id}`]) {  
+      this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(state[`dataSource${id}`])))
     } else {
       setTimeout(() => {
         this.setState({
@@ -65,33 +65,37 @@ export default class Detail extends Component {
     }
   }
 
-  deleteSpreatItem (key) {
+  deleteSpreatItem = (key) => {
     delete this.leForm[key]
+    const { spreadList } = this.state
     this.setState({
-      spreadList: this.state.spreadList.filter((p) => p.spreadName !== key)
+      spreadList: spreadList.filter((p) => p.spreadName !== key)
     })
   }
 
-  dialogAddSpread () {
+  dialogAddSpread = () => {
     const tags = ['全部', '华南地区', '华东地区']
     const formConf = dialogFormConfig(tags)
     LeDialog.show({
       title: '可选推广渠道',
       width: '800px',
-      content: <LeForm {...formConf}></LeForm>,
-      onOk: (values, suc, core) => {
+      content: <LeForm {...formConf} />,
+      onOk: (values, suc) => {
         const { checkedKeys, halfCheckedKeys, spreadTree } = values
         const allSel = [
           ...checkedKeys,
           ...halfCheckedKeys
         ]
-        const branchList = JSON.parse(JSON.stringify(spreadTree)).filter(p => {
+        let branchList = JSON.parse(JSON.stringify(spreadTree)).filter(p => {
           return allSel.indexOf(p.key) > -1
         })
-        branchList.forEach(p => {
-          p.children = p.children.filter(q => {
-            return allSel.indexOf(q.key) > -1
-          })
+        branchList = branchList.map(p => {
+          return {
+            ...p,
+            children: p.children.filter(q => {
+              return allSel.indexOf(q.key) > -1
+            })
+          }
         })
         const cityIds = []
         const spreadName = branchList.map(p => {
@@ -102,13 +106,14 @@ export default class Detail extends Component {
           return `${p.title}（${cityName}）`
         }).join('；')
         console.log(spreadName, cityIds)
+        const {spreadList, productIds} = this.state
         this.setState({
           spreadList: [
-            ...this.state.spreadList,
+            ...spreadList,
             {
-              spreadName: spreadName,
-              cityIds: cityIds,
-              productIds: this.state.productIds
+              spreadName,
+              cityIds,
+              productIds
             }
           ]
         })
@@ -117,32 +122,48 @@ export default class Detail extends Component {
     })
   }
 
-  async beforeSubmitInfo () {
+  beforeSubmitInfo = async () => {
     let isError = false
-    for (let i in this.leForm) {
+
+    const keys = Object.keys(this.leForm)
+
+    for (const i of keys) {
       const item = this.leForm[i]
       const errors = await item.validate()
       if (errors) {
-        !isError && message.warning(errors[Object.keys(errors)[0]])
+        if (isError) {
+          const msg = errors[Object.keys(errors)[0]]
+          message.warning(msg)
+        }
         isError = true
-      } else if (!isError) {
+      } 
+      else if (!isError) {
         item.value.productIds.forEach(p => {
-          item.value[`dataSource${p}`].forEach(q => {
-            if (!q.costPrice || !q.stockCount) {
-              !isError && message.warning(`请完善${item.value.spreadName}下的商品成本价和推广库存`)
+          const list = item.value[`dataSource${p}`]
+
+          list.forEach((q) => {
+            const { costPrice, stockCount } = q
+            if (!costPrice || !stockCount) {
+              const { value: { spreadName } = {} } = item
+              if (isError) {
+                message.warning(`请完善${spreadName}下的商品成本价和推广库存`) 
+              }
               isError = true
             }
           })
         })
       }
     }
+
+    
     if (isError) return
     this.handleSubInfo()
   }
 
   handleSubInfo () {
     const createList = []
-    this.state.productIds.forEach(pId => {
+    const {productIds} = this.state
+    productIds.forEach(pId => {
       const citySpreadDetailList = []
       for (let i in this.leForm) {
         const item = this.leForm[i].value
@@ -174,13 +195,18 @@ export default class Detail extends Component {
       <div>
         {
           spreadList.map((p, ind) => {
-            const spreadName = p.spreadName
+            const {spreadName} = p
             const firstItem = (
               <p className={Sty.firstp}>
                 <span>推广渠道{ind + 1}：</span>
-                <Button type="primary" size="small" 
+                <Button 
+                  type="primary" 
+                  size="small" 
                   className={Sty.spreadDelBtn}
-                  onClick={e => this.deleteSpreatItem.call(this, spreadName)}>删 除</Button>
+                  onClick={() => this.deleteSpreatItem.call(this, spreadName)}
+                >
+                删 除
+                </Button>
               </p>
             )
             return (
@@ -188,14 +214,15 @@ export default class Detail extends Component {
                 { firstItem }
                 <LeForm 
                   {...spreadConfig(p, spreadName, configOption)} 
-                  onMount={this.onMountLeForm.bind(this, spreadName)} ></LeForm>
+                  onMount={(leForm) => this.onMountLeForm.call(this, spreadName, leForm)} 
+                />
               </div>
             )
           })
         }
         <div className={Sty.btnGroup}>
-          <Button onClick={this.dialogAddSpread.bind(this)}>+新增推广渠道</Button>
-          <Button type="primary" onClick={this.beforeSubmitInfo.bind(this)}>推广</Button>
+          <Button onClick={this.dialogAddSpread}>+新增推广渠道</Button>
+          <Button type="primary" onClick={this.beforeSubmitInfo}>推广</Button>
           <Button>取消</Button>
         </div>
       </div>

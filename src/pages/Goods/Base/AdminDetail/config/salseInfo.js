@@ -1,24 +1,7 @@
-import { Input, Button, Table } from 'antd'
-import Sty from '../Index.less'
+import React from 'react'
+import { Table } from 'antd'
 
-export default [{
-    label: '销售属性',
-    className: 'box-header',
-  }, {
-    name: 'salseData',
-    component: 'Item',
-    render (values, cores) {
-      return (
-        <Table 
-          rowKey='sku' 
-          columns={tabelColumns(core)} 
-          pagination={false}
-          dataSource={values.salseData}></Table>
-      )
-    }
-  }, ]
-
-const tabelColumns = (core) => {
+const tabelColumns = () => {
   return [{
     title: '状态',
     dataIndex: 'status',
@@ -49,3 +32,21 @@ const tabelColumns = (core) => {
     width: 120,
   }, ]
 }
+
+export default [{
+  label: '销售属性',
+  className: 'box-header',
+}, {
+  name: 'salseData',
+  component: 'Item',
+  render (values) {
+    return (
+      <Table 
+        rowKey='sku' 
+        columns={tabelColumns()} 
+        pagination={false}
+        dataSource={values.salseData} 
+      />
+    )
+  }
+}, ]

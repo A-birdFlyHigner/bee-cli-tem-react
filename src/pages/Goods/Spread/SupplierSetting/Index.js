@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Page from './config/page'
 import HeaderTip from './config/header'
-import Sty from './index.less'
 
 
 export default class Detail extends Component {
@@ -18,8 +17,8 @@ export default class Detail extends Component {
     const { query } = this.state
     return (
       <div>
-        <HeaderTip></HeaderTip>
-        <Page query={query}></Page>
+        <HeaderTip />
+        <Page query={query} />
       </div>
       
     )

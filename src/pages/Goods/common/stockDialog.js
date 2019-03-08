@@ -1,76 +1,14 @@
 import React from 'react';
 import Reg from '@/utils/reg';
-import * as Sty from './index.less';
 import { Input, Table, message } from 'antd';
-
-export default dataSource => {
-  return {
-    settings: {
-      values: { dataSource },
-    },
-    items: [
-      {
-        label: '批量调整可售库存',
-        name: 'batchSetStock',
-        component: 'Input',
-        follow: true,
-        props: {
-          placeholder: '请输入整数',
-        },
-        rules: {
-          required: true,
-          pattern: Reg.Num,
-          message: '请输入整数',
-        },
-      },
-      {
-        name: 'handleBtn',
-        component: 'Button',
-        inline: true,
-        props: {
-          type: 'primary',
-          children: '应用',
-          onClick: (err, val, core) => {
-            if (err) return message.warning('请输入整数');
-            let dataSource = core.getValue('dataSource').map(p => {
-              return {
-                ...p,
-                editStock: val.batchSetStock,
-              };
-            });
-            core.setValues({ dataSource });
-          },
-        },
-        options: {
-          validate: true,
-          validateWithoutRender: true,
-        },
-      },
-      {
-        label: '',
-        name: 'dataSource',
-        render: (values, core) => {
-          const { dataSource } = values;
-          return (
-            <Table
-              rowKey="id"
-              columns={tabelColumns(core)}
-              pagination={false}
-              dataSource={dataSource}
-            />
-          );
-        },
-      },
-    ],
-  };
-};
+import * as Sty from './index.less';
 
 const tabelColumns = core => {
   const onInputChange = (val, index, name) => {
     if (val !== '' && !Reg.Num.test(val)) return;
-    let dataSource = JSON.parse(JSON.stringify(core.getValue('dataSource')));
-    dataSource[index][name] = val;
-    core.setValue('dataSource', dataSource);
+    const items = JSON.parse(JSON.stringify(core.getValue('dataSource')));
+    items[index][name] = val;
+    core.setValue('dataSource', items);
   };
   return [
     {
@@ -87,7 +25,7 @@ const tabelColumns = core => {
       title: 'sku规格',
       dataIndex: 'skutype',
       align: 'center',
-      render: (text, record) => {
+      render: (text) => {
         return (
           <div>
             <span className='globalRed'>（停售）</span>
@@ -130,4 +68,67 @@ const tabelColumns = core => {
       },
     },
   ];
+};
+
+
+export default tableData => {
+  return {
+    settings: {
+      values: { dataSource: tableData },
+    },
+    items: [
+      {
+        label: '批量调整可售库存',
+        name: 'batchSetStock',
+        component: 'Input',
+        follow: true,
+        props: {
+          placeholder: '请输入整数',
+        },
+        rules: {
+          required: true,
+          pattern: Reg.Num,
+          message: '请输入整数',
+        },
+      },
+      {
+        name: 'handleBtn',
+        component: 'Button',
+        inline: true,
+        props: {
+          type: 'primary',
+          children: '应用',
+          onClick: (err, val, core) => {
+            if (err) return message.warning('请输入整数');
+            const items = core.getValue('dataSource').map(p => {
+              return {
+                ...p,
+                editStock: val.batchSetStock,
+              };
+            });
+            return core.setValues({ dataSource: items });
+          },
+        },
+        options: {
+          validate: true,
+          validateWithoutRender: true,
+        },
+      },
+      {
+        label: '',
+        name: 'dataSource',
+        render: (values, core) => {
+          const { dataSource } = values;
+          return (
+            <Table
+              rowKey="id"
+              columns={tabelColumns(core)}
+              pagination={false}
+              dataSource={dataSource}
+            />
+          );
+        },
+      },
+    ],
+  };
 };

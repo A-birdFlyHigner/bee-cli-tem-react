@@ -19,21 +19,21 @@ const DEFAULT_CONFIG = {
 };
 
 function readFile(file) {
-  var fr = new FileReader();
+  const fr = new FileReader();
   fr.readAsDataURL(file);
   return new Promise((resolve, reject) => {
-    fr.onload = function(file) {
-      resolve(file.target.result);
+    fr.onload = (fileItem) => {
+      resolve(fileItem.target.result);
     };
-    fr.onerror = function(err) {
-      reject('读取图片失败，请刷新页面再次上传图片');
+    fr.onerror = () => {
+      reject(new Error('读取图片失败，请刷新页面再次上传图片'));
     };
   });
 }
 
 function imgWH(imgSrc) {
-  let img = new Image();
-  return new Promise((resolve, reject) => {
+  const img = new Image();
+  return new Promise((resolve) => {
     img.onload = () => {
       resolve({ imgUrl: imgSrc, width: img.width, height: img.height });
     };
@@ -45,9 +45,44 @@ function imgWH(imgSrc) {
 }
 
 export default (options = {}) => {
-  return function(leForm) {
+  return (leForm) => {
     const name = options.name || DEFAULT_OPTIONS.name;
     const stateKey = `${DEFAULT_STATE_KEY}_${name}`;
+
+    const postFile = file => {
+      leForm.setProps(name, {
+        isLoading: true,
+      });
+      setTimeout(() => {
+        let val = leForm.getValue(name) || [];
+        val = [
+          ...val,
+          {
+            uid: '1',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            file
+          },
+        ];
+        leForm.setValue(name, val);
+        leForm.setProps(name, {
+          isLoading: false,
+        });
+      }, 1000);
+    };
+
+    const regTypeSize = file => {
+      const isJPG = DEFAULT_CONFIG.types.indexOf(file.type) > -1;
+      const size = options.size || DEFAULT_CONFIG.size;
+      if (!isJPG) {
+        message.warning('上传图片格式不正确');
+        return false;
+      }
+      if (file.size / 1000 > size) {
+        message.warning(`上传图片大小不能超过 ${size}K`);
+        return false;
+      }
+      return true;
+    };
 
     const beforeUpload = file => {
       return new Promise((resolve, reject) => {
@@ -80,26 +115,6 @@ export default (options = {}) => {
       });
     };
 
-    const postFile = file => {
-      leForm.setProps(name, {
-        isLoading: true,
-      });
-      setTimeout(() => {
-        let val = leForm.getValue(name) || [];
-        val = [
-          ...val,
-          {
-            uid: '1',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-          },
-        ];
-        leForm.setValue(name, val);
-        leForm.setProps(name, {
-          isLoading: false,
-        });
-      }, 1000);
-    };
-
     const handleChange = fileList => {
       let len = leForm.getValue(name);
       len = len ? len.length : 0;
@@ -126,25 +141,11 @@ export default (options = {}) => {
       );
     };
 
-    const regTypeSize = file => {
-      const isJPG = DEFAULT_CONFIG.types.indexOf(file.type) > -1;
-      const size = options.size || DEFAULT_CONFIG.size;
-      if (!isJPG) {
-        message.warning('上传图片格式不正确');
-        return false;
-      }
-      if (file.size / 1000 > size) {
-        message.warning(`上传图片大小不能超过 ${size}K`);
-        return false;
-      }
-      return true;
-    };
-
     const settings = _.merge({}, DEFAULT_OPTIONS, options, {
-      props: (props, core) => {
-        let preProps = options.props || function() {};
-        let result = typeof preProps === 'function' ? preProps() : preProps;
-        let curProps = {
+      props: (props) => {
+        const preProps = options.props || (() => {});
+        const result = typeof preProps === 'function' ? preProps() : preProps;
+        const curProps = {
           beforeUpload,
           // customRequest,
           // onRemove,

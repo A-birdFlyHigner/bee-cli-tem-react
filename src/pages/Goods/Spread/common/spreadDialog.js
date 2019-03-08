@@ -2,9 +2,29 @@ import React from 'react';
 import { Tag, Tree } from 'antd';
 import * as Sty from './index.less';
 import treeData from './mokeData';
+
 const { TreeNode } = Tree;
 
-export default tags => {
+const renderTreeNodes = data =>
+  data.map(item => {
+    if (item.children) {
+      return (
+        <TreeNode
+          key={item.key}
+          dataRef={item}
+          title={item.title}
+          selectable={false}
+          className={Sty.treeNedeUl}
+          disabled={!!item.disabled}
+        >
+          {renderTreeNodes(item.children)}
+        </TreeNode>
+      );
+    }
+    return <TreeNode {...item} key={item.key} selectable={false} className={Sty.treeNode} />;
+  });
+
+export default tagList => {
   return {
     settings: {
       values: { checkedKeys: [], spreadTree: treeData, halfCheckedKeys: [] },
@@ -25,7 +45,7 @@ export default tags => {
       {
         label: '常用标签',
         name: 'tags',
-        value: tags,
+        value: tagList,
         follow: true,
         render: (values, core) => {
           const { tags = [], selTag } = values;
@@ -33,9 +53,9 @@ export default tags => {
             return (
               <Tag
                 key={p}
-                closable={true}
+                // closable={true}
                 className={`${Sty.tag111} ${selTag === p ? Sty.selTag : ''}`}
-                onClick={e => {
+                onClick={() => {
                   core.setValues({
                     selTag: p,
                     checkedKeys: ['255', '220300', '440300', '440400'],
@@ -81,21 +101,4 @@ export default tags => {
   };
 };
 
-const renderTreeNodes = data =>
-  data.map(item => {
-    if (item.children) {
-      return (
-        <TreeNode
-          key={item.key}
-          dataRef={item}
-          title={item.title}
-          selectable={false}
-          className={Sty.treeNedeUl}
-          disabled={!!item.disabled}
-        >
-          {renderTreeNodes(item.children)}
-        </TreeNode>
-      );
-    }
-    return <TreeNode {...item} key={item.key} selectable={false} className={Sty.treeNode} />;
-  });
+

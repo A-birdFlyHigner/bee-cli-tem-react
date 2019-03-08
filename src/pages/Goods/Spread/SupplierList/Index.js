@@ -3,7 +3,8 @@ import { Tabs } from 'antd';
 import Waiting from './waiting';
 import Auditing from './auditing';
 import Failed from './failed';
-const TabPane = Tabs.TabPane;
+
+const {TabPane} = Tabs;
 
 export default class SpreadList extends Component {
   constructor(props) {

@@ -19,7 +19,7 @@ const editItemStock = record => {
   LeDialog.show({
     title: `商品名称：${record.provinceName}`,
     width: '900px',
-    content: <LeForm {...stockConfig(list)}></LeForm>,
+    content: <LeForm {...stockConfig(list)} />,
     onOk(val, suc, core) {
     },
   });
@@ -103,8 +103,8 @@ export default {
         return (
           <div>
             {vals &&
-              vals.split(',').map((item, index) => (
-                <span key={index}>
+              vals.split(',').map((item) => (
+                <span key={item}>
                   &gt;
                   {item}
                   <br />
@@ -124,7 +124,7 @@ export default {
           <span>
             3个
             <br />
-            <a className="linkButton" onClick={e => showSkuDetail(record.id)}>
+            <a className="linkButton" onClick={() => showSkuDetail(record.id)}>
               查看
             </a>
           </span>
@@ -180,9 +180,9 @@ export default {
       render: (text, record) => {
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={e => editItemStock(record)}>调整库存</a>
+            <a onClick={() => editItemStock(record)}>调整库存</a>
             <br />
-            <a onClick={e => handleCancelSpread(record)}>撤销推广</a>
+            <a onClick={() => handleCancelSpread(record)}>撤销推广</a>
           </div>
         );
       },

@@ -1,9 +1,10 @@
+import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage';
 import router from 'umi/router';
 import { message } from 'antd';
 import dialogFormConfig from '../../common/spreadDialog';
 
-const setBranchList = (err, values, formCore, listCore, self) => {
+const setBranchList = (err, values, formCore, listCore) => {
   const productIds = listCore.getSelectedRowKeys()
   if (!productIds.length) return message.warning('请至少勾选一项！')
   const tags = ['全部', '华南地区', '华东地区'];
@@ -11,7 +12,7 @@ const setBranchList = (err, values, formCore, listCore, self) => {
   LeDialog.show({
     title: '可选推广渠道',
     width: '800px',
-    content: <LeForm {...formConf}></LeForm>,
+    content: <LeForm {...formConf} />,
     onOk: (values, suc, core) => {
       const { checkedKeys, halfCheckedKeys, spreadTree } = values;
       const allSel = [...checkedKeys, ...halfCheckedKeys];
@@ -38,9 +39,9 @@ const setBranchList = (err, values, formCore, listCore, self) => {
       router.push({
         pathname: `/goods/spread/setting`,
         query: {
-          productIds: productIds,
-          cityIds: cityIds,
-          spreadName: spreadName
+          productIds,
+          cityIds,
+          spreadName
         }
       })
       suc();

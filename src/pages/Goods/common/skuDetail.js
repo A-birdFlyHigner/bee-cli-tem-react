@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 export default class SkuDetail extends Component {
+  static propTypes = {
+    // productId: PropTypes.number,
+  };
+  
   constructor() {
     super();
     this.state = {
@@ -45,9 +49,6 @@ export default class SkuDetail extends Component {
     };
   }
 
-  static propTypes = {
-    productId: PropTypes.number,
-  };
   componentWillMount() {
     setTimeout(() => {
       this.setState({
@@ -71,6 +72,7 @@ export default class SkuDetail extends Component {
       });
     }, 1000);
   }
+
   componentWillUnmount() {
     this.setState = () => {
       return null;

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import Sty from './Index.less'
 import { LeForm } from '@lib/lepage'
-
 import baseInfo from './config/baseInfo'
 import salseInfo from './config/salseInfo'
 import salseEdit from './config/salseEdit'
@@ -43,7 +41,7 @@ export default class Detail extends Component {
     }
   }
 
-  onMountLeForm(formCore) {
+  onMountLeForm = (formCore) => {
     this.formCore = formCore
     formCore.setValues({
       name: '西伯利亚红苹果',
@@ -69,9 +67,10 @@ export default class Detail extends Component {
 
   render () {
     const { productId, leFormConf } = this.state
+    console.log(productId)
     return (
       <div>
-        <LeForm { ...leFormConf } onMount={this.onMountLeForm.bind(this)} />
+        <LeForm {...leFormConf} onMount={this.onMountLeForm} />
       </div>
     )
   }
