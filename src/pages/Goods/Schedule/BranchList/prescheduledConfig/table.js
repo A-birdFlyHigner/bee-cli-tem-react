@@ -117,7 +117,7 @@ const revocate = () => {
 
 export default {
   rowKey: 'id',
-  scroll: { x: 1300 },
+  scroll: { x: 1600 },
   rowSelection: {
     selections: true,
     getCheckboxProps() {
@@ -158,7 +158,8 @@ export default {
     title: '类目',
     dataIndex: 'categoryPath',
     key: 'categoryPath',
-    align: 'center',                          
+    align: 'center',     
+    width: 100,                                                                        
     mutipleLine: true,
     render: () => {
       const vals = '食品,水果,橘子'
@@ -181,6 +182,7 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
+    width: 80,                                                   
     align: 'center',                          
     render: (val, record) => {
       return(
@@ -194,7 +196,8 @@ export default {
     title: '价格信息',
     dataIndex: 'price',
     key: 'price',
-    align: 'center',                          
+    align: 'center',   
+    width: 280,                                                                          
     render: () => {
       return (
         <div className={Sty.prices}>
@@ -209,18 +212,21 @@ export default {
     title: '商品分组',
     dataIndex: ' provinceName',
     key: 'productGrounp',
-    align: 'center',                          
+    align: 'center',      
+    width: 120,                                                                       
     singleLine: true,
   }, {
     title: '城市',
     dataIndex: 'cityName',
     key: 'city',
+    width: 100,                                                   
     align: 'center',                          
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
     key: 'storeInfo',
+    width: 160,                                                   
     align: 'center',                          
     render: (record) => {
       return (
@@ -235,7 +241,8 @@ export default {
     title: '地址信息',
     dataIndex: 'addressInfo',
     key: 'addressInfo',
-    align: 'center',                          
+    align: 'center',       
+    width: 130,                                                                                    
     render: () => {
       return (
         <div className={Sty.store}>
@@ -248,18 +255,19 @@ export default {
     title: '总部审核状态',
     dataIndex: 'examineStatus',
     key: 'examineStatus',
+    width: 200,                                                           
     align: 'center',                      
     render: () => {
       return (
         <div className={Sty.store}>
           <span>已拒绝</span><br />
-          <span>原因：不符合规则</span><br />
+          <span>原因：不符合规则不符合规则不符合规则不符合规则</span><br />
         </div>
       )
     }
   }, {
     title: '操作',
-    width: 140,
+    width: 120,
     align: 'center',                  
     fixed: 'right',      
     render: (text, record) => {

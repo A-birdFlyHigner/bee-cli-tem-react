@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
 import PropTypes from 'prop-types'
-
+/* eslint-disable */ 
 export default class SkuDetail extends Component {
   constructor() {
     super()

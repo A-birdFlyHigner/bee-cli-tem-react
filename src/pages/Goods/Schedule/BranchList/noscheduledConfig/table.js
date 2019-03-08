@@ -168,7 +168,7 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
-    width: 100,                             
+    width: 80,                             
     align: 'center',                          
     render: (val, record) => {
       return(
@@ -183,7 +183,7 @@ export default {
     dataIndex: 'price',
     key: 'price',
     align: 'center', 
-    width: 300,                                                              
+    width: 280,                                                              
     render: () => {
       return (
         <div className="list-inline">
@@ -206,7 +206,7 @@ export default {
     dataIndex: 'storeInfo',
     key: 'storeInfo',
     align: 'center',    
-    width: 200,                                                             
+    width: 180,                                                             
     render: (values, record) => {
       return (
         <div className={Sty.store}>
@@ -221,7 +221,7 @@ export default {
     dataIndex: 'addressInfo',
     key: 'addressInfo',
     align: 'center',    
-    width: 160,                                                             
+    width: 140,                                                             
     render: () => {
       return (
         <div className={Sty.store}>
@@ -245,7 +245,7 @@ export default {
     }
   }, {
     title: '操作',
-    width: 140,
+    width: 120,
     align: 'center', 
     fixed: 'right',                                   
     render: (text, record) => {

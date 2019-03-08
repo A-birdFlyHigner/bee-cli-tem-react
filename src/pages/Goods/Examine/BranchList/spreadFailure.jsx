@@ -5,7 +5,7 @@ import filterConfig from './spreadFailureConfig/search'
 import tableConfig from './spreadFailureConfig/table'
 import { queryCommunityManager } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
-
+/* eslint-disable */ 
 export default class SpreadFailure extends Component {
 
   constructor(props) {

@@ -42,7 +42,7 @@ const getStoreInfo = (id) => {
 
 export default {
   rowKey: 'id',
-  scroll: { x: 1300 },
+  scroll: { x: 1700 },
   rowSelection: {
     selections: true,
     getCheckboxProps() {
@@ -80,6 +80,7 @@ export default {
     dataIndex: 'categoryPath',
     key: 'categoryPath',
     align: 'center',     
+    width: 100,                                                                                
     mutipleLine: true,
     render: () => {
       const vals = '食品,水果,橘子'
@@ -102,6 +103,7 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
+    width: 100,                                                                                
     align: 'center',     
     render: (val, record) => {
       return(
@@ -115,6 +117,7 @@ export default {
     title: '价格信息',
     dataIndex: 'price',
     key: 'price',
+    width: 280,                                                                            
     align: 'center',     
     render: () => {
       return (
@@ -130,14 +133,16 @@ export default {
     title: '推广城市',
     dataIndex: 'spreadCity',
     key: 'spreadCity',
-    align: 'center',     
+    align: 'center',  
+    width: 100,                                                                                   
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
     key: 'storeInfo',
+    width: 280,                                                                                       
     align: 'center',     
-    render: (record) => {
+    render: (values, record) => {
       return (
         <div className={Sty.store}>
           <span>推广库存：100</span><br />
@@ -151,16 +156,19 @@ export default {
     dataIndex: 'shopName',
     key: 'shopName',
     align: 'center',     
+    width: 100,                                                                                           
     singleLine: true,
   }, {
     title: '店铺Id',
     dataIndex: 'shopId',
     key: 'shopId',
+    width: 100,                                                                                               
     align: 'center',     
     singleLine: true,
   }, {
     title: '提审时间',
     dataIndex: 'passTime',
+    width: 100,                                                                                               
     key: 'passTime',
     align: 'center',     
     singleLine: true,
@@ -168,11 +176,13 @@ export default {
     title: '未通过时间',
     dataIndex: 'noPassTime',
     key: 'noPassTime',
+    width: 200,
     align: 'center',     
     singleLine: true,
   }, {
     title: '原因',
     dataIndex: 'noPassReason',
+    width: 100,                                                                                           
     key: 'noPassReason',
     align: 'center',     
     singleLine: true,
