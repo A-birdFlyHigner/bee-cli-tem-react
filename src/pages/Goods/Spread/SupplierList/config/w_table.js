@@ -1,6 +1,6 @@
 import React from 'react';
-import { Dialog } from '@lib/nowrapper/lib/antd';
 import { ImageTextCard } from '@/components/InfoCard';
+import { LeDialog } from '@lib/lepage'
 import SkuDetail from '../../../common/skuDetail';
 
 const editItem = record => {
@@ -14,7 +14,7 @@ const handleStatus = record => {
 };
 
 const skuDetail = id => {
-  Dialog.show({
+  LeDialog.show({
     title: '基础商品规格详情',
     width: '800px',
     maskClosable: true,

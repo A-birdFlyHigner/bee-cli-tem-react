@@ -131,9 +131,8 @@ export default function request(url, option) {
     }).then(response => {
       if (String(response.code) === '0') {
         return response.data || true
-      } else {
-        return response
       }
+      return response
     })
     .catch(e => {
       const status = e.name;
