@@ -184,7 +184,7 @@ export default {
       return(
         <span>
           3个<br />
-          <a className="linkButton" onClick={e => getSkuDetail(record.id)}>查看</a>
+          <a className="linkButton" onClick={()=> getSkuDetail(record.id)}>查看</a>
         </span>
       )
     }

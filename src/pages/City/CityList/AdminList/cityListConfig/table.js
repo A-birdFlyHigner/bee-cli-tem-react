@@ -1,9 +1,8 @@
 import React from 'react'
-import * as Sty from '../index.less'
 import router from 'umi/router'
 
 // 查看详情 TODO：点击查看城市排期详情
-const goCityDetail = (record) => {
+const goCityDetail = () => {
   router.push({
     pathname: '/goods/base/detail/:id',
   })

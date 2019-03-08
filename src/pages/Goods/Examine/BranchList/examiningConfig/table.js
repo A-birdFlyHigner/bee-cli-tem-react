@@ -5,7 +5,7 @@ import * as Sty from '../index.less'
 
 import SkuDetail from '../../common/skuDetail'
 import StoreInfo from '../../common/storeInfo'
-import { dialogFormTextConfig } from '../../common/commonConfig.js'
+import { dialogFormTextConfig } from '../../common/commonConfig'
 
 // 渠道商品规格详情
 const getSkuDetail = (id) => {
@@ -18,7 +18,7 @@ const getSkuDetail = (id) => {
     },
     content () {
       return (
-        <SkuDetail productId={id}></SkuDetail>
+        <SkuDetail productId={id} />
       )
     }
   })
@@ -35,14 +35,14 @@ const getStoreInfo = (id) => {
     },
     content () {
       return (
-        <StoreInfo productId={id}></StoreInfo>
+        <StoreInfo productId={id} />
       )
     }
   })
 }
 
 // 强制回退
-const goExamine = (record) => {
+const goExamine = () => {
   LeDialog.show(
     {
       title: '审核',
@@ -50,7 +50,7 @@ const goExamine = (record) => {
       content () {
         return <LeForm {...dialogFormTextConfig('审核')} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (values, suc) => {
         suc()
       }
     }
@@ -62,7 +62,7 @@ export default {
   scroll: { x: 1300 },
   rowSelection: {
     selections: true,
-    getCheckboxProps(record) {
+    getCheckboxProps() {
       return {};
     },
   },
@@ -89,8 +89,7 @@ export default {
               value: record.id,
             },
           ]}
-        >
-        </ImageTextCard>
+        />
       )
     }
   }, {
@@ -99,16 +98,16 @@ export default {
     key: 'categoryPath',
     align: 'center',     
     mutipleLine: true,
-    render: (value, record) => {
+    render: () => {
       const vals = '食品,水果,橘子'
       return (
         <div>
           {
             vals && vals.split(',').map(
-              (item, index) => (
-                <span key={index}>
+              (item) => (
+                <span key={item}>
                   &gt;
-                  { item }<br></br>
+                  { item }<br />
                 </span>
               )
             )
@@ -124,8 +123,8 @@ export default {
     render: (val, record) => {
       return(
         <span>
-          3个<br/>
-          <a className="linkButton" onClick={e => getSkuDetail(record.id)}>查看</a>
+          3个<br />
+          <a className="linkButton" onClick={()=> getSkuDetail(record.id)}>查看</a>
         </span>
       )
     }
@@ -134,13 +133,13 @@ export default {
     dataIndex: 'price',
     key: 'price',
     align: 'center',     
-    render: (val, record) => {
+    render: () => {
       return (
         <div className={Sty.prices}>
-          <span>市场价:80.00~100.00</span><br></br>
-          <span>成本价:80.00~100.00</span><br></br>
-          <span>非会员价:80.00~101.00</span><br></br>
-          <span>非会员价:60.00~102.00</span><br></br>
+          <span>市场价:80.00~100.00</span><br />
+          <span>成本价:80.00~100.00</span><br />
+          <span>非会员价:80.00~101.00</span><br />
+          <span>非会员价:60.00~102.00</span><br />
         </div>
       )
     }
@@ -158,9 +157,9 @@ export default {
     render: (val, record) => {
       return (
         <div className={Sty.store}>
-          <span>推广库存：100</span><br></br>
-          <span>累计售出：10</span><br></br>
-          <a className="linkButton" onClick={e => getStoreInfo(record.id)}>查看</a>
+          <span>推广库存：100</span><br />
+          <span>累计售出：10</span><br />
+          <a className="linkButton" onClick={()=> getStoreInfo(record.id)}>查看</a>
         </div>
       )
     }
@@ -190,7 +189,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">
-          <a onClick={e => goExamine(record)}>审核</a>
+          <a onClick={()=> goExamine(record)}>审核</a>
         </div>
       )
     }

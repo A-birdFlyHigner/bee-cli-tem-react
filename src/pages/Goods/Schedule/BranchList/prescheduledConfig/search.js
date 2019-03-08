@@ -1,5 +1,5 @@
 import Reg from '@/utils/reg'
-import cityRule from '@/components/Rules/citySel/index.js'
+import cityRule from '@/components/Rules/citySel/index'
 import moment from 'moment'
 
 const cascaderData = [{
@@ -41,7 +41,7 @@ const cascaderData = [{
   }],
 }]
 
-const disabledDate = (current) => {
+const disabledDates = (current) => {
   return current && current < moment().endOf('day')
 }
 
@@ -114,7 +114,7 @@ export default {
         }]
       },
       // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val, core) => {
+      when: (val) => {
         return val.type !== 3
       }
     },
@@ -141,7 +141,7 @@ export default {
         }]
       },
       // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val, core) => {
+      when: (val) => {
         return val.type !== 3
       }
     }, 
@@ -171,7 +171,7 @@ export default {
         format: 'YYYY-MM-DD HH:mm:ss',
         placeholder: ['请选择开始时间', '请选择结束时间'],
         showTime: true,
-        disabledDate: disabledDate                
+        disabledDate: disabledDates                
       },
     },
     {
@@ -191,7 +191,7 @@ export default {
     props: {
       type: 'primary',
       children: '查询',
-      onClick(err, values, formCore, listCore) {}
+      // onClick(err, values, formCore, listCore) {}
     },
     options: {
       type: 'submit',
@@ -200,7 +200,7 @@ export default {
   }, {
     props: {
       children: '重置',
-      onClick(err, values, formCore, listCore) {}
+      // onClick(err, values, formCore, listCore) {}
     },
     options: {
       type: 'reset',

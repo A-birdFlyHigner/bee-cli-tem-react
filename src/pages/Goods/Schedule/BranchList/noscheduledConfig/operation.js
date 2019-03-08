@@ -3,6 +3,31 @@ import { LeDialog, LeForm } from '@lib/lepage'
 import { message } from 'antd'
 import * as Sty from '../index.less'
 
+const dialogFormConfig = (count) => {
+
+  return {
+    form: {
+      layout: { // 表单布局 左侧和右侧比例
+        label: 0,
+        control: 24
+      }
+    },
+    items: [
+      {
+        label: '',
+        name: 'text',
+        render: () => {
+          return(
+            <div>
+              <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量排期？</div>
+            </div>
+          )
+        },
+      },
+    ],
+  }
+}
+
 const setBranchList = (err, values, formCore, listCore) => {
   const productIds = listCore.getSelectedRowKeys()
   const count = productIds.length
@@ -19,36 +44,11 @@ const setBranchList = (err, values, formCore, listCore) => {
       content () {
         return <LeForm {...dialogFormConfig(count)} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (suc) => {
         suc()
       }
     }
   )
-}
-
-const dialogFormConfig = (count) => {
-
-  return {
-    form: {
-      layout: { // 表单布局 左侧和右侧比例
-        label: 0,
-        control: 24
-      }
-    },
-    items: [
-      {
-        label: '',
-        name: 'text',
-        render: (values, core) => {
-          return(
-            <div>
-              <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量排期？</div>
-            </div>
-          )
-        },
-      },
-    ],
-  }
 }
 
 export default {

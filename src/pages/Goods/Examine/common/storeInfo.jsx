@@ -96,7 +96,8 @@ export default class SkuDetail extends Component {
           dataSource={dataSource} 
           columns={columns} 
           pagination={false}
-          loading={loading} />
+          loading={loading} 
+        />
       </div>
     )
   }

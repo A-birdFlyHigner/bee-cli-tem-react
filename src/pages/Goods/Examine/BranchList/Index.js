@@ -3,7 +3,7 @@ import { Tabs } from 'antd'
 import Examining from './examining'
 import SpreadFailure from './spreadFailure'
 
-const TabPane = Tabs.TabPane
+const { TabPane } = Tabs
 
 export default class ExaminList extends Component {
 

@@ -43,7 +43,7 @@ const getStoreInfo = (id) => {
 }
 
 // 单个撤销
-const goRevoke = (record) => {
+const goRevoke = () => {
   LeDialog.show(
     {
       title: '撤销推广',
@@ -51,7 +51,7 @@ const goRevoke = (record) => {
       content () {
         return <LeForm {...dialogFormTextConfig('撤销推广')} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (values, suc) => {
         suc()
       }
     }
@@ -63,7 +63,7 @@ export default {
   scroll: { x: 1600 },
   rowSelection: {
     selections: true,
-    getCheckboxProps(record) {
+    getCheckboxProps() {
       return {};
     },
   },
@@ -100,14 +100,14 @@ export default {
     align: 'center',     
     width: 100,                           
     mutipleLine: true,
-    render: (value, record) => {
+    render: () => {
       const vals = '食品,水果,橘子'
       return (
         <div>
           {
             vals && vals.split(',').map(
-              (item, index) => (
-                <span key={index}>
+              (item) => (
+                <span key={item}>
                   &gt;
                   { item }<br />
                 </span>
@@ -116,7 +116,7 @@ export default {
           }
         </div>
       )
-    },
+    }, 
   }, {
     title: '规格',
     dataIndex: 'name',
@@ -126,8 +126,8 @@ export default {
     render: (val, record) => {
       return(
         <span>
-          3个<br/>
-          <a className="linkButton" onClick={e => getSkuDetail(record.id)}>查看</a>
+          3个<br />
+          <a className="linkButton" onClick={()=> getSkuDetail(record.id)}>查看</a>
         </span>
       )
     }
@@ -137,13 +137,13 @@ export default {
     key: 'price',
     align: 'center',   
     width: 300,                     
-    render: (val, record) => {
+    render: () => {
       return (
         <div className={Sty.prices}>
-          <span>市场价:80.00~100.00</span><br></br>
-          <span>成本价:80.00~100.00</span><br></br>
-          <span>非会员价:80.00~101.00</span><br></br>
-          <span>非会员价:60.00~102.00</span><br></br>
+          <span>市场价:80.00~100.00</span><br />
+          <span>成本价:80.00~100.00</span><br />
+          <span>非会员价:80.00~101.00</span><br />
+          <span>非会员价:60.00~102.00</span><br />
         </div>
       )
     }
@@ -163,9 +163,9 @@ export default {
     render: (val, record) => {
       return (
         <div className={Sty.store}>
-          <span>推广库存：100</span><br></br>
-          <span>累计售出：10</span><br></br>
-          <a className="linkButton" onClick={e => getStoreInfo(record.id)}>查看</a>
+          <span>推广库存：100</span><br />
+          <span>累计售出：10</span><br />
+          <a className="linkButton" onClick={()=> getStoreInfo(record.id)}>查看</a>
         </div>
       )
     }
@@ -175,13 +175,13 @@ export default {
     key: 'addressInfo',
     width: 400,                                  
     align: 'center',     
-    render: (val, record) => {
+    render: () => {
       return (
         <div className={Sty.store}>
-          <span>分公司：长沙分公司</span><br></br>
-          <span>出售城市：长沙</span><br></br>
-          <span>店铺ID：10</span><br></br>
-          <span>店铺名称：长沙一哥店铺</span><br></br>
+          <span>分公司：长沙分公司</span><br />
+          <span>出售城市：长沙</span><br />
+          <span>店铺ID：10</span><br />
+          <span>店铺名称：长沙一哥店铺</span><br />
         </div>
       )
     }
@@ -191,11 +191,11 @@ export default {
     key: 'examineStatus',
     align: 'center',  
     width: 600,       
-    render: (val, record) => {
+    render: () => {
       return (
         <div className={Sty.store}>
-          <span>已拒绝</span><br></br>
-          <span>原因：不符合规则</span><br></br>
+          <span>已拒绝</span><br />
+          <span>原因：不符合规则</span><br />
         </div>
       )
     }
@@ -207,7 +207,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">
-          <a onClick={e => goRevoke(record)}>撤销推广</a>
+          <a onClick={()=> goRevoke(record)}>撤销推广</a>
         </div>
       )
     }

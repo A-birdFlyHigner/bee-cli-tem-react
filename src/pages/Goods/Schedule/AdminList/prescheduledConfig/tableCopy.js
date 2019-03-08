@@ -6,56 +6,6 @@ import * as Sty from '../index.less'
 import SkuDetail from '../../common/skuDetail'
 import StoreInfo from '../../common/storeInfo'
 
-// 渠道商品规格详情
-const getSkuDetail = (id) => {
-  LeDialog.show({
-    title: '渠道商品规格详情',
-    width: '800px',
-    maskClosable: true,
-    footer () {
-      return null
-    },
-    content () {
-      return (
-        <SkuDetail productId={id}></SkuDetail>
-      )
-    }
-  })
-}
-
-// 库存信息
-const getStoreInfo = (id) => {
-  LeDialog.show({
-    title: '库存信息',
-    width: '1000px',
-    maskClosable: true,
-    footer () {
-      return null
-    },
-    content () {
-      return (
-        <StoreInfo productId={id}></StoreInfo>
-      )
-    }
-  })
-}
-
-// 审核
-const goExamine = (record) => {
-  LeDialog.show(
-    {
-      title: '审核',
-      width: '600px',
-      content () {
-        return <LeForm {...dialogFormConfig()} />
-      },
-      onOk: (values, suc, core) => {
-        suc()
-      }
-    }
-  )
-}
-
 const dialogFormConfig =  () => {
 
   return {
@@ -69,7 +19,7 @@ const dialogFormConfig =  () => {
       {
         label: '',
         name: 'text',
-        render: (values, core) => {
+        render: () => {
           return(
             <div>
               <div className={Sty.dialogMb}>确定对商品进行以下审核？</div>
@@ -105,12 +55,62 @@ const dialogFormConfig =  () => {
           maxLength: 20,
         },
         // when true false 控制隐藏显示此组件
-        when: (val, core) => {
-          return val.chooseType == 1
+        when: (val) => {
+          return val.chooseType === 1
         }
       }
     ],
   }
+}
+
+// 渠道商品规格详情
+const getSkuDetail = (id) => {
+  LeDialog.show({
+    title: '渠道商品规格详情',
+    width: '800px',
+    maskClosable: true,
+    footer () {
+      return null
+    },
+    content () {
+      return (
+        <SkuDetail productId={id} />
+      )
+    }
+  })
+}
+
+// 库存信息
+const getStoreInfo = (id) => {
+  LeDialog.show({
+    title: '库存信息',
+    width: '1000px',
+    maskClosable: true,
+    footer () {
+      return null
+    },
+    content () {
+      return (
+        <StoreInfo productId={id} />
+      )
+    }
+  })
+}
+
+// 审核
+const goExamine = () => {
+  LeDialog.show(
+    {
+      title: '审核',
+      width: '600px',
+      content () {
+        return <LeForm {...dialogFormConfig()} />
+      },
+      onOk: (values, suc ) => {
+        suc()
+      }
+    }
+  )
 }
 
 export default {
@@ -118,7 +118,7 @@ export default {
   scroll: { x: 1500 },
   rowSelection: {
     selections: true,
-    getCheckboxProps(record) {
+    getCheckboxProps() {
       return {};
     },
   },
@@ -156,8 +156,7 @@ export default {
               value: record.logisticsType,
             },
           ]}
-        >
-        </ImageTextCard>
+        />
       )
     }
   }, {
@@ -165,16 +164,16 @@ export default {
     dataIndex: 'categoryName',
     key: 'categoryName',
     mutipleLine: true,
-    render: (value, record) => {
+    render: () => {
       const vals = '食品,水果,橘子'
       return (
         <div>
           {
             vals && vals.split(',').map(
-              (item, index) => (
-                <span key={index}>
+              (item) => (
+                <span key={item}>
                   &gt;
-                  { item }<br></br>
+                  { item }<br />
                 </span>
               )
             )
@@ -189,8 +188,8 @@ export default {
     render: (val, record) => {
       return(
         <span>
-          {record.properties.propertyValue}个<br/>
-          <a className="linkButton" onClick={e => getSkuDetail(record.id)}>查看</a>
+          {record.properties.propertyValue}个<br />
+          <a className="linkButton" onClick={()=> getSkuDetail(record.id)}>查看</a>
         </span>
       )
     }
@@ -201,11 +200,11 @@ export default {
     render: (val, record) => {
       return (
         <div className={Sty.prices}>
-          <span>市场价:{record.saleUnits.marketPrice}</span><br></br>
-          <span>成本价:{record.saleUnits.costPrice}</span><br></br>
-          <span>非会员价:{record.saleUnits.nonmemberPrice}</span><br></br>
-          <span>会员价:{record.saleUnits.memberPrice}</span><br></br>
-          <span>毛利:{record.saleUnits.grossProfit}</span><br></br>
+          <span>市场价:{record.saleUnits.marketPrice}</span><br />
+          <span>成本价:{record.saleUnits.costPrice}</span><br />
+          <span>非会员价:{record.saleUnits.nonmemberPrice}</span><br />
+          <span>会员价:{record.saleUnits.memberPrice}</span><br />
+          <span>毛利:{record.saleUnits.grossProfit}</span><br />
         </div>
       )
     }
@@ -221,9 +220,9 @@ export default {
     render: (val, record) => {
       return (
         <div className={Sty.store}>
-          <span>推广库存：{record.saleUnits.spreadStock}</span><br></br>
-          <span>累计售出：{record.saleStock}</span><br></br>
-          <a className="linkButton" onClick={e => getStoreInfo(record.id)}>查看</a>
+          <span>推广库存：{record.saleUnits.spreadStock}</span><br />
+          <span>累计售出：{record.saleStock}</span><br />
+          <a className="linkButton" onClick={()=> getStoreInfo(record.id)}>查看</a>
         </div>
       )
     }
@@ -234,10 +233,10 @@ export default {
     render: (val, record) => {
       return (
         <div className={Sty.store}>
-          <span>分公司：{record.companyName}</span><br></br>
-          <span>出售城市：{record.cityName}</span><br></br>
-          <span>店铺ID：{record.sellerMainId}</span><br></br>
-          <span>店铺名称：{record.sellerMainName}</span><br></br>
+          <span>分公司：{record.companyName}</span><br />
+          <span>出售城市：{record.cityName}</span><br />
+          <span>店铺ID：{record.sellerMainId}</span><br />
+          <span>店铺名称：{record.sellerMainName}</span><br />
         </div>
       )
     }
@@ -248,7 +247,7 @@ export default {
     render: (val, record) => {
       return (
         <div className={Sty.store}>
-          <span>{record.reviewStatus}</span><br></br>
+          <span>{record.reviewStatus}</span><br />
           {
             record.reviewStatus === 2?<span>原因：{record.reviewReason}</span>:''
           }
@@ -261,7 +260,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">
-          <a onClick={e => goExamine(record)}>审核</a>
+          <a onClick={()=> goExamine(record)}>审核</a>
         </div>
       )
     }

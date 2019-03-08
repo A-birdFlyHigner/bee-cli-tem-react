@@ -1,5 +1,5 @@
-import Reg from '@/utils/reg'
-import cityRule from '@/components/Rules/citySel/index.js'
+
+import cityRule from '@/components/Rules/citySel/index'
 
 export default {
   form: {
@@ -17,7 +17,7 @@ export default {
     props: {
       type: 'primary',
       children: '查询',
-      onClick(err, values, formCore, listCore) {}
+      onClick() {}
     },
     options: {
       type: 'submit',
@@ -26,7 +26,7 @@ export default {
   }, {
     props: {
       children: '重置',
-      onClick(err, values, formCore, listCore) {}
+      onClick() {}
     },
     options: {
       type: 'reset',
