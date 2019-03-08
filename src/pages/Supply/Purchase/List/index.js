@@ -4,12 +4,13 @@ import { filterConfig, operationConfig, tableConfig } from './config';
 import './index.less';
 import mockList from './mock/list';
 
+
 const listConfig = {
   filterConfig,
   operationConfig,
   tableConfig,
   formatBefore(queryParams) {
-    return queryParams.json;
+    return queryParams;
   },
   query(queryParams, url, method) {
     return new Promise((resolve, reject) => {

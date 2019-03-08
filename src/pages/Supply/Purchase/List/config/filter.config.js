@@ -1,7 +1,7 @@
 import { purchaseState, purchaseSource, supplierState } from '../../../common/constants';
 
 export default {
-  core: {
+  settings: {
     initValues: {
       status: 0,
       origin: 0,
@@ -97,9 +97,7 @@ export default {
     //   props: {
     //     type: 'danger',
     //     children: '导出',
-    //     onClick(err, values, formCore, listCore) {
-    //
-    //     },
+    //     onClick(err, values, formCore, listCore) {},
     //   },
     //   options: {
     //     type: 'none',

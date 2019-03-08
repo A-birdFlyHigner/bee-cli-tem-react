@@ -72,7 +72,7 @@ export default [
           {
             path: '/supply/purchase/detail',
             name: '采购单详情',
-            component: './Supply/Purchase/Detail',
+            component: './Supply/Purchase/Edit',
           },
           {
             path: '/supply/purchase/add',

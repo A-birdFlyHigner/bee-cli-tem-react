@@ -107,6 +107,7 @@ class PurchaseEdit extends Component {
   }
 
   onSelectChange = (selectedRowKeys, LeList) => {
+    // console.log('selectedRowKeys, LeList', selectedRowKeys, LeList)
     console.log('selectedRowKeys changed: ', selectedRowKeys, LeList.getDataSource());
     const data = LeList.getDataSource();
     const newData = data.filter(item => {
@@ -122,6 +123,8 @@ class PurchaseEdit extends Component {
       newData,
       pagination: { pageSize: pageSize, total: length, currentPage: 1 },
     };
+    // this.list.listCore.setDataSource(newData)
+    // this.list.listCore.setPageData(newData)
   };
   showModal = (error, values, core) => {
     console.log('error, values, core', error, values, core);
@@ -137,6 +140,10 @@ class PurchaseEdit extends Component {
     console.log('save', this.listDataSource)
   }
   handleOk = (e) => {
+    // console.log('this.list', this.list)
+    // console.log('this.modalList', this.modalList)
+    // const data = this.modalList.listCore.getDataSource()
+    // console.log('data', data)
     console.log('this.listDataSource', this.listDataSource);
     this.list.listCore.setDataSource(this.listDataSource.newData);
     this.list.listCore.setPageData(this.listDataSource.pagination);
@@ -172,6 +179,8 @@ class PurchaseEdit extends Component {
     return (
       <div>
         <LeList {...state.listConfig} ref={list => this.list = list}/>
+        {/*<Button onClick={this.cancel}>取消</Button>*/}
+        {/*<Button type='primary' onClick={this.submit}>保存</Button>*/}
         <Modal
           title="添加商品窗口"
           visible={state.modalVisible}
