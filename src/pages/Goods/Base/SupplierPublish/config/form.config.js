@@ -4,6 +4,8 @@ import React from 'react'
 import { Table, Button, Input } from 'antd'
 import { LeForm } from '@lib/lepage'
 import uploadConfig from './upload.config'
+import categoryProperties from '../mock/categoryProperties'
+const FN = () => {}
 
 const getHeadConfig = (title) => {
     return {
@@ -49,11 +51,11 @@ const getSkusDataList = (chosenSkus) => {
 // 选择类目
 const categoryConfig = [
     {
+        // TODO: 表单配配置，缺少 分类ID 的 value
         label: '当前选择类目',
         name: 'category',
         status: 'preview',
-        follow: true,
-        value: '汽车/配件/用品'
+        follow: true
     },
     {
         component: 'Button',
@@ -64,8 +66,9 @@ const categoryConfig = [
         },
         props: {
             children: '修改类目',
-            onClick () {
-
+            onClick (err, values, leForm) {
+              // 创建商品，二次编辑分类
+              leForm.emit('edit-category', values)
             }
         }
     },
@@ -125,7 +128,7 @@ const baseInfoConfig = [
 ]
 
 // 销售属性
-const getSalesPropertyConfig = (initSkus) => {
+const getSalePropertiesConfig = (initSkus) => {
 
     // 更新sku组合
     const updateSkuCombs = (leForm) => {
@@ -332,26 +335,8 @@ const getSalesPropertyConfig = (initSkus) => {
     }
 }
 
-// 仓库属性
-const warehouseAttributesConfig = () => {
-    // 仓库相关的属性是根据类目来的
-    const items = [{
-        label: '毛重',
-        name: 'weight'
-    },
-    {
-        label: '质量',
-        name: 'quality'
-    }]
-    return [
-        getHeadConfig('仓库属性'),
-        getTipConfig('注：仓库属性根据商品类目展示，仅仓库传输时使用，不展示在前端'),
-        ...items
-    ]
-}
-
 // sku主图
-const skuMainImageConfig = () => {
+const getSkuMainImageConfig = () => {
     const getFormConfig = (skuCombs) => {
         return {
             form: {
@@ -387,7 +372,7 @@ const skuMainImageConfig = () => {
 }
 
 // 商品属性
-const goodsAttributesConfig = [
+const goodsPropertiesConfig = [
     getHeadConfig('商品属性'),
     {
         label: '保质期',
@@ -398,6 +383,24 @@ const goodsAttributesConfig = [
     },
     getTipConfig('注：根据商品类目不同，展示商品属性字段不同。')
 ]
+
+// 仓库属性
+const getWarehousePropertiesConfig = () => {
+  // 仓库相关的属性是根据类目来的
+  const items = [{
+      label: '毛重',
+      name: 'weight'
+  },
+  {
+      label: '质量',
+      name: 'quality'
+  }]
+  return [
+      getHeadConfig('仓库属性'),
+      getTipConfig('注：仓库属性根据商品类目展示，仅仓库传输时使用，不展示在前端'),
+      ...items
+  ]
+}
 
 // 商品主图
 const goodsMainImageConfig = [
@@ -411,16 +414,20 @@ const goodsMainImageConfig = [
             listType: 'picture-card',
             className: 'avatar-uploader',
         }
-    }),
-    uploadConfig({
-        label: '商品详情',
-        name: 'goodsDetailImage',
-        props: {
-            top: '必填，图片宽度最小限制尺寸620！',
-            listType: 'picture-card',
-            className: 'avatar-uploader'
-        }
     })
+]
+
+// 商品详情
+const goodsDetailConfig = [
+  uploadConfig({
+    label: '商品详情',
+    name: 'goodsDetailImage',
+    props: {
+        top: '必填，图片宽度最小限制尺寸620！',
+        listType: 'picture-card',
+        className: 'avatar-uploader'
+    }
+  })
 ]
 
 // 底部按钮
@@ -468,6 +475,138 @@ const initSkus = [
     }
 ]
 
+// 属性项
+const getPropertiesConfig = (properties) => {
+  // 触发添加规格操作
+  const onPressEnterAddSku = (leForm, name, event) => {
+    const {
+      target = {}
+    } = event
+    const {
+      value: label = ''
+    } = target
+    if (!label) return
+
+    const props = leForm.getProps(name)
+    const options = [].concat(props.options || [])
+    const addValue = options.length + 1
+
+    // add
+    options.push({
+      label,
+      value: addValue
+    })
+
+    // update
+    leForm.setProps(name, {
+      options
+    })
+
+    // clear
+    target.value = ''
+  }
+
+  // 获取sku选择器配置
+  const getConfig = (leForm) => {
+    const COMPONENT_ENUMS = {
+      1: 'Select',
+      2: 'RadioGroup',
+      3: 'CheckboxGroup',
+      4: 'CheckboxGroup',
+      5: 'Input',
+      6: 'DatePicker',
+      7: 'TimePicker'
+    }
+    const MESSAGE_PREFIX = {
+      1: '请选择',
+      2: '请选择',
+      3: '请选择',
+      4: '请选择',
+      5: '请填写',
+      6: '请输入',
+      7: '请输入',
+    }
+    const result = properties.map(property => {
+
+      const {
+        propertyName: label,
+        propertyNameId,
+        propertyInputType,
+        // propertyInputTypeEnum,
+        propertyPairs = [],
+        booleanIsRequired: required
+      } = property
+
+      const name = `${propertyNameId}`
+      const restProps = {}
+      let customConfig = null
+
+      // 有选项
+      if ([1, 2, 3, 4].indexOf(propertyInputType) !== -1) {
+        restProps.options = propertyPairs.map(propertyPair => {
+          return {
+            label: propertyPair.pvName,
+            value: propertyPair.propertyValueId,
+          }
+        })
+      }
+
+      // 2单选可自定义、4多选可自定义
+      if ([2, 4].indexOf(propertyInputType) !== -1) {
+        customConfig = {
+          inline: true,
+          props: {
+            placeholder: '自定义',
+            onPressEnter: (event) => onPressEnterAddSku(leForm, name, event)
+          }
+        }
+      }
+
+      // 错误提示消息前缀
+      const messagePrefix = MESSAGE_PREFIX[propertyInputType]
+      let onChange = FN
+
+      // 2单选可定义、5输入框
+      if ([2, 5].indexOf(propertyInputType) !== -1) {
+        onChange = (event) => {
+          leForm.setValue(name, event.target.value)
+        }
+      } else {
+        onChange = (value) => {
+          leForm.setValue(name, value)
+        }
+      }
+
+      return [{
+          label,
+          name,
+          component: COMPONENT_ENUMS[propertyInputType],
+          follow: true,
+          props: {
+            ...restProps,
+            required,
+            onChange
+          },
+          rules: {
+            required,
+            message: `${messagePrefix}${property.propertyName}`,
+          }
+        },
+        customConfig
+      ]
+    })
+
+    return [].concat(...result)
+  }
+
+  return (leForm) => {
+    return [
+      getHeadConfig('属性项试验'),
+      ...getConfig(leForm),
+    ]
+  }
+}
+
 export default {
     settings: {
         values: {
@@ -475,13 +614,15 @@ export default {
         }
     },
     items: [
-        categoryConfig,
-        baseInfoConfig,
-        getSalesPropertyConfig(initSkus),
-        warehouseAttributesConfig(),
-        skuMainImageConfig(),
-        goodsAttributesConfig,
-        goodsMainImageConfig
+        categoryConfig, // 类目信息
+        baseInfoConfig, // 基本信息
+        getPropertiesConfig(categoryProperties.data.goodsProperties),
+        getSalePropertiesConfig(initSkus), // 销售属性
+        getSkuMainImageConfig(), // SKU主图
+        goodsPropertiesConfig, // 商品属性
+        getWarehousePropertiesConfig(), // 仓库属性
+        goodsMainImageConfig, // 商品主图
+        goodsDetailConfig // 商品详情
     ],
     buttons: buttonsConfig
 }
