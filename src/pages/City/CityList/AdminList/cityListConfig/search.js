@@ -13,7 +13,7 @@ export default {
     }),
     {
       label: '所属分公司',
-      name: 'branchName',
+      name: 'branchCompanyName',
       component: 'Select',
       props: {
         placeholder: '请选择分公司',
