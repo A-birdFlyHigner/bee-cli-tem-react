@@ -1,10 +1,9 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
-import { Dialog } from '@lib/nowrapper/lib/antd'
 import { ImageTextCard } from '@/components/InfoCard'
 import SkuDetail from '../../common/skuDetail'
 import StoreInfo from '../../common/storeInfo'
-import { dialogFormJoinGroupConfig, dialogFormSetGroupConfig, dialogFormTextConfig } from '../../common/commonConfig.js'
+import { dialogFormSetGroupConfig, dialogFormTextConfig } from '../../common/commonConfig'
 import * as Sty from '../index.less'
 
 // 设置排序值
@@ -25,7 +24,7 @@ const setGroupValue = (err, values, formCore, listCore) => {
 
 // 库存信息
 const getStoreInfo = (id) => {
-  Dialog.show({
+  LeDialog.show({
     title: '库存信息',
     width: '1000px',
     maskClosable: true,
@@ -58,7 +57,7 @@ const goBack = (record) => {
 
 // 渠道商品规格详情
 const getSkuDetail = (id) => {
-  Dialog.show({
+  LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
     maskClosable: true,
@@ -67,7 +66,7 @@ const getSkuDetail = (id) => {
     },
     content () {
       return (
-        <SkuDetail productId={id}></SkuDetail>
+        <SkuDetail productId={id} />
       )
     }
   })
@@ -116,8 +115,7 @@ export default {
               value: record.logisticsType,
             },
           ]}
-        >
-        </ImageTextCard>
+        />
       )
     }
   }, {
@@ -163,9 +161,9 @@ export default {
         <div className={Sty.prices}>
           <span>市场价:{record.saleUnits.marketPrice}</span><br></br>
           <span>成本价:{record.saleUnits.costPrice}</span><br></br>
-          <span>非会员价:{record.saleUnits.nonmemberPrice}</span><br></br>        
-          <span>会员价:{record.saleUnits.memberPrice}</span><br></br> 
-          <span>毛利:{record.saleUnits.grossProfit}</span><br></br>               
+          <span>非会员价:{record.saleUnits.nonmemberPrice}</span><br></br>
+          <span>会员价:{record.saleUnits.memberPrice}</span><br></br>
+          <span>毛利:{record.saleUnits.grossProfit}</span><br></br>
         </div>
       )
     }
@@ -187,9 +185,9 @@ export default {
       return (
         <div>
           <span>推广库存：{record.saleUnits.spreadStock}</span><br></br>
-          <span>累计售出：{record.saleStock}</span><br></br>        
+          <span>累计售出：{record.saleStock}</span><br></br>
           <a className="linkButton" onClick={e => getStoreInfo(record.id)}>查看</a>
-        </div>         
+        </div>
       )
     }
   }, {
@@ -199,9 +197,9 @@ export default {
     render: (val, record) => {
       return (
         <div>
-          <span>店铺ID：{record.sellerMainId}</span><br></br>        
-          <span>店铺名称：{record.sellerMainName}</span><br></br>                  
-        </div> 
+          <span>店铺ID：{record.sellerMainId}</span><br></br>
+          <span>店铺名称：{record.sellerMainName}</span><br></br>
+        </div>
       )
     }
   },  {
