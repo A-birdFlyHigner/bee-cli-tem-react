@@ -1,9 +1,8 @@
 import React from 'react'
-import * as Sty from '../index.less'
 import router from 'umi/router'
 
 // 查看详情  TODO:点击查看渠道商品审核通过已排期列表，直接选中相应城市显示
-const goCityDetail = (record) => {
+const goCityDetail = () => {
   router.push({
     pathname: '/goods/base/detail/:id',
   })
@@ -62,7 +61,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">
-          <a onClick={e => goCityDetail(record)}>查看详情</a>
+          <a onClick={()=> goCityDetail(record)}>查看详情</a>
         </div>
       )
     }

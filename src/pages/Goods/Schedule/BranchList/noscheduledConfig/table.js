@@ -9,7 +9,7 @@ import { dialogFormSetTimeConfig } from '../../common/commonConfig'
 import * as Sty from '../index.less'
 
 
-const editItem = (record) => {
+const editItem = () => {
   router.push({
     pathname: '/goods/base/detail/:id',
   })
@@ -26,7 +26,7 @@ const getSkuDetail = (id) => {
     },
     content () {
       return (
-        <SkuDetail productId={id}></SkuDetail>
+        <SkuDetail productId={id} />
       )
     }
   })
@@ -43,21 +43,23 @@ const getStoreInfo = (id) => {
     },
     content () {
       return (
-        <StoreInfo productId={id}></StoreInfo>
+        <StoreInfo productId={id} />
       )
     }
   })
 }
 
 // 排期
-const goSetTime = (id) => {
+const goSetTime = () => {
 
   LeDialog.show(
-    dialogFormSetTimeConfig(),
     {
       title: '设置活动时间',
       width: '600px',
-      onOk: (values, suc, core) => {
+      content () {
+        return <LeForm {...dialogFormSetTimeConfig()} />
+      },
+      onOk: (values, suc) => {
         suc()
       }
     }
@@ -77,7 +79,7 @@ const dialogFormRevokeConfig = () => {
       {
         label: '',
         name: 'text',
-        render: (values, core) => {
+        render: () => {
           return (
             <div>确定撤销推广？</div>
           )
@@ -88,7 +90,7 @@ const dialogFormRevokeConfig = () => {
 }
 
 // 撤销
-const goRevoke = (record) => {
+const goRevoke = () => {
   LeDialog.show(
     {
       title: '撤销推广',
@@ -96,7 +98,7 @@ const goRevoke = (record) => {
       content () {
         return <LeForm {...dialogFormRevokeConfig()} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (values, suc) => {
         suc()
       }
     }
@@ -108,7 +110,7 @@ export default {
   scroll: { x: 1500 },
   rowSelection: {
     selections: true,
-    getCheckboxProps(record) {
+    getCheckboxProps() {
       return {};
     },
   },
@@ -145,16 +147,16 @@ export default {
     align: 'center',        
     width: 100,                                               
     mutipleLine: true,
-    render: (value, record) => {
+    render: () => {
       const vals = '食品,水果,橘子'
       return (
         <div className="list-inline">
           {
             vals && vals.split(',').map(
-              (item, index) => (
-                <span key={index}>
+              (item) => (
+                <span key={item}>
                   &gt;
-                  { item }<br></br>
+                  { item }<br />
                 </span>
               )
             )
@@ -166,13 +168,13 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
-    width: 100,                             
+    width: 80,                             
     align: 'center',                          
     render: (val, record) => {
       return(
         <span className="list-inline">
-          3个<br/>
-          <a className="linkButton" onClick={e => getSkuDetail(record.id)}>查看</a>
+          3个<br />
+          <a className="linkButton" onClick={()=> getSkuDetail(record.id)}>查看</a>
         </span>
       )
     }
@@ -181,14 +183,14 @@ export default {
     dataIndex: 'price',
     key: 'price',
     align: 'center', 
-    width: 300,                                                              
-    render: (val, record) => {
+    width: 280,                                                              
+    render: () => {
       return (
         <div className="list-inline">
-          <span>市场价:80.00~100.00</span><br></br>
-          <span>成本价:80.00~100.00</span><br></br>
-          <span>非会员价:80.00~101.00</span><br></br>
-          <span>非会员价:60.00~102.00</span><br></br>
+          <span>市场价:80.00~100.00</span><br />
+          <span>成本价:80.00~100.00</span><br />
+          <span>非会员价:80.00~101.00</span><br />
+          <span>非会员价:60.00~102.00</span><br />
         </div>
       )
     }
@@ -204,13 +206,13 @@ export default {
     dataIndex: 'storeInfo',
     key: 'storeInfo',
     align: 'center',    
-    width: 200,                                                             
-    render: (val, record) => {
+    width: 180,                                                             
+    render: (values, record) => {
       return (
         <div className={Sty.store}>
-          <span>推广库存：100</span><br></br>
-          <span>累计售出：10</span><br></br>
-          <a className="linkButton" onClick={e => getStoreInfo(record.id)}>查看</a>
+          <span>推广库存：100</span><br />
+          <span>累计售出：10</span><br />
+          <a className="linkButton" onClick={()=> getStoreInfo(record.id)}>查看</a>
         </div>
       )
     }
@@ -219,12 +221,12 @@ export default {
     dataIndex: 'addressInfo',
     key: 'addressInfo',
     align: 'center',    
-    width: 160,                                                             
-    render: (val, record) => {
+    width: 140,                                                             
+    render: () => {
       return (
         <div className={Sty.store}>
-          <span>店铺ID：10</span><br></br>
-          <span>店铺名称：长沙一哥店铺</span><br></br>
+          <span>店铺ID：10</span><br />
+          <span>店铺名称：长沙一哥店铺</span><br />
         </div>
       )
     }
@@ -234,7 +236,7 @@ export default {
     key: 'examineTime',
     width: 200,                                                   
     align: 'center',                          
-    render: (val, record) => {
+    render: () => {
       return (
         <div>
           2018.01.01 16:00
@@ -243,17 +245,17 @@ export default {
     }
   }, {
     title: '操作',
-    width: 140,
+    width: 120,
     align: 'center', 
     fixed: 'right',                                   
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline list-inline">
-          <a onClick={e => editItem(record)}>编辑</a>
-          <span></span>
-          <a onClick={e => goSetTime(record.id)}>排期</a>
-          <span></span>
-          <a className='table-operate' onClick={e => goRevoke(record)}>撤销推广</a>
+          <a onClick={()=> editItem(record)}>编辑</a>
+          <span />
+          <a onClick={()=> goSetTime(record.id)}>排期</a>
+          <span />
+          <a className='table-operate' onClick={()=> goRevoke(record)}>撤销推广</a>
         </div>
       )
     }

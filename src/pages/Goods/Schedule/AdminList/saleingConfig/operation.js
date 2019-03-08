@@ -4,6 +4,28 @@ import { message } from 'antd'
 
 import * as Sty from '../index.less'
 
+const dialogFormConfig = (count) => {
+  return {
+    form: {
+      layout: { // 表单布局 左侧和右侧比例
+        label: 0,
+        control: 24
+      }
+    },
+    items: [
+      {
+        label: '',
+        name: 'tags',
+        render: () => {
+          return(
+            <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量回退？</div>
+          )
+        },
+      },
+    ],
+  }
+}
+
 const setBranchList = (err, values, formCore, listCore ) => {
   const productIds = listCore.getSelectedRowKeys()
   const count = productIds.length
@@ -20,7 +42,7 @@ const setBranchList = (err, values, formCore, listCore ) => {
       content () {
         return <LeForm {...dialogFormConfig(count)} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (suc) => {
         suc()
       }
     }
@@ -43,24 +65,3 @@ export default {
   ]
 }
 
-const dialogFormConfig = (count) => {
-  return {
-    form: {
-      layout: { // 表单布局 左侧和右侧比例
-        label: 0,
-        control: 24
-      }
-    },
-    items: [
-      {
-        label: '',
-        name: 'tags',
-        render: (values, core) => {
-          return(
-            <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量回退？</div>
-          )
-        },
-      },
-    ],
-  }
-}

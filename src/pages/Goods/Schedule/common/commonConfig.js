@@ -1,11 +1,8 @@
-import React, { Component } from 'react'
-import { Table } from 'antd'
-import PropTypes from 'prop-types'
-import 'moment/locale/zh-cn'
-import moment from 'moment'
-moment.locale('zh-cn')
-import { DatePicker } from 'antd'
+
 import Reg from '@/utils/reg'
+import { DatePicker } from 'antd'
+import moment from 'moment'
+import React from 'react'
 
 const { RangePicker } = DatePicker
 
@@ -25,7 +22,7 @@ export function dialogFormSetTimeConfig() {
       {
         label: '',
         name: 'text',
-        render: (values, core) => {
+        render: () => {
           return (
             <RangePicker
               disabledDate={disabledDate}
@@ -55,7 +52,7 @@ export function dialogFormJoinGroupConfig(number, text) {
       {
         label: '',
         name: 'text',
-        render: (values, core) => {
+        render: () => {
           return(
             <div>已批量选中{number}个商品，确定批量{text}？</div>                                
           )
@@ -79,7 +76,7 @@ export function dialogFormJoinGroupConfig(number, text) {
           }]
         },
         // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-        when: (val, core) => {
+        when: (val) => {
           return val.type !== 3
         }
       },
@@ -126,7 +123,7 @@ export function dialogFormTextConfig(text) {
       {
         label: '',
         name: 'text',
-        render: (values, core) => {
+        render: () => {
           return (
             <div>您确定{text}吗？</div>
           )

@@ -7,7 +7,7 @@ import { dialogFormSetGroupConfig, dialogFormTextConfig } from '../../common/com
 import * as Sty from '../index.less'
 
 // 设置排序值
-const setGroupValue = (err, values, formCore, listCore) => {
+const setGroupValue = () => {
   LeDialog.show(
     {
       title: '设置排序值',
@@ -15,7 +15,7 @@ const setGroupValue = (err, values, formCore, listCore) => {
       content () {
         return <LeForm {...dialogFormSetGroupConfig()} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (values, suc) => {
         suc()
       }
     }
@@ -33,14 +33,14 @@ const getStoreInfo = (id) => {
     },
     content () {
       return (
-        <StoreInfo productId={id}></StoreInfo>
+        <StoreInfo productId={id} />
       )
     }
   })
 }
 
 // 单个回退
-const goBack = (record) => {
+const goBack = () => {
   LeDialog.show(
     {
       title: '回退',
@@ -48,7 +48,7 @@ const goBack = (record) => {
       content () {
         return <LeForm {...dialogFormTextConfig('回退')} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (values, suc) => {
         suc()
       }
     }
@@ -66,7 +66,7 @@ const getSkuDetail = (id) => {
     },
     content () {
       return (
-        <SkuDetail productId={id}></SkuDetail>
+        <SkuDetail productId={id} />
       )
     }
   })
@@ -77,7 +77,7 @@ export default {
   scroll: { x: 1800 },
   rowSelection: {
     selections: true,
-    getCheckboxProps(record) {
+    getCheckboxProps() {
       return {};
     },
   },
@@ -108,8 +108,7 @@ export default {
               value: record.id,
             },
           ]}
-        >
-        </ImageTextCard>
+        />
       )
     }
   }, {
@@ -119,16 +118,16 @@ export default {
     align: 'center',      
     width: 100,                         
     mutipleLine: true,
-    render: (value, record) => {
+    render: () => {
       const vals = '食品,水果,橘子'
       return (
         <div>
           {
             vals && vals.split(',').map(
-              (item, index) => (
-                <span key={index}>
+              (item) => (
+                <span key={item}>
                   &gt;
-                  { item }<br></br>
+                  { item }<br />
                 </span>
               )
             )
@@ -145,8 +144,8 @@ export default {
     render: (val, record) => {
       return(
         <span>
-          3个<br/>
-          <a className="linkButton" onClick={e => getSkuDetail(record.id)}>查看</a>
+          3个<br />
+          <a className="linkButton" onClick={()=> getSkuDetail(record.id)}>查看</a>
         </span>
       )
     }
@@ -156,13 +155,13 @@ export default {
     key: 'price',
     align: 'center',  
     width: 300,                                 
-    render: (val, record) => {
+    render: () => {
       return (
         <div className={Sty.prices}>
-          <span>市场价:80.00~100.00</span><br></br>
-          <span>成本价:80.00~100.00</span><br></br>
-          <span>非会员价:80.00~101.00</span><br></br>
-          <span>非会员价:60.00~102.00</span><br></br>
+          <span>市场价:80.00~100.00</span><br />
+          <span>成本价:80.00~100.00</span><br />
+          <span>非会员价:80.00~101.00</span><br />
+          <span>非会员价:60.00~102.00</span><br />
         </div>
       )
     }
@@ -186,12 +185,12 @@ export default {
     key: 'storeInfo',
     align: 'center',    
     width: 300,                                   
-    render: (val, record) => {
+    render: (record) => {
       return (
         <div>
-          <span>推广库存：100</span><br></br>
-          <span>累计售出：10</span><br></br>
-          <a className="linkButton" onClick={e => getStoreInfo(record.id)}>查看</a>
+          <span>推广库存：100</span><br />
+          <span>累计售出：10</span><br />
+          <a className="linkButton" onClick={()=> getStoreInfo(record.id)}>查看</a>
         </div>
       )
     }
@@ -201,11 +200,11 @@ export default {
     key: 'addressInfo',
     align: 'center',    
     width: 300,                                   
-    render: (val, record) => {
+    render: () => {
       return (
         <div>
-          <span>店铺ID：10</span><br></br>
-          <span>店铺名称：长沙一哥店铺</span><br></br>
+          <span>店铺ID：10</span><br />
+          <span>店铺名称：长沙一哥店铺</span><br />
         </div>
       )
     }
@@ -231,9 +230,9 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline list-inline">
-          <a onClick={e => setGroupValue(record)}>设置排序值</a>
-          <span></span>
-          <a onClick={e => goBack(record.id)}>回退</a>
+          <a onClick={()=> setGroupValue(record)}>设置排序值</a>
+          <span />
+          <a onClick={()=> goBack(record.id)}>回退</a>
         </div>
       )
     }

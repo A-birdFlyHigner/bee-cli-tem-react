@@ -1,35 +1,7 @@
 import React from 'react'
+import { message } from 'antd'
 import { LeDialog, LeForm } from '@lib/lepage'
 import * as Sty from '../index.less'
-import { message } from 'antd'
-
-const setBranchList = (err, values, formCore, listCore) => {
-  const productIds = listCore.getSelectedRowKeys()
-  const count = productIds.length
-
-  if (!count) {
-    message.warning('请至少勾选一项！')
-    return
-  }
-
-  LeDialog.show(
-    {
-      title: '批量拒绝',
-      width: '600px',
-      content () {
-        return <LeForm {...dialogFormConfig(count)} />
-      },
-      onOk: (values, hide) => {
-        // return new Promise(async (resolve, reject) => {
-        //   await sleep(1500);
-        //   resolve();
-        //   hide();
-        //   leList.refresh();
-        // });
-      },
-    }
-  )
-}
 
 const dialogFormConfig = (count) => {
   return {
@@ -56,6 +28,34 @@ const dialogFormConfig = (count) => {
       },
     ],
   }
+}
+
+const setBranchList = (err, values, formCore, listCore) => {
+  const productIds = listCore.getSelectedRowKeys()
+  const count = productIds.length
+
+  if (!count) {
+    message.warning('请至少勾选一项！')
+    return
+  }
+
+  LeDialog.show(
+    {
+      title: '批量拒绝',
+      width: '600px',
+      content () {
+        return <LeForm {...dialogFormConfig(count)} />
+      },
+      onOk: () => {
+        // return new Promise(async (resolve, reject) => {
+        //   await sleep(1500);
+        //   resolve();
+        //   hide();
+        //   leList.refresh();
+        // });
+      },
+    }
+  )
 }
 
 export default {

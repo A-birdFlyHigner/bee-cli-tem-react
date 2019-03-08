@@ -1,5 +1,5 @@
-import { stringify } from 'qs';
 import request from '@/utils/request';
+
 const domain = '/adminApi';
 
 // 分公司城市列表

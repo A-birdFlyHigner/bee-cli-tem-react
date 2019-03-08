@@ -34,14 +34,14 @@ const getStoreInfo = (id) => {
     },
     content () {
       return (
-        <StoreInfo productId={id}></StoreInfo>
+        <StoreInfo productId={id} />
       )
     }
   })
 }
 
 // 强制回退
-const goBack = (record) => {
+const goBack = () => {
   LeDialog.show(
     {
       title: '回退',
@@ -49,7 +49,7 @@ const goBack = (record) => {
       content () {
         return <LeForm {...dialogFormTextConfig('回退')} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (values, suc) => {
         suc()
       }
     }
@@ -61,7 +61,7 @@ export default {
   scroll: { x: 1500 },
   rowSelection: {
     selections: true,
-    getCheckboxProps(record) {
+    getCheckboxProps() {
       return {};
     },
   },
@@ -99,8 +99,7 @@ export default {
               value: record.logisticsType,
             },
           ]}
-        >
-        </ImageTextCard>
+        />
       )
     }
   }, {
@@ -108,16 +107,16 @@ export default {
     dataIndex: 'categoryName',
     key: 'categoryName',
     mutipleLine: true,
-    render: (value, record) => {
+    render: () => {
       const vals = '食品,水果,橘子'
       return (
         <div>
           {
             vals && vals.split(',').map(
-              (item, index) => (
-                <span key={index}>
+              (item) => (
+                <span key={item}>
                   &gt;
-                  { item }<br></br>
+                  { item }<br />
                 </span>
               )
             )
@@ -132,8 +131,8 @@ export default {
     render: (val, record) => {
       return(
         <span>
-          {record.properties.propertyValue}个<br/>
-          <a className="linkButton" onClick={e => getSkuDetail(record.id)}>查看</a>
+          {record.properties.propertyValue}个<br />
+          <a className="linkButton" onClick={()=> getSkuDetail(record.id)}>查看</a>
         </span>
       )
     }
@@ -144,11 +143,11 @@ export default {
     render: (val, record) => {
       return (
         <div className={Sty.prices}>
-          <span>市场价:{record.saleUnits.marketPrice}</span><br></br>
-          <span>成本价:{record.saleUnits.costPrice}</span><br></br>
-          <span>非会员价:{record.saleUnits.nonmemberPrice}</span><br></br>
-          <span>会员价:{record.saleUnits.memberPrice}</span><br></br>
-          <span>毛利:{record.saleUnits.grossProfit}</span><br></br>
+          <span>市场价:{record.saleUnits.marketPrice}</span><br />
+          <span>成本价:{record.saleUnits.costPrice}</span><br />
+          <span>非会员价:{record.saleUnits.nonmemberPrice}</span><br />
+          <span>会员价:{record.saleUnits.memberPrice}</span><br />
+          <span>毛利:{record.saleUnits.grossProfit}</span><br />
         </div>
       )
     }
@@ -164,9 +163,9 @@ export default {
     render: (val, record) => {
       return (
         <div className={Sty.store}>
-          <span>推广库存：{record.saleUnits.spreadStock}</span><br></br>
-          <span>累计售出：{record.saleStock}</span><br></br>
-          <a className="linkButton" onClick={e => getStoreInfo(record.id)}>查看</a>
+          <span>推广库存：{record.saleUnits.spreadStock}</span><br />
+          <span>累计售出：{record.saleStock}</span><br />
+          <a className="linkButton" onClick={()=> getStoreInfo(record.id)}>查看</a>
         </div>
       )
     }
@@ -177,10 +176,10 @@ export default {
     render: (val, record) => {
       return (
         <div className={Sty.store}>
-          <span>分公司：{record.companyName}</span><br></br>
-          <span>出售城市：{record.cityName}</span><br></br>
-          <span>店铺ID：{record.sellerMainId}</span><br></br>
-          <span>店铺名称：{record.sellerMainName}</span><br></br>
+          <span>分公司：{record.companyName}</span><br />
+          <span>出售城市：{record.cityName}</span><br />
+          <span>店铺ID：{record.sellerMainId}</span><br />
+          <span>店铺名称：{record.sellerMainName}</span><br />
         </div>
       )
     }
@@ -190,7 +189,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">
-          <a onClick={e => goBack(record)}>回退</a>
+          <a onClick={()=> goBack(record)}>回退</a>
         </div>
       )
     }
