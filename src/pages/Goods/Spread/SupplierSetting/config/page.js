@@ -5,7 +5,6 @@ import { Button, message } from 'antd'
 import spreadConfig from './spread'
 import * as Sty from '../Index.less'
 import dialogFormConfig from '../../common/spreadDialog'
-import ColumnGroup from 'antd/lib/table/ColumnGroup';
 
 const proList = [{
   productName: '面包',
@@ -105,7 +104,6 @@ export default class Detail extends Component {
           }).join('、')
           return `${p.title}（${cityName}）`
         }).join('；')
-        console.log(spreadName, cityIds)
         const {spreadList, productIds} = this.state
         this.setState({
           spreadList: [
@@ -165,7 +163,9 @@ export default class Detail extends Component {
     const {productIds} = this.state
     productIds.forEach(pId => {
       const citySpreadDetailList = []
-      for (let i in this.leForm) {
+      const keys = Object.keys(this.leForm)
+
+      for (const i of keys) {
         const item = this.leForm[i].value
         item.cityIds.forEach(cId => {
           citySpreadDetailList.push({
