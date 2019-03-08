@@ -1,5 +1,5 @@
-import { stringify } from 'qs';
 import request from '@/utils/request';
+
 const domain = '/adminApi';
 
 export async function queryProvinceList(params) {

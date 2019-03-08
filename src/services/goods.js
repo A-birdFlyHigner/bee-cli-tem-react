@@ -1,5 +1,5 @@
-import { stringify } from 'qs';
 import request from '@/utils/request';
+
 const domain = '/adminApi';
 
 export async function queryCommunityManager(params) {
@@ -64,4 +64,6 @@ export async function updateSortNumber(params) {
     },
   });
 }
+
+
 
