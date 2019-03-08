@@ -7,7 +7,7 @@ import tableConfig from './noscheduledConfig/table'
 import { queryCommunityManager } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
 
-export default class Noscheduled extends Component {
+class Noscheduled extends Component {
 
   constructor(props) {
     super()
@@ -21,8 +21,8 @@ export default class Noscheduled extends Component {
       tableConfig,
       ...leListQuery(queryCommunityManager)
     }
-    return (
-      <LeList {...config}></LeList>
-    )
+    return <LeList {...config} />
   }
 }
+
+export default Noscheduled

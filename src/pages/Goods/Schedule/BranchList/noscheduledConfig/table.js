@@ -53,10 +53,12 @@ const getStoreInfo = (id) => {
 const goSetTime = () => {
 
   LeDialog.show(
-    dialogFormSetTimeConfig(),
     {
       title: '设置活动时间',
       width: '600px',
+      content () {
+        return <LeForm {...dialogFormSetTimeConfig()} />
+      },
       onOk: (values, suc) => {
         suc()
       }
@@ -205,7 +207,7 @@ export default {
     key: 'storeInfo',
     align: 'center',    
     width: 200,                                                             
-    render: (record) => {
+    render: (values, record) => {
       return (
         <div className={Sty.store}>
           <span>推广库存：100</span><br />
