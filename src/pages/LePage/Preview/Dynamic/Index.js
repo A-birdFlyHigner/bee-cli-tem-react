@@ -36,7 +36,7 @@ class PreviewDynamicDemo extends Component {
 
   render() {
     const { state } = this;
-    return <LeForm {...state.formConfig} onMount={(leForm) => this.onMountLeForm(leForm)} />;
+    return <LeForm {...state.formConfig} onMount={leForm => this.onMountLeForm(leForm)} />;
   }
 }
 

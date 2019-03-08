@@ -192,3 +192,20 @@ export const importCDN = (url, name) =>
     };
     document.head.appendChild(dom);
   });
+
+export function leListQuery(service) {
+  return {
+    formatBefore(queryParams) {
+      queryParams.page = queryParams.currentPage
+      return queryParams
+    },
+    query: async queryParams => {
+      const data = await service(queryParams);
+      return {
+        total: data.total,
+        dataList: data.list,
+        currentPage: queryParams.currentPage,
+      };
+    },
+  };
+}

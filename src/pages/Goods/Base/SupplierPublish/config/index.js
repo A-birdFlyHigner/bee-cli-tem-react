@@ -1,5 +1,3 @@
-import formConfig from './form.config'
+import formConfig from './form.config';
 
-export {
-    formConfig
-}
+export { formConfig };
