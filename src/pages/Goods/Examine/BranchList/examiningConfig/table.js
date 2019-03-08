@@ -1,11 +1,10 @@
 import React from 'react'
-import { LeDialog, LeForm } from '@lib/lepage'
+import router from 'umi/router'
+import { LeDialog } from '@lib/lepage'
 import { ImageTextCard } from '@/components/InfoCard'
 import * as Sty from '../index.less'
-
 import SkuDetail from '../../common/skuDetail'
 import StoreInfo from '../../common/storeInfo'
-import { dialogFormTextConfig } from '../../common/commonConfig'
 
 // 渠道商品规格详情
 const getSkuDetail = (id) => {
@@ -41,20 +40,11 @@ const getStoreInfo = (id) => {
   })
 }
 
-// 强制回退
-const goExamine = () => {
-  LeDialog.show(
-    {
-      title: '审核',
-      width: '400px',
-      content () {
-        return <LeForm {...dialogFormTextConfig('审核')} />
-      },
-      onOk: (values, suc) => {
-        suc()
-      }
-    }
-  )
+// 审核
+const goExamine = (id) => {
+  router.push({
+    pathname: `/goods/examine/branchdetail/${id}`,
+  })
 }
 
 export default {
@@ -197,7 +187,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">
-          <a onClick={()=> goExamine(record)}>审核</a>
+          <a onClick={()=> goExamine(record.id)}>审核</a>
         </div>
       )
     }

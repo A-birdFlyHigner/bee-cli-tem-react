@@ -6,7 +6,6 @@ import operationConfig from './examiningConfig/operation'
 import tableConfig from './examiningConfig/table'
 import { queryCommunityManager } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
-/* eslint-disable */ 
 
 export default class Examining extends Component {
 
@@ -23,7 +22,7 @@ export default class Examining extends Component {
       ...leListQuery(queryCommunityManager)
     }
     return (
-      <LeList {...config}></LeList>
+      <LeList {...config} />
     )
   }
 }

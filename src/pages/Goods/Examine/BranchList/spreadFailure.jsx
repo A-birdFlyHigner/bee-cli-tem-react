@@ -21,7 +21,7 @@ export default class SpreadFailure extends Component {
       ...leListQuery(queryCommunityManager)
     }
     return (
-      <LeList {...config}></LeList>
+      <LeList {...config} />
     )
   }
 }
