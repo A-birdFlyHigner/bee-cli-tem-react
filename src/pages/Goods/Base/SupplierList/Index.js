@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import router from 'umi/router';
-import { Button } from 'antd';
 import { LeList } from '@lib/lepage';
-import { filterConfig, tableConfig } from './config';
-import mockList from './mock/list';
+import { filterConfig, operationConfig, tableConfig } from './config';
+import mockList from './mock/list'
 
 class GoodsList extends Component {
-  static goToPublishPage() {
-    router.push('/goods/publish');
-  }
-
   constructor(props) {
     super(props);
 
     this.state = {
       listConfig: {
         filterConfig,
+        operationConfig,
         tableConfig,
         // TODO: formatBefore、query、formatAfter 统一封装到 LeList
         formatBefore(queryParams) {
@@ -39,12 +34,7 @@ class GoodsList extends Component {
 
   render() {
     const { state } = this;
-    return (
-      <div>
-        <Button onClick={() => GoodsList.goToPublishPage()}>新增商品</Button>
-        <LeList {...state.listConfig} />
-      </div>
-    );
+    return <LeList {...state.listConfig} />
   }
 }
 

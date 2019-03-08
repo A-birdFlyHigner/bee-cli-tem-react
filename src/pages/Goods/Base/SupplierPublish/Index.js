@@ -1,37 +1,99 @@
 import React, { Component } from 'react';
 import { LeForm } from '@lib/lepage';
-import Category from './components/Category';
-import { formConfig } from './config';
+import Category from './components/Category'
+import { formConfig as defaultFormConfig } from './config';
 
 class GoodsPublish extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isShowCategory: false,
-      formConfig,
+      showCancel: false,
+      // showCategory: true,
+      // formConfig: {},
+      showCategory: false,
+      formConfig: defaultFormConfig,
     };
+
+    this.formValues = {}
   }
 
-  handleCategoryOK(categoryId) {
+  // 分类 下一步 操作
+  handleCategoryOK (category) {
+    const {
+      settings: {
+        values = {},
+        ...restSettings
+      } = {}
+    } = defaultFormConfig
+
+    const formConfig = {
+      ...defaultFormConfig,
+      settings: {
+        values: {
+          ...values,
+          ...this.formValues,
+          category: category.treeLabels.join('>')
+        },
+        ...restSettings
+      }
+    }
+
     this.setState({
-      isShowCategory: false,
-    });
+      showCategory: false,
+      formConfig
+    })
   }
 
-  handleCategoryCacel() {
+  // 分类 取消 操作
+  handleCategoryCancel () {
+    // TODO: 取消操作，没有保留项数据没有被还原
     this.setState({
-      isShowCategory: false,
-    });
+      showCategory: false
+    })
   }
+
+  // 创建商品，二次编辑分类
+  handleEditCategory (formData = {}) {
+    const keepNames = ['longName', 'shortName']
+
+    this.formValues = {}
+    keepNames.forEach((name) => {
+      const value = formData[name]
+      if (value === null || value === undefined) {
+        return
+      }
+      this.formValues[name] = value
+    })
+    this.setState({
+      showCancel: true,
+      showCategory: true
+    })
+  }
+
+  handleLeFormMount (leForm) {
+    leForm.on('edit-category', this.handleEditCategory.bind(this))
+  }
+
+  // handleLeFormChange (changeKeys, values, leForm) {
+  //   // TODO:
+  // }
 
   render() {
     const { state } = this;
-    const children = state.isShowCategory ? (
-      <Category onOk={() => {}} onCacel={() => this.handleCategoryCacel()} />
-    ) : (
-      <LeForm {...state.formConfig} />
-    );
+    const children = state.showCategory
+    ?
+      <Category
+        showCancel={state.showCancel}
+        onOk={(val) => this.handleCategoryOK(val)}
+        onCancel={() => this.handleCategoryCancel()}
+      />
+    :
+      <LeForm
+        {...state.formConfig}
+        onMount={(leForm) => this.handleLeFormMount(leForm)}
+        // onChange={(...rest) => this.handleLeFormChange(...rest)}
+      />;
 
     return <div>{children}</div>;
   }

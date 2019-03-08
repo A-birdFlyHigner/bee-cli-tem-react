@@ -7,12 +7,12 @@ class PreviewColumnsDemo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formConfig
+      formConfig,
     };
   }
 
   render() {
-    const { state } = this
+    const { state } = this;
     return <LeForm {...state.formConfig} />;
   }
 }

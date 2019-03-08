@@ -3,7 +3,6 @@ import { LeForm, LeDialog } from '@lib/lepage';
 import { sleep } from '../../common/utils';
 
 const onClickAdd = (err, values, leForm, leList) => {
-  debugger;
   const formConfig = {
     settings: {
       values: {

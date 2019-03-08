@@ -128,6 +128,11 @@ export default function request(url, option) {
         return response.text();
       }
       return response.json();
+    }).then(response => {
+      if (String(response.code) === '0') {
+        return response.data || true
+      }
+      return response
     })
     .catch(e => {
       const status = e.name;

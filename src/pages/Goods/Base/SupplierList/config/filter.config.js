@@ -10,9 +10,8 @@ export default {
     },
   },
 
-  items: [
-    {
-      label: '类目',
+  items: [{
+    label: '类目',
       name: 'categoryId', // TODO: 没有实现类目组件
       component: 'Select',
       props: {
