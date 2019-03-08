@@ -4,6 +4,8 @@ import { LeList } from '@lib/lepage'
 import filterConfig from './cityListConfig/search'
 import tableConfig from './cityListConfig/table'
 import { queryBranchCityManager } from '@/services/city'
+// TODO: 需要更改一下 queryCommunityManager 接口
+import { queryCommunityManager } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
 
 export default class BranchCityList extends Component {
@@ -18,7 +20,7 @@ export default class BranchCityList extends Component {
       filterConfig,
       operationConfig:{},
       tableConfig,
-      ...leListQuery(queryBranchCityManager)
+      ...leListQuery(queryCommunityManager)
     }
     return (
       <LeList {...config}></LeList>
