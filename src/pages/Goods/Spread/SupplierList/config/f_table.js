@@ -1,12 +1,12 @@
 import React from 'react';
-import { Dialog } from '@lib/nowrapper/lib/antd';
 import { ImageTextCard } from '@/components/InfoCard';
+import { LeDialog } from '@lib/lepage'
 import SkuDetail from '../../../common/skuDetail';
 
 const editItemStock = record => {};
 
 const showSkuDetail = id => {
-  Dialog.show({
+  LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
     maskClosable: true,

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Dialog } from '@lib/nowrapper/lib/antd';
 import { LeDialog, LeForm } from '@lib/lepage';
 import { ImageTextCard } from '@/components/InfoCard';
 import SkuDetail from '../../../common/skuDetail';
@@ -22,7 +21,6 @@ const editItemStock = record => {
     width: '900px',
     content: <LeForm {...stockConfig(list)}></LeForm>,
     onOk(val, suc, core) {
-      debugger;
     },
   });
 };
@@ -32,14 +30,13 @@ const handleCancelSpread = record => {
     title: '撤销推广',
     maskClosable: true,
     onOk(val, suc) {
-      debugger;
       suc();
     },
   });
 };
 
 const showSkuDetail = id => {
-  Dialog.show({
+  LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
     maskClosable: true,

@@ -17,7 +17,6 @@ export default {
     scrollToError: true,
     onChange: (changeKeys, values, leForm) => {},
   },
-
   form: {
     // Form props
     defaultMinWidth: true, // 表单内有默认最小宽度200
@@ -442,9 +441,7 @@ export default {
       inline: true,
       props: {
         children: '重置',
-        onClick(err, values, leForm) {
-          debugger;
-        },
+        onClick(err, values, leForm) {},
       },
       options: {
         type: 'reset',

@@ -1,10 +1,9 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
-import { Dialog } from '@lib/nowrapper/lib/antd'
 import { ImageTextCard } from '@/components/InfoCard'
 import SkuDetail from '../../common/skuDetail'
 import StoreInfo from '../../common/storeInfo'
-import { dialogFormJoinGroupConfig, dialogFormSetGroupConfig, dialogFormTextConfig } from '../../common/commonConfig.js'
+import { dialogFormSetGroupConfig, dialogFormTextConfig } from '../../common/commonConfig.js'
 import * as Sty from '../index.less'
 
 // 设置排序值
@@ -25,7 +24,7 @@ const setGroupValue = (err, values, formCore, listCore) => {
 
 // 库存信息
 const getStoreInfo = (id) => {
-  Dialog.show({
+  LeDialog.show({
     title: '库存信息',
     width: '1000px',
     maskClosable: true,
@@ -58,7 +57,7 @@ const goBack = (record) => {
 
 // 渠道商品规格详情
 const getSkuDetail = (id) => {
-  Dialog.show({
+  LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
     maskClosable: true,
@@ -155,8 +154,8 @@ export default {
         <div className={Sty.prices}>
           <span>市场价:80.00~100.00</span><br></br>
           <span>成本价:80.00~100.00</span><br></br>
-          <span>非会员价:80.00~101.00</span><br></br>        
-          <span>非会员价:60.00~102.00</span><br></br>   
+          <span>非会员价:80.00~101.00</span><br></br>
+          <span>非会员价:60.00~102.00</span><br></br>
         </div>
       )
     }
@@ -178,9 +177,9 @@ export default {
       return (
         <div>
           <span>推广库存：100</span><br></br>
-          <span>累计售出：10</span><br></br>        
+          <span>累计售出：10</span><br></br>
           <a className="linkButton" onClick={e => getStoreInfo(record.id)}>查看</a>
-        </div>         
+        </div>
       )
     }
   }, {
@@ -190,9 +189,9 @@ export default {
     render: (val, record) => {
       return (
         <div>
-          <span>店铺ID：10</span><br></br>        
-          <span>店铺名称：长沙一哥店铺</span><br></br>                  
-        </div> 
+          <span>店铺ID：10</span><br></br>
+          <span>店铺名称：长沙一哥店铺</span><br></br>
+        </div>
       )
     }
   },  {
@@ -212,7 +211,7 @@ export default {
       return (
         <div className="operateBtn-container-inline list-inline">
           <a onClick={e => setGroupValue(record)}>设置排序值</a>
-          <span></span>
+          <span />
           <a onClick={e => goBack(record.id)}>回退</a>
         </div>
       )

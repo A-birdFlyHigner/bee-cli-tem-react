@@ -1,16 +1,14 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
-import { Dialog } from '@lib/nowrapper/lib/antd'
 import { ImageTextCard } from '@/components/InfoCard'
-import * as Sty from '../index.less'
-
 import SkuDetail from '../../common/skuDetail'
 import StoreInfo from '../../common/storeInfo'
-import { dialogFormTextConfig } from '../../common/commonConfig.js'
+import { dialogFormTextConfig } from '../../common/commonConfig'
+import * as Sty from '../index.less'
 
 // 渠道商品规格详情
 const getSkuDetail = (id) => {
-  Dialog.show({
+  LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
     maskClosable: true,
@@ -19,7 +17,7 @@ const getSkuDetail = (id) => {
     },
     content () {
       return (
-        <SkuDetail productId={id}></SkuDetail>
+        <SkuDetail productId={id} />
       )
     }
   })
@@ -27,7 +25,7 @@ const getSkuDetail = (id) => {
 
 // 库存信息
 const getStoreInfo = (id) => {
-  Dialog.show({
+  LeDialog.show({
     title: '库存信息',
     width: '1000px',
     maskClosable: true,
@@ -44,7 +42,7 @@ const getStoreInfo = (id) => {
 
 // 强制回退
 const goBack = (record) => {
-  LeDialog.show( 
+  LeDialog.show(
     {
       title: '回退',
       width: '400px',
@@ -143,8 +141,8 @@ export default {
         <div className={Sty.prices}>
           <span>市场价:80.00~100.00</span><br></br>
           <span>成本价:80.00~100.00</span><br></br>
-          <span>非会员价:80.00~101.00</span><br></br>        
-          <span>非会员价:60.00~102.00</span><br></br>   
+          <span>非会员价:80.00~101.00</span><br></br>
+          <span>非会员价:60.00~102.00</span><br></br>
         </div>
       )
     }
@@ -165,9 +163,9 @@ export default {
       return (
         <div className={Sty.store}>
           <span>推广库存：100</span><br></br>
-          <span>累计售出：10</span><br></br>        
+          <span>累计售出：10</span><br></br>
           <a className="linkButton" onClick={e => getStoreInfo(record.id)}>查看</a>
-        </div>         
+        </div>
       )
     }
   }, {
@@ -181,9 +179,9 @@ export default {
         <div className={Sty.store}>
           <span>分公司：长沙分公司</span><br></br>
           <span>出售城市：长沙</span><br></br>
-          <span>店铺ID：10</span><br></br>        
-          <span>店铺名称：长沙一哥店铺</span><br></br>                  
-        </div> 
+          <span>店铺ID：10</span><br></br>
+          <span>店铺名称：长沙一哥店铺</span><br></br>
+        </div>
       )
     }
   }, {
