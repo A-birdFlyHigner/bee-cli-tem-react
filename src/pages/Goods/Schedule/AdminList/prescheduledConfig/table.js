@@ -116,7 +116,7 @@ const dialogFormConfig =  () => {
 
 export default {
   rowKey: 'id',
-  scroll: { x: 1500 },
+  scroll: { x: 1800 },
   rowSelection: {
     selections: true,
     getCheckboxProps(record) {
@@ -127,6 +127,7 @@ export default {
     title: '渠道商品id',
     dataIndex: 'cityCode',
     key: 'cityCode',
+    align: 'center',            
     singleLine: true,
   }, {
     title: '基础信息',
@@ -153,6 +154,8 @@ export default {
     title: '类目',
     dataIndex: 'categoryPath',
     key: 'categoryPath',
+    align: 'center',    
+    width: 100,                       
     mutipleLine: true,
     render: (value, record) => {
       const vals = '食品,水果,橘子'
@@ -175,6 +178,8 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
+    align: 'center', 
+    width: 100,                   
     render: (val, record) => {
       return(
         <span>
@@ -187,6 +192,8 @@ export default {
     title: '价格信息',
     dataIndex: 'price',
     key: 'price',
+    width: 300,               
+    align: 'center',                
     render: (val, record) => {
       return (
         <div className={Sty.prices}>
@@ -201,11 +208,15 @@ export default {
     title: '出售时间',
     dataIndex: 'phoneNumber',
     key: 'phoneNumber',
+    align: 'center', 
+    width: 100,                   
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
     key: 'storeInfo',
+    width: 200,                   
+    align: 'center',                
     render: (val, record) => {
       return (
         <div className={Sty.store}>
@@ -219,6 +230,8 @@ export default {
     title: '地址信息',
     dataIndex: 'addressInfo',
     key: 'addressInfo',
+    align: 'center',     
+    width: 300,                              
     render: (val, record) => {
       return (
         <div className={Sty.store}>
@@ -233,17 +246,21 @@ export default {
     title: '审核状态',
     dataIndex: 'examineStatus',
     key: 'examineStatus',
+    width: 400,
+    align: 'center',                
     render: (val, record) => {
       return (
         <div className={Sty.store}>
           <span>已拒绝</span><br></br>
-          <span>原因：不符合规则</span><br></br>                
+          <span>原因：不符合规则原因不符合不符合规则原因不规则</span><br></br>                
         </div> 
       )
     }
   }, {
     title: '操作',
-    width: 140,
+    width: 100,
+    align: 'center', 
+    fixed: 'right',                   
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">

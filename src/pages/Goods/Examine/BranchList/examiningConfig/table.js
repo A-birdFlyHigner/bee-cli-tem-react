@@ -60,7 +60,7 @@ const goExamine = (record) => {
 
 export default {
   rowKey: 'id',
-  scroll: { x: 1500 },
+  scroll: { x: 1300 },
   rowSelection: {
     selections: true,
     getCheckboxProps(record) {
@@ -71,6 +71,7 @@ export default {
     title: '渠道商品id',
     dataIndex: 'cityCode',
     key: 'cityCode',
+    align: 'center',     
     singleLine: true,
   }, {
     title: '基础信息',
@@ -97,6 +98,7 @@ export default {
     title: '类目',
     dataIndex: 'categoryPath',
     key: 'categoryPath',
+    align: 'center',     
     mutipleLine: true,
     render: (value, record) => {
       const vals = '食品,水果,橘子'
@@ -119,6 +121,7 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
+    align: 'center',     
     render: (val, record) => {
       return(
         <span>
@@ -131,6 +134,7 @@ export default {
     title: '价格信息',
     dataIndex: 'price',
     key: 'price',
+    align: 'center',     
     render: (val, record) => {
       return (
         <div className={Sty.prices}>
@@ -145,11 +149,13 @@ export default {
     title: '推广城市',
     dataIndex: 'spreadCity',
     key: 'spreadCity',
+    align: 'center',     
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
     key: 'storeInfo',
+    align: 'center',     
     render: (val, record) => {
       return (
         <div className={Sty.store}>
@@ -163,20 +169,25 @@ export default {
     title: '店铺名称',
     dataIndex: 'shopName',
     key: 'shopName',
+    align: 'center',     
     singleLine: true,
   }, {
     title: '店铺Id',
     dataIndex: 'shopId',
     key: 'shopId',
+    align: 'center',     
     singleLine: true,
   }, {
     title: '提审时间',
     dataIndex: 'passTime',
     key: 'passTime',
+    align: 'center',     
     singleLine: true,
   }, {
     title: '操作',
     width: 140,
+    align: 'center', 
+    fixed: 'right',
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">

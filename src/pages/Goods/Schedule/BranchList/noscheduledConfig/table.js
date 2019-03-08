@@ -117,6 +117,7 @@ export default {
     title: '渠道商品id',
     dataIndex: 'cityCode',
     key: 'cityCode',
+    align: 'center',                          
     singleLine: true,
   }, {
     title: '基础信息',
@@ -143,6 +144,8 @@ export default {
     title: '类目',
     dataIndex: 'categoryPath',
     key: 'categoryPath',
+    align: 'center',        
+    width: 100,                                               
     mutipleLine: true,
     render: (value, record) => {
       const vals = '食品,水果,橘子'
@@ -165,6 +168,8 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
+    width: 100,                             
+    align: 'center',                          
     render: (val, record) => {
       return(
         <span className="list-inline">
@@ -177,6 +182,8 @@ export default {
     title: '价格信息',
     dataIndex: 'price',
     key: 'price',
+    align: 'center', 
+    width: 300,                                                              
     render: (val, record) => {
       return (
         <div className="list-inline">
@@ -191,11 +198,15 @@ export default {
     title: '城市',
     dataIndex: 'cityName',
     key: 'city',
+    width: 100,    
+    align: 'center',                          
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
     key: 'storeInfo',
+    align: 'center',    
+    width: 200,                                                             
     render: (val, record) => {
       return (
         <div className={Sty.store}>
@@ -209,6 +220,8 @@ export default {
     title: '地址信息',
     dataIndex: 'addressInfo',
     key: 'addressInfo',
+    align: 'center',    
+    width: 160,                                                             
     render: (val, record) => {
       return (
         <div className={Sty.store}>
@@ -221,6 +234,8 @@ export default {
     title: '审核通过时间',
     dataIndex: 'examineTime',
     key: 'examineTime',
+    width: 200,                                                   
+    align: 'center',                          
     render: (val, record) => {
       return (
         <div>
@@ -231,6 +246,8 @@ export default {
   }, {
     title: '操作',
     width: 140,
+    align: 'center', 
+    fixed: 'right',                                   
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline list-inline">

@@ -60,7 +60,7 @@ const goBack = (record) => {
 
 export default {
   rowKey: 'id',
-  scroll: { x: 1500 },
+  scroll: { x: 1600 },
   rowSelection: {
     selections: true,
     getCheckboxProps(record) {
@@ -72,9 +72,10 @@ export default {
     dataIndex: 'cityCode',
     key: 'cityCode',
     singleLine: true,
+    align: 'center',             
   }, {
     title: '基础信息',
-    dataIndex: 'id',
+    dataIndex: 'id',               
     render: (val, record) => {
       return (
         <ImageTextCard
@@ -98,6 +99,8 @@ export default {
     dataIndex: 'categoryPath',
     key: 'categoryPath',
     mutipleLine: true,
+    align: 'center',     
+    width: 100,       
     render: (value, record) => {
       const vals = '食品,水果,橘子'
       return (
@@ -118,7 +121,9 @@ export default {
   }, {
     title: '规格',
     dataIndex: 'name',
+    align: 'center',        
     key: 'name',
+    width: 100,    
     render: (val, record) => {
       return(
         <span>
@@ -130,7 +135,9 @@ export default {
   }, {
     title: '价格信息',
     dataIndex: 'price',
+    align: 'center',        
     key: 'price',
+    width: 300,           
     render: (val, record) => {
       return (
         <div className={Sty.prices}>
@@ -144,12 +151,16 @@ export default {
   }, {
     title: '出售时间',
     dataIndex: 'phoneNumber',
+    align: 'center',        
     key: 'phoneNumber',
+    width: 150,               
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
+    align: 'center',        
     key: 'storeInfo',
+    width: 300,               
     render: (val, record) => {
       return (
         <div className={Sty.store}>
@@ -162,7 +173,9 @@ export default {
   }, {
     title: '地址信息',
     dataIndex: 'addressInfo',
+    align: 'center',        
     key: 'addressInfo',
+    width: 400,               
     render: (val, record) => {
       return (
         <div className={Sty.store}>
@@ -176,6 +189,8 @@ export default {
   }, {
     title: '操作',
     width: 140,
+    align: 'center',    
+    fixed: 'right',
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">

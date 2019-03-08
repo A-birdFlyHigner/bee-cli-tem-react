@@ -75,7 +75,7 @@ const getSkuDetail = (id) => {
 
 export default {
   rowKey: 'id',
-  scroll: { x: 1500 },
+  scroll: { x: 1800 },
   rowSelection: {
     selections: true,
     getCheckboxProps(record) {
@@ -86,6 +86,7 @@ export default {
     title: '渠道商品id',
     dataIndex: 'cityCode',
     key: 'cityCode',
+    align: 'center',                  
     singleLine: true,
   }, {
     title: '基础信息',
@@ -116,6 +117,8 @@ export default {
     title: '类目',
     dataIndex: 'categoryPath',
     key: 'categoryPath',
+    align: 'center',      
+    width: 100,                         
     mutipleLine: true,
     render: (value, record) => {
       const vals = '食品,水果,橘子'
@@ -138,6 +141,8 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
+    width: 100,           
+    align: 'center',                    
     render: (val, record) => {
       return(
         <span>
@@ -150,6 +155,8 @@ export default {
     title: '价格信息',
     dataIndex: 'price',
     key: 'price',
+    align: 'center',  
+    width: 300,                                 
     render: (val, record) => {
       return (
         <div className={Sty.prices}>
@@ -164,16 +171,22 @@ export default {
     title: '商品分组',
     dataIndex: 'provinceName',
     key: 'productGrounp',
+    align: 'center',          
+    width: 200,              
     singleLine: true,
   }, {
     title: '城市',
     dataIndex: 'cityName',
     key: 'city',
+    width: 120,               
+    align: 'center',                    
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
     key: 'storeInfo',
+    align: 'center',    
+    width: 300,                                   
     render: (val, record) => {
       return (
         <div>
@@ -187,6 +200,8 @@ export default {
     title: '地址信息',
     dataIndex: 'addressInfo',
     key: 'addressInfo',
+    align: 'center',    
+    width: 300,                                   
     render: (val, record) => {
       return (
         <div>
@@ -199,15 +214,21 @@ export default {
     title: '商品出售状态',
     dataIndex: 'cityName',
     key: 'saleingStatus',
+    width: 200,    
+    align: 'center',                    
     singleLine: true,
   }, {
     title: '出售时间',
     dataIndex: 'phoneNumber',
     key: 'scheduleTime',
-    singleLine: true,
+    align: 'center',     
+    width: 200,                    
+    singleLine: false,
   },{
     title: '操作',
-    width: 140,
+    width: 100,
+    align: 'center',                
+    fixed: 'right',  
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline list-inline">
