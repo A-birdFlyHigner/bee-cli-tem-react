@@ -57,7 +57,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">
-          <a onClick={e => goCityDetail(record)}>查看详情</a>
+          <a onClick={()=> goCityDetail(record)}>查看详情</a>
         </div>
       )
     }

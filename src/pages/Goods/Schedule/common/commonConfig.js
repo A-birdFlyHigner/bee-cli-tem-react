@@ -2,6 +2,7 @@
 import Reg from '@/utils/reg'
 import { DatePicker } from 'antd'
 import moment from 'moment'
+import React from 'react'
 
 const { RangePicker } = DatePicker
 
@@ -21,7 +22,7 @@ export function dialogFormSetTimeConfig() {
       {
         label: '',
         name: 'text',
-        render: (values, core) => {
+        render: () => {
           return (
             <RangePicker
               disabledDate={disabledDate}
