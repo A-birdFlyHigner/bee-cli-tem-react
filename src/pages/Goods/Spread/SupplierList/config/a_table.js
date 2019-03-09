@@ -13,6 +13,7 @@ const editItemStock = record => {
       stock: 100,
       stock1: 200,
       stock2: 300,
+      stock3: 100,
       editStock: '',
     },
   ];
