@@ -22,7 +22,7 @@ export default class Noscheduled extends Component {
       ...leListQuery(listUnScheduledProduct)
     }
     return (
-      <LeList {...config}/>
+      <LeList {...config} />
     )
   }
 }

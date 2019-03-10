@@ -10,11 +10,11 @@ import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
 
-const { logisticsMethod, logisticsType }= commonMessage
+const { logisticsMethod, logisticsType } = commonMessage
 
-const editItem = () => {
+const editItem = (id) => {
   router.push({
-    pathname: '/goods/base/detail/:id',
+    pathname: `/goods/schedule/branchdetail/${id}`,
   })
 }
 
@@ -268,7 +268,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline list-inline">
-          <a onClick={()=> editItem(record)}>编辑</a>
+          <a onClick={()=> editItem(record.id)}>编辑</a>
           <span />
           <a onClick={()=> goSetTime(record.id)}>排期</a>
           <span />

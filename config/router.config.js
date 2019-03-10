@@ -57,6 +57,12 @@ export default [
             component: './Goods/Schedule/BranchList',
           },
           {
+            path: '/goods/schedule/branchdetail/:id',
+            name: '分公司编辑商品详情',
+            component: './Goods/Schedule/BranchDetail',
+            hideInMenu: true,
+          },
+          {
             path: '/goods/schedule/supplierlist',
             name: '供应商商品排期列表',
             component: './Goods/Schedule/SupplierList',
