@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { LeForm } from '@lib/lepage';
 import Category from './components/Category'
 import { formConfig as defaultFormConfig } from './config';
+// import { queryCategoryPropertyDetail } from '@/services/goods'
 
 class GoodsPublish extends Component {
   constructor(props) {
@@ -74,6 +75,16 @@ class GoodsPublish extends Component {
   handleLeFormMount (leForm) {
     leForm.on('edit-category', this.handleEditCategory.bind(this))
   }
+
+  // async fetchCategory () {
+  //   const category = await queryCategoryPropertyDetail({
+  //     categoryId: 20005
+  //   })
+  //   debugger
+  //   this.setState({
+  //     category
+  //   })
+  // }
 
   // handleLeFormChange (changeKeys, values, leForm) {
   //   // TODO:
