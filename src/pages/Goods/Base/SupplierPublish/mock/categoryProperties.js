@@ -1,321 +1,159 @@
 export default {
-  "code": 1,
-  "message": "操作成功",
-  "data": {
-    "categoryId": 1283,
-    "keyProperties": [],
-    "goodsProperties": [{
-      "id": 3277,
-      "propertyNameId": 262,
-      "propertyName": "产地",
-      "booleanIsRequired": false,
-      "propertyInputType": 3,
-      "propertyInputTypeEnum": "MUTIL_SELECT_ALLOW_DEFINE",
-      "sortOrder": 21,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": [{
-        "id": 182,
-        "propertyNameId": 262,
-        "propertyValueId": 168,
-        "pnName": "产地",
-        "pvName": "中国",
-        "order": 1
-      }, {
-        "id": 556,
-        "propertyNameId": 262,
-        "propertyValueId": 436,
-        "pnName": "产地",
-        "pvName": "韩国",
-        "order": 81
-      }, {
-        "id": 557,
-        "propertyNameId": 262,
-        "propertyValueId": 437,
-        "pnName": "产地",
-        "pvName": "日本",
-        "order": 91
-      }],
-      "pairCount": 0
-    }, {
-      "id": 3476,
-      "propertyNameId": 377,
-      "propertyName": "净含量",
-      "booleanIsRequired": false,
-      "propertyInputType": 5,
-      "propertyInputTypeEnum": "INPUT_TEXT",
-      "sortOrder": 31,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": null,
-      "pairCount": 0
-    }, {
-      "id": 3693,
-      "propertyNameId": 611,
+  "keyProperties": [],
+  "goodsProperties": [{
+      "propertyNameId": 6810,
       "propertyName": "适用人群",
-      "booleanIsRequired": false,
-      "propertyInputType": 5,
-      "propertyInputTypeEnum": "INPUT_TEXT",
-      "sortOrder": 41,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
+      "isRequired": false,
+      "inputType": 5,
+      "sortOrder": 9,
+      "modifyType": 1,
+      "isUsedInSKU": null,
       "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": null,
-      "pairCount": 0
-    }, {
-      "id": 3892,
-      "propertyNameId": 491,
-      "propertyName": "功效",
-      "booleanIsRequired": true,
-      "propertyInputType": 5,
-      "propertyInputTypeEnum": "INPUT_TEXT",
-      "sortOrder": 51,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
+      "propertyPairs": null
+    },
+    {
+      "propertyNameId": 6807,
+      "propertyName": "储藏方法",
+      "isRequired": false,
+      "inputType": 5,
+      "sortOrder": 6,
+      "modifyType": 1,
+      "isUsedInSKU": null,
       "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": null,
-      "pairCount": 0
-    }, {
-      "id": 4091,
-      "propertyNameId": 513,
-      "propertyName": "保质期",
-      "booleanIsRequired": true,
-      "propertyInputType": 5,
-      "propertyInputTypeEnum": "INPUT_TEXT",
-      "sortOrder": 61,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": null,
-      "pairCount": 0
-    }, {
-      "id": 4290,
-      "propertyNameId": 742,
-      "propertyName": "储存方法",
-      "booleanIsRequired": false,
-      "propertyInputType": 5,
-      "propertyInputTypeEnum": "INPUT_TEXT",
-      "sortOrder": 71,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": null,
-      "pairCount": 0
-    }, {
-      "id": 4489,
-      "propertyNameId": 93,
-      "propertyName": "生产日期展示",
-      "booleanIsRequired": false,
-      "propertyInputType": 4,
-      "propertyInputTypeEnum": "MUTIL_SELECT_ALLOW_DEFINE",
-      "sortOrder": 81,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": [{
-        "id": 910,
-        "propertyNameId": 93,
-        "propertyValueId": 778,
-        "pnName": "生产日期展示",
-        "pvName": "见实物外包装",
-        "order": 1
-      }],
-      "pairCount": 0
-    }, {
-      "id": 4754,
-      "propertyNameId": 89,
-      "propertyName": "使用方法",
-      "booleanIsRequired": false,
-      "propertyInputType": 5,
-      "propertyInputTypeEnum": "INPUT_TEXT",
-      "sortOrder": 91,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": null,
-      "pairCount": 0
-    }, {
-      "id": 4953,
-      "propertyNameId": 37,
-      "propertyName": "温馨提示",
-      "booleanIsRequired": false,
-      "propertyInputType": 5,
-      "propertyInputTypeEnum": "INPUT_TEXT",
-      "sortOrder": 101,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": null,
-      "pairCount": 0
-    }, {
-      "id": 5152,
-      "propertyNameId": 644,
-      "propertyName": "是否特殊化妆品",
-      "booleanIsRequired": false,
-      "propertyInputType": 1,
-      "propertyInputTypeEnum": "SINGLE_SELECT_NO_DEFINE",
-      "sortOrder": 111,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": [{
-        "id": 911,
-        "propertyNameId": 644,
-        "propertyValueId": 210,
-        "pnName": "是否特殊化妆品",
-        "pvName": "是",
-        "order": 1
-      }, {
-        "id": 912,
-        "propertyNameId": 644,
-        "propertyValueId": 211,
-        "pnName": "是否特殊化妆品",
-        "pvName": "否",
-        "order": 11
-      }],
-      "pairCount": 0
-    }, {
-      "id": 5351,
-      "propertyNameId": 96,
-      "propertyName": "特殊化妆品批文号",
-      "booleanIsRequired": false,
-      "propertyInputType": 5,
-      "propertyInputTypeEnum": "INPUT_TEXT",
-      "sortOrder": 121,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": null,
-      "pairCount": 0
-    }, {
-      "id": 5550,
-      "propertyNameId": 530,
-      "propertyName": "主要成分",
-      "booleanIsRequired": false,
-      "propertyInputType": 5,
-      "propertyInputTypeEnum": "INPUT_TEXT",
-      "sortOrder": 131,
-      "propertyModType": 1,
-      "propertyModTypeEnum": "MODIFY_ALLOWED",
-      "propertyType": 3,
-      "propertyTypeEnum": "GOODS_PROPERTY",
-      "propertyPairs": null,
-      "pairCount": 0
-    }],
-    "saleProperties": [{
-      "id": 2946,
-      "propertyNameId": 567,
-      "propertyName": "规格",
-      "booleanIsRequired": true,
-      "propertyInputType": 4,
-      "propertyInputTypeEnum": "MUTIL_SELECT_ALLOW_DEFINE",
-      "sortOrder": 1,
-      "propertyModType": 2,
-      "propertyModTypeEnum": "MODIFY_BANNED",
+      "propertyPairs": null
+    },
+    {
+      "propertyNameId": 6830,
+      "propertyName": "颜色杨珊妮颜",
+      "isRequired": true,
+      "inputType": 4,
+      "sortOrder": 2,
+      "modifyType": 1,
+      "isUsedInSKU": true,
       "propertyType": 2,
-      "propertyTypeEnum": "SELL_PROPERTY",
       "propertyPairs": [{
-        "id": 859,
-        "propertyNameId": 567,
-        "propertyValueId": 727,
-        "pnName": "规格",
-        "pvName": "1.5g",
-        "order": 151
-      }, {
-        "id": 860,
-        "propertyNameId": 567,
-        "propertyValueId": 728,
-        "pnName": "规格",
-        "pvName": "3.5g",
-        "order": 161
-      }, {
-        "id": 861,
-        "propertyNameId": 567,
-        "propertyValueId": 729,
-        "pnName": "规格",
-        "pvName": "4.5g",
-        "order": 171
-      }, {
-        "id": 862,
-        "propertyNameId": 567,
-        "propertyValueId": 730,
-        "pnName": "规格",
-        "pvName": "一只装",
-        "order": 181
-      }, {
-        "id": 863,
-        "propertyNameId": 567,
-        "propertyValueId": 731,
-        "pnName": "规格",
-        "pvName": "两只装",
-        "order": 191
-      }],
-      "pairCount": 0
-    }, {
-      "id": 2947,
-      "propertyNameId": 731,
-      "propertyName": "色号",
-      "booleanIsRequired": true,
-      "propertyInputType": 4,
-      "propertyInputTypeEnum": "MUTIL_SELECT_ALLOW_DEFINE",
-      "sortOrder": 11,
-      "propertyModType": 2,
-      "propertyModTypeEnum": "MODIFY_BANNED",
+          "id": 75798,
+          "propertyNameId": 6830,
+          "pnName": "颜色杨珊妮颜",
+          "pvName": "313",
+          "propertyValueId": 72124,
+          "order": null
+        },
+        {
+          "id": 75807,
+          "propertyNameId": 6830,
+          "pnName": "颜色杨珊妮颜",
+          "pvName": "2345345",
+          "propertyValueId": 72133,
+          "order": null
+        }
+      ]
+    },
+  ],
+  "saleProperties": [
+    {
+      "propertyNameId": 6830,
+      "propertyName": "颜色杨珊妮颜",
+      "isRequired": true,
+      "inputType": 4,
+      "sortOrder": 2,
+      "modifyType": 1,
+      "isUsedInSKU": true,
       "propertyType": 2,
-      "propertyTypeEnum": "SELL_PROPERTY",
       "propertyPairs": [{
-        "id": 855,
-        "propertyNameId": 731,
-        "propertyValueId": 2,
-        "pnName": "色号",
-        "pvName": "红色",
-        "order": 1
-      }, {
-        "id": 856,
-        "propertyNameId": 731,
-        "propertyValueId": 725,
-        "pnName": "色号",
-        "pvName": "粉色",
-        "order": 11
-      }, {
-        "id": 857,
-        "propertyNameId": 731,
-        "propertyValueId": 1,
-        "pnName": "色号",
-        "pvName": "黑色",
-        "order": 21
-      }, {
-        "id": 858,
-        "propertyNameId": 731,
-        "propertyValueId": 726,
-        "pnName": "色号",
-        "pvName": "橘色",
-        "order": 31
-      }],
-      "pairCount": 0
-    }],
-    "categoryPropertySkuImage": {
-      "id": 225,
-      "categoryId": 1283,
-      "booleanIsRequired": true,
-      "propertyNameId": 731,
-      "propertyName": "色号",
-      "createTime": 1543473451000,
-      "updateTime": 1543473451000
-    }
-  },
-  "success": true
+          "id": 75798,
+          "propertyNameId": 6830,
+          "pnName": "颜色杨珊妮颜",
+          "pvName": "红色",
+          "propertyValueId": 72124,
+          "order": null
+        },
+        {
+          "id": 75807,
+          "propertyNameId": 6830,
+          "pnName": "颜色杨珊妮颜",
+          "pvName": "黑色",
+          "propertyValueId": 72133,
+          "order": null
+        }
+      ]
+    },
+    // {
+    //   "propertyNameId": 6801,
+    //   "propertyName": "产地",
+    //   "isRequired": false,
+    //   "inputType": 4,
+    //   "sortOrder": 1,
+    //   "modifyType": 1,
+    //   "isUsedInSKU": true,
+    //   "propertyType": 2,
+    //   "propertyPairs": [{
+    //       "id": 9426,
+    //       "propertyNameId": 6801,
+    //       "pnName": "产地",
+    //       "pvName": "韩国",
+    //       "propertyValueId": 8443,
+    //       "order": null
+    //     },
+    //     {
+    //       "id": 9955,
+    //       "propertyNameId": 6801,
+    //       "pnName": "产地",
+    //       "pvName": "中国",
+    //       "propertyValueId": 8575,
+    //       "order": null
+    //     }
+    //   ]
+    // },
+    // {
+    //   "propertyNameId": 6802,
+    //   "propertyName": "味道",
+    //   "isRequired": false,
+    //   "inputType": 4,
+    //   "sortOrder": 1,
+    //   "modifyType": 1,
+    //   "isUsedInSKU": true,
+    //   "propertyType": 2,
+    //   "propertyPairs": [{
+    //       "id": 9426,
+    //       "propertyNameId": 6802,
+    //       "pnName": "味道",
+    //       "pvName": "香艳",
+    //       "propertyValueId": 84430,
+    //       "order": null
+    //     },
+    //     {
+    //       "id": 9955,
+    //       "propertyNameId": 6802,
+    //       "pnName": "味道",
+    //       "pvName": "浓厚",
+    //       "propertyValueId": 85750,
+    //       "order": null
+    //     }
+    //   ]
+    // }
+  ],
+  "warehouseProperties": [
+    {
+    "propertyNameId": 6809,
+    "propertyName": "过期时间",
+    "isRequired": false,
+    "inputType": 6,
+    "sortOrder": 8,
+    "modifyType": 1,
+    "isUsedInSKU": null,
+    "propertyType": 4,
+    "propertyPairs": [{
+        "id": 9508,
+        "propertyNameId": 6809,
+        "pnName": "过期时间",
+        "pvName": "2019-07-01",
+        "propertyValueId": 8523,
+        "order": null
+      }
+    ]
+  }],
+  "isRequiredSKUImage": true,
+  "skuImagePropertyId": 6830,
+  "skuImagePropertyName": "颜色杨珊妮颜"
 }
