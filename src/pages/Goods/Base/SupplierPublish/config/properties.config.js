@@ -1,6 +1,7 @@
 import React from 'react'
 import { message as messageApi, Tag } from 'antd';
 import { FN } from './common.config'
+import { savePropertyValue } from '@/services/goods'
 
 // 属性值输入类型枚举
 const COMPONENT_ENUMS = {
@@ -25,10 +26,10 @@ const MESSAGE_PREFIX = {
 }
 
 // 添加属性对
-const handleAddPropertyPair = (leForm, name, event, okFn = FN) => {
-  const {
-    target = {}
-  } = event
+const handleAddPropertyPair = async (leForm, name, event, okFn = FN) => {
+  const { target = {} } = event
+  if (target.disabled) return
+
   let {
     value: label = ''
   } = target
@@ -47,26 +48,37 @@ const handleAddPropertyPair = (leForm, name, event, okFn = FN) => {
     messageApi.warn('属性名不能重复!')
     return
   }
+  target.disabled = true
 
-  const value = label
-
-  // add
-  options.push({
-    label,
-    value,
-    extend: null,
-    isCustom: true
+  const resData = await savePropertyValue({
+    propertyNameId: name.split('-')[1],
+    propertyValueName: label
   })
 
-  // update
-  leForm.setProps(name, {
-    options
-  })
+  if (!resData) {
+    messageApi.error('属性名创建失败')
+  }
+  else {
+    const { propertyValueId: value } = resData
+    // add
+    options.push({
+      label,
+      value,
+      extend: null,
+      isCustom: true
+    })
 
-  // clear
-  target.value = ''
+    // update
+    leForm.setProps(name, {
+      options
+    })
 
-  okFn()
+    // clear
+    target.value = ''
+
+    okFn()
+  }
+  target.disabled = false
 }
 
 // 删除属性对

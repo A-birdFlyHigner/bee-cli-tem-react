@@ -23,7 +23,7 @@ export default {
       "propertyPairs": null
     },
     {
-      "propertyNameId": 6830,
+      "propertyNameId": 23086,
       "propertyName": "颜色杨珊妮颜",
       "isRequired": true,
       "inputType": 4,
@@ -33,7 +33,7 @@ export default {
       "propertyType": 2,
       "propertyPairs": [{
           "id": 75798,
-          "propertyNameId": 6830,
+          "propertyNameId": 23086,
           "pnName": "颜色杨珊妮颜",
           "pvName": "313",
           "propertyValueId": 72124,
@@ -41,7 +41,7 @@ export default {
         },
         {
           "id": 75807,
-          "propertyNameId": 6830,
+          "propertyNameId": 23086,
           "pnName": "颜色杨珊妮颜",
           "pvName": "2345345",
           "propertyValueId": 72133,
@@ -52,7 +52,7 @@ export default {
   ],
   "saleProperties": [
     {
-      "propertyNameId": 6830,
+      "propertyNameId": 23086,
       "propertyName": "颜色杨珊妮颜",
       "isRequired": true,
       "inputType": 4,
@@ -62,7 +62,7 @@ export default {
       "propertyType": 2,
       "propertyPairs": [{
           "id": 75798,
-          "propertyNameId": 6830,
+          "propertyNameId": 23086,
           "pnName": "颜色杨珊妮颜",
           "pvName": "红色",
           "propertyValueId": 72124,
@@ -70,7 +70,7 @@ export default {
         },
         {
           "id": 75807,
-          "propertyNameId": 6830,
+          "propertyNameId": 23086,
           "pnName": "颜色杨珊妮颜",
           "pvName": "黑色",
           "propertyValueId": 72133,
@@ -154,6 +154,6 @@ export default {
     ]
   }],
   "isRequiredSKUImage": true,
-  "skuImagePropertyId": 6830,
+  "skuImagePropertyId": 23086,
   "skuImagePropertyName": "颜色杨珊妮颜"
 }

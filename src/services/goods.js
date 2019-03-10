@@ -9,7 +9,7 @@ export async function queryCategoryPropertyDetail (params) {
 }
 
 export async function savePropertyValue (params) {
-  return request(`http://test-life-seller.51bushou.com/api/sku/propertyValue/save`, {
+  return request(`${domain}/sku/propertyValue/save`, {
     method: 'POST',
     body: {
       ...params,
