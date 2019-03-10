@@ -18,7 +18,7 @@ export async function savePropertyValue (params) {
 }
 
 export async function queryCommunityManager(params) {
-  return request(`${domain}/communityManager/list`, {
+  return request(`${domain}/product/list`, {
     method: 'POST',
     body: {
       ...params,
@@ -26,13 +26,14 @@ export async function queryCommunityManager(params) {
   });
 }
 
+// 商品详情
 export async function queryProductDetail(params) {
-  return request(`${domain}/community/list`, {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
+}
+
+// 分公司商品审核详情
+export async function queryBranchProductSpreadDetail(params) {
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
 }
 
 // 商品排期
@@ -56,18 +57,18 @@ export async function backOff(params) {
 }
 
 // 预排期列表
-export async function listPreScheduledProduct() {
-  return request(`${domain}/revision/product/schedule/listPreScheduledProduct`);
+export async function listPreScheduledProduct(params) {
+  return request(`${domain}/revision/product/schedule/listPreScheduledProduct?${stringify(params)}`);
 }
 
 // 已排期列表
-export async function listScheduledProduct() {
-  return request(`${domain}/revision/product/schedule/listScheduledProduct`);
+export async function listScheduledProduct(params) {
+  return request(`${domain}/revision/product/schedule/listScheduledProduct?${stringify(params)}`);
 }
 
 // 未排期列表
-export async function listUnScheduledProduct() {
-  return request(`${domain}/revision/product/schedule/listUnScheduledProduct`);
+export async function listUnScheduledProduct(params) {
+  return request(`${domain}/revision/product/schedule/listUnScheduledProduct?${stringify(params)}`);
 }
 
 // 预排期列表
@@ -79,4 +80,6 @@ export async function updateSortNumber(params) {
     },
   });
 }
+
+
 

@@ -22,7 +22,7 @@ export default class Examining extends Component {
       ...leListQuery(queryCommunityManager)
     }
     return (
-      <LeList {...config}></LeList>
+      <LeList {...config} />
     )
   }
 }

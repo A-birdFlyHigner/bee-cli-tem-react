@@ -70,7 +70,10 @@ export default {
   },
   proxy: {
     '/adminApi': {
-      target: 'http://test-life-admin.51bushou.com/api',
+      // target: 'http://test-life-admin.51bushou.com/api', // 管理后台
+      target: 'http://test-life-seller.51bushou.com/api',  // 分公司店铺后台
+      // target: 'http://192.168.0.220:10002/api', //飞雪
+      // target: 'http://192.168.0.162:10002/api', //卫卫
       changeOrigin: true,
       pathRewrite: { '^/adminApi': '' },
     },

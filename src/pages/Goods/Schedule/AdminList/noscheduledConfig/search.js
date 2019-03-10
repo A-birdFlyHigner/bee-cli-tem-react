@@ -1,59 +1,17 @@
 import Reg from '@/utils/reg'
-import cityRule from '@/components/Rules/citySel/index.js'
-
-const cascaderData = [{
-  value: '类目1',
-  label: '类目1',
-  children: [{
-    value: '水果',
-    label: '水果',
-    children: [{
-      value: '苹果',
-      label: '苹果',
-    },{
-      value: '香蕉',
-      label: '香蕉',
-    },{
-      value: '梨子',
-      label: '梨子',
-    },{
-      value: '苹果1',
-      label: '苹果1',
-    },{
-      value: '香蕉1',
-      label: '香蕉1',
-    },{
-      value: '梨子1',
-      label: '梨子1',
-    }],
-  }],
-}, {
-  value: '类目2',
-  label: '类目2',
-  children: [{
-    value: '蔬菜',
-    label: '蔬菜',
-    children: [{
-      value: '辣椒',
-      label: '辣椒',
-    }],
-  }],
-}]
+import cityRule from '@/components/Rules/citySel/index'
+import categoryRule from '@/components/Rules/category'
 
 export default {
   form: {
     inline: true, // 表单布局是否为行内样式
   },
   items: [
-    {
+    categoryRule({
       label: '类目',
-      name: 'category',
-      component: 'Cascader',
-      props: {
-        placeholder: '请选择类目',
-        options: cascaderData
-      },
-    },
+      name: 'categoryId',
+      value: []
+    }),
     {
       label: '店铺名称',
       name: 'shopName',
@@ -109,7 +67,7 @@ export default {
         }]
       },
       // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val, core) => {
+      when: (val) => {
         return val.type !== 3
       }
     }, 
@@ -136,7 +94,7 @@ export default {
         }]
       },
       // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val, core) => {
+      when: (val) => {
         return val.type !== 3
       }
     }, 
@@ -185,7 +143,7 @@ export default {
     props: {
       type: 'primary',
       children: '查询',
-      onClick(err, values, formCore, listCore) {}
+      // onClick(err, values, formCore, listCore) {}
     },
     options: {
       type: 'submit',
@@ -194,7 +152,7 @@ export default {
   }, {
     props: {
       children: '重置',
-      onClick(err, values, formCore, listCore) {}
+      // onClick(err, values, formCore, listCore) {}
     },
     options: {
       type: 'reset',

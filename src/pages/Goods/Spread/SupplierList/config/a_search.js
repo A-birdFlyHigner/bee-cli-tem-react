@@ -1,5 +1,5 @@
 import Reg from '@/utils/reg';
-import cityRule from '@/components/Rules/citySel/index.js';
+import cityRule from '@/components/Rules/citySel';
 import categoryRule from '@/components/Rules/category';
 
 export default {

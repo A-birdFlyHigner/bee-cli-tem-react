@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 export default class SkuDetail extends Component {
+  static propTypes = {
+    // productId: PropTypes.number,
+  };
+  
   constructor() {
     super();
     this.state = {
@@ -15,7 +19,7 @@ export default class SkuDetail extends Component {
           align: 'center',
         },
         {
-          title: 'sku码（发货编码）',
+          title: 'sku码(发货编码)',
           dataIndex: 'age',
           key: 'age',
           align: 'center',
@@ -25,6 +29,14 @@ export default class SkuDetail extends Component {
           dataIndex: 'address',
           key: 'address',
           align: 'center',
+          render: (text, record) => {
+            return (
+              <div>
+                <span className='globalRed'>（停售）</span>
+                <span>{text}</span>
+              </div>
+            )
+          }
         },
         {
           title: '成本价',
@@ -37,9 +49,6 @@ export default class SkuDetail extends Component {
     };
   }
 
-  static propTypes = {
-    productId: PropTypes.number,
-  };
   componentWillMount() {
     setTimeout(() => {
       this.setState({
@@ -63,6 +72,7 @@ export default class SkuDetail extends Component {
       });
     }, 1000);
   }
+
   componentWillUnmount() {
     this.setState = () => {
       return null;

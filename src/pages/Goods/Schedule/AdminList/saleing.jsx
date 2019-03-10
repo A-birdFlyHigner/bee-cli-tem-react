@@ -22,7 +22,7 @@ export default class Saleing extends Component {
       ...leListQuery(queryCommunityManager)
     }
     return (
-      <LeList {...config}></LeList>
+      <LeList {...config} />
     )
   }
 }
