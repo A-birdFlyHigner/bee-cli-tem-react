@@ -10,11 +10,15 @@ export default class ExaminList extends Component {
   constructor(props) {
     super()
     this.store = props
+    this.state = {
+      tabType: '1',
+    }
   }
   
   render () {
+    const { tabType } = this.state
     return (
-      <Tabs size='large' defaultActiveKey="1">
+      <Tabs size='large' defaultActiveKey={tabType}>
         <TabPane tab="推广审核中" key="1">
           <Examining />
         </TabPane>

@@ -3,19 +3,20 @@ import { Table } from 'antd'
 import PropTypes from 'prop-types'
 /* eslint-disable */ 
 export default class SkuDetail extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+
     this.state = {
       loading: true,
       columns: [{
         title: 'SKU id',
-        dataIndex: 'key',
-        key: 'key',
+        dataIndex: 'skuId',
+        key: 'skuId',
         align: 'center'
       },  {
         title: 'SKU规格',
-        dataIndex: 'address',
-        key: 'address',
+        dataIndex: 'propertyPairList',
+        key: 'propertyPairList',
         align: 'center'
       },  {
         title: '市场价',
@@ -24,13 +25,13 @@ export default class SkuDetail extends Component {
         align: 'center'
       },  {
         title: '会员价',
-        dataIndex: 'vipPrice',
-        key: 'vipPrice',
+        dataIndex: 'memberPrice',
+        key: 'memberPrice',
         align: 'center'
       },  {
         title: '非会员价',
-        dataIndex: 'novipPrice',
-        key: 'novipPrice',
+        dataIndex: 'nonmemberPrice',
+        key: 'nonmemberPrice',
         align: 'center'
       }, {
         title: '成本价',
@@ -39,42 +40,24 @@ export default class SkuDetail extends Component {
         align: 'center'
       }, {
         title: '毛利',
-        dataIndex: 'profit',
-        key: 'profit',
+        dataIndex: 'grossProfit',
+        key: 'grossProfit',
         align: 'center'
       }, ],
       dataSource: []
     }
+
   }
 
   static propTypes = {
-    productId: PropTypes.number,
+    saleUnitsInfo: PropTypes.array,
   }
   componentWillMount () {
+    const { saleUnitsInfo } = this.props
     setTimeout(() => {
       this.setState({
         loading: false,
-        dataSource: [{
-          key: '1',
-          name: '胡彦斌',
-          age: 32,
-          address: '西湖区湖底公园1号',
-          marketPrice: '13',
-          vipPrice: '10',
-          novipPrice: '12',          
-          costPrice: 1,
-          profit: '1'          
-        }, {
-          key: '2',
-          name: '胡彦祖',
-          age: 42,
-          address: '西湖区湖底公园1号',
-          marketPrice: '15',
-          vipPrice: '13',
-          novipPrice: '14',          
-          costPrice: 8,
-          profit: '6'
-        }]
+        dataSource: saleUnitsInfo
       })
     }, 1000)
   }

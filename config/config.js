@@ -70,8 +70,9 @@ export default {
   },
   proxy: {
     '/adminApi': {
-      // target: 'http://test-life-admin.51bushou.com/api',
-      target: 'http://192.168.0.220:10002/api',
+      target: 'http://test-life-admin.51bushou.com/api',
+      // target: 'http://192.168.0.220:10002/api',     // 飞雪
+      // target: 'http://192.168.0.162:10002/api',     // 卫卫
       changeOrigin: true,
       pathRewrite: { '^/adminApi': '' },
     },
