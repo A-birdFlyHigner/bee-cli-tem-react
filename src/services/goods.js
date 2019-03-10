@@ -44,18 +44,18 @@ export async function backOff(params) {
 }
 
 // 预排期列表
-export async function listPreScheduledProduct() {
-  return request(`${domain}/revision/product/schedule/listPreScheduledProduct`);
+export async function listPreScheduledProduct(params) {
+  return request(`${domain}/revision/product/schedule/listPreScheduledProduct?${stringify(params)}`);
 }
 
 // 已排期列表
-export async function listScheduledProduct() {
-  return request(`${domain}/revision/product/schedule/listScheduledProduct`);
+export async function listScheduledProduct(params) {
+  return request(`${domain}/revision/product/schedule/listScheduledProduct?${stringify(params)}`);
 }
 
 // 未排期列表
-export async function listUnScheduledProduct() {
-  return request(`${domain}/revision/product/schedule/listUnScheduledProduct`);
+export async function listUnScheduledProduct(params) {
+  return request(`${domain}/revision/product/schedule/listUnScheduledProduct?${stringify(params)}`);
 }
 
 // 预排期列表

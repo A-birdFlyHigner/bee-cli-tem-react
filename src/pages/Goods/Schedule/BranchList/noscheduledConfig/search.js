@@ -107,6 +107,7 @@ export default {
     {
       label: '商品Id',
       name: 'productId',
+      value: '',
       component: 'Input',
       rules: {
         pattern: Reg.Num,

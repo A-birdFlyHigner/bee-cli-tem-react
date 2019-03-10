@@ -22,7 +22,10 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-const localToken = 'cab9071ac5c742f4ac5b423c58b0d7e3:1156'
+// liqiang 123456 9999
+const localToken = '370f39b88efc44a8a3e783ffc53e9945:1156'
+// hangzhou 123456 
+// const localToken = 'f5ef04e8dead484dbb76fab40d38a7d7:1155'
 
 const checkStatus = response => {
   if (response.status >= 200 && response.status < 300) {

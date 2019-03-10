@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import router from 'umi/router';
 import { LeForm } from '@lib/lepage'
+import { message } from 'antd'
 import baseInfo from './config/baseInfo'
 import salseEdit from './config/salseEdit'
 import wareHouse from './config/wareHouse'
@@ -8,6 +10,36 @@ import productInfo from './config/productInfo'
 import elseInfo from './config/elseInfo'
 import productImg from './config/productImg'
 import examined from './config/examined'
+
+// 确定
+const confirm = (err, values)=> {
+  if (!values.examineData.rejuctReason) {
+    message.warning('请输入拒绝原因！')
+    return false
+  }
+
+  // TODO: 请求通过审核接口
+
+  // 通过审核 进入审核通过未排期列表， 拒绝 进入审核推广失败列表
+  if (values.examineData.chooseType === 1) {
+    router.push({
+      pathname: '/goods/examine/branchlist'
+    })
+  } else {
+    router.push({
+      pathname: '/goods/examine/branchlist',
+      state: {
+        tabType: 2
+      }
+    })
+  }
+
+}
+
+// 取消
+const cancel = ()=> {
+  window.history.back(-1)
+}
 
 export default class Detail extends Component {
 
@@ -34,7 +66,25 @@ export default class Detail extends Component {
           ...productInfo,
           ...elseInfo,
           ...productImg,
-          ...examined,
+          examined()
+        ],
+        buttons: [
+          {
+            inline: true,
+            props: {
+              type: 'primary',
+              children: '确定',
+              onClick: confirm
+            }
+          },
+          {
+            inline: true,
+            props: {
+              type: '',
+              children: '取消',
+              onClick: cancel
+            }
+          },
         ]
       }
     }
@@ -49,19 +99,22 @@ export default class Detail extends Component {
       name: '西伯利亚红苹果',
       smallName: '苹果',
       pinpai: '西伯利亚',
-      salseData: [{
-        status: 1,
-        sku: 1,
-        skuCode: 31212,
-        price: 124,
-        stock: 100
-      }, {
-        status: 4,
-        sku: 3,
-        skuCode: 31212,
-        price: 124,
-        stock: 100
-      }],
+      salseData: [
+        {
+          status: 1,
+          sku: 1,
+          skuCode: 31212,
+          price: 124,
+          stock: 100
+        }, {
+          status: 4,
+          sku: 3,
+          skuCode: 31212,
+          price: 124,
+          stock: 100
+        }
+      ],
+      
       maozhong: 12,
       zhiliang: 20
     })
