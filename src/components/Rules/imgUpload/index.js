@@ -1,13 +1,12 @@
 import React from 'react';
 import { Icon, message } from 'antd';
 import _ from 'lodash';
+import { commomUploadPicture } from '@/services/common'
 
 const DEFAULT_STATE_KEY = '__upload';
 const DEFAULT_OPTIONS = {
   name: 'upload',
-  props: {
-    action: 'http://localhost:3005/user',
-  },
+  props: {},
 };
 const DEFAULT_CONFIG = {
   limit: 1,
@@ -53,21 +52,29 @@ export default (options = {}) => {
       leForm.setProps(name, {
         isLoading: true,
       });
-      setTimeout(() => {
-        let val = leForm.getValue(name) || [];
-        val = [
-          ...val,
-          {
-            uid: '1',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-            file
-          },
-        ];
-        leForm.setValue(name, val);
-        leForm.setProps(name, {
-          isLoading: false,
-        });
-      }, 1000);
+
+      const data = new FormData()
+      data.append('file', file)
+      commomUploadPicture(data).then(res => {
+        if (res) {
+          let val = leForm.getValue(name) || [];
+          val = [
+            ...val,
+            {
+              uid: res,
+              url: res,
+            },
+          ];
+          leForm.setValue(name, val);
+          leForm.setProps(name, {
+            isLoading: false,
+          });
+        } else {
+          leForm.setProps(name, {
+            isLoading: false,
+          });
+        }
+      })
     };
 
     const regTypeSize = file => {
@@ -120,7 +127,7 @@ export default (options = {}) => {
       len = len ? len.length : 0;
       if (fileList.length < len) {
         leForm.setValue(name, fileList);
-        this.setState({
+        leForm.setState({
           [stateKey]: { loading: false },
         });
       }

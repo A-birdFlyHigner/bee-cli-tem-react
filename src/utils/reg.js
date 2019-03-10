@@ -3,6 +3,7 @@ class RegUtils {
     this.name = 'reg';
     this.Num = /^[1-9]{1}[0-9]*$/; // 有意义的数值
     this.Number = /^[0-9]{1}[0-9]*$/; // 数字就行
+    this.Integer = /^-?\d+$/;
     this.Qq = /^\d{6,}$/;
     this.Tel = /^1\d{10}$/;
     (this.Email = /^[a-zA-Z0-9]+([._\\-]*[a-zA-Z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/);

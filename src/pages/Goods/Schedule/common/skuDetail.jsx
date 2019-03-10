@@ -54,12 +54,11 @@ export default class SkuDetail extends Component {
   }
   componentWillMount () {
     const { saleUnitsInfo } = this.props
-    setTimeout(() => {
-      this.setState({
-        loading: false,
-        dataSource: saleUnitsInfo
-      })
-    }, 1000)
+    this.setState({
+      loading: false,
+      dataSource: saleUnitsInfo
+    })
+    
   }
   componentWillUnmount () {
     this.setState = () => {

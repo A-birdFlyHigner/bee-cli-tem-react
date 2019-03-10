@@ -5,9 +5,18 @@ import * as Sty from './index.less';
 
 const tabelColumns = core => {
   const onInputChange = (val, index, name) => {
-    if (val !== '' && !Reg.Num.test(val)) return;
+    let num = val
+    const Integer = /^-?\d*$/
+    if (num !== '' && !Integer.test(num)) return;
     const items = JSON.parse(JSON.stringify(core.getValue('dataSource')));
-    items[index][name] = val;
+    const stockLast = items[index].stock3 + Number(num === '-' ? '' : num)
+    if (stockLast < 0) {
+      num = -(items[index].stock3)
+    }
+    if (stockLast > 10000) {
+      num = 10000 - items[index].stock3
+    }
+    items[index][name] = String(num);
     core.setValue('dataSource', items);
   };
   return [
@@ -38,6 +47,9 @@ const tabelColumns = core => {
       title: '总库存',
       dataIndex: 'stock',
       align: 'center',
+      render(text, row) {
+        return text + Number(row.editStock === '-' ? '' : row.editStock)
+      }
     },
     {
       title: '待发货占用',
@@ -53,6 +65,9 @@ const tabelColumns = core => {
       title: '可售库存',
       dataIndex: 'stock3',
       align: 'center',
+      render(text, row) {
+        return text + Number(row.editStock === '-' ? '' : row.editStock)
+      }
     },
     {
       title: '调整可售库存',
@@ -87,7 +102,7 @@ export default tableData => {
         },
         rules: {
           required: true,
-          pattern: Reg.Num,
+          pattern: Reg.Integer,
           message: '请输入整数',
         },
       },
@@ -101,9 +116,17 @@ export default tableData => {
           onClick: (err, val, core) => {
             if (err) return message.warning('请输入整数');
             const items = core.getValue('dataSource').map(p => {
+              let num = Number(val.batchSetStock)
+              const stockLast = p.stock3 + num
+              if (stockLast < 0) {
+                num = -Number(p.stock3)
+              }
+              if (stockLast > 10000) {
+                num = 10000 - p.stock3
+              }
               return {
                 ...p,
-                editStock: val.batchSetStock,
+                editStock: String(num),
               };
             });
             return core.setValues({ dataSource: items });

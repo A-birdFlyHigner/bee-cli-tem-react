@@ -33,3 +33,10 @@ export async function queryDistrictList(params) {
 export async function queryCategoryList(params) {
   return request(`${domain}/revision/category/children?${stringify(params)}`);
 }
+
+export async function commomUploadPicture(data) {
+  return request(`${domain}/common/uploadPicture`, {
+    method: 'POST',
+    body: data
+  });
+}
