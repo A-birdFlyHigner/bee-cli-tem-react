@@ -1,11 +1,33 @@
 import React from 'react'
-import { LeDialog, LeForm } from '@lib/lepage'
-import { Select } from 'antd'
-import { dialogFormJoinGroupConfig } from '../../common/commonConfig.js'
 import { message } from 'antd'
+import { LeDialog, LeForm } from '@lib/lepage'
+import { dialogFormJoinGroupConfig } from '../../common/commonConfig'
 import * as Sty from '../index.less'
 
-const Option = Select.Option
+const dialogFormConfig =  (number, text) => {
+  return {
+    form: {
+      layout: { // 表单布局 左侧和右侧比例
+        label: 0,
+        control: 24
+      }
+    },
+    items: [
+      {
+        label: '',
+        name: 'text',
+        render: () => {
+          return(
+            <div>
+              <div className={Sty.dialogMb}>已批量选中{number}个商品，确定批量{text}？</div>                                  
+            </div>
+          )
+        },
+      }
+
+    ],
+  }
+}
 
 const batchBackList = (err, values, formCore, listCore) => {
   const productIds = listCore.getSelectedRowKeys()
@@ -23,7 +45,7 @@ const batchBackList = (err, values, formCore, listCore) => {
       content () {
         return <LeForm {...dialogFormConfig(count,'批量回退')} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (suc) => {
         suc()
       }
     }
@@ -46,7 +68,7 @@ const batchScheduleList = (err, values, formCore, listCore) => {
       content () {
         return <LeForm {...dialogFormConfig(count,'批量排期')} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (suc) => {
         suc()
       }
     }
@@ -69,36 +91,11 @@ const joinGroup = (err, values, formCore, listCore) => {
       content () {
         return <LeForm {...dialogFormJoinGroupConfig(count,'加入分组')} />
       },
-      onOk: (values, suc, core) => {
+      onOk: (suc) => {
         suc()
       }
     }
   )
-}
-
-const dialogFormConfig =  (number, text) => {
-  return {
-    form: {
-      layout: { // 表单布局 左侧和右侧比例
-        label: 0,
-        control: 24
-      }
-    },
-    items: [
-      {
-        label: '',
-        name: 'text',
-        render: (values, core) => {
-          return(
-            <div>
-              <div className={Sty.dialogMb}>已批量选中{number}个商品，确定批量{text}？</div>                                  
-            </div>
-          )
-        },
-      }
-
-    ],
-  }
 }
 
 export default {

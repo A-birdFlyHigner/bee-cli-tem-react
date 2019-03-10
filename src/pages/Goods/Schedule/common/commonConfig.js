@@ -54,7 +54,9 @@ export function dialogFormJoinGroupConfig(number, text) {
         name: 'text',
         render: () => {
           return(
-            <div>已批量选中{number}个商品，确定批量{text}？</div>                                
+            <div>
+              <div>已批量选中{number}个商品，确定批量{text}？</div>                            
+            </div>
           )
         },
       },
@@ -79,6 +81,17 @@ export function dialogFormJoinGroupConfig(number, text) {
         when: (val) => {
           return val.type !== 3
         }
+      },
+      {
+        name: 'message',
+        component: 'Item',
+        render: () => {
+          return(
+            <div>
+              <div clssName='globalRed'>仅仅支持搜索在该城市投放的分组</div>                            
+            </div>
+          )
+        },
       },
 
     ],
@@ -125,7 +138,12 @@ export function dialogFormTextConfig(text) {
         name: 'text',
         render: () => {
           return (
-            <div>您确定{text}吗？</div>
+            <div>
+              <div>您确定将该商品{text}吗？</div>
+              {
+                text === '回退' ? <div className='globalRed'>商品将回退到审核通过未排期列表中。</div> : null
+              }
+            </div> 
           )
         },
       },

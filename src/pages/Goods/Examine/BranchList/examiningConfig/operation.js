@@ -26,6 +26,18 @@ const dialogFormConfig = (count) => {
           maxLength: 20,
         }
       },
+      {
+        name: 'message',
+        component: 'Item',
+        follow: false,
+        render(){
+          return (
+            <div className='globalRed'>
+              批量拒绝时，所有选中商品的拒绝原因一致
+            </div>
+          )
+        }
+      },
     ],
   }
 }

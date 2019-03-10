@@ -20,6 +20,7 @@ const dialogFormConfig = (count) => {
           return(
             <div>
               <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量撤销推广？</div>
+              <div className='globalRed'>总部撤销，商品将回到商家后台等待推广列表中，需重新推广。</div> 
             </div>
           )
         },
