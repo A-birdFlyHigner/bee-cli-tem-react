@@ -1,5 +1,6 @@
 import React from 'react'
 import Sty from '../Index.less'
+import ImgPreview from '@/components/ImgPreview'
 
 export default [
   {
@@ -17,7 +18,7 @@ export default [
               return (
                 <div className={Sty.imgInline} key={item}>
                   <span>{ item }：</span>
-                  <img alt='' src="http://qimg.hxnews.com/2019/0130/1548847547452.jpg" />
+                  <ImgPreview url="https://img.gegejia.com/b8972d54fc1e4633b438b61ed79f5a3b.jpg" />
                 </div>
               )
             })

@@ -45,7 +45,7 @@ export default {
       render: (val, record) => {
         return (
           <ImageTextCard
-            image={record.weixinQrcode}
+            image={record.mainImage}
             infoList={[
               {
                 label: '商品名称',

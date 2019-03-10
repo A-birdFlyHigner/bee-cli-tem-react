@@ -1,5 +1,6 @@
 import React from 'react'
 import Sty from '../Index.less'
+import ImgPreview from '@/components/ImgPreview'
 
 export default [
   {
@@ -14,7 +15,7 @@ export default [
             ['黑色', '白色', '蓝色', '绿色'].map((item) => {
               return (
                 <div className={Sty.imgInline} key={item}>
-                  <img alt="" src="http://qimg.hxnews.com/2019/0130/1548847547452.jpg" />
+                  <ImgPreview url='http://qimg.hxnews.com/2019/0130/1548847547452.jpg' />
                 </div>
               )
             })
@@ -31,7 +32,7 @@ export default [
             ['黑色', '白色', '蓝色', '绿色'].map((item) => {
               return (
                 <div className={Sty.imgInline} key={item}>
-                  <img alt="" src="http://qimg.hxnews.com/2019/0130/1548847547452.jpg" />
+                  <ImgPreview url='http://qimg.hxnews.com/2019/0130/1548847547452.jpg' />
                 </div>
               )
             })
