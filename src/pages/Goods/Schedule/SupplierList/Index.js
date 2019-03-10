@@ -4,7 +4,7 @@ import Scheduled from './scheduled'
 import Prescheduled from './prescheduled'
 import Noscheduled from './noscheduled'
 
-const TabPane = Tabs.TabPane
+const  { TabPane } = Tabs
 
 export default class SpreadList extends Component {
 

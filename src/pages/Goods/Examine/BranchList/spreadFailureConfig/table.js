@@ -43,12 +43,6 @@ const getStoreInfo = (id) => {
 export default {
   rowKey: 'id',
   scroll: { x: 1700 },
-  rowSelection: {
-    selections: true,
-    getCheckboxProps() {
-      return {};
-    },
-  },
   columns: [{
     title: '渠道商品id',
     dataIndex: 'cityCode',

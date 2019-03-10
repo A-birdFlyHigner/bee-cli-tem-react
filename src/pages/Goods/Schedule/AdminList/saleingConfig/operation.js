@@ -18,7 +18,10 @@ const dialogFormConfig = (count) => {
         name: 'tags',
         render: () => {
           return(
-            <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量回退？</div>
+            <div>
+              <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量回退？</div>
+              <div className='globalRed'>总部强制回退到分公司未排期列表中</div> 
+            </div>
           )
         },
       },

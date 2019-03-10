@@ -14,6 +14,15 @@ export default class ExaminList extends Component {
       tabType: '1',
     }
   }
+
+  componentWillMount(){
+    const { tabType } = this.store.location.query
+    if (tabType) {
+      this.setState({
+        tabType
+      })
+    }
+  }
   
   render () {
     const { tabType } = this.state

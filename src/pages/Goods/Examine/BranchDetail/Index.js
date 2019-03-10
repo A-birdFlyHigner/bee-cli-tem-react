@@ -13,7 +13,8 @@ import examined from './config/examined'
 
 // 确定
 const confirm = (err, values)=> {
-  if (!values.examineData.rejuctReason) {
+  const type = values.examineData.chooseType
+  if ((!values.examineData.rejuctReason) && (type === 2)) {
     message.warning('请输入拒绝原因！')
     return false
   }
@@ -21,19 +22,20 @@ const confirm = (err, values)=> {
   // TODO: 请求通过审核接口
 
   // 通过审核 进入审核通过未排期列表， 拒绝 进入审核推广失败列表
-  if (values.examineData.chooseType === 1) {
+  if (type === 1) {
     router.push({
       pathname: '/goods/examine/branchlist'
     })
   } else {
     router.push({
       pathname: '/goods/examine/branchlist',
-      state: {
-        tabType: 2
+      query: {
+        tabType: '2'
       }
     })
   }
 
+  return false
 }
 
 // 取消
@@ -114,7 +116,10 @@ export default class Detail extends Component {
           stock: 100
         }
       ],
-      
+      examineData: {
+        rejuctReason: '',  // 拒绝原因
+        chooseType: 1,     // 1 通过 2 拒绝
+      },
       maozhong: 12,
       zhiliang: 20
     })
