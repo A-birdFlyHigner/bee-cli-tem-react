@@ -3,10 +3,10 @@ import { LeForm } from '@lib/lepage'
 import baseInfo from './config/baseInfo'
 import salseInfo from './config/salseInfo'
 import salseEdit from './config/salseEdit'
+import logistics from './config/logistics'
 import wareHouse from './config/wareHouse'
 import skuMainImg from './config/skuImg'
 import productInfo from './config/productInfo'
-import elseInfo from './config/elseInfo'
 import productImg from './config/productImg'
 import {queryBranchProductSpreadDetail} from '@/services/goods'
 
@@ -32,10 +32,10 @@ export default class Detail extends Component {
           ...salseInfo,
           salseEdit(),
           salseEdit(true),
+          ...logistics,
           ...wareHouse,
           ...skuMainImg,
           ...productInfo,
-          ...elseInfo,
           ...productImg,
         ]
       }
@@ -45,7 +45,7 @@ export default class Detail extends Component {
   onMountLeForm = (formCore) => {
     this.formCore = formCore
     const {productId} = this.state
-    queryBranchProductSpreadDetail({channelProductId: productId}).then(res => {
+    queryBranchProductSpreadDetail({channelProductId: productId, productId}).then(res => {
       if (!res) return
       formCore.setValues(res)
     })

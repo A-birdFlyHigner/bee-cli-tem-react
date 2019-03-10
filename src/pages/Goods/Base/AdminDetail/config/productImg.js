@@ -7,15 +7,19 @@ export default [
     label: '商品主图',
     className: 'box-header',
   }, {
-    render () {
+    name: 'mainImages',
+    value: [],
+    render (values) {
+      const { mainImages = [] } = values
       return (
         <div className={Sty.skuImgBox}>
           <div>商品主图：</div>
           {
-            ['黑色', '白色', '蓝色', '绿色'].map((item) => {
+            mainImages.map((item) => {
+              const { url } = item
               return (
-                <div className={Sty.imgInline} key={item}>
-                  <ImgPreview url='http://qimg.hxnews.com/2019/0130/1548847547452.jpg' />
+                <div className={Sty.imgInline} key={url}>
+                  <ImgPreview url={url} />
                 </div>
               )
             })
@@ -24,15 +28,19 @@ export default [
       )
     }
   }, {
-    render () {
+    name: 'detailImages',
+    value: [],
+    render (values) {
+      const { detailImages = [] } = values
       return (
         <div className={Sty.skuImgBox}>
           <div>商品详情图：</div>
           {
-            ['黑色', '白色', '蓝色', '绿色'].map((item) => {
+            detailImages.map((item) => {
+              const { url } = item
               return (
-                <div className={Sty.imgInline} key={item}>
-                  <ImgPreview url='http://qimg.hxnews.com/2019/0130/1548847547452.jpg' />
+                <div className={Sty.imgInline} key={url}>
+                  <ImgPreview url={url} />
                 </div>
               )
             })

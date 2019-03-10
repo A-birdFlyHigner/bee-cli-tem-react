@@ -20,7 +20,7 @@ export async function queryProductDetail(params) {
 
 // 分公司商品审核详情
 export async function queryBranchProductSpreadDetail(params) {
-  return request(`${domain}/branch/product/spread/detail?${stringify(params)}`);
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
 }
 
 // 商品排期

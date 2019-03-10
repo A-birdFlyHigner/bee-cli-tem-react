@@ -6,10 +6,10 @@ export default [{
     className: 'box-header',
   }, {
     label: '商品长名称',
-    name: 'name',
+    name: 'desc',
   }, {
     label: '商品短名称',
-    name: 'desc',
+    name: 'name',
   }, {
     label: '品牌',
     name: 'brandName',
