@@ -7,7 +7,7 @@ const tabelColumns = () => {
     dataIndex: 'status',
     align: 'center',
     width: 120,
-    render: (values) => {
+    render: () => {
       return '可用'
     }
   }, {

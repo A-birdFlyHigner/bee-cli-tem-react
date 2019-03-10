@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input, Table } from 'antd'
-import Sty from '../Index.less'
+import Sty from './index.less'
 import Reg from '@/utils/reg'
 
 const inputItems = [{
@@ -35,7 +35,7 @@ const tabelColumns = (core, preview) => {
     dataIndex: 'status',
     align: 'center',
     width: 80,
-    render: (value) => {
+    render: () => {
       return '可用'
     }
   }, {

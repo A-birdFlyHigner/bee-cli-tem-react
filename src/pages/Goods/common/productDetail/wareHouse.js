@@ -2,8 +2,8 @@ import React from 'react'
 import Sty from './index.less'
 
 const whenFun = (values) => {
-  const { warehouseProperties = [] } = values
-  return !!warehouseProperties.length
+  const { warehouseProperties = [], logisticsMethod = 0 } = values
+  return !!warehouseProperties.length && logisticsMethod !== 3
 }
 
 export default [{

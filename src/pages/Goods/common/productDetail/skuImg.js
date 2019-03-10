@@ -1,5 +1,5 @@
 import React from 'react'
-import Sty from '../Index.less'
+import Sty from './index.less'
 import ImgPreview from '@/components/ImgPreview'
 
 export default [
