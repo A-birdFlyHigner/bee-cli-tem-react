@@ -13,15 +13,7 @@ export default [{
   }, {
     component: 'Item',
     name: 'warehouseProperties',
-    value: [{
-      propertyNameId: 1,
-      propertyName: '重量',
-      propertyValue: ['1kg', '2kg']
-    }, {
-      propertyNameId: 2,
-      propertyName: '重量',
-      propertyValue: ['1kg', '2kg']
-    }],
+    value: [],
     render (values) {
       const { warehouseProperties = [] } = values
       return (

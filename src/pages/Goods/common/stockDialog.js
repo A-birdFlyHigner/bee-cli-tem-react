@@ -19,6 +19,18 @@ const tabelColumns = core => {
     items[index][name] = String(num);
     core.setValue('dataSource', items);
   };
+
+  const onInputBlur = (val, index, name) => {
+    let num = val
+    num = num === '-' ? '' : num;
+    if (num.length > 1) {
+      num = num.replace(/^0/g, '');
+    }
+    const items = JSON.parse(JSON.stringify(core.getValue('dataSource')));
+    items[index][name] = num;
+    core.setValue('dataSource', items);
+  }
+
   return [
     {
       title: 'skuId',
@@ -77,6 +89,7 @@ const tabelColumns = core => {
           <Input
             value={text}
             className={Sty.inputCenter}
+            onBlur={e => onInputBlur(e.target.value, index, 'editStock')}
             onChange={e => onInputChange(e.target.value, index, 'editStock')}
           />
         );

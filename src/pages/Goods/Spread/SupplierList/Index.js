@@ -8,13 +8,19 @@ const {TabPane} = Tabs;
 
 export default class SpreadList extends Component {
   constructor(props) {
-    super();
-    this.store = props;
+    super(props)
+    const { location } = this.props
+    const { query } = location
+    const { status = 1 } = query
+    this.state = {
+      status
+    }
   }
 
   render() {
+    const { status } = this.state
     return (
-      <Tabs size="large" defaultActiveKey="1">
+      <Tabs size="large" defaultActiveKey={status}>
         <TabPane tab="等待推广" key="1">
           <Waiting />
         </TabPane>

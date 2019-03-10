@@ -114,6 +114,7 @@ export default function (preview) {
 
     const onBatchChange = (val, dataIndex) => {
       if (val !== '' && !Reg.Price.test(val)) return
+      if (Number(val) > 1000000) return
       const saleUnits = leForm.getValue('saleUnits').map(p => {
         return {
           ...p,

@@ -9,9 +9,6 @@ const editItem = record => {
 
 const handleStatus = (record) => {
   console.log(record)
-  // history.push({
-  //   pathname: '/productSpread/detail',
-  // })
 };
 
 const skuDetail = id => {
