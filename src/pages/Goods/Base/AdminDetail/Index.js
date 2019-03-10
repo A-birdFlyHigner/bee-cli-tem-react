@@ -8,6 +8,7 @@ import skuMainImg from './config/skuImg'
 import productInfo from './config/productInfo'
 import elseInfo from './config/elseInfo'
 import productImg from './config/productImg'
+import {queryBranchProductSpreadDetail} from '@/services/goods'
 
 export default class Detail extends Component {
 
@@ -43,31 +44,15 @@ export default class Detail extends Component {
 
   onMountLeForm = (formCore) => {
     this.formCore = formCore
-    formCore.setValues({
-      name: '西伯利亚红苹果',
-      smallName: '苹果',
-      pinpai: '西伯利亚',
-      salseData: [{
-        status: 1,
-        sku: 1,
-        skuCode: 31212,
-        price: 124,
-        stock: 100
-      }, {
-        status: 4,
-        sku: 3,
-        skuCode: 31212,
-        price: 124,
-        stock: 100
-      }],
-      maozhong: 12,
-      zhiliang: 20
+    const {productId} = this.state
+    queryBranchProductSpreadDetail({channelProductId: productId}).then(res => {
+      if (!res) return
+      formCore.setValues(res)
     })
   }
 
   render () {
-    const { productId, leFormConf } = this.state
-    console.log(productId)
+    const { leFormConf } = this.state
     return (
       <div>
         <LeForm {...leFormConf} onMount={this.onMountLeForm} />

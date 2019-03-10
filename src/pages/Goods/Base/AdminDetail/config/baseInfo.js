@@ -1,7 +1,6 @@
 export default [{
     label: '当前选择类目',
-    name: 'catogery',
-    value: '汽车/配件/用品'
+    name: 'pathName',
   }, {
     label: '基础信息',
     className: 'box-header',
@@ -10,8 +9,11 @@ export default [{
     name: 'name',
   }, {
     label: '商品短名称',
-    name: 'smallName',
+    name: 'desc',
   }, {
     label: '品牌',
-    name: 'pinpai',
+    name: 'brandName',
+    when: (values) => {
+      return !!values.brandName
+    }
   }, ]

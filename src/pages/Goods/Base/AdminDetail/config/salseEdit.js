@@ -5,29 +5,29 @@ import Reg from '@/utils/reg'
 
 const inputItems = [{
   title: '市场价（划掉价）',
-  dataIndex: 'price',
+  dataIndex: 'marketPrice',
 }, {
   title: '非会员价',
-  dataIndex: 'price1'
+  dataIndex: 'nonmemberPrice'
 }, {
   title: '会员价',
-  dataIndex: 'price2'
+  dataIndex: 'memberPrice'
 }, {
   title: '成本价',
-  dataIndex: 'price3',
+  dataIndex: 'costPrice',
   disabled: true,
 }, {
   title: '毛利',
-  dataIndex: 'price4'
+  dataIndex: 'grossProfit'
 }]
 
 const tabelColumns = (core, preview) => {
 
   const onInputChange = (val, index, name) => {
     if (val !== '' && !Reg.Price.test(val)) return
-    const salseData = JSON.parse(JSON.stringify(core.getValue('salseData')))
-    salseData[index][name] = val
-    core.setValue('salseData', salseData)
+    const saleUnits = JSON.parse(JSON.stringify(core.getValue('saleUnits')))
+    saleUnits[index][name] = val
+    core.setValue('saleUnits', saleUnits)
   }
   
   return [{
@@ -35,17 +35,20 @@ const tabelColumns = (core, preview) => {
     dataIndex: 'status',
     align: 'center',
     width: 80,
-    render: (value, row, index) => {
+    render: (value) => {
       return '可用'
     }
   }, {
     title: 'sku组合',
-    dataIndex: 'sku',
+    dataIndex: 'propertyPairList',
     align: 'center',
     width: 180,
+    render: (val) => {
+      return <span>{val.join('-') || '默认'}</span>
+    }
   }, {
     title: 'sku编码（发货编码）',
-    dataIndex: 'skuCode',
+    dataIndex: 'deliverCode',
     align: 'center',
     width: 150,
   }, 
@@ -69,25 +72,40 @@ const tabelColumns = (core, preview) => {
   }),
   {
     title: '限购数量',
-    dataIndex: 'stock',
+    dataIndex: 'restriction',
     align: 'center',
     width: 120,
   }, {
     title: '库存',
-    dataIndex: 'stock1',
+    dataIndex: 'spreadStock',
     align: 'center',
     width: 100,
   }, {
     title: '会员价佣金',
-    dataIndex: 'stock2',
+    dataIndex: 'memberYongJin',
     align: 'center',
     width: 120,
+    render: (values, rows) => {
+      const {
+        memberPrice,
+        costPrice,
+        grossProfit
+      } = rows
+      return <span>{(memberPrice*100 - costPrice*100 - grossProfit*100)/100}</span>
+    }
   }, {
     title: '非会员价佣金',
-    dataIndex: 'stock3',
+    dataIndex: 'nonmemberYongJin',
     align: 'center',
     width: 150,
-  },]
+    render: (values, rows) => {
+      const {
+        nonmemberPrice,
+        costPrice,
+        grossProfit} = rows
+      return <span>{(nonmemberPrice*100 - costPrice*100 - grossProfit*100)/100}</span>
+    }
+  }]
 }
 
 // preview为true则仅展示数据
@@ -96,7 +114,7 @@ export default function (preview) {
 
     const onBatchChange = (val, dataIndex) => {
       if (val !== '' && !Reg.Price.test(val)) return
-      const salseData = leForm.getValue('salseData').map(p => {
+      const saleUnits = leForm.getValue('saleUnits').map(p => {
         return {
           ...p,
           [dataIndex]: val
@@ -104,7 +122,7 @@ export default function (preview) {
       })
       leForm.setValues({
         [`batch${dataIndex}`]: val,
-        salseData
+        saleUnits
       })
     }
     const batchItem = preview ? [] : inputItems.map((item, index) => {
@@ -130,16 +148,16 @@ export default function (preview) {
     }, 
     ...batchItem,
     {
-      name: 'salseData',
+      name: 'saleUnits',
       component: 'Item',
       render (values, core) {
         return (
           <Table 
-            rowKey='sku' 
+            rowKey='skuId' 
             scroll={{x: 1400}}
             columns={tabelColumns(core, preview)} 
             pagination={false}
-            dataSource={values.salseData} 
+            dataSource={values.saleUnits} 
           />
         )
       }

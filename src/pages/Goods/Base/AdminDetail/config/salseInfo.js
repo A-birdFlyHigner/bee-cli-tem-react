@@ -7,27 +7,30 @@ const tabelColumns = () => {
     dataIndex: 'status',
     align: 'center',
     width: 120,
-    render: (value, row, index) => {
+    render: (values) => {
       return '可用'
     }
   }, {
     title: 'sku组合',
-    dataIndex: 'sku',
+    dataIndex: 'propertyPairList',
     align: 'center',
     width: 220,
+    render: (val) => {
+      return <span>{val.join('-') || '默认'}</span>
+    }
   }, {
     title: 'sku编码（发货编码）',
-    dataIndex: 'skuCode',
+    dataIndex: 'deliverCode',
     align: 'center',
     width: 220,
   }, {
     title: '成本价',
-    dataIndex: 'price',
+    dataIndex: 'costPrice',
     align: 'center',
     width: 120,
   }, {
     title: '限购数量',
-    dataIndex: 'stock',
+    dataIndex: 'restriction',
     align: 'center',
     width: 120,
   }, ]
@@ -37,15 +40,15 @@ export default [{
   label: '销售属性',
   className: 'box-header',
 }, {
-  name: 'salseData',
+  name: 'saleUnits',
   component: 'Item',
   render (values) {
     return (
       <Table 
-        rowKey='sku' 
+        rowKey='skuId' 
         columns={tabelColumns()} 
         pagination={false}
-        dataSource={values.salseData} 
+        dataSource={values.saleUnits} 
       />
     )
   }

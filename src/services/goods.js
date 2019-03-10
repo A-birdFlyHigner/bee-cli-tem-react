@@ -1,7 +1,9 @@
 import request from '@/utils/request';
+import { stringify } from 'qs';
 
 const domain = '/adminApi';
 
+// 商品列表
 export async function queryCommunityManager(params) {
   return request(`${domain}/product/list`, {
     method: 'POST',
@@ -11,13 +13,14 @@ export async function queryCommunityManager(params) {
   });
 }
 
+// 商品详情
 export async function queryProductDetail(params) {
-  return request(`${domain}/community/list`, {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
+}
+
+// 分公司商品审核详情
+export async function queryBranchProductSpreadDetail(params) {
+  return request(`${domain}/branch/product/spread/detail?${stringify(params)}`);
 }
 
 // 商品排期
