@@ -5,7 +5,7 @@ import { Table } from 'antd'
 export default class StoreInfo extends Component {
   constructor(props) {
     super(props)
-    const { saleUnits = []} = this.props
+    const { saleUnitsInfo = []} = this.props
     this.state = {
       columns: [{
         title: 'SKU id',
@@ -48,16 +48,16 @@ export default class StoreInfo extends Component {
         key: 'notPayLockStock',
         align: 'center'
       }, ],
-      saleUnits,
+      saleUnitsInfo,
     }
   }
 
   render () {
-    const { saleUnits, columns } = this.state;
+    const { saleUnitsInfo, columns } = this.state;
     return (
       <div style={{margin: '20px 0'}}>
         <Table 
-          dataSource={saleUnits} 
+          dataSource={saleUnitsInfo} 
           columns={columns} 
           pagination={false}
         />
