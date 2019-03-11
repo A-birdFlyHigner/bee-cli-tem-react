@@ -1,6 +1,8 @@
 import React from 'react';
 import {Tooltip, Icon, Modal} from 'antd'
 
+const formatType = 'YYYY-MM-DD HH:mm:ss'
+
 const {confirm} = Modal
 
 const download = values => {
@@ -37,10 +39,12 @@ export default {
     {
       title: '序号',
       dataIndex: 'key',
+      width: '40px',
     },
     {
       title: '采购单号',
       dataIndex: 'purchaseNo',
+      width: '40px',
       render(value, values, index) {
         return (
           <div>
@@ -51,11 +55,23 @@ export default {
     },
     {
       title: '采购时间',
-      dataIndex: 'purchaseTime',
+      dataIndex: 'createTime',
+      width: '40px',
+      render(value, values, index) {
+        return (
+          <span>{moment(value).format(formatType)}</span>
+        );
+      },
     },
     {
       title: '期望入库时间',
-      dataIndex: 'inputExpectTime',
+      dataIndex: 'expectInboundTime',
+      width: '40px',
+      render(value, values, index) {
+        return (
+          <span>{moment(value).format(formatType)}</span>
+        );
+      },
     },
     {
       title: (
@@ -63,42 +79,40 @@ export default {
           失效时间 <Tooltip title={`失效时间仅供业务方标记使用，不影响采购单的正常流转和操作`}><Icon type="question-circle" /></Tooltip>
         </div>
       ),
-      dataIndex: 'invalidTime',
+      dataIndex: 'loseEfficacyTime',
     },
     {
       title: '仓库名称',
-      dataIndex: 'warehouse',
+      dataIndex: 'warehouseName',
     },
     {
       title: '供应商名称',
-      dataIndex: 'supplier',
+      dataIndex: 'supplierName',
     },
     {
       title: '采购单来源',
-      dataIndex: 'supplySource',
+      dataIndex: 'source',
     },
     {
       title: '采购单概况',
-      dataIndex: 'supplySurvey',
+      dataIndex: 'purchaseGeneralInfo',
     },
     {
       title: '供应商确认状态',
-      dataIndex: 'confirmState',
+      dataIndex: 'status1',
     },
     {
       title: '采购单状态',
-      dataIndex: 'supplyState',
+      dataIndex: 'status',
     },
     {
       title: '销售订单',
-      dataIndex: 'sellerOrder',
+      dataIndex: 'referSellOrderCount',
       render(value, values, index) {
         return (
           <div>
             <span>{value}</span>;
             <a href="javascript:;" onClick={download.bind(null, values)} >下载</a>;
-            {/**/}
-            {/*<a href="http://www.mogujie.com">下载</a>*/}
           </div>
         );
       },

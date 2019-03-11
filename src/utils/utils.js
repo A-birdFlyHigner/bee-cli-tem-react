@@ -202,9 +202,13 @@ export function leListQuery(service) {
     },
     query: async queryParams => {
       const data = await service(queryParams);
+      const List = data.list || data.rows || []
+      const resultList = List.map((item, index)=>{
+        return {...item, key: (queryParams.currentPage - 1) * queryParams.pageSize + index + 1}
+      })
       return {
         total: data.total,
-        dataList: data.list,
+        dataList: resultList,
         currentPage: queryParams.currentPage,
       };
     },
