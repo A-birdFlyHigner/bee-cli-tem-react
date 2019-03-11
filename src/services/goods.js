@@ -31,9 +31,19 @@ export async function queryProductDetail(params) {
   return request(`${domain}/revision/product/detail?${stringify(params)}`);
 }
 
-// 分公司商品审核详情
+// 分公司商品审核、编辑详情
 export async function queryBranchProductSpreadDetail(params) {
-  return request(`${domain}/revision/product/detail?${stringify(params)}`);
+  return request(`${domain}/branch/product/spread/detail?${stringify(params)}`);
+}
+
+// 修改价格信息
+export async function updateSkuPrice(params) {
+  return request(`${domain}/branch/product/spread/updateSkuPrice`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
 }
 
 // 商品排期

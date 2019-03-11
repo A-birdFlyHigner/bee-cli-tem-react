@@ -268,9 +268,9 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline list-inline">
-          <a onClick={()=> editItem(record.id)}>编辑</a>
+          <a onClick={()=> editItem(record.saleGoodsId)}>编辑</a>
           <span />
-          <a onClick={()=> goSetTime(record.id)}>排期</a>
+          <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
           <span />
           <a className='table-operate' onClick={()=> goRevoke(record)}>撤销推广</a>
         </div>
