@@ -11,7 +11,7 @@ export default class SpreadList extends Component {
     super(props)
     const { location } = this.props
     const { query } = location
-    const { status = 1 } = query
+    const { status = '1' } = query
     this.state = {
       status
     }

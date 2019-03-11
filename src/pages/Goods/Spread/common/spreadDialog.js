@@ -24,7 +24,7 @@ const renderTreeNodes = data =>
     return <TreeNode {...item} key={item.key} selectable={false} className={Sty.treeNode} />;
   });
 
-export default tagList => {
+export default (tagList, disCitys) => {
   return {
     settings: {
       values: { checkedKeys: [], spreadTree: treeData, halfCheckedKeys: [] },

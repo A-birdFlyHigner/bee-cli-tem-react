@@ -32,14 +32,21 @@ export default class Detail extends Component {
 
   componentWillMount () {
     const { query } = this.props
-    this.setState({
-      spreadList: [{
-        spreadName: query.spreadName,
-        cityIds: _.concat(query.cityIds),
+    if (query.spreadName) {
+      this.setState({
+        spreadList: [{
+          spreadName: query.spreadName,
+          cityIds: _.concat(query.cityIds),
+          productIds: _.concat(query.productIds)
+        }],
         productIds: _.concat(query.productIds)
-      }],
-      productIds: _.concat(query.productIds)
-    })
+      })
+    } 
+    else {
+      this.setState({
+        productIds: _.concat(query.productIds)
+      })
+    }
   }
   
   onMountLeForm (key, leForm) {
@@ -73,8 +80,12 @@ export default class Detail extends Component {
   }
 
   dialogAddSpread = () => {
+    const { spreadList } = this.state
     const tags = ['全部', '华南地区', '华东地区']
-    const formConf = dialogFormConfig(tags)
+    const disabledCitys = _.concat(spreadList.map(item => {
+      return item.cityIds
+    }))
+    const formConf = dialogFormConfig(tags, disabledCitys)
     LeDialog.show({
       title: '可选推广渠道',
       width: '800px',
