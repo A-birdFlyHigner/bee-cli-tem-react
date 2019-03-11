@@ -4,7 +4,7 @@ import { LeList } from '@lib/lepage'
 import filterConfig from './scheduledConfig/search'
 import operationConfig from './scheduledConfig/operation'
 import tableConfig from './scheduledConfig/table'
-import { queryCommunityManager } from '@/services/goods'
+import { listUnScheduledProduct } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
 
 export default class Scheduled extends Component {
@@ -19,7 +19,7 @@ export default class Scheduled extends Component {
       filterConfig,
       operationConfig,
       tableConfig,
-      ...leListQuery(queryCommunityManager)
+      ...leListQuery(listUnScheduledProduct)
     }
     return (
       <LeList {...config} />

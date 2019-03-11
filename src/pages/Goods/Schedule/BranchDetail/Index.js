@@ -37,7 +37,6 @@ const confirm = (err, values)=> {
     skuPriceInfos: skuPriceInfosList
   }).then(res => {
     if (!res) return
-    console.log('======',res)
     window.history.back(-1)  
   })
 

@@ -80,6 +80,7 @@ export default {
       name: 'examineTime',
       component: 'RangePicker',
       value: [],
+      className: 'globalRange',              
       props: {
         format: 'YYYY-MM-DD HH:mm:ss',
         placeholder: ['请选择开始时间', '请选择结束时间'],

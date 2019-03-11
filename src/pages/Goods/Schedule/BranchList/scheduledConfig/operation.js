@@ -2,7 +2,7 @@ import React from 'react'
 import { message } from 'antd'
 import { LeDialog, LeForm } from '@lib/lepage'
 import * as Sty from '../index.less'
-import { dialogFormJoinGroupConfig } from '../../common/commonConfig'
+import { dialogFormJoinGroupConfig } from '../../../common/commonConfig'
 
 const dialogFormConfig = (count) => {
   return {
