@@ -124,6 +124,7 @@ export default {
       label: '总部审核时间',
       name: 'examineTime',
       component: 'RangePicker',
+      className: 'globalRange',                    
       value: [],
       props: {
         format: 'YYYY-MM-DD HH:mm:ss',

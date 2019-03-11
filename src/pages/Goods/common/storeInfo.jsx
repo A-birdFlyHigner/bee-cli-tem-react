@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
-import PropTypes from 'prop-types'
-/* eslint-disable */ 
-export default class SkuDetail extends Component {
-  constructor() {
-    super()
+/* eslint-disable */
+
+export default class StoreInfo extends Component {
+  constructor(props) {
+    super(props)
+    const { saleUnits = []} = this.props
     this.state = {
-      loading: true,
       columns: [{
         title: 'SKU id',
         dataIndex: 'skuId',
@@ -17,12 +17,16 @@ export default class SkuDetail extends Component {
         dataIndex: 'propertyPairList',
         key: 'propertyPairList',
         align: 'center',
-        render: propertyPairList => (
-          <div>
-            <span className="globalRed">(停售)</span>
-            <span>{propertyPairList}</span>
-          </div>
-        )
+        render: (text, record) => {
+          const { saleStatus } = record
+          const StopSale = <span className='globalRed'>（停售）</span>
+          return (
+            <div>
+              { saleStatus !== 0 ? null : StopSale}
+              <span>{text.join('&')}</span>
+            </div>
+          )
+        }
       },  {
         title: '推广库存',
         dataIndex: 'spreadStock',
@@ -44,36 +48,19 @@ export default class SkuDetail extends Component {
         key: 'notPayLockStock',
         align: 'center'
       }, ],
-      dataSource: []
-    }
-  }
-
-  static propTypes = {
-    saleUnitsInfo: PropTypes.array,
-  }
-  componentWillMount () {
-    const { saleUnitsInfo } = this.props
-  
-    this.setState({
-      loading: false,
-      dataSource: saleUnitsInfo
-    })
-  }
-  componentWillUnmount () {
-    this.setState = () => {
-      return null
+      saleUnits,
     }
   }
 
   render () {
-    const {loading, dataSource, columns} = this.state
+    const { saleUnits, columns } = this.state;
     return (
       <div style={{margin: '20px 0'}}>
         <Table 
-          dataSource={dataSource} 
+          dataSource={saleUnits} 
           columns={columns} 
           pagination={false}
-          loading={loading} />
+        />
       </div>
     )
   }

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
-import PropTypes from 'prop-types'
-/* eslint-disable */ 
-export default class SkuDetail extends Component {
+/* eslint-disable */
+
+export default class SkuInfo extends Component {
   constructor(props) {
     super(props)
+    const { saleUnitsInfo = []} = this.props
 
     this.state = {
-      loading: true,
       columns: [{
         title: 'SKU id',
         dataIndex: 'skuId',
@@ -44,37 +44,20 @@ export default class SkuDetail extends Component {
         key: 'grossProfit',
         align: 'center'
       }, ],
-      dataSource: []
+      saleUnitsInfo,
     }
 
-  }
-
-  static propTypes = {
-    saleUnitsInfo: PropTypes.array,
-  }
-  componentWillMount () {
-    const { saleUnitsInfo } = this.props
-    this.setState({
-      loading: false,
-      dataSource: saleUnitsInfo
-    })
-    
-  }
-  componentWillUnmount () {
-    this.setState = () => {
-      return null
-    }
   }
 
   render () {
-    const {loading, dataSource, columns} = this.state
+    const { saleUnitsInfo, columns } = this.state
     return (
       <div style={{margin: '20px 0'}}>
         <Table 
-          dataSource={dataSource} 
+          dataSource={saleUnitsInfo} 
           columns={columns} 
           pagination={false}
-          loading={loading} />
+        />
       </div>
     )
   }
