@@ -4,10 +4,15 @@ import { ImageTextCard } from '@/components/InfoCard'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
 import { dialogFormSetGroupConfig, dialogFormTextConfig } from '../../../common/commonConfig'
+import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
+import { updateSortNumber, backOff } from '@/services/goods'
+
+
+const { logisticsMethod, logisticsType } = commonMessage
 
 // 设置排序值
-const setGroupValue = () => {
+const setGroupValue = (saleGoodsId) => {
   LeDialog.show(
     {
       title: '设置排序值',
@@ -16,6 +21,20 @@ const setGroupValue = () => {
         return <LeForm {...dialogFormSetGroupConfig()} />
       },
       onOk: (values, suc) => {
+        const { sortValue } = values
+        
+        updateSortNumber({ 
+          channelProductId: saleGoodsId, 
+          sortNumber: Number(sortValue)
+        }).then(res => {
+          if (!res) return
+          // 关闭弹窗
+          
+          suc()
+          // TODO: 刷新列表 拿不到leList
+          // leList.refresh();
+        })
+
         suc()
       }
     }
@@ -23,7 +42,7 @@ const setGroupValue = () => {
 }
 
 // 库存信息
-const getStoreInfo = (id) => {
+const getStoreInfo = (saleUnits) => {
   LeDialog.show({
     title: '库存信息',
     width: '1000px',
@@ -33,14 +52,14 @@ const getStoreInfo = (id) => {
     },
     content () {
       return (
-        <StoreInfo productId={id} />
+        <StoreInfo saleUnitsInfo={saleUnits} />
       )
     }
   })
 }
 
 // 单个回退
-const goBack = () => {
+const goBack = (saleGoodsId) => {
   LeDialog.show(
     {
       title: '回退',
@@ -49,6 +68,20 @@ const goBack = () => {
         return <LeForm {...dialogFormTextConfig('回退')} />
       },
       onOk: (values, suc) => {
+        const channelProductIdList = []
+        channelProductIdList.push(saleGoodsId)
+        
+        backOff({ 
+          channelProductIdList, 
+        }).then(res => {
+          if (!res) return
+          // 关闭弹窗
+          
+          suc()
+          // TODO: 刷新列表 拿不到leList
+          // leList.refresh();
+        })
+
         suc()
       }
     }
@@ -56,7 +89,7 @@ const goBack = () => {
 }
 
 // 渠道商品规格详情
-const getSkuDetail = (id) => {
+const getSkuDetail = (saleUnits) => {
   LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
@@ -66,14 +99,14 @@ const getSkuDetail = (id) => {
     },
     content () {
       return (
-        <SkuDetail productId={id} />
+        <SkuDetail saleUnitsInfo={saleUnits} />
       )
     }
   })
 }
 
 export default {
-  rowKey: 'id',
+  rowKey: 'saleGoodsId',
   scroll: { x: 1800 },
   rowSelection: {
     selections: true,
@@ -83,29 +116,38 @@ export default {
   },
   columns: [{
     title: '渠道商品id',
-    dataIndex: 'cityCode',
-    key: 'cityCode',
+    dataIndex: 'saleGoodsId',
+    key: 'saleGoodsId',
     align: 'center',                  
     singleLine: true,
   }, {
     title: '基础信息',
-    dataIndex: 'id',
+    key: 'baseInfo',
+    dataIndex: 'baseInfo',
     render: (val, record) => {
       return (
         <ImageTextCard
-          image={record.weixinQrcode}
+          image={record.mainImages[0].url}
           infoList={[
             {
               label: '商品名称',
-              value: record.provinceName,
+              value: record.name,
             },
             {
               label: '品牌',
-              value: record.cityName,
+              value: record.brandName?record.brandName:'无',
             },
             {
-              label: '商品Id',
-              value: record.id,
+              label: '商品id',
+              value: record.saleGoodsId,
+            },
+            {
+              label: '发货方式',
+              value: logisticsMethod[record.logisticsMethod],
+            },
+            {
+              label: '发货时效',
+              value: logisticsType[record.logisticsType],
             },
           ]}
         />
@@ -113,8 +155,8 @@ export default {
     }
   }, {
     title: '类目',
-    dataIndex: 'categoryPath',
-    key: 'categoryPath',
+    dataIndex: 'categoryName',
+    key: 'categoryName',
     align: 'center',      
     width: 100,                         
     mutipleLine: true,
@@ -137,15 +179,15 @@ export default {
     },
   }, {
     title: '规格',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'specifications',
+    key: 'specifications',
     width: 100,           
     align: 'center',                    
     render: (val, record) => {
       return(
         <span>
           3个<br />
-          <a className="linkButton" onClick={()=> getSkuDetail(record.id)}>查看</a>
+          <a className="linkButton" onClick={()=> getSkuDetail(record.saleUnits)}>查看</a>
         </span>
       )
     }
@@ -155,13 +197,14 @@ export default {
     key: 'price',
     align: 'center',  
     width: 300,                                 
-    render: () => {
+    render: (values,record) => {
       return (
         <div className={Sty.prices}>
-          <span>市场价:80.00~100.00</span><br />
-          <span>成本价:80.00~100.00</span><br />
-          <span>非会员价:80.00~101.00</span><br />
-          <span>非会员价:60.00~102.00</span><br />
+          <span>市场价: {record.marketPriceStr}</span><br />
+          <span>成本价: {record.salePrice}</span><br />
+          <span>非会员价: {record.nonmemberPriceStr}</span><br />
+          <span>会员价: {record.memberPriceStr}</span><br />
+          <span>毛利: {record.grossProfitStr}</span><br />
         </div>
       )
     }
@@ -175,7 +218,7 @@ export default {
   }, {
     title: '城市',
     dataIndex: 'cityName',
-    key: 'city',
+    key: 'cityName',
     width: 120,               
     align: 'center',                    
     singleLine: true,
@@ -185,12 +228,12 @@ export default {
     key: 'storeInfo',
     align: 'center',    
     width: 300,                                   
-    render: (record) => {
+    render: (value,record) => {
       return (
         <div>
-          <span>推广库存：100</span><br />
-          <span>累计售出：10</span><br />
-          <a className="linkButton" onClick={()=> getStoreInfo(record.id)}>查看</a>
+          <span>推广库存：{record.totalStock}</span><br />
+          <span>累计售出：{record.saleStock}</span><br />
+          <a className="linkButton" onClick={()=> getStoreInfo(record.saleUnits)}>查看</a>
         </div>
       )
     }
@@ -200,11 +243,11 @@ export default {
     key: 'addressInfo',
     align: 'center',    
     width: 300,                                   
-    render: () => {
+    render: (value,record) => {
       return (
         <div>
-          <span>店铺ID：10</span><br />
-          <span>店铺名称：长沙一哥店铺</span><br />
+          <span>店铺ID：{record.sellerMainId}</span><br />
+          <span>店铺名称：{record.sellerMainName}</span><br />
         </div>
       )
     }
@@ -230,9 +273,9 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline list-inline">
-          <a onClick={()=> setGroupValue(record)}>设置排序值</a>
+          <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值</a>
           <span />
-          <a onClick={()=> goBack(record.id)}>回退</a>
+          <a onClick={()=> goBack(record.saleGoodsId)}>回退</a>
         </div>
       )
     }

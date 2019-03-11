@@ -20,7 +20,7 @@ const changeTime = (e, leFormCore) => {
   })
 }
 
-export function dialogFormSetTimeConfig() {
+export function dialogFormSetTimeConfig(count) {
   return {
     form: {
       layout: { // 表单布局 左侧和右侧比例
@@ -39,16 +39,22 @@ export function dialogFormSetTimeConfig() {
         },
         render: (value, leFormCore) => {
           return (
-            <RangePicker
-              disabledDate={disabledDate}
-              placeholder={['开始时间','结束时间']}
-              onChange={e => changeTime(e,leFormCore)}
-              showTime={{
-                hideDisabledOptions: true,
-                defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],
-              }}
-              format="YYYY-MM-DD HH:mm:ss"
-            />
+            <div>
+              {
+                count?<div>已批量选中{count}个商品，确定批量排期？</div>:null
+              }
+              <RangePicker
+                disabledDate={disabledDate}
+                placeholder={['开始时间','结束时间']}
+                onChange={e => changeTime(e,leFormCore)}
+                className='scheduleRange'
+                showTime={{
+                  hideDisabledOptions: true,
+                  defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],
+                }}
+                format="YYYY-MM-DD HH:mm:ss"
+              />
+            </div>
           )
         },
       },
@@ -150,8 +156,8 @@ export function dialogFormTextConfig(text) {
     },
     items: [
       {
-        label: '',
         name: 'text',
+        component: 'Item',        
         render: () => {
           return (
             <div>

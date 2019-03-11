@@ -1,36 +1,13 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
 import { message } from 'antd'
-import * as Sty from '../index.less'
+import { dialogFormSetTimeConfig } from '../../../common/commonConfig'
+import { addOrUpdate } from '@/services/goods'
 
-const dialogFormConfig = (count) => {
-
-  return {
-    form: {
-      layout: { // 表单布局 左侧和右侧比例
-        label: 0,
-        control: 24
-      }
-    },
-    items: [
-      {
-        label: '',
-        name: 'text',
-        render: () => {
-          return(
-            <div>
-              <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量排期？</div>
-            </div>
-          )
-        },
-      },
-    ],
-  }
-}
-
+// 批量排期
 const setBranchList = (err, values, formCore, listCore) => {
-  const productIds = listCore.getSelectedRowKeys()
-  const count = productIds.length
+  const productIdList = listCore.getSelectedRowKeys()
+  const count = productIdList.length
 
   if (!count) {
     message.warning('请至少勾选一项！')
@@ -42,10 +19,17 @@ const setBranchList = (err, values, formCore, listCore) => {
       title: '批量排期',
       width: '500px',
       content () {
-        return <LeForm {...dialogFormConfig(count)} />
+        return <LeForm {...dialogFormSetTimeConfig(count)} />
       },
-      onOk: (suc) => {
-        suc()
+      onOk: (value, suc) => {
+        const { startTime, endTime } = value.scheduleTime
+
+        addOrUpdate({ startTime, endTime, productIdList }).then(res => {
+          if (!res) return
+          // 关闭弹窗
+          suc()
+        })
+
       }
     }
   )

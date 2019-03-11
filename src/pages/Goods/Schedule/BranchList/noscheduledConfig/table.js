@@ -54,7 +54,6 @@ const getStoreInfo = (saleUnits) => {
 
 // 排期
 const goSetTime = (saleGoodsId) => {
-
   LeDialog.show(
     {
       title: '设置活动时间',
@@ -68,8 +67,11 @@ const goSetTime = (saleGoodsId) => {
         productIdList.push(saleGoodsId)
         addOrUpdate({ startTime, endTime, productIdList }).then(res => {
           if (!res) return
-          // 管理弹窗
+          // 关闭弹窗
+          
           suc()
+          // TODO: 刷新列表 拿不到leList
+          // leList.refresh();
         })
       }
     }
@@ -116,7 +118,7 @@ const goRevoke = () => {
 }
 
 export default {
-  rowKey: 'id',
+  rowKey: 'saleGoodsId',
   scroll: { x: 1500 },
   rowSelection: {
     selections: true,
