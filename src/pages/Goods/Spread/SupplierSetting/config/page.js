@@ -5,6 +5,7 @@ import { Button, message } from 'antd'
 import spreadConfig from './spread'
 import * as Sty from '../Index.less'
 import dialogFormConfig from '../../common/spreadDialog'
+import {queryProductSpreadChannelList, queryProductSpreadProductDetail} from '@/services/goods'
 
 const proList = [{
   productName: '面包',
@@ -57,11 +58,12 @@ export default class Detail extends Component {
     })
   }
 
-  getSkuListByproductId (key, id) {
+  getSkuListByproductId = async (key, id) => {
     const { state } = this
-    if (state[`dataSource${id}`]) {  
+    if (state[`dataSource${id}`]) {
       this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(state[`dataSource${id}`])))
     } else {
+      const dataList = await queryProductSpreadProductDetail({productId: id})
       setTimeout(() => {
         this.setState({
           [`dataSource${id}`]: JSON.parse(JSON.stringify(proList))
@@ -79,13 +81,16 @@ export default class Detail extends Component {
     })
   }
 
-  dialogAddSpread = () => {
+  dialogAddSpread = async () => {
     const { spreadList } = this.state
-    const tags = ['全部', '华南地区', '华东地区']
-    const disabledCitys = _.concat(spreadList.map(item => {
-      return item.cityIds
-    }))
-    const formConf = dialogFormConfig(tags, disabledCitys)
+    const disabledCitys = []
+    spreadList.map(item => {
+      disabledCitys.push(...item.cityIds)
+      return item
+    })
+    const channelList = await queryProductSpreadChannelList()
+    if (!channelList) message.warning('获取推广渠道出现异常')
+    const formConf = dialogFormConfig(channelList, disabledCitys)
     LeDialog.show({
       title: '可选推广渠道',
       width: '800px',
@@ -115,6 +120,7 @@ export default class Detail extends Component {
           }).join('、')
           return `${p.title}（${cityName}）`
         }).join('；')
+        if (!cityIds.length) return message.warning('推广渠道，选择到市')
         const {spreadList, productIds} = this.state
         this.setState({
           spreadList: [
@@ -127,6 +133,7 @@ export default class Detail extends Component {
           ]
         })
         suc()
+        return false
       }
     })
   }

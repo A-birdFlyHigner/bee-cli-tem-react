@@ -197,12 +197,19 @@ export function leListQuery(service) {
 
   return {
     formatBefore(queryParams) {
-      let { categoryId = []} = queryParams
+      const query = JSON.parse(JSON.stringify(queryParams))
+      let { categoryId = []} = query
       categoryId = categoryId[categoryId.length - 1]
-      // Object.keys(queryParams)
+      const keys = Object.keys(query)
+      const mom = '_isAMomentObject'
+      for (const i of keys) {
+        if (queryParams[i][mom]) {
+          query[i] = moment(query[i]).format('YYYY-MM-DD HH:mm:ss')
+        }
+      }
       return {
-        ...queryParams,
-        page: queryParams.currentPage,
+        ...query,
+        page: query.currentPage,
         categoryId
       }
     },
