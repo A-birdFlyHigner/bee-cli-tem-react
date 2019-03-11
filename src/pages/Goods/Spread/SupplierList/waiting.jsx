@@ -3,7 +3,7 @@ import { LeList } from '@lib/lepage';
 import filterConfig from './config/w_search';
 import operationConfig from './config/w_header';
 import tableConfig from './config/w_table';
-import { queryCommunityManager } from '@/services/goods';
+import { queryProductSpreadList } from '@/services/goods';
 import { leListQuery } from '@/utils/utils';
 
 export default class Wating extends Component {
@@ -17,7 +17,7 @@ export default class Wating extends Component {
       filterConfig,
       operationConfig, 
       tableConfig,
-      ...leListQuery(queryCommunityManager),
+      ...leListQuery(queryProductSpreadList),
     };
     return <LeList {...config} />;
   }

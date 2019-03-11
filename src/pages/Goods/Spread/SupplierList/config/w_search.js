@@ -8,8 +8,7 @@ export default {
   items: [
     categoryRule({
       label: '类目',
-      name: 'categoryId',
-      value: [20000, 20016, 20182]
+      value: []
     }),
     {
       label: '商品Id',
@@ -49,7 +48,7 @@ export default {
       props: {
         type: 'primary',
         children: '查询',
-        onClick(err, values, formCore, listCore) {},
+        onClick() {},
       },
       options: {
         type: 'submit',
@@ -59,7 +58,7 @@ export default {
     {
       props: {
         children: '重置',
-        onClick(err, values, formCore, listCore) {},
+        onClick() {},
       },
       options: {
         type: 'reset',
@@ -68,7 +67,7 @@ export default {
     {
       props: {
         children: '导出',
-        onClick(err, values, formCore, listCore) {},
+        onClick() {},
       },
       options: {
         type: 'none',

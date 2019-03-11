@@ -197,8 +197,14 @@ export function leListQuery(service) {
 
   return {
     formatBefore(queryParams) {
-      queryParams.page = queryParams.currentPage
-      return queryParams
+      let { categoryId = []} = queryParams
+      categoryId = categoryId[categoryId.length - 1]
+      // Object.keys(queryParams)
+      return {
+        ...queryParams,
+        page: queryParams.currentPage,
+        categoryId
+      }
     },
     query: async queryParams => {
       const data = await service(queryParams);
