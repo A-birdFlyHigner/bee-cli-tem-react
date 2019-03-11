@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import Sty from '../index.less'
-
+import Sty from '../Index.less'
 
 export default class HeaderTip extends Component {
 
   constructor() {
     super()
+    this.state = {}
   }
+
   render () {
     const tips = [
       '温馨提示：',
@@ -19,8 +20,8 @@ export default class HeaderTip extends Component {
     return (
       <div className={Sty.tip}>
         {
-          tips.map((item, ind) => {
-            return <p key={ind}>{item}</p>
+          tips.map((item) => {
+            return <p key={item}>{item}</p>
           })
         }
       </div>

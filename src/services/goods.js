@@ -1,9 +1,15 @@
-import { stringify } from 'qs';
+import { stringify } from 'qs'
 import request from '@/utils/request';
+
 const domain = '/adminApi';
 
-export async function queryCommunityManager(params) {
-  return request(`${domain}/communityManager/list`, {
+// 获取指定类目的属性
+export async function queryCategoryPropertyDetail (params) {
+  return request(`http://192.168.0.220:10002/api/revision/category/property/detail?${stringify(params)}`);
+}
+
+export async function savePropertyValue (params) {
+  return request(`http://test-life-seller.51bushou.com/api/sku/propertyValue/save`, {
     method: 'POST',
     body: {
       ...params,
@@ -11,13 +17,23 @@ export async function queryCommunityManager(params) {
   });
 }
 
-export async function queryProductDetail(params) {
-  return request(`${domain}/community/list`, {
+export async function queryCommunityManager(params) {
+  return request(`${domain}/product/list`, {
     method: 'POST',
     body: {
       ...params,
     },
   });
+}
+
+// 商品详情
+export async function queryProductDetail(params) {
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
+}
+
+// 分公司商品审核详情
+export async function queryBranchProductSpreadDetail(params) {
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
 }
 
 // 商品排期
@@ -41,18 +57,18 @@ export async function backOff(params) {
 }
 
 // 预排期列表
-export async function listPreScheduledProduct() {
-  return request(`${domain}/revision/product/schedule/listPreScheduledProduct`);
+export async function listPreScheduledProduct(params) {
+  return request(`${domain}/revision/product/schedule/listPreScheduledProduct?${stringify(params)}`);
 }
 
 // 已排期列表
-export async function listScheduledProduct() {
-  return request(`${domain}/revision/product/schedule/listScheduledProduct`);
+export async function listScheduledProduct(params) {
+  return request(`${domain}/revision/product/schedule/listScheduledProduct?${stringify(params)}`);
 }
 
 // 未排期列表
-export async function listUnScheduledProduct() {
-  return request(`${domain}/revision/product/schedule/listUnScheduledProduct`);
+export async function listUnScheduledProduct(params) {
+  return request(`${domain}/revision/product/schedule/listUnScheduledProduct?${stringify(params)}`);
 }
 
 // 预排期列表
@@ -64,4 +80,6 @@ export async function updateSortNumber(params) {
     },
   });
 }
+
+
 

@@ -7,10 +7,8 @@ const editItem = record => {
   console.log(record);
 };
 
-const handleStatus = record => {
-  // history.push({
-  //   pathname: '/productSpread/detail',
-  // })
+const handleStatus = (record) => {
+  console.log(record)
 };
 
 const skuDetail = id => {
@@ -33,7 +31,7 @@ export default {
   rowSelection: {
     selectedRowKeys: [],
     selections: true,
-    getCheckboxProps(record) {
+    getCheckboxProps() {
       return {};
     },
   },
@@ -44,7 +42,7 @@ export default {
       render: (val, record) => {
         return (
           <ImageTextCard
-            image={record.weixinQrcode}
+            image={record.mainImage}
             infoList={[
               {
                 label: '商品名称',
@@ -72,8 +70,8 @@ export default {
         return (
           <div>
             {vals &&
-              vals.split(',').map((item, index) => (
-                <span key={index}>
+              vals.split(',').map((item) => (
+                <span key={item}>
                   &gt;
                   {item}
                   <br />
@@ -93,7 +91,7 @@ export default {
           <span>
             3个
             <br />
-            <a className="linkButton" onClick={e => skuDetail(record.id)}>
+            <a className="linkButton" onClick={() => skuDetail(record.id)}>
               查看
             </a>
           </span>
@@ -129,9 +127,9 @@ export default {
       render: (text, record) => {
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={e => editItem(record)}>编辑</a>
+            <a onClick={() => editItem(record)}>编辑</a>
             <span />
-            <a className="table-operate" onClick={e => handleStatus(record)}>
+            <a className="table-operate" onClick={() => handleStatus(record)}>
               设置推广
             </a>
           </div>

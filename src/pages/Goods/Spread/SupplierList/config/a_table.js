@@ -13,19 +13,20 @@ const editItemStock = record => {
       stock: 100,
       stock1: 200,
       stock2: 300,
+      stock3: 100,
       editStock: '',
     },
   ];
   LeDialog.show({
     title: `商品名称：${record.provinceName}`,
     width: '900px',
-    content: <LeForm {...stockConfig(list)}></LeForm>,
-    onOk(val, suc, core) {
+    content: <LeForm {...stockConfig(list)} />,
+    onOk() {
     },
   });
 };
 
-const handleCancelSpread = record => {
+const handleCancelSpread = () => {
   LeDialog.show('确认撤销推广该商品？', {
     title: '撤销推广',
     maskClosable: true,
@@ -54,7 +55,7 @@ export default {
   scroll: { x: 1500 },
   rowSelection: {
     selections: true,
-    getCheckboxProps(record) {
+    getCheckboxProps() {
       return {};
     },
   },
@@ -98,13 +99,13 @@ export default {
       title: '类目',
       dataIndex: 'categoryPath',
       width: 150,
-      render: (value, record) => {
+      render: () => {
         const vals = '食品1,水果,橘子';
         return (
           <div>
             {vals &&
-              vals.split(',').map((item, index) => (
-                <span key={index}>
+              vals.split(',').map((item) => (
+                <span key={item}>
                   &gt;
                   {item}
                   <br />
@@ -124,7 +125,7 @@ export default {
           <span>
             3个
             <br />
-            <a className="linkButton" onClick={e => showSkuDetail(record.id)}>
+            <a className="linkButton" onClick={() => showSkuDetail(record.id)}>
               查看
             </a>
           </span>
@@ -136,7 +137,7 @@ export default {
       dataIndex: 'phoneNumber',
       width: 200,
       align: 'center',
-      render: (val, record) => {
+      render: () => {
         return <span>80.00~100.00</span>;
       },
     },
@@ -144,7 +145,7 @@ export default {
       title: '推广城市',
       dataIndex: 'managedCommunities',
       width: 200,
-      render: (val, record) => {
+      render: () => {
         return (
           <div>
             <p>长沙分公司</p>
@@ -163,7 +164,7 @@ export default {
       title: '库存信息',
       dataIndex: 'status1',
       width: 300,
-      render: (val, record) => {
+      render: () => {
         return (
           <div>
             <p>推广总库存：100</p>
@@ -180,9 +181,9 @@ export default {
       render: (text, record) => {
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={e => editItemStock(record)}>调整库存</a>
+            <a onClick={() => editItemStock(record)}>调整库存</a>
             <br />
-            <a onClick={e => handleCancelSpread(record)}>撤销推广</a>
+            <a onClick={() => handleCancelSpread(record)}>撤销推广</a>
           </div>
         );
       },

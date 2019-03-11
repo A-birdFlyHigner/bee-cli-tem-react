@@ -194,6 +194,7 @@ export const importCDN = (url, name) =>
   });
 
 export function leListQuery(service) {
+
   return {
     formatBefore(queryParams) {
       queryParams.page = queryParams.currentPage

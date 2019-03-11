@@ -4,7 +4,7 @@ import { LeList } from '@lib/lepage'
 import filterConfig from './noscheduledConfig/search'
 import operationConfig from './noscheduledConfig/operation'
 import tableConfig from './noscheduledConfig/table'
-import { queryCommunityManager } from '@/services/goods'
+import { listUnScheduledProduct } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
 
 export default class Noscheduled extends Component {
@@ -19,10 +19,10 @@ export default class Noscheduled extends Component {
       filterConfig,
       operationConfig,
       tableConfig,
-      ...leListQuery(queryCommunityManager)
+      ...leListQuery(listUnScheduledProduct)
     }
     return (
-      <LeList {...config}></LeList>
+      <LeList {...config}/>
     )
   }
 }

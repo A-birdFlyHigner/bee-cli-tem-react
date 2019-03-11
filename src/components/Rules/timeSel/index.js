@@ -1,5 +1,6 @@
 import 'moment/locale/zh-cn';
 import moment from 'moment';
+
 moment.locale('zh-cn');
 
 const DEFAULT_OPTIONS = {
@@ -9,14 +10,14 @@ const DEFAULT_OPTIONS = {
 };
 
 export default (options = {}) => {
-  return function(leForm) {
+  return (leForm) => {
     const label = options.label || DEFAULT_OPTIONS.label;
     const name = options.name || DEFAULT_OPTIONS.name;
     const value = options.value || [];
 
     return [
       {
-        label: label,
+        label,
         name: name[0],
         component: 'DatePicker',
         value: value[0] && moment(value[0]),

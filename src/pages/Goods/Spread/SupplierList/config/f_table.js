@@ -67,8 +67,8 @@ export default {
         return (
           <div>
             {vals &&
-              vals.split(',').map((item, index) => (
-                <span key={index}>
+              vals.split(',').map((item) => (
+                <span key={item}>
                   &gt;
                   {item}
                   <br />
@@ -88,7 +88,7 @@ export default {
           <span>
             3个
             <br />
-            <a className="linkButton" onClick={e => showSkuDetail(record.id)}>
+            <a className="linkButton" onClick={() => showSkuDetail(record.id)}>
               查看
             </a>
           </span>
@@ -156,7 +156,7 @@ export default {
       render: (text, record) => {
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={e => editItemStock(record)}>编辑</a>
+            <a onClick={() => editItemStock(record)}>编辑</a>
             <br />
           </div>
         );

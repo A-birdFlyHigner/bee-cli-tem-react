@@ -1,5 +1,5 @@
 import proSetting from './product'
-import * as Sty from '../index.less'
+import Sty from '../Index.less'
 import Reg from '@/utils/reg'
 
 export default (options, spreadName, configOption) => {
@@ -44,7 +44,7 @@ export default (options, spreadName, configOption) => {
       component: 'Select',
       rules: (values) => {
         const { logisticsMethod } = values
-        return (logisticsMethod == 3) ? null : {
+        return (logisticsMethod === 3) ? null : {
           required: true,
           type: 'number',
           message: '请选择发货时效'
@@ -73,7 +73,13 @@ export default (options, spreadName, configOption) => {
       component: 'Input',
       rules: (values) => {
         const { logisticsMethod, logisticsType } = values
-        return logisticsMethod == 3 ? null : logisticsType == 1 ? null : [{
+        if (logisticsMethod === 3) {
+          return null
+        }
+        if (logisticsType === 1) {
+          return null
+        }
+        return [{
           required: true,
           message: '请输入发货天数'
         }, {
