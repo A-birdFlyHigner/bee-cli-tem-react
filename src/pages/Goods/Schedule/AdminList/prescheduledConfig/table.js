@@ -3,8 +3,8 @@ import { LeDialog, LeForm } from '@lib/lepage'
 import { ImageTextCard } from '@/components/InfoCard'
 import * as Sty from '../index.less'
 
-import SkuDetail from '../../common/skuDetail'
-import StoreInfo from '../../common/storeInfo'
+import SkuDetail from '../../../common/skuInfo'
+import StoreInfo from '../../../common/storeInfo'
 
 const dialogFormConfig =  () => {
 

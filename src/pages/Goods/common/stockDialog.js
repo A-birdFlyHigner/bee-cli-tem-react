@@ -21,10 +21,9 @@ const tabelColumns = core => {
   };
 
   const onInputBlur = (val, index, name) => {
-    let num = val
-    num = num === '-' ? '' : num;
+    let num = val === '-' ? '' : val
     if (num.length > 1) {
-      num = num.replace(/^0/g, '');
+      num = num.replace(/^0+/g, '');
     }
     const items = JSON.parse(JSON.stringify(core.getValue('dataSource')));
     items[index][name] = num;

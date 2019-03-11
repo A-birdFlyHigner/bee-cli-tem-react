@@ -4,7 +4,7 @@ import { LeList } from '@lib/lepage'
 import filterConfig from './prescheduledConfig/search'
 import operationConfig from './prescheduledConfig/operation'
 import tableConfig from './prescheduledConfig/table'
-import { queryCommunityManager } from '@/services/goods'
+import { listUnScheduledProduct } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
 
 class Prescheduled extends Component {
@@ -19,7 +19,7 @@ class Prescheduled extends Component {
       filterConfig,
       operationConfig,
       tableConfig,
-      ...leListQuery(queryCommunityManager)
+      ...leListQuery(listUnScheduledProduct)
     }
     return <LeList {...config} />
     

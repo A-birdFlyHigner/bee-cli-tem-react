@@ -2,14 +2,19 @@ import React, { Component } from 'react'
 import router from 'umi/router';
 import { LeForm } from '@lib/lepage'
 import { message } from 'antd'
-import baseInfo from './config/baseInfo'
-import salseEdit from './config/salseEdit'
-import wareHouse from './config/wareHouse'
-import skuMainImg from './config/skuImg'
-import productInfo from './config/productInfo'
-import elseInfo from './config/elseInfo'
-import productImg from './config/productImg'
-import examined from './config/examined'
+import {queryBranchProductSpreadDetail} from '@/services/goods'
+
+import {
+  baseInfo,
+  salseInfo,
+  salseEdit,
+  logistics,
+  wareHouse,
+  skuMainImg,
+  productInfo,
+  productImg,
+  examined,
+} from '@/pages/Goods/common/productDetail'
 
 // 确定
 const confirm = (err, values)=> {
@@ -62,13 +67,15 @@ export default class Detail extends Component {
         },
         items: [
           ...baseInfo,
+          ...salseInfo,
           salseEdit(),
+          salseEdit(true),
+          ...logistics,
           ...wareHouse,
           ...skuMainImg,
           ...productInfo,
-          ...elseInfo,
           ...productImg,
-          examined()
+          examined()          
         ],
         buttons: [
           {
@@ -94,41 +101,15 @@ export default class Detail extends Component {
 
   onMountLeForm = (formCore) => {
     this.formCore = formCore
-
-    // TODO: 接口数据 
-
-    formCore.setValues({
-      name: '西伯利亚红苹果',
-      smallName: '苹果',
-      pinpai: '西伯利亚',
-      salseData: [
-        {
-          status: 1,
-          sku: 1,
-          skuCode: 31212,
-          price: 124,
-          stock: 100
-        }, {
-          status: 4,
-          sku: 3,
-          skuCode: 31212,
-          price: 124,
-          stock: 100
-        }
-      ],
-      examineData: {
-        rejuctReason: '',  // 拒绝原因
-        chooseType: 1,     // 1 通过 2 拒绝
-      },
-      maozhong: 12,
-      zhiliang: 20
+    const {productId} = this.state
+    queryBranchProductSpreadDetail({channelProductId: productId, productId}).then(res => {
+      if (!res) return
+      formCore.setValues(res)
     })
   }
 
   render () {
-    const { productId, leFormConf } = this.state
-
-    console.log('==========productId',productId)
+    const { leFormConf } = this.state
 
     return (
       <div>

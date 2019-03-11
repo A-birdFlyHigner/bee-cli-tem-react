@@ -10,6 +10,16 @@ const disabledDate = (current) => {
   return current && current < moment().endOf('day')
 }
 
+const changeTime = (e, leFormCore) => {
+  const startTime = moment(e[0]._d).format('YYYY-MM-DD HH:mm:ss')
+  const endTime = moment(e[1]._d).format('YYYY-MM-DD HH:mm:ss')
+
+  leFormCore.setValue('scheduleTime', {
+    startTime,
+    endTime,
+  })
+}
+
 export function dialogFormSetTimeConfig() {
   return {
     form: {
@@ -21,12 +31,18 @@ export function dialogFormSetTimeConfig() {
     items: [
       {
         label: '',
-        name: 'text',
-        render: () => {
+        name: 'scheduleTime',
+        // 初始化数据 相当于了此Item的状态值N
+        value: {
+          startTime: '',
+          endTime: ''
+        },
+        render: (value, leFormCore) => {
           return (
             <RangePicker
               disabledDate={disabledDate}
               placeholder={['开始时间','结束时间']}
+              onChange={e => changeTime(e,leFormCore)}
               showTime={{
                 hideDisabledOptions: true,
                 defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],

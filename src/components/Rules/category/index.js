@@ -2,7 +2,7 @@ import { queryCategoryList } from '@/services/common';
 
 const DEFAULT_OPTIONS = {
   label: '类目',
-  name: 'category',
+  name: 'categoryId',
   placeholder: '请选择类目',
   value: [],
 }

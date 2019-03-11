@@ -48,7 +48,7 @@ export default (options = {}) => {
     const name = options.name || DEFAULT_OPTIONS.name;
     const stateKey = `${DEFAULT_STATE_KEY}_${name}`;
 
-    const postFile = file => {
+    const postFile = (file, whSize) => {
       leForm.setProps(name, {
         isLoading: true,
       });
@@ -63,6 +63,7 @@ export default (options = {}) => {
             {
               uid: res,
               url: res,
+              ...whSize
             },
           ];
           leForm.setValue(name, val);
@@ -98,8 +99,15 @@ export default (options = {}) => {
         }
         const { width, height, minWidth } = options;
         if (!width && !height && !minWidth) {
-          postFile(file);
-          return reject();
+          return readFile(file).then(res => {
+            return imgWH(res).then(rs => {
+              postFile(file, {
+                width: rs.width,
+                height: rs.height
+              });
+              return reject();
+            })
+          })
         }
         return readFile(file).then(res => {
           return imgWH(res).then(rs => {
@@ -115,7 +123,10 @@ export default (options = {}) => {
               message.warning(`请上传图片最小宽度为${minWidth}px的图片`);
               return reject();
             }
-            postFile(file);
+            postFile(file, {
+              width: rs.width,
+              height: rs.height
+            });
             return reject();
           });
         });

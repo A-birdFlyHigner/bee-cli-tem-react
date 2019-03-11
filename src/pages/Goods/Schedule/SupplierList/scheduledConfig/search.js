@@ -61,6 +61,7 @@ export default {
       label: '商品出售时间',
       name: 'saleTime',
       component: 'RangePicker',
+      className: 'globalRange',                    
       value: [],
       props: {
         format: 'YYYY-MM-DD HH:mm:ss',

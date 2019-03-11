@@ -6,6 +6,7 @@ import wareHouse from './wareHouse'
 import skuMainImg from './skuImg'
 import productInfo from './productInfo'
 import productImg from './productImg'
+import examined from './examined'
 
 export {
   baseInfo,
@@ -16,4 +17,5 @@ export {
   skuMainImg,
   productInfo,
   productImg,
+  examined
 }

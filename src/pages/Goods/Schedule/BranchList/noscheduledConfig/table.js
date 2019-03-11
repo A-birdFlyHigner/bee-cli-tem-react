@@ -3,12 +3,12 @@ import { LeDialog, LeForm } from '@lib/lepage'
 import moment from 'moment'
 import { ImageTextCard } from '@/components/InfoCard'
 import router from 'umi/router'
-import SkuDetail from '../../common/skuDetail'
-import StoreInfo from '../../common/storeInfo'
-import { dialogFormSetTimeConfig } from '../../common/commonConfig'
+import SkuDetail from '../../../common/skuInfo'
+import StoreInfo from '../../../common/storeInfo'
+import { dialogFormSetTimeConfig } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
-
+import { addOrUpdate } from '@/services/goods'
 
 const { logisticsMethod, logisticsType } = commonMessage
 
@@ -53,7 +53,7 @@ const getStoreInfo = (saleUnits) => {
 }
 
 // 排期
-const goSetTime = () => {
+const goSetTime = (saleGoodsId) => {
 
   LeDialog.show(
     {
@@ -63,7 +63,14 @@ const goSetTime = () => {
         return <LeForm {...dialogFormSetTimeConfig()} />
       },
       onOk: (values, suc) => {
-        suc()
+        const { startTime, endTime } = values.scheduleTime
+        const productIdList = []
+        productIdList.push(saleGoodsId)
+        addOrUpdate({ startTime, endTime, productIdList }).then(res => {
+          if (!res) return
+          // 管理弹窗
+          suc()
+        })
       }
     }
   )
@@ -268,9 +275,9 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline list-inline">
-          <a onClick={()=> editItem(record.id)}>编辑</a>
+          <a onClick={()=> editItem(record.saleGoodsId)}>编辑</a>
           <span />
-          <a onClick={()=> goSetTime(record.id)}>排期</a>
+          <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
           <span />
           <a className='table-operate' onClick={()=> goRevoke(record)}>撤销推广</a>
         </div>
