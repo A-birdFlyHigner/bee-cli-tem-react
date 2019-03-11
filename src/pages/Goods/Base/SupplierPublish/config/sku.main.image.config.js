@@ -2,7 +2,7 @@ import React from 'react'
 import { Alert } from 'antd'
 import { LeForm } from '@lib/lepage'
 import { SALE_PROPERTY_NAME_ID, getHead, getTip } from './common.config'
-import uploadConfig from './upload.config'
+import uploadConfig from '@/components/Rules/imgUpload/index'
 
 const DEFAULT_OPTIONS = {
   isRequiredSKUImage: false,
@@ -19,7 +19,7 @@ const getFormConfig = (propertyChecks = []) => {
       ...propertyChecks.map(({label, value}) => {
         return uploadConfig({
           label,
-          name: value, // propertyValueId
+          name: `${value}`, // propertyValueId
           props: {
             listType: 'picture-card',
             className: 'avatar-uploader',

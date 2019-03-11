@@ -1,69 +1,64 @@
 import React, { Component } from 'react'
-import { Cascader, Button } from 'antd'
+import { Cascader, Button, message as messageApi } from 'antd'
 import PropTypes from 'prop-types'
+import { queryCategoryList } from '@/services/common';
 import './index.less'
 
 const FN = () => {}
-
-const defaultOptions = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    isLeaf: false
-  }, {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    isLeaf: false,
+async function fetchData (parentId = 0) {
+  const resData = await queryCategoryList({ parentId })
+  if (!resData) {
+    messageApi.error('获取分类失败!')
+    return null
   }
-]
+
+  return resData
+}
+
+const makeItem = (list) => {
+  return list.map(item => {
+    return {
+      label: item.name,
+      value: item.id,
+      isLeaf: item.isLeaf,
+    };
+  })
+}
 
 class Category extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      options: [].concat(defaultOptions)
+      options: []
     }
   }
 
-  loadData = (selectedOptions) => {
-    const { state } = this
-    const targetOption = selectedOptions[selectedOptions.length - 1];
-    targetOption.loading = true;
+  async componentWillMount () {
+    const resData = await fetchData()
+    if (!resData) return
 
-    // load options lazily
-    setTimeout(() => {
-      targetOption.loading = false;
-      targetOption.children = [{
-        label: `${targetOption.label} Dynamic 1`,
-        value: 'dynamic1',
-        isLeaf: false,
-      }, {
-        label: `${targetOption.label} Dynamic 2`,
-        value: 'dynamic2',
-      }];
-
-      this.setState({
-        options: [...state.options],
-      });
-    }, 100);
+    const options = makeItem(resData)
+    this.setState({
+      options
+    })
   }
 
   handleChange = (values, selectedOptions) => {
     this.selected = {
-      leafValue: values[values.length -1],
+      categoryId: values[values.length -1],
       treeValues: values,
       treeLabels: selectedOptions.map(option => option.label)
     }
   }
 
-  handleCacel () {
+  handleCacel = () => {
     const { props } = this
     this.selected = null
     props.onCancel()
   }
 
-  handleOK () {
+  handleOK = () => {
     const { props, selected = null } = this
 
     if (selected === null) {
@@ -73,6 +68,23 @@ class Category extends Component {
 
     this.selected = null
     props.onOk(selected)
+  }
+
+  loadData = async (selectedOptions) => {
+    const targetOption = selectedOptions[selectedOptions.length - 1];
+    targetOption.loading = true;
+
+    const parentId = targetOption.value
+    const resData = await fetchData(parentId)
+    if (!resData) return
+
+    targetOption.loading = false;
+    targetOption.children = makeItem(resData)
+
+    const { options = [] } = this.state
+    this.setState({
+      options: [...options],
+    });
   }
 
   render () {
@@ -96,11 +108,11 @@ class Category extends Component {
         <div className='footer'>
           <Button
             hidden={!props.showCancel}
-            onClick={() => {this.handleCacel()}}
+            onClick={this.handleCacel}
           >取消
           </Button>
           <Button
-            onClick={() => {this.handleOK()}}
+            onClick={this.handleOK}
           >下一步，填写商品信息
           </Button>
         </div>

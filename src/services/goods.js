@@ -5,9 +5,10 @@ const domain = '/adminApi';
 
 // 获取指定类目的属性
 export async function queryCategoryPropertyDetail (params) {
-  return request(`http://192.168.0.220:10002/api/revision/category/property/detail?${stringify(params)}`);
+  return request(`${domain}/revision/category/property/detail?${stringify(params)}`);
 }
 
+// 保存商品属性值
 export async function savePropertyValue (params) {
   return request(`${domain}/sku/propertyValue/save`, {
     method: 'POST',

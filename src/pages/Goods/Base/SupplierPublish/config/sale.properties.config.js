@@ -194,44 +194,45 @@ const getHas69Code = () => {
 // 批量设置
 const getBatch = (leForm) => {
   return [
+      // {
+      //     label: '批量设置',
+      //     name: 'batch-deliverCode',
+      //     follow: true,
+      //     props: {
+      //         placeholder: '请输入sku编码',
+      //         onChange: (e) => onChangeUpdateBatch(leForm, {
+      //           colKey: 'deliverCode',
+      //           batchKey: 'batch-deliverCode',
+      //           batchVal: e.target.value
+      //         })
+      //     }
+      // },
       {
-          label: '批量设置',
-          name: 'batch-deliverCode',
-          follow: true,
-          props: {
-              placeholder: '请输入sku编码',
-              onChange: (e) => onChangeUpdateBatch(leForm, {
-                colKey: 'deliverCode',
-                batchKey: 'batch-deliverCode',
-                batchVal: e.target.value
-              })
-          }
+        label: '批量设置',
+        name: 'batch-costPrice',
+        follow: true,
+        props: {
+          placeholder: '请输入成本价',
+          onChange: (e) => onChangeUpdateBatch(leForm, {
+            colKey: 'costPrice',
+            batchKey: 'batch-costPrice',
+            batchVal: e.target.value
+          })
+        }
       },
       {
-          name: 'batch-costPrice',
-          inline: true,
-          props: {
-              placeholder: '请输入成本价',
-              onChange: (e) => onChangeUpdateBatch(leForm, {
-                colKey: 'costPrice',
-                batchKey: 'batch-costPrice',
-                batchVal: e.target.value
-              })
-          }
-      },
-      {
-          name: 'batch-restriction',
-          inline: true,
-          component: 'InputNumber',
-          props: {
-              placeholder: '请输入限购数量',
-              min: 0,
-              onChange: (value) => onChangeUpdateBatch(leForm, {
-                colKey: 'restriction',
-                batchKey: 'batch-restriction',
-                batchVal: value
-              })
-          }
+        name: 'batch-restriction',
+        inline: true,
+        component: 'InputNumber',
+        props: {
+          placeholder: '请输入限购数量',
+          min: 0,
+          onChange: (value) => onChangeUpdateBatch(leForm, {
+            colKey: 'restriction',
+            batchKey: 'batch-restriction',
+            batchVal: value
+          })
+        }
       }
   ]
 }

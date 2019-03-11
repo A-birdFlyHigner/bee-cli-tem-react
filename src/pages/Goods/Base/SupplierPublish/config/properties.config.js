@@ -160,7 +160,7 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
         inline: true,
         props: {
           placeholder: '自定义',
-          maxLength: 128,
+          maxLength: 10,
           onPressEnter: (event) => handleAddPropertyPair(leForm, name, event, okFn)
         }
       }
