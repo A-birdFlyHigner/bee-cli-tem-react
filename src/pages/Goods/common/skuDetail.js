@@ -3,87 +3,56 @@ import { Table } from 'antd';
 // import PropTypes from 'prop-types';
 
 export default class SkuDetail extends Component {
-  static propTypes = {
-    // productId: PropTypes.number,
-  };
-  
-  constructor() {
-    super();
+ 
+  constructor(props) {
+    super(props);
+    const {saleUnits = []} = this.props
     this.state = {
-      loading: true,
       columns: [
         {
           title: 'SKU id',
-          dataIndex: 'key',
-          key: 'key',
+          dataIndex: 'skuId',
+          key: 'skuId',
           align: 'center',
         },
         {
           title: 'sku码(发货编码)',
-          dataIndex: 'age',
-          key: 'age',
+          dataIndex: 'deliverCode',
+          key: 'deliverCode',
           align: 'center',
         },
         {
           title: 'SKU规格',
-          dataIndex: 'address',
-          key: 'address',
+          dataIndex: 'propertyPairList',
+          key: 'propertyPairList',
           align: 'center',
           render: (text, record) => {
+            const { saleStatus } = record
+            const StopSale = <span className='globalRed'>（停售）</span>
             return (
               <div>
-                <span className='globalRed'>（停售）</span>
-                <span>{text}</span>
+                { saleStatus !== 0 ? null : StopSale}
+                <span>{text.join('&')}</span>
               </div>
             )
           }
         },
         {
           title: '成本价',
-          dataIndex: 'price',
-          key: 'price',
+          dataIndex: 'costPrice',
+          key: 'costPrice',
           align: 'center',
         },
       ],
-      dataSource: [],
-    };
-  }
-
-  componentWillMount() {
-    setTimeout(() => {
-      this.setState({
-        loading: false,
-        dataSource: [
-          {
-            key: '1',
-            name: '胡彦斌',
-            age: 32,
-            address: '西湖区湖底公园1号',
-            price: 1,
-          },
-          {
-            key: '2',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号',
-            price: 2,
-          },
-        ],
-      });
-    }, 1000);
-  }
-
-  componentWillUnmount() {
-    this.setState = () => {
-      return null;
+      saleUnits,
     };
   }
 
   render() {
-    const { loading, dataSource, columns } = this.state;
+    const { saleUnits, columns } = this.state;
     return (
       <div style={{ margin: '20px 0' }}>
-        <Table dataSource={dataSource} columns={columns} pagination={false} loading={loading} />
+        <Table rowKey='skuId' dataSource={saleUnits} columns={columns} pagination={false} />
       </div>
     );
   }

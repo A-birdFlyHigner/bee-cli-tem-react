@@ -2,9 +2,9 @@ import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
 import router from 'umi/router'
 import { ImageTextCard } from '@/components/InfoCard'
-import SkuDetail from '../../common/skuDetail'
-import StoreInfo from '../../common/storeInfo'
-import { dialogFormSetTimeConfig, dialogFormSetGroupConfig, dialogFormTextConfig } from '../../common/commonConfig'
+import SkuDetail from '../../../common/skuInfo'
+import StoreInfo from '../../../common/storeInfo'
+import { dialogFormSetTimeConfig, dialogFormSetGroupConfig, dialogFormTextConfig } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
@@ -45,8 +45,7 @@ const goBack = () => {
 // 编辑
 const editItem = (id) => {
   router.push({
-    pathname: '/goods/base/detail/:id',
-    state: id
+    pathname: `/goods/schedule/branchdetail/${id}`,
   })
 }
 

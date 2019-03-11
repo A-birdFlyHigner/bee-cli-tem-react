@@ -3,8 +3,8 @@ import router from 'umi/router'
 import { LeDialog } from '@lib/lepage'
 import { ImageTextCard } from '@/components/InfoCard'
 import * as Sty from '../index.less'
-import SkuDetail from '../../common/skuDetail'
-import StoreInfo from '../../common/storeInfo'
+import SkuDetail from '../../../common/skuInfo'
+import StoreInfo from '../../../common/storeInfo'
 
 // 渠道商品规格详情
 const getSkuDetail = (id) => {

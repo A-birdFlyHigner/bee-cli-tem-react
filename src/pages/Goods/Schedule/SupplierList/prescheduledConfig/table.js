@@ -2,9 +2,9 @@ import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
 import router from 'umi/router'
 import { ImageTextCard } from '@/components/InfoCard'
-import SkuDetail from '../../common/skuDetail'
-import StoreInfo from '../../common/storeInfo'
-import { dialogFormSetTimeConfig, dialogFormSetGroupConfig, dialogFormTextConfig } from '../../common/commonConfig'
+import SkuDetail from '../../../common/skuInfo'
+import StoreInfo from '../../../common/storeInfo'
+import { dialogFormSetTimeConfig, dialogFormSetGroupConfig, dialogFormTextConfig } from '../../../common/commonConfig'
 
 import * as Sty from '../index.less'
 

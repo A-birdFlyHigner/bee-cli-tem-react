@@ -10,7 +10,7 @@ export default {
     categoryRule({
       label: '类目',
       name: 'categoryId',
-      value: ["410000", "410300", "410304"]
+      value: []
     }),
     {
       label: '商品名称',

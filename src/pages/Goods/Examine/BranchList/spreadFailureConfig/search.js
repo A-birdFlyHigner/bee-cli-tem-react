@@ -61,6 +61,7 @@ export default {
       label: '提审时间',
       name: 'arraignTime',
       component: 'RangePicker',
+      className: 'globalRange',                    
       value: [],
       props: {
         format: 'YYYY-MM-DD HH:mm:ss',
@@ -73,6 +74,7 @@ export default {
       label: '未通过时间段',
       name: 'nopassTime',
       component: 'RangePicker',
+      className: 'globalRange',                    
       value: [],
       props: {
         format: 'YYYY-MM-DD HH:mm:ss',

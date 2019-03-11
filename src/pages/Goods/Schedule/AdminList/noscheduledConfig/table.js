@@ -1,8 +1,8 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
-import SkuDetail from '../../common/skuDetail'
-import StoreInfo from '../../common/storeInfo'
-import { dialogFormTextConfig } from '../../common/commonConfig'
+import SkuDetail from '../../../common/skuInfo'
+import StoreInfo from '../../../common/storeInfo'
+import { dialogFormTextConfig } from '../../../common/commonConfig'
 
 import { ImageTextCard } from '@/components/InfoCard'
 import * as Sty from '../index.less'

@@ -1,6 +1,6 @@
 import { Input, Radio } from 'antd'
 import React from 'react'
-import Sty from '../Index.less'
+import Sty from '../index.less'
 
 const RadioGroup = Radio.Group;
 

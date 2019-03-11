@@ -61,6 +61,7 @@ export default {
       label: '提审时间',
       name: 'passTime',
       component: 'RangePicker',
+      className: 'globalRange',                    
       value: [],
       props: {
         format: 'YYYY-MM-DD HH:mm:ss',
