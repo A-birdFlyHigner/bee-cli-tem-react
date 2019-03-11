@@ -29,11 +29,6 @@ export default class SkuDetail extends Component {
         key: 'spreadStock',
         align: 'center',
       },  {
-        title: '活动库存(锁定)',
-        dataIndex: 'availStocks',
-        key: 'availStocks',
-        align: 'center'
-      },  {
         title: '可售库存',
         dataIndex: 'availStock',
         key: 'availStock',

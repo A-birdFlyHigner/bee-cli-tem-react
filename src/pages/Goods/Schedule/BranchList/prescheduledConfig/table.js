@@ -45,8 +45,7 @@ const goBack = () => {
 // 编辑
 const editItem = (id) => {
   router.push({
-    pathname: '/goods/base/detail/:id',
-    state: id
+    pathname: `/goods/schedule/branchdetail/${id}`,
   })
 }
 
