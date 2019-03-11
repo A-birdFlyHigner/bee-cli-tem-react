@@ -1,7 +1,6 @@
 import React from 'react';
 import { Tag, Tree } from 'antd';
 import * as Sty from './index.less';
-import treeData from './mokeData';
 
 const { TreeNode } = Tree;
 
@@ -24,7 +23,20 @@ const renderTreeNodes = data =>
     return <TreeNode {...item} key={item.key} selectable={false} className={Sty.treeNode} />;
   });
 
-export default (tagList, disCitys) => {
+export default (channelList) => {
+  const treeData = channelList.map((item, index) => {
+    return {
+      title: item.companyName,
+      key: String(index),
+      children: item.cityDetailList.map(cItem => {
+        return {
+          title: cItem.cityName,
+          key: cItem.cityCode,
+          branchName: item.companyName,
+        }
+      })
+    }
+  })
   return {
     settings: {
       values: { checkedKeys: [], spreadTree: treeData, halfCheckedKeys: [] },
@@ -45,7 +57,7 @@ export default (tagList, disCitys) => {
       {
         label: '常用标签',
         name: 'tags',
-        value: tagList,
+        value: [],
         follow: true,
         render: (values, core) => {
           const { tags = [], selTag } = values;

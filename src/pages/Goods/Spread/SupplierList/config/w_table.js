@@ -4,20 +4,20 @@ import { LeDialog } from '@lib/lepage'
 import router from 'umi/router';
 import SkuDetail from '../../../common/skuDetail';
 
-const editItem = record => {
-  console.log(record);
-};
+const editItem = () => {};
 
-const handleStatus = () => {
+const handleStatus = (record) => {
+  const {saleGoodsId} = record
   router.push({
     pathname: `/goods/spread/setting`,
     query: {
-      productIds: 111
+      productIds: saleGoodsId
     }
   })
 };
 
-const skuDetail = id => {
+const skuDetail = record => {
+  const { saleUnits } = record
   LeDialog.show({
     title: '基础商品规格详情',
     width: '800px',
@@ -26,13 +26,13 @@ const skuDetail = id => {
       return null;
     },
     content() {
-      return <SkuDetail productId={id} />;
+      return <SkuDetail saleUnits={saleUnits} />;
     },
   });
 };
 
 export default {
-  rowKey: 'id',
+  rowKey: 'saleGoodsId',
   scroll: { x: 1300 },
   rowSelection: {
     selectedRowKeys: [],
@@ -44,23 +44,24 @@ export default {
   columns: [
     {
       title: '基础信息',
-      dataIndex: 'id',
+      dataIndex: 'saleGoodsId',
       render: (val, record) => {
+        const { mainImages = [] } = record
         return (
           <ImageTextCard
-            image={record.mainImage}
+            image={mainImages.length ? mainImages[0].url : ''}
             infoList={[
               {
                 label: '商品名称',
-                value: record.provinceName,
+                value: record.name,
               },
               {
                 label: '品牌',
-                value: record.cityName,
+                value: record.brandName,
               },
               {
                 label: '商品Id',
-                value: record.id,
+                value: record.saleGoodsId,
               },
             ]}
           />
@@ -69,14 +70,13 @@ export default {
     },
     {
       title: '类目',
-      dataIndex: 'categoryPath',
+      dataIndex: 'pathName',
       width: 150,
-      render: () => {
-        const vals = '食品1,水果,橘子';
+      render: (text) => {
         return (
           <div>
-            {vals &&
-              vals.split(',').map((item) => (
+            {text &&
+              text.split(',').map((item) => (
                 <span key={item}>
                   &gt;
                   {item}
@@ -89,39 +89,34 @@ export default {
     },
     {
       title: '规格',
-      dataIndex: 'name',
+      dataIndex: 'saleUnits',
       width: 100,
       align: 'center',
-      render: (val, record) => {
+      render: (saleUnits, record) => {
         return (
           <span>
-            3个
+            {saleUnits.length}个
             <br />
-            <a className="linkButton" onClick={() => skuDetail(record.id)}>
-              查看
-            </a>
+            <a className="linkButton" onClick={() => skuDetail(record)}> 查看 </a>
           </span>
         );
       },
     },
     {
       title: '基础价格信息',
-      dataIndex: 'phoneNumber',
+      dataIndex: 'salePrice',
       width: 200,
       align: 'center',
-      render: () => {
-        return <span>80.00~100.00</span>;
-      },
     },
     {
       title: '可推广渠道（城市）',
-      dataIndex: 'managedCommunities',
+      dataIndex: 'canSpreadCityNums',
       width: 200,
       align: 'center',
     },
     {
       title: '已推广渠道（城市）',
-      dataIndex: 'status',
+      dataIndex: 'alreadySpreadCityNums',
       width: 200,
       align: 'center',
     },

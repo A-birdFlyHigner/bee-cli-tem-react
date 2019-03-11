@@ -3,12 +3,15 @@ import { LeDialog, LeForm } from '@lib/lepage';
 import router from 'umi/router';
 import { message } from 'antd';
 import dialogFormConfig from '../../common/spreadDialog';
+import {queryProductSpreadChannelList} from '@/services/goods'
 
-const setBranchList = (err, val, formCore, listCore) => {
+const setBranchList = async (err, val, formCore, listCore) => {
   const productIds = listCore.getSelectedRowKeys()
   if (!productIds.length) return message.warning('请至少勾选一项！')
-  const tags = ['全部', '华南地区', '华东地区'];
-  const formConf = dialogFormConfig(tags)
+  const channelList = await queryProductSpreadChannelList()
+  if (!channelList) message.warning('获取推广渠道出现异常')
+  const formConf = dialogFormConfig(channelList)
+  
   LeDialog.show({
     title: '可选推广渠道',
     width: '800px',
@@ -28,11 +31,6 @@ const setBranchList = (err, val, formCore, listCore) => {
           })
         }
       })
-      // branchList.forEach(p => {
-      //   p.children = p.children.filter(q => {
-      //     return allSel.indexOf(q.key) > -1;
-      //   });
-      // });
       const cityIds = [];
       const spreadName = branchList
         .map(p => {
