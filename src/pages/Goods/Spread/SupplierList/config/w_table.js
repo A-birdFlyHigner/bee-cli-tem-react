@@ -1,14 +1,20 @@
 import React from 'react';
 import { ImageTextCard } from '@/components/InfoCard';
 import { LeDialog } from '@lib/lepage'
+import router from 'umi/router';
 import SkuDetail from '../../../common/skuDetail';
 
 const editItem = record => {
   console.log(record);
 };
 
-const handleStatus = (record) => {
-  console.log(record)
+const handleStatus = () => {
+  router.push({
+    pathname: `/goods/spread/setting`,
+    query: {
+      productIds: 111
+    }
+  })
 };
 
 const skuDetail = id => {
@@ -65,7 +71,7 @@ export default {
       title: '类目',
       dataIndex: 'categoryPath',
       width: 150,
-      render: (value, record) => {
+      render: () => {
         const vals = '食品1,水果,橘子';
         return (
           <div>
@@ -103,7 +109,7 @@ export default {
       dataIndex: 'phoneNumber',
       width: 200,
       align: 'center',
-      render: (val, record) => {
+      render: () => {
         return <span>80.00~100.00</span>;
       },
     },

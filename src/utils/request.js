@@ -139,10 +139,10 @@ export default function request(url, option) {
       return response.json();
     }).then(response => {
       if (String(response.status) === '1') {
-        return response.data || true
+        return response.data
       }
       message.error(response.errorMessage || response.message)
-      return false
+      return null
     })
     .catch(e => {
       const status = e.name;

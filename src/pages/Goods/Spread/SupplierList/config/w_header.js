@@ -4,7 +4,7 @@ import router from 'umi/router';
 import { message } from 'antd';
 import dialogFormConfig from '../../common/spreadDialog';
 
-const setBranchList = (err, values, formCore, listCore) => {
+const setBranchList = (err, val, formCore, listCore) => {
   const productIds = listCore.getSelectedRowKeys()
   if (!productIds.length) return message.warning('请至少勾选一项！')
   const tags = ['全部', '华南地区', '华东地区'];
@@ -13,17 +13,26 @@ const setBranchList = (err, values, formCore, listCore) => {
     title: '可选推广渠道',
     width: '800px',
     content: <LeForm {...formConf} />,
-    onOk: (values, suc, core) => {
+    onOk: (values, suc) => {
       const { checkedKeys, halfCheckedKeys, spreadTree } = values;
       const allSel = [...checkedKeys, ...halfCheckedKeys];
-      const branchList = JSON.parse(JSON.stringify(spreadTree)).filter(p => {
+      let branchList = JSON.parse(JSON.stringify(spreadTree)).filter(p => {
         return allSel.indexOf(p.key) > -1;
       });
-      branchList.forEach(p => {
-        p.children = p.children.filter(q => {
-          return allSel.indexOf(q.key) > -1;
-        });
-      });
+      branchList = branchList.map(item => {
+        const { children } = item
+        return {
+          ...item,
+          children: children.filter(q => {
+            return allSel.indexOf(q.key) > -1;
+          })
+        }
+      })
+      // branchList.forEach(p => {
+      //   p.children = p.children.filter(q => {
+      //     return allSel.indexOf(q.key) > -1;
+      //   });
+      // });
       const cityIds = [];
       const spreadName = branchList
         .map(p => {
@@ -47,6 +56,7 @@ const setBranchList = (err, values, formCore, listCore) => {
       suc();
     },
   });
+  return false
 };
 
 export default {
