@@ -17,14 +17,19 @@ export async function savePropertyValue (params) {
   });
 }
 
+// 供应商商品待推广列表
+export async function queryProductSpreadList(params) {
+  return request(`${domain}/product/spread/wait/query?${stringify(params)}`);
+}
+
 // 供应商可推广渠道列表
 export async function queryProductSpreadChannelList(params) {
   return request(`${domain}/product/spread/channel/list?${stringify(params)}`);
 }
 
-// 供应商商品待推广列表
-export async function queryProductSpreadList(params) {
-  return request(`${domain}/product/spread/wait/query?${stringify(params)}`);
+// 供应商推广商品详情
+export async function queryProductSpreadProductDetail(params) {
+  return request(`${domain}/product/spread/product/detail?${stringify(params)}`);
 }
 
 // 供应商商品推广审核中列表
@@ -102,5 +107,8 @@ export async function updateSortNumber(params) {
   });
 }
 
-
+// 分公司推广审核中列表
+export async function spreadWaitProductionList(params) {
+  return request(`${domain}/branch/product/spread/wait?${stringify(params)}`);
+}
 

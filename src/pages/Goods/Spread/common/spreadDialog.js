@@ -23,16 +23,18 @@ const renderTreeNodes = data =>
     return <TreeNode {...item} key={item.key} selectable={false} className={Sty.treeNode} />;
   });
 
-export default (channelList) => {
+export default (channelList, disabledCitys = []) => {
   const treeData = channelList.map((item, index) => {
     return {
       title: item.companyName,
       key: String(index),
       children: item.cityDetailList.map(cItem => {
+        const disabled = disabledCitys.indexOf(cItem.cityCode) > -1
         return {
           title: cItem.cityName,
           key: cItem.cityCode,
           branchName: item.companyName,
+          disabled
         }
       })
     }
