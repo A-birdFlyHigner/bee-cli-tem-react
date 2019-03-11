@@ -107,5 +107,8 @@ export async function updateSortNumber(params) {
   });
 }
 
-
+// 分公司推广审核中列表
+export async function spreadWaitProductionList(params) {
+  return request(`${domain}/branch/product/spread/wait?${stringify(params)}`);
+}
 

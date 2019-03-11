@@ -1,5 +1,6 @@
 import Reg from '@/utils/reg'
 import cityRule from '@/components/Rules/citySel/index'
+import timeRule from '@/components/Rules/timeSel/index'
 import categoryRule from '@/components/Rules/category'
 import moment from 'moment'
 
@@ -39,7 +40,7 @@ export default {
     },
     {
       label: '商品名称',
-      name: 'productName',
+      name: 'name',
       component: 'Input',
       props: {
         placeholder: '请输入商品名称',
@@ -47,7 +48,7 @@ export default {
     },
     {
       label: '渠道商品Id',
-      name: 'chanleProductId',
+      name: 'channelProductId',
       component: 'Input',
       rules: {
         pattern: Reg.Num,
@@ -57,38 +58,30 @@ export default {
         placeholder: '请输入渠道商品Id'
       },
     },
-    {
+    timeRule({
       label: '提审时间',
-      name: 'passTime',
-      component: 'RangePicker',
-      className: 'globalRange',                    
-      value: [],
-      props: {
-        format: 'YYYY-MM-DD HH:mm:ss',
-        placeholder: ['请选择开始时间', '请选择结束时间'],
-        showTime: true,
-        disabledDate: disabledDates,
-      },
-    },
-    {
-      label: '商品发货时效',
-      name: 'spreadTime',
-      component: 'Select',
-      props: {
-        placeholder: '请选择发货时效',
-        options: [{
-          label: '次日达',
-          value: 1,
-        }, {
-          label: '预售',
-          value: 2
-        }]
-      },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 3
-      }
-    }, 
+      name: ['applyPromotionStartTime', 'applyPromotionEndTime'],
+      placeholder: ['请选择开始时间', '请选择结束时间'],
+    }),
+    // {
+    //   label: '商品发货时效',
+    //   name: 'spreadTime',
+    //   component: 'Select',
+    //   props: {
+    //     placeholder: '请选择发货时效',
+    //     options: [{
+    //       label: '次日达',
+    //       value: 1,
+    //     }, {
+    //       label: '预售',
+    //       value: 2
+    //     }]
+    //   },
+    //   // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
+    //   when: (val) => {
+    //     return val.type !== 3
+    //   }
+    // }, 
     cityRule({
       label: '城市',
       value: [],
