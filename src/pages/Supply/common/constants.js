@@ -1,10 +1,10 @@
 export const purchaseState = [
   {
-    label: '全部',
+    label: '待提交',
     value: 0,
   },
   {
-    label: '待提交',
+    label: '入库完成',
     value: 1,
   },
   {
@@ -12,18 +12,22 @@ export const purchaseState = [
     value: 2,
   },
   {
-    label: '入库完成',
+    label: '部分入库',
     value: 3,
   },
   {
-    label: '取消',
+    label: '已取消',
     value: 4,
+  },
+  {
+    label: '全部',
+    value: 99,
   },
 ];
 
 export const purchaseSource = [
   {
-    label: '全部',
+    label: '人工创建',
     value: 0,
   },
   {
@@ -31,22 +35,22 @@ export const purchaseSource = [
     value: 1,
   },
   {
-    label: '人工创建',
-    value: 2,
+    label: '全部',
+    value: 99,
   },
 ];
 
 export const supplierState = [
   {
-    label: '全部',
+    label: '待确认',
     value: 0,
   },
   {
-    label: '待确认',
+    label: '已确认',
     value: 1,
   },
   {
-    label: '已确认',
-    value: 2,
+    label: '全部',
+    value: 99,
   },
 ];

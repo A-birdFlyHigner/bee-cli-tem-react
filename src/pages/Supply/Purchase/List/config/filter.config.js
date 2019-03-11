@@ -1,11 +1,16 @@
 import { purchaseState, purchaseSource, supplierState } from '../../../common/constants';
 
+// const admin = 0
+// const seller = 1
+// const fromType = admin
+
 export default {
   settings: {
     initValues: {
-      status: 0,
-      origin: 0,
-      confirm: 0,
+      status: 99,
+      origin: 99,
+      supplierConfirmStatus: 99,
+      // fromType
     },
   },
 
@@ -20,7 +25,7 @@ export default {
   items: [
     {
       label: '采购时间',
-      name: 'purchasing',
+      name: 'createTime',
       component: 'DatePicker',
       props: {
         placeholder: '请选择采购时间',
@@ -28,7 +33,7 @@ export default {
     },
     {
       label: '仓库名称',
-      name: 'warehouse',
+      name: 'warehouseCode',
       component: 'Input',
       props: {
         placeholder: '请输入仓库名称',
@@ -36,7 +41,7 @@ export default {
     },
     {
       label: '供应商名称',
-      name: 'supplier',
+      name: 'supplierCode',
       component: 'Input',
       props: {
         placeholder: '请输入供应商名称',
@@ -46,7 +51,6 @@ export default {
       label: '采购订单状态',
       name: 'status',
       component: 'Select',
-      value: 0,
       props: {
         placeholder: '请选择采购订单状态',
         options: purchaseState,
@@ -54,7 +58,7 @@ export default {
     },
     {
       label: '采购订单来源',
-      name: 'origin',
+      name: 'source',
       component: 'Select',
       props: {
         placeholder: '请选择采购订单来源',
@@ -63,7 +67,7 @@ export default {
     },
     {
       label: '供应商确认状态',
-      name: 'confirm',
+      name: 'supplierConfirmStatus',
       component: 'Select',
       props: {
         placeholder: '请选择供应商确认状态',

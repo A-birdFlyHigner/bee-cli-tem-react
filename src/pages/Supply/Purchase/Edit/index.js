@@ -5,25 +5,29 @@ import { Modal, Button } from 'antd';
 import './index.less';
 import mockList from './mock/list';
 import router from 'umi/router';
+import {purchaseDetailList} from '@/services/supply'
+import {leListQuery} from '@/utils/utils'
 
 const listConfig = {
   operationConfig,
   tableConfig,
-  formatBefore(queryParams) {
-    return queryParams;
-  },
-  query(queryParams, url, method) {
-    return new Promise((resolve, reject) => {
-      const result = mockList(queryParams);
-      setTimeout(() => {
-        resolve(result);
-      }, 300);
-    });
-  },
-  formatAfter(result) {
-    return result;
-  },
-  url: 'http://localhost:8899/getList',
+  // formatBefore(queryParams) {
+  //   return queryParams;
+  // },
+  // query(queryParams, url, method) {
+  //   return new Promise((resolve, reject) => {
+  //     const result = mockList(queryParams);
+  //     setTimeout(() => {
+  //       resolve(result);
+  //     }, 300);
+  //   });
+  // },
+  // formatAfter(result) {
+  //   return result;
+  // },
+  ...leListQuery(purchaseDetailList)
+
+  // url: 'purchase/listPurchaseOrderDetail',
 };
 
 const listConfigModal = {
