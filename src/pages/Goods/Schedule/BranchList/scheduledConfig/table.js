@@ -1,45 +1,13 @@
 import React from 'react'
-import { LeDialog, LeForm } from '@lib/lepage'
+import { LeDialog } from '@lib/lepage'
 import { ImageTextCard } from '@/components/InfoCard'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
-import { dialogFormSetGroupConfig, dialogFormTextConfig } from '../../../common/commonConfig'
+import { setGroupValue, goBack } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
-import { updateSortNumber, backOff } from '@/services/goods'
-
 
 const { logisticsMethod, logisticsType } = commonMessage
-
-// 设置排序值
-const setGroupValue = (saleGoodsId) => {
-  LeDialog.show(
-    {
-      title: '设置排序值',
-      width: '600px',
-      content () {
-        return <LeForm {...dialogFormSetGroupConfig()} />
-      },
-      onOk: (values, suc) => {
-        const { sortValue } = values
-        
-        updateSortNumber({ 
-          channelProductId: saleGoodsId, 
-          sortNumber: Number(sortValue)
-        }).then(res => {
-          if (!res) return
-          // 关闭弹窗
-          
-          suc()
-          // TODO: 刷新列表 拿不到leList
-          // leList.refresh();
-        })
-
-        suc()
-      }
-    }
-  )
-}
 
 // 库存信息
 const getStoreInfo = (saleUnits) => {
@@ -58,35 +26,6 @@ const getStoreInfo = (saleUnits) => {
   })
 }
 
-// 单个回退
-const goBack = (saleGoodsId) => {
-  LeDialog.show(
-    {
-      title: '回退',
-      width: '400px',
-      content () {
-        return <LeForm {...dialogFormTextConfig('回退')} />
-      },
-      onOk: (values, suc) => {
-        const channelProductIdList = []
-        channelProductIdList.push(saleGoodsId)
-        
-        backOff({ 
-          channelProductIdList, 
-        }).then(res => {
-          if (!res) return
-          // 关闭弹窗
-          
-          suc()
-          // TODO: 刷新列表 拿不到leList
-          // leList.refresh();
-        })
-
-        suc()
-      }
-    }
-  )
-}
 
 // 渠道商品规格详情
 const getSkuDetail = (saleUnits) => {
@@ -210,8 +149,8 @@ export default {
     }
   }, {
     title: '商品分组',
-    dataIndex: 'provinceName',
-    key: 'productGrounp',
+    dataIndex: 'groupName',
+    key: 'groupName',
     align: 'center',          
     width: 200,              
     singleLine: true,
@@ -273,7 +212,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline list-inline">
-          <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值</a>
+          <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值({record.sortNumber})</a>
           <span />
           <a onClick={()=> goBack(record.saleGoodsId)}>回退</a>
         </div>

@@ -4,43 +4,11 @@ import router from 'umi/router'
 import { ImageTextCard } from '@/components/InfoCard'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
-import { dialogFormSetTimeConfig, dialogFormSetGroupConfig, dialogFormTextConfig } from '../../../common/commonConfig'
+import { dialogFormSetTimeConfig, dialogFormTextConfig, setGroupValue, goBack } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
 const { logisticsMethod, logisticsType } = commonMessage
-
-// 设置排序值
-const setGroupValue = () => {
-  LeDialog.show(
-    {
-      title: '设置排序值',
-      width: '600px',
-      content () {
-        return <LeForm {...dialogFormSetGroupConfig()} />
-      },
-      onOk: (values, suc) => {
-        suc()
-      }
-    }
-  )
-}
-
-// 单个回退
-const goBack = () => {
-  LeDialog.show(
-    {
-      title: '回退',
-      width: '400px',
-      content () {
-        return <LeForm {...dialogFormTextConfig('回退')} />
-      },
-      onOk: (values, suc) => {
-        suc()
-      }
-    }
-  )
-}
 
 // 编辑
 const editItem = (id) => {
@@ -116,7 +84,7 @@ const revocate = () => {
 }
 
 export default {
-  rowKey: 'id',
+  rowKey: 'saleGoodsId',
   scroll: { x: 1600 },
   rowSelection: {
     selections: true,
@@ -220,8 +188,8 @@ export default {
     }
   }, {
     title: '商品分组',
-    dataIndex: ' provinceName',
-    key: 'productGrounp',
+    dataIndex: 'groupName',
+    key: 'groupName',
     align: 'center',      
     width: 120,                                                                       
     singleLine: true,
@@ -263,15 +231,15 @@ export default {
     }
   }, {
     title: '总部审核状态',
-    dataIndex: 'examineStatus',
-    key: 'examineStatus',
+    dataIndex: 'status',
+    key: 'status',
     width: 200,                                                           
     align: 'center',                      
-    render: () => {
+    render: (value, record) => {
       return (
         <div className={Sty.store}>
           <span>已拒绝</span><br />
-          <span>原因：不符合规则不符合规则不符合规则不符合规则</span><br />
+          <span>原因：{record.status}</span><br />
         </div>
       )
     }
@@ -286,16 +254,16 @@ export default {
           {
             record.status !== 1?
               <div>
-                <a onClick={()=> setGroupValue()}>设置排序值</a>
+                <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值({record.sortNumber})</a>
                 <span />
-                <a onClick={()=> goBack(record.id)}>回退</a>
+                <a onClick={()=> goBack(record.saleGoodsId)}>回退</a>
               </div>:
               <div>
-                <a onClick={()=> editItem(record.id)}>编辑</a>
+                <a onClick={()=> editItem(record.saleGoodsId)}>编辑</a>
                 <span />
-                <a onClick={()=> goSetTime(record.id)}>排期</a>
+                <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
                 <span />
-                <a className='table-operate' onClick={()=> revocate(record.id)}>撤销推广</a>
+                <a className='table-operate' onClick={()=> revocate(record.saleGoodsId)}>撤销推广</a>
               </div>
           }
         </div>

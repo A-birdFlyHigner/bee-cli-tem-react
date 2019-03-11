@@ -100,7 +100,8 @@ export default class Detail extends Component {
 
     this.formCore = formCore
     const {productId} = this.state
-    queryBranchProductSpreadDetail({channelProductId: productId, productId}).then(res => {
+    
+    queryBranchProductSpreadDetail({channelProductId: productId}).then(res => {
       if (!res) return
       formCore.setValues(res)
     })
