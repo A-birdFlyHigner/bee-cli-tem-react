@@ -21,6 +21,16 @@ export async function queryCityList(params) {
   });
 }
 
+// 获取分公司城市
+export async function queryBranchCityList(params) {
+  return request(`${domain}/common/governing/cities`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
 export async function queryDistrictList(params) {
   return request(`${domain}/common/districtList`, {
     method: 'POST',

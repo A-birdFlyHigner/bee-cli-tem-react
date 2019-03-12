@@ -121,9 +121,9 @@ export async function listUnScheduledProduct(params) {
   return request(`${domain}/revision/product/schedule/listUnScheduledProduct?${stringify(params)}`);
 }
 
-// 预排期列表
+// 修改排序
 export async function updateSortNumber(params) {
-  return request(`${domain}${domain}/revision/product/schedule/updateSortNumber`, {
+  return request(`${domain}/revision/product/schedule/updateSortNumber`, {
     method: 'POST',
     body: {
       ...params,
@@ -131,5 +131,18 @@ export async function updateSortNumber(params) {
   });
 }
 
+// 分公司推广审核中列表
+export async function spreadWaitProductionList(params) {
+  return request(`${domain}/branch/product/spread/wait?${stringify(params)}`);
+}
 
+// 审核推广商品 
+export async function spreadReviewProduct(params) {
+  return request(`${domain}/branch/product/spread/review`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  })
+}
 
