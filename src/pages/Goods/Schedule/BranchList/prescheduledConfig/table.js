@@ -1,14 +1,14 @@
 import React from 'react'
-import { LeDialog, LeForm } from '@lib/lepage'
+import { LeDialog } from '@lib/lepage'
 import router from 'umi/router'
 import { ImageTextCard } from '@/components/InfoCard'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
-import { dialogFormSetTimeConfig, dialogFormTextConfig, setGroupValue, goBack } from '../../../common/commonConfig'
+import { setGroupValue, goBack, goSetTime, goRevoke } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
-const { logisticsMethod, logisticsType } = commonMessage
+const { logisticsMethod, logisticsType, reviewStatus } = commonMessage
 
 // 编辑
 const editItem = (id) => {
@@ -49,38 +49,6 @@ const getStoreInfo = (saleUnits) => {
       )
     }
   })
-}
-
-// 排期
-const goSetTime = () => {
-  LeDialog.show(
-    {
-      title: '设置活动时间',
-      width: '600px',
-      content () {
-        return <LeForm {...dialogFormSetTimeConfig()} />
-      },
-      onOk: (values, suc) => {
-        suc()
-      }
-    }
-  )
-}
-
-// 单个撤销推广
-const revocate = () => {
-  LeDialog.show(
-    {
-      title: '撤销推广',
-      width: '400px',
-      content () {
-        return <LeForm {...dialogFormTextConfig('撤销推广')} />
-      },
-      onOk: (values, suc) => {
-        suc()
-      }
-    }
-  )
 }
 
 export default {
@@ -133,28 +101,10 @@ export default {
     }
   }, {
     title: '类目',
-    dataIndex: 'categoryName',
-    key: 'categoryName',
+    dataIndex: 'pathName',
+    key: 'pathName',
     align: 'center',        
-    width: 100,                                               
-    mutipleLine: true,
-    render: () => {
-      const vals = '食品,水果,橘子'
-      return (
-        <div className="list-inline">
-          {
-            vals && vals.split(',').map(
-              (item) => (
-                <span key={item}>
-                  &gt;
-                  { item }<br />
-                </span>
-              )
-            )
-          }
-        </div>
-      )
-    },
+    width: 100,
   }, {
     title: '规格',
     dataIndex: 'specifications',
@@ -164,7 +114,7 @@ export default {
     render: (val, record) => {
       return(
         <span className="list-inline">
-          {record.properties.propertyValue}个<br />
+          {record.saleUnits.length}个<br />
           <a className="linkButton" onClick={()=> getSkuDetail(record.saleUnits)}>查看</a>
         </span>
       )
@@ -186,13 +136,6 @@ export default {
         </div>
       )
     }
-  }, {
-    title: '商品分组',
-    dataIndex: 'groupName',
-    key: 'groupName',
-    align: 'center',      
-    width: 120,                                                                       
-    singleLine: true,
   }, {
     title: '城市',
     dataIndex: 'cityName',
@@ -238,8 +181,15 @@ export default {
     render: (value, record) => {
       return (
         <div className={Sty.store}>
-          <span>已拒绝</span><br />
-          <span>原因：{record.status}</span><br />
+          {
+            record.status !== 2 ? 
+              <span>{reviewStatus[record.status]}</span>
+            :
+              <div>
+                <span>已拒绝</span><br />
+                <span>原因：{reviewStatus[record.status]}</span><br />
+              </div>
+          }
         </div>
       )
     }
@@ -252,7 +202,7 @@ export default {
       return (
         <div className="operateBtn-container-inline list-inline">
           {
-            record.status !== 1?
+            record.status !== 2?
               <div>
                 <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值({record.sortNumber})</a>
                 <span />
@@ -263,7 +213,7 @@ export default {
                 <span />
                 <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
                 <span />
-                <a className='table-operate' onClick={()=> revocate(record.saleGoodsId)}>撤销推广</a>
+                <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId)}>撤销推广</a>
               </div>
           }
         </div>

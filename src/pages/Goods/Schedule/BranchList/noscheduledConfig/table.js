@@ -1,11 +1,11 @@
 import React from 'react'
-import { LeDialog, LeForm } from '@lib/lepage'
+import { LeDialog } from '@lib/lepage'
 import moment from 'moment'
 import { ImageTextCard } from '@/components/InfoCard'
 import router from 'umi/router'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
-import { goSetTime } from '../../../common/commonConfig'
+import { goSetTime, goRevoke } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
@@ -49,44 +49,6 @@ const getStoreInfo = (saleUnits) => {
       )
     }
   })
-}
-
-const dialogFormRevokeConfig = () => {
-  return {
-    form: {
-      layout: { // 表单布局 左侧和右侧比例
-        label: 6,
-        control: 14
-      }
-    },
-    items: [
-      {
-        label: '',
-        name: 'text',
-        render: () => {
-          return (
-            <div>确定撤销推广？</div>
-          )
-        },
-      },
-    ],
-  }
-}
-
-// 撤销
-const goRevoke = () => {
-  LeDialog.show(
-    {
-      title: '撤销推广',
-      width: '400px',
-      content () {
-        return <LeForm {...dialogFormRevokeConfig()} />
-      },
-      onOk: (values, suc) => {
-        suc()
-      }
-    }
-  )
 }
 
 export default {
@@ -139,28 +101,10 @@ export default {
     }
   }, {
     title: '类目',
-    dataIndex: 'categoryName',
-    key: 'categoryName',
+    dataIndex: 'pathName',
+    key: 'pathName',
     align: 'center',        
-    width: 100,                                               
-    mutipleLine: true,
-    render: () => {
-      const vals = '食品,水果,橘子'
-      return (
-        <div className="list-inline">
-          {
-            vals && vals.split(',').map(
-              (item) => (
-                <span key={item}>
-                  &gt;
-                  { item }<br />
-                </span>
-              )
-            )
-          }
-        </div>
-      )
-    },
+    width: 100,
   }, {
     title: '规格',
     dataIndex: 'specifications',
@@ -170,7 +114,7 @@ export default {
     render: (val, record) => {
       return(
         <span className="list-inline">
-          {record.properties.propertyValue}个<br />
+          {record.saleUnits.length}个<br />
           <a className="linkButton" onClick={()=> getSkuDetail(record.saleUnits)}>查看</a>
         </span>
       )
@@ -253,7 +197,7 @@ export default {
           <span />
           <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
           <span />
-          <a className='table-operate' onClick={()=> goRevoke(record)}>撤销推广</a>
+          <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId)}>撤销推广</a>
         </div>
       )
     }

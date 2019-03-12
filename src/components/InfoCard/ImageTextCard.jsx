@@ -4,6 +4,9 @@ import * as classNames from './ImageTextCard.less';
 import { ImgForTable } from './ImgForTable';
 
 function ImageTextCard({ image = '', infoList = [], labelKey = 'label', valueKey = 'value' }) {
+  const infoData = infoList.filter(info => {
+    return info.value
+  })
   return (
     <div className={classNames.container}>
       {image && (
@@ -12,8 +15,8 @@ function ImageTextCard({ image = '', infoList = [], labelKey = 'label', valueKey
         </div>
       )}
       <ul className={classNames.infoList}>
-        {infoList &&
-          infoList.map((item, index) => (
+        {infoData &&
+          infoData.map((item, index) => (
             <li className={classNames.item} key={index}>
               <span>{item[labelKey]}</span>：
               {item.url ? (

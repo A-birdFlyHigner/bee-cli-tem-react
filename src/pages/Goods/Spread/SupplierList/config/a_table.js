@@ -1,9 +1,11 @@
 import React from 'react';
 import moment from 'moment'
+import { message } from 'antd';
 import { LeDialog, LeForm } from '@lib/lepage';
 import { ImageTextCard } from '@/components/InfoCard';
 import SkuDetail from '../../../common/skuDetail';
 import stockConfig from '../../../common/stockDialog';
+import {updateProductStock, productSpreadRevoke} from '@/services/goods'
 
 const editItemStock = record => {
   const {saleUnits} = record
@@ -11,7 +13,25 @@ const editItemStock = record => {
     title: `商品名称：${record.name}`,
     width: '900px',
     content: <LeForm {...stockConfig(saleUnits)} />,
-    onOk() {
+    onOk(values, suc) {
+      const { dataSource } = values
+      let stockList = dataSource.map(val => {
+        return {
+          saleUnitId: val.skuId,
+          count: val.editStock
+        }
+      })
+      stockList = stockList.filter(item => {
+        return item.count && item.count !== '0'
+      })
+      if (!stockList.length) return message.warning('请重新输入')
+      updateProductStock(stockList).then(res => {
+        if (res) {
+          message.success('更新成功')
+          suc()
+        }
+      })
+      return false
     },
   });
 };
@@ -21,8 +41,9 @@ const handleCancelSpread = (id) => {
     title: '撤销推广',
     maskClosable: true,
     content: '确认撤销推广该商品？',
-    onOk(val, suc) {
-      console.log(id)
+    onOk:  async (val, suc) => {
+      const res = await productSpreadRevoke([id])
+      if (!res) return
       suc();
     },
   });
@@ -135,13 +156,14 @@ export default {
     },
     {
       title: '推广城市',
-      dataIndex: 'managedCommunities',
+      dataIndex: 'cityName',
       width: 200,
-      render: () => {
+      render: (text, record) => {
+        const {cityName, companyName} = record
         return (
           <div>
-            <p>长沙分公司</p>
-            <p>长沙</p>
+            <p>{companyName}</p>
+            <p>{cityName}</p>
           </div>
         );
       },

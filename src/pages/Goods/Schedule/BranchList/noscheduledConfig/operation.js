@@ -1,4 +1,4 @@
-import { allSetSchedule } from '../../../common/commonConfig'
+import { allSetSchedule, allRevoke } from '../../../common/commonConfig'
 
 export default {
   form: {
@@ -11,6 +11,14 @@ export default {
         type: 'primary',
         children: '批量排期',
         onClick: allSetSchedule
+      }
+    },
+    {
+      inline: true,
+      props: {
+        type: 'primary',
+        children: '批量撤销',
+        onClick: allRevoke
       }
     }
   ]

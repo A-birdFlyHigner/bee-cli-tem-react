@@ -67,7 +67,7 @@ export default {
       props: {
         type: 'primary',
         children: '查询',
-        onClick(err, values, formCore, listCore) {},
+        onClick() {},
       },
       options: {
         type: 'submit',
@@ -77,20 +77,10 @@ export default {
     {
       props: {
         children: '重置',
-        onClick(err, values, formCore, listCore) {},
+        onClick() {},
       },
       options: {
         type: 'reset',
-      },
-    },
-    {
-      props: {
-        children: '导出',
-        onClick(err, values, formCore, listCore) {},
-      },
-      options: {
-        type: 'none',
-        validate: true,
       },
     },
   ],

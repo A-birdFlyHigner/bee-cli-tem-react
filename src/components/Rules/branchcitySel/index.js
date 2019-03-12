@@ -42,6 +42,7 @@ export default (options = {}) => {
           className: 'aaa',
           placeholder: DEFAULT_OPTIONS.placeholder[ind],
           onChange: [cityChange][ind],
+          allowClear: true,          
           options: [],
         },
         when: (values) => {
