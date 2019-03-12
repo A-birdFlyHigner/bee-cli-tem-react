@@ -27,14 +27,27 @@ export async function queryProductSpreadChannelList(params) {
   return request(`${domain}/product/spread/channel/list?${stringify(params)}`);
 }
 
-// 供应商推广创建时商品详情
+// 供应商推广创建时商品详情 基础商品
 export async function queryProductSpreadProductBaseDetail(params) {
   return request(`${domain}/product/spread/product/base/detail?${stringify(params)}`);
+}
+
+// 供应商推广编辑时商品详情 渠道商品
+export async function queryProductSpreadProductChannelDetail(params) {
+  return request(`${domain}/product/spread/product/channel/detail?${stringify(params)}`);
 }
 
 // 供应商创建推广
 export async function productSpreadCreate(params) {
   return request(`${domain}/product/spread/create`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 供应商更新推广
+export async function productSpreadUpdate(params) {
+  return request(`${domain}/product/spread/update`, {
     method: 'POST',
     body: params,
   });

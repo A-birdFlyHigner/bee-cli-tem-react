@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import { LeForm, LeDialog } from '@lib/lepage'
 import _ from 'lodash'
+import router from 'umi/router';
 import { Button, message } from 'antd'
 import spreadConfig from './spread'
 import * as Sty from '../Index.less'
 import dialogFormConfig from '../../common/spreadDialog'
-import {queryProductSpreadChannelList, queryProductSpreadProductBaseDetail, productSpreadCreate} from '@/services/goods'
-import router from 'umi/router';
+import {
+  queryProductSpreadChannelList, 
+  queryProductSpreadProductBaseDetail, 
+  queryProductSpreadProductChannelDetail, 
+  productSpreadCreate, 
+  productSpreadUpdate
+} from '@/services/goods'
 
 export default class Detail extends Component {
 
@@ -20,6 +26,11 @@ export default class Detail extends Component {
 
   componentWillMount () {
     const { query } = this.props
+    if (query.status === 'edit') {
+      this.setState({
+        edit: true
+      })
+    }
     if (query.spreadName) {
       this.setState({
         spreadList: [{
@@ -27,7 +38,7 @@ export default class Detail extends Component {
           cityIds: _.concat(query.cityIds),
           productIds: _.concat(query.productIds)
         }],
-        productIds: _.concat(query.productIds)
+        productIds: _.concat(query.productIds),
       })
     } 
     else {
@@ -50,8 +61,21 @@ export default class Detail extends Component {
     if (state[`dataSource${id}`]) {
       this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(state[`dataSource${id}`])))
     } else {
-      let dataList = await queryProductSpreadProductBaseDetail({productId: id})
-      if (!dataList) return
+      const { edit = false } = state
+      let dataList
+      if (edit) {
+        dataList = await queryProductSpreadProductChannelDetail({productId: id})
+        if (!dataList) return
+        const { logisticsMethod, logisticsType, dispatchDate} = dataList
+        this.leForm[key].setValues({
+          logisticsMethod,
+          logisticsType,
+          dispatchDate
+        })
+      } else {
+        dataList = await queryProductSpreadProductBaseDetail({productId: id})
+        if (!dataList) return
+      }
       const {skuDetailList = [], productName} = dataList
       dataList = skuDetailList.map(sku => {
         return {
@@ -168,7 +192,7 @@ export default class Detail extends Component {
 
   handleSubInfo = async () => {
     const createList = []
-    const {productIds} = this.state
+    const {productIds, edit = false} = this.state
     productIds.forEach(pId => {
       const citySpreadDetailList = []
       const keys = Object.keys(this.leForm)
@@ -190,8 +214,13 @@ export default class Detail extends Component {
         citySpreadDetailList
       })
     })
-    const res = await productSpreadCreate(createList)
-    if (!res) return
+    if (edit) {
+      const res = await productSpreadUpdate(createList[0])
+      if (!res) return
+    } else {
+      const res = await productSpreadCreate(createList)
+      if (!res) return
+    }
     message.success('已提交，请等待审核')
     router.push({
       pathname: '/goods/spread/list',
@@ -202,7 +231,7 @@ export default class Detail extends Component {
   }
 
   render () {
-    const { spreadList } = this.state
+    const { spreadList, edit = false } = this.state
     const configOption = {
       self: this,
       deleteFun: this.deleteSpreatItem
@@ -215,14 +244,18 @@ export default class Detail extends Component {
             const firstItem = (
               <p className={Sty.firstp}>
                 <span>推广渠道{ind + 1}：</span>
-                <Button 
-                  type="primary" 
-                  size="small" 
-                  className={Sty.spreadDelBtn}
-                  onClick={() => this.deleteSpreatItem.call(this, spreadName)}
-                >
-                删 除
-                </Button>
+                {
+                  edit
+                  ? null : 
+                  <Button 
+                    type="primary" 
+                    size="small" 
+                    className={Sty.spreadDelBtn}
+                    onClick={() => this.deleteSpreatItem.call(this, spreadName)}
+                  >
+                    删 除
+                  </Button>
+                }
               </p>
             )
             return (
@@ -237,7 +270,11 @@ export default class Detail extends Component {
           })
         }
         <div className={Sty.btnGroup}>
-          <Button onClick={this.dialogAddSpread}>+新增推广渠道</Button>
+          {
+            edit 
+            ? null 
+            : <Button onClick={this.dialogAddSpread}>+新增推广渠道</Button>
+          }
           <Button type="primary" onClick={this.beforeSubmitInfo}>推广</Button>
           <Button>取消</Button>
         </div>

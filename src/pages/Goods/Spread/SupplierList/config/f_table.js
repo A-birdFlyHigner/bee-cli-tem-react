@@ -5,11 +5,14 @@ import { ImageTextCard } from '@/components/InfoCard';
 import { LeDialog } from '@lib/lepage'
 import SkuDetail from '../../../common/skuDetail';
 
-const editItemStock = productIds => {
+const editItemStock = record => {
+  const { saleGoodsId, cityCode, cityName, companyName } = record
   router.push({
     pathname: '/goods/spread/setting',
     query: {
-      productIds,
+      productIds: saleGoodsId,
+      cityIds: cityCode,
+      spreadName: `${companyName}（${cityName}）`,
       status: 'edit'
     }
   })
@@ -182,7 +185,7 @@ export default {
       render: (text, record) => {
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={() => editItemStock(record.saleGoodsId)}>编辑</a>
+            <a onClick={() => editItemStock(record)}>编辑</a>
             <br />
           </div>
         );

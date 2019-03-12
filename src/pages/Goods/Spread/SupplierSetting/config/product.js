@@ -133,7 +133,7 @@ const makeProductItem = (productIds, leForm) => {
       render: (values, core) => {
         return (
           <Table 
-            rowKey='sku' 
+            rowKey='saleUnitId' 
             columns={tabelColumns(core, p)} 
             pagination={false}
             dataSource={values[`dataSource${p}`]} 
