@@ -159,6 +159,11 @@ export async function spreadWaitProductionList(params) {
   return request(`${domain}/branch/product/spread/wait?${stringify(params)}`);
 }
 
+// 分公司推广审核失败列表
+export async function spreadFailureProductionList(params) {
+  return request(`${domain}/branch/product/spread/failure?${stringify(params)}`);
+}
+
 // 获取下拉分组
 export async function getProductGroupCombo(params) {
   return request(`${domain}/mini/product/group/combo`,  {

@@ -1,12 +1,12 @@
 import Reg from '@/utils/reg'
-import cityRule from '@/components/Rules/citySel/index'
+import cityRule from '@/components/Rules/branchcitySel/index'
 import timeRule from '@/components/Rules/timeSel/index'
 import categoryRule from '@/components/Rules/category'
-import moment from 'moment'
+// import moment from 'moment'
 
-const disabledDates = (current) => {
-  return current && current < moment().endOf('day')
-}
+// const disabledDates = (current) => {
+//   return current && current < moment().endOf('day')
+// }
 
 export default {
   form: {
@@ -66,8 +66,7 @@ export default {
     cityRule({
       label: '城市',
       value: [],
-      name:['provinceCode', 'cityCode'],
-      deep: 2,
+      deep: 1,
     }),
     {
       label: 'skuId',

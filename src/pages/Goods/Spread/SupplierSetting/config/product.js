@@ -24,14 +24,14 @@ const tabelColumns = (core, p) => {
     dataIndex: 'productName',
     align: 'center',
     width: '200px',
-    render: (value, row, index) => {
-      return {
-        children: value,
-        props: {
-          rowSpan: index === 0 ? 100 : 0
-        }
-      }
-    }
+    // render: (value, row, index) => {
+    //   return {
+    //     children: value,
+    //     props: {
+    //       rowSpan: index === 0 ? data.length : 0
+    //     }
+    //   }
+    // }
   }, {
     title: 'sku组合',
     dataIndex: 'propertyNameList',
@@ -134,7 +134,7 @@ const makeProductItem = (productIds, leForm) => {
         return (
           <Table 
             rowKey='saleUnitId' 
-            columns={tabelColumns(core, p)} 
+            columns={tabelColumns(core, p, values[`dataSource${p}`])} 
             pagination={false}
             dataSource={values[`dataSource${p}`]} 
           />

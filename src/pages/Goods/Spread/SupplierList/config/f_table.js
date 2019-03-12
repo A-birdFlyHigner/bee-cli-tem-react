@@ -62,7 +62,7 @@ export default {
               },
               {
                 label: '商品Id',
-                value: record.saleGoodsId,
+                value: record.baseSaleGoodsId,
               },
               {
                 label: '发货方式',

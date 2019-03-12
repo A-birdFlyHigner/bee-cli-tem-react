@@ -1,11 +1,10 @@
 import React from 'react';
-import moment from 'moment'
 import { message } from 'antd';
 import { LeDialog, LeForm } from '@lib/lepage';
 import { ImageTextCard } from '@/components/InfoCard';
 import SkuDetail from '../../../common/skuDetail';
 import stockConfig from '../../../common/stockDialog';
-import {updateProductStock, productSpreadRevoke} from '@/services/goods'
+import {updateProductStock} from '@/services/goods'
 
 const editItemStock = record => {
   const {saleUnits} = record
@@ -32,20 +31,6 @@ const editItemStock = record => {
         }
       })
       return false
-    },
-  });
-};
-
-const handleCancelSpread = (id) => {
-  LeDialog.show({
-    title: '撤销推广',
-    maskClosable: true,
-    content: '确认撤销推广该商品？',
-    onOk:  async (val, suc) => {
-      const res = await productSpreadRevoke([id])
-      if (!res) return
-      message.success('撤销成功')
-      suc();
     },
   });
 };
@@ -156,7 +141,7 @@ export default {
       align: 'center',
     },
     {
-      title: '推广城市',
+      title: '出售城市',
       dataIndex: 'cityName',
       width: 200,
       render: (text, record) => {
@@ -168,19 +153,6 @@ export default {
           </div>
         );
       },
-    },
-    {
-      title: '提交推广时间',
-      dataIndex: 'applyPromotionTime',
-      width: 200,
-      align: 'center',
-      render: (val) => {
-        return (
-          <div>
-            {moment(val).format('YYYY-MM-DD HH:mm:ss')}
-          </div>
-        )
-      }
     },
     {
       title: '库存信息',
@@ -205,8 +177,6 @@ export default {
         return (
           <div className="operateBtn-container-inline">
             <a onClick={() => editItemStock(record)}>调整库存</a>
-            <br />
-            <a onClick={() => handleCancelSpread(record.saleGoodsId)}>撤销推广</a>
           </div>
         );
       },
