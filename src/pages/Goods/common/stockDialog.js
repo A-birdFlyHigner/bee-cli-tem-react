@@ -100,7 +100,7 @@ const tabelColumns = core => {
 };
 
 export default tableData => {
-  tableData = tableData.map(item => {
+  const dataList = tableData.map(item => {
     return {
       ...item,
       editStock: '0'
@@ -108,7 +108,7 @@ export default tableData => {
   })
   return {
     settings: {
-      values: { dataSource: tableData },
+      values: { dataSource: dataList },
     },
     items: [
       {

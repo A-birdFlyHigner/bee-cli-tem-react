@@ -5,21 +5,8 @@ import { Button, message } from 'antd'
 import spreadConfig from './spread'
 import * as Sty from '../Index.less'
 import dialogFormConfig from '../../common/spreadDialog'
-import {queryProductSpreadChannelList, queryProductSpreadProductDetail} from '@/services/goods'
-
-const proList = [{
-  productName: '面包',
-  sku: '1kg',
-  deliverCode: '001',
-  costPrice: 200,
-  stockCount: 100
-}, {
-  productName: '火腿',
-  sku: '2kg',
-  deliverCode: '050301',
-  costPrice: 300,
-  stockCount: 100
-}]
+import {queryProductSpreadChannelList, queryProductSpreadProductBaseDetail, productSpreadCreate} from '@/services/goods'
+import router from 'umi/router';
 
 export default class Detail extends Component {
 
@@ -63,13 +50,20 @@ export default class Detail extends Component {
     if (state[`dataSource${id}`]) {
       this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(state[`dataSource${id}`])))
     } else {
-      const dataList = await queryProductSpreadProductDetail({productId: id})
-      setTimeout(() => {
-        this.setState({
-          [`dataSource${id}`]: JSON.parse(JSON.stringify(proList))
-        })
-        this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(proList)))
-      }, 100)
+      let dataList = await queryProductSpreadProductBaseDetail({productId: id})
+      if (!dataList) return
+      const {skuDetailList = [], productName} = dataList
+      dataList = skuDetailList.map(sku => {
+        return {
+          ...sku,
+          stockCount: sku.spreadStock,
+          productName
+        }
+      })
+      this.setState({
+        [`dataSource${id}`]: JSON.parse(JSON.stringify(dataList))
+      })
+      this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(dataList)))
     }
   }
 
@@ -140,9 +134,7 @@ export default class Detail extends Component {
 
   beforeSubmitInfo = async () => {
     let isError = false
-
     const keys = Object.keys(this.leForm)
-
     for (const i of keys) {
       const item = this.leForm[i]
       const errors = await item.validate()
@@ -161,7 +153,7 @@ export default class Detail extends Component {
             const { costPrice, stockCount } = q
             if (!costPrice || !stockCount) {
               const { value: { spreadName } = {} } = item
-              if (isError) {
+              if (!isError) {
                 message.warning(`请完善${spreadName}下的商品成本价和推广库存`) 
               }
               isError = true
@@ -170,13 +162,11 @@ export default class Detail extends Component {
         })
       }
     }
-
-    
     if (isError) return
     this.handleSubInfo()
   }
 
-  handleSubInfo () {
+  handleSubInfo = async () => {
     const createList = []
     const {productIds} = this.state
     productIds.forEach(pId => {
@@ -200,7 +190,15 @@ export default class Detail extends Component {
         citySpreadDetailList
       })
     })
-    console.log(createList)
+    const res = await productSpreadCreate(createList)
+    if (!res) return
+    message.success('已提交，请等待审核')
+    router.push({
+      pathname: '/goods/spread/list',
+      query: {
+        status: '2'
+      }
+    })
   }
 
   render () {

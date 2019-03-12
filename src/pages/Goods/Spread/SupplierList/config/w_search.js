@@ -64,15 +64,5 @@ export default {
         type: 'reset',
       },
     },
-    {
-      props: {
-        children: '导出',
-        onClick() {},
-      },
-      options: {
-        type: 'none',
-        validate: true,
-      },
-    },
   ],
 };

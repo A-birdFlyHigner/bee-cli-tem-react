@@ -12,15 +12,18 @@ const tabelColumns = (core, p) => {
     dataIndex: 'stockCount',
   }]
   const onInputChange = (val, index, name) => {
-    if (val !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(val)) return
+    let num = val
+    if (num !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(num)) return
+    if (name === 'stockCount' && num > 10000) num = 10000
     const dataSource = JSON.parse(JSON.stringify(core.getValue(`dataSource${p}`)))
-    dataSource[index][name] = val
+    dataSource[index][name] = num
     core.setValue(`dataSource${p}`, dataSource)
   }
   return [{
     title: '商品名称',
     dataIndex: 'productName',
     align: 'center',
+    width: '200px',
     render: (value, row, index) => {
       return {
         children: value,
@@ -31,8 +34,12 @@ const tabelColumns = (core, p) => {
     }
   }, {
     title: 'sku组合',
-    dataIndex: 'sku',
+    dataIndex: 'propertyNameList',
     align: 'center',
+    width: '200px',
+    render: (text) => {
+      return <span>{text.join('&')}</span>
+    }
   }, 
   ...inputItems.map(item => {
     return {
@@ -61,15 +68,17 @@ const makeProductItem = (productIds, leForm) => {
 
   return productIds.map(p => {
     const onBatchChange = (val, name) => {
-      if (val !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(val)) return
+      let num = val
+      if (num !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(num)) return
+      if (name === 'stockCount' && num > 10000) num = 10000
       const dataSource = leForm.getValue(`dataSource${p}`).map(item => {
         return {
           ...item,
-          [name]: val
+          [name]: num
         }
       })
       leForm.setValues({
-        [`${name}${p}`]: val,
+        [`${name}${p}`]: num,
         [`dataSource${p}`]: dataSource,
       })
     }
