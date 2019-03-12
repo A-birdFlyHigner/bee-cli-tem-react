@@ -67,18 +67,15 @@ export default {
       component: 'Select',
       props: {
         placeholder: '请选择商品审核状态',
+        allowClear: true,
         options: [{
-          label: '已拒绝',
-          value: 1,
-        }, {
           label: '待审核',
-          value: 2
+          value: 1
+        }, {
+          label: '审核拒绝',
+          value: 3
         }]
       },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 3
-      }
     }, 
     cityRule({
       label: '城市',

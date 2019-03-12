@@ -2,11 +2,6 @@ import Reg from '@/utils/reg'
 import cityRule from '@/components/Rules/branchcitySel/index'
 import timeRule from '@/components/Rules/timeSel/index'
 import categoryRule from '@/components/Rules/category'
-import moment from 'moment'
-
-const disabledDates = (current) => {
-  return current && current < moment().endOf('day')
-}
 
 export default {
   form: {
@@ -70,25 +65,24 @@ export default {
     }),
     {
       label: '商品出售状态',
-      name: 'saleingStatus',
+      name: 'saleStatus',
       component: 'Select',
       props: {
         placeholder: '请选择商品出售状态',
         options: [{
+          label: '全部',
+          value: 0,
+        },{
           label: '出售中',
           value: 1,
         }, {
           label: '正在预热',
           value: 2
         }, {
-          label: '已排期',
+          label: '等待上线',
           value: 3
         }]
       },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 4
-      }
     },
     {
       label: 'skuId',

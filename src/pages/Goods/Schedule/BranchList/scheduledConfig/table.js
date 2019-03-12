@@ -7,7 +7,7 @@ import { setGroupValue, goBack } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
-const { logisticsMethod, logisticsType } = commonMessage
+const { logisticsMethod, logisticsType, allsaleStatus } = commonMessage
 
 // 库存信息
 const getStoreInfo = (saleUnits) => {
@@ -174,11 +174,17 @@ export default {
     }
   },  {
     title: '商品出售状态',
-    dataIndex: 'cityName',
-    key: 'saleingStatus',
+    dataIndex: 'saleStatus',
+    key: 'saleStatus',
     width: 200,    
     align: 'center',                    
-    singleLine: true,
+    render: (value,record) => {
+      return (
+        <div>
+          <span>{allsaleStatus[record.saleStatus]}</span>
+        </div>
+      )
+    }
   }, {
     title: '出售时间',
     dataIndex: 'phoneNumber',
