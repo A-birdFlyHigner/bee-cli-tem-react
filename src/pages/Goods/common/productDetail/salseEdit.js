@@ -44,7 +44,8 @@ const tabelColumns = (core, preview) => {
     align: 'center',
     width: 180,
     render: (val) => {
-      return <span>{val.join('-') || '默认'}</span>
+      const list = val.map(p => p.pnName)
+      return <span>{list.join('-') || '默认'}</span>
     }
   }, {
     title: 'sku编码（发货编码）',
@@ -82,29 +83,14 @@ const tabelColumns = (core, preview) => {
     width: 100,
   }, {
     title: '会员价佣金',
-    dataIndex: 'memberYongJin',
+    dataIndex: 'memeberCommission',
     align: 'center',
     width: 120,
-    render: (values, rows) => {
-      const {
-        memberPrice,
-        costPrice,
-        grossProfit
-      } = rows
-      return <span>{(memberPrice*100 - costPrice*100 - grossProfit*100)/100}</span>
-    }
   }, {
     title: '非会员价佣金',
-    dataIndex: 'nonmemberYongJin',
+    dataIndex: 'noMemeberCommission',
     align: 'center',
     width: 150,
-    render: (values, rows) => {
-      const {
-        nonmemberPrice,
-        costPrice,
-        grossProfit} = rows
-      return <span>{(nonmemberPrice*100 - costPrice*100 - grossProfit*100)/100}</span>
-    }
   }]
 }
 

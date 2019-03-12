@@ -11,15 +11,17 @@ export default [
     }
   }, {
     name: 'saleUnitImages',
-    render () {
+    value: [],
+    render (values) {
+      const {saleUnitImages = []} = values
       return (
         <div className={Sty.skuImgBox}>
           {
-            ['黑色', '白色', '蓝色', '绿色'].map((item) => {
+            saleUnitImages.map((item) => {
               return (
-                <div className={Sty.imgInline} key={item}>
-                  <span>{ item }：</span>
-                  <ImgPreview url='https://img.gegejia.com/b8972d54fc1e4633b438b61ed79f5a3b.jpg' />
+                <div className={Sty.imgInline} key={item.id}>
+                  <span>{ item.propertyPairId }：</span>
+                  <ImgPreview url={item.url} />
                 </div>
               )
             })

@@ -22,7 +22,23 @@ export default class Detail extends Component {
       productId: params.id,
       leFormConf: {
         settings: {
-          globalStatus: 'preview'
+          globalStatus: 'preview',
+          onChange: (changeKeys, values, core) => {
+            const {techServiceRate} = values
+            const skuList = values.saleUnits.map(sku => {
+              const {memberPrice, nonmemberPrice, costPrice, grossProfit} = sku
+              const memeberCommission = ((memberPrice*10000 - memberPrice*techServiceRate*100 - costPrice*10000 - (grossProfit==='-'? '0' : grossProfit)*10000)/10000).toFixed(2)
+              const noMemeberCommission = ((nonmemberPrice*10000 - nonmemberPrice*techServiceRate*100 - costPrice*10000 - (grossProfit==='-'? '0' : grossProfit)*10000)/10000).toFixed(2)
+              return {
+                ...sku,
+                memeberCommission,
+                noMemeberCommission,
+              }
+            })
+            core.setValue({
+              saleUnits: skuList
+            })
+          }
         },
         form: {
           layout: {

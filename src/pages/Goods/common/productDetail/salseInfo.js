@@ -16,7 +16,8 @@ const tabelColumns = () => {
     align: 'center',
     width: 220,
     render: (val) => {
-      return <span>{val.join('-') || '默认'}</span>
+      const list = val.map(p => p.pnName)
+      return <span>{list.join('-') || '默认'}</span>
     }
   }, {
     title: 'sku编码（发货编码）',
