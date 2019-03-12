@@ -44,14 +44,15 @@ const tabelColumns = core => {
     {
       title: 'sku规格',
       dataIndex: 'propertyPairList',
-      width: 220,
+      width: 120,
       align: 'center',
       render: (text, row) => {
+        const info = text.map(p => p.pnName)
         const isStop = <span className='globalRed'>（停售）</span>
         return (
           <div>
             {row.saleStatus === 0 ? isStop : null}
-            <span>{text.join('&')}</span>
+            <span>{info.join('&')}</span>
           </div>
         )
       }
@@ -85,6 +86,7 @@ const tabelColumns = core => {
     {
       title: '调整可售库存',
       dataIndex: 'editStock',
+      width: 100,
       render: (text, row, index) => {
         return (
           <Input

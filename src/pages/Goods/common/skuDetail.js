@@ -27,12 +27,13 @@ export default class SkuDetail extends Component {
           key: 'propertyPairList',
           align: 'center',
           render: (text, record) => {
+            const info = text.map(p => p.pnName)
             const { saleStatus } = record
             const StopSale = <span className='globalRed'>（停售）</span>
             return (
               <div>
                 { saleStatus !== 0 ? null : StopSale}
-                <span>{text.join('&')}</span>
+                <span>{info.join('&')}</span>
               </div>
             )
           }

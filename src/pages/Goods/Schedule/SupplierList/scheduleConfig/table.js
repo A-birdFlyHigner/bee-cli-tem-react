@@ -5,7 +5,7 @@ import { LeDialog, LeForm } from '@lib/lepage';
 import { ImageTextCard } from '@/components/InfoCard';
 import SkuDetail from '../../../common/skuDetail';
 import stockConfig from '../../../common/stockDialog';
-import {updateProductStock, productSpreadRevoke} from '@/services/goods'
+import {updateProductStock} from '@/services/goods'
 
 const editItemStock = record => {
   const {saleUnits} = record
@@ -32,20 +32,6 @@ const editItemStock = record => {
         }
       })
       return false
-    },
-  });
-};
-
-const handleCancelSpread = (id) => {
-  LeDialog.show({
-    title: '撤销推广',
-    maskClosable: true,
-    content: '确认撤销推广该商品？',
-    onOk:  async (val, suc) => {
-      const res = await productSpreadRevoke([id])
-      if (!res) return
-      message.success('撤销成功')
-      suc();
     },
   });
 };
@@ -156,7 +142,7 @@ export default {
       align: 'center',
     },
     {
-      title: '推广城市',
+      title: '出售城市',
       dataIndex: 'cityName',
       width: 200,
       render: (text, record) => {
@@ -170,14 +156,28 @@ export default {
       },
     },
     {
-      title: '提交推广时间',
-      dataIndex: 'applyPromotionTime',
+      title: '出售状态',
+      dataIndex: 'saleStatus',
       width: 200,
       align: 'center',
       render: (val) => {
+        return ['已过期', '出售中', '正在预热', '等待上线'][val]
+      }
+    },
+    {
+      title: '出售时间',
+      dataIndex: 'scheduleStartTime',
+      width: 200,
+      align: 'center',
+      render: (val, record) => {
+        const { scheduleEndTime } = record
         return (
           <div>
-            {moment(val).format('YYYY-MM-DD HH:mm:ss')}
+            <p>
+              {moment(val).format('YYYY-MM-DD HH:mm:ss')}-- 
+              <br />
+              {moment(scheduleEndTime).format('YYYY-MM-DD HH:mm:ss')}
+            </p>
           </div>
         )
       }
@@ -205,8 +205,6 @@ export default {
         return (
           <div className="operateBtn-container-inline">
             <a onClick={() => editItemStock(record)}>调整库存</a>
-            <br />
-            <a onClick={() => handleCancelSpread(record.saleGoodsId)}>撤销推广</a>
           </div>
         );
       },

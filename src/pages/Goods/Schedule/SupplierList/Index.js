@@ -1,31 +1,36 @@
-import React, { Component } from 'react'
-import { Tabs } from 'antd'
-import Scheduled from './scheduled'
-import Prescheduled from './prescheduled'
-import Noscheduled from './noscheduled'
+import React, { Component } from 'react';
+import { Tabs } from 'antd';
+import TodayList from './todayList';
+import ScheduleList from './scheduleList';
+import NoScheduleList from './noScheduleList';
 
-const  { TabPane } = Tabs
+const {TabPane} = Tabs;
 
 export default class SpreadList extends Component {
-
   constructor(props) {
-    super()
-    this.store = props
+    super(props)
+    const { location } = this.props
+    const { query } = location
+    const { status = '1' } = query
+    this.state = {
+      status
+    }
   }
-  
-  render () {
+
+  render() {
+    const { status } = this.state
     return (
-      <Tabs size='large' defaultActiveKey="1">
-        <TabPane tab="未排期" key="1">
-          <Noscheduled />
+      <Tabs size="large" defaultActiveKey={status}>
+        <TabPane tab="今日在售" key="1">
+          <TodayList />
         </TabPane>
-        <TabPane tab="预排期" key="2">
-          <Prescheduled />
+        <TabPane tab="已排期" key="2">
+          <ScheduleList />
         </TabPane>
-        <TabPane tab="已排期" key="3">
-          <Scheduled />
+        <TabPane tab="未排期" key="3">
+          <NoScheduleList />
         </TabPane>
       </Tabs>
-    )
+    );
   }
 }
