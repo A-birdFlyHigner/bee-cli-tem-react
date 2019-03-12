@@ -62,6 +62,16 @@ export async function updateSkuPrice(params) {
   });
 }
 
+// 分公司撤销商品推广
+export async function revokeProductSpeard(params) {
+  return request(`${domain}/branch/product/spread/revoke`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
 // 商品排期
 export async function addOrUpdate(params) {
   return request(`${domain}/revision/product/schedule/addOrUpdate`, {
@@ -111,4 +121,26 @@ export async function updateSortNumber(params) {
 export async function spreadWaitProductionList(params) {
   return request(`${domain}/branch/product/spread/wait?${stringify(params)}`);
 }
+
+// 获取下拉分组
+export async function getProductGroupCombo(params) {
+  return request(`${domain}/mini/product/group/combo`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+// 加入分组
+export async function addProductToProductGroup(params) {
+  return request(`${domain}/mini/product/group/product/add`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+
 

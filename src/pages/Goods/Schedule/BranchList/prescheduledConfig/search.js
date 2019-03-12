@@ -109,18 +109,6 @@ export default {
       deep: 1,
     }),
     {
-      label: '商品Id',
-      name: 'productId',
-      component: 'Input',
-      rules: {
-        pattern: Reg.Num,
-        message: '商品Id,请输入数字'
-      },
-      props: {
-        placeholder: '请输入商品Id'
-      },
-    },
-    {
       label: '总部审核时间',
       name: 'examineTime',
       component: 'RangePicker',
