@@ -100,10 +100,21 @@ export default (ruleConf = {}) => {
 
     const beforeUpload = file => {
       return new Promise((resolve, reject) => {
+        const {options = {}} = ruleConf
+        const {limit} = options
+        let len = leForm.getValue(name);
+        if (len === undefined) {
+          len = ruleConf.value ? ruleConf.value.length : 0;
+        } else {
+          len = len ? len.length : 0;
+        }
+        if (len >= (limit || DEFAULT_CONFIG.limit)) {
+          message.warning('上传已达上限');
+          return reject();
+        }
         if (!regTypeSize(file)) {
           return reject();
         }
-        const { options = {} } = ruleConf
         const { width, height, minWidth, maxWidth, minHeight, maxHeight } = options;
         if (!width && !height && !minWidth && !maxWidth && !minHeight && !maxHeight) {
           return readFile(file).then(res => {
