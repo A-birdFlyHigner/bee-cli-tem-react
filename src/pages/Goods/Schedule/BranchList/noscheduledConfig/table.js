@@ -101,28 +101,10 @@ export default {
     }
   }, {
     title: '类目',
-    dataIndex: 'categoryName',
-    key: 'categoryName',
+    dataIndex: 'pathName',
+    key: 'pathName',
     align: 'center',        
-    width: 100,                                               
-    mutipleLine: true,
-    render: () => {
-      const vals = '食品,水果,橘子'
-      return (
-        <div className="list-inline">
-          {
-            vals && vals.split(',').map(
-              (item) => (
-                <span key={item}>
-                  &gt;
-                  { item }<br />
-                </span>
-              )
-            )
-          }
-        </div>
-      )
-    },
+    width: 100,
   }, {
     title: '规格',
     dataIndex: 'specifications',
@@ -132,7 +114,7 @@ export default {
     render: (val, record) => {
       return(
         <span className="list-inline">
-          {record.properties.propertyValue}个<br />
+          {record.saleUnits.length}个<br />
           <a className="linkButton" onClick={()=> getSkuDetail(record.saleUnits)}>查看</a>
         </span>
       )

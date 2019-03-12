@@ -7,7 +7,7 @@ import { setGroupValue, goBack } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
-const { logisticsMethod, logisticsType } = commonMessage
+const { logisticsMethod, logisticsType, allsaleStatus } = commonMessage
 
 // 库存信息
 const getStoreInfo = (saleUnits) => {
@@ -94,28 +94,10 @@ export default {
     }
   }, {
     title: '类目',
-    dataIndex: 'categoryName',
-    key: 'categoryName',
+    dataIndex: 'pathName',
+    key: 'pathName',
     align: 'center',      
-    width: 100,                         
-    mutipleLine: true,
-    render: () => {
-      const vals = '食品,水果,橘子'
-      return (
-        <div>
-          {
-            vals && vals.split(',').map(
-              (item) => (
-                <span key={item}>
-                  &gt;
-                  { item }<br />
-                </span>
-              )
-            )
-          }
-        </div>
-      )
-    },
+    width: 100,
   }, {
     title: '规格',
     dataIndex: 'specifications',
@@ -125,7 +107,7 @@ export default {
     render: (val, record) => {
       return(
         <span>
-          3个<br />
+          {record.saleUnits.length}个<br />
           <a className="linkButton" onClick={()=> getSkuDetail(record.saleUnits)}>查看</a>
         </span>
       )
@@ -192,11 +174,17 @@ export default {
     }
   },  {
     title: '商品出售状态',
-    dataIndex: 'cityName',
-    key: 'saleingStatus',
+    dataIndex: 'saleStatus',
+    key: 'saleStatus',
     width: 200,    
     align: 'center',                    
-    singleLine: true,
+    render: (value,record) => {
+      return (
+        <div>
+          <span>{allsaleStatus[record.saleStatus]}</span>
+        </div>
+      )
+    }
   }, {
     title: '出售时间',
     dataIndex: 'phoneNumber',

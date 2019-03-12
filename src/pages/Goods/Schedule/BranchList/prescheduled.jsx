@@ -5,7 +5,7 @@ import filterConfig from './prescheduledConfig/search'
 import operationConfig from './prescheduledConfig/operation'
 import tableConfig from './prescheduledConfig/table'
 // TODO: 先拿未排期来看下数据
-import { listPreScheduledProduct, listUnScheduledProduct } from '@/services/goods'
+import { listPreScheduledProduct } from '@/services/goods'
 
 import { leListQuery } from '@/utils/utils'
 
@@ -21,7 +21,7 @@ export default class Prescheduled extends Component {
       filterConfig,
       operationConfig,
       tableConfig,
-      ...leListQuery(listUnScheduledProduct)
+      ...leListQuery(listPreScheduledProduct)
     }
     return (
       <LeList {...config} />
