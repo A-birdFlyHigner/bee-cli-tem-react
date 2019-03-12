@@ -69,7 +69,6 @@ export default class Detail extends Component {
           ...baseInfo,
           ...salseInfo,
           salseEdit(),
-          salseEdit(true),
           ...logistics,
           ...wareHouse,
           ...skuMainImg,

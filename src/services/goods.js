@@ -112,3 +112,13 @@ export async function spreadWaitProductionList(params) {
   return request(`${domain}/branch/product/spread/wait?${stringify(params)}`);
 }
 
+// 审核推广商品 
+export async function spreadReviewProduct(params) {
+  return request(`${domain}/branch/product/spread/review`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  })
+}
+
