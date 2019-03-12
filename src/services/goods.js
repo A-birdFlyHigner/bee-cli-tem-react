@@ -27,9 +27,46 @@ export async function queryProductSpreadChannelList(params) {
   return request(`${domain}/product/spread/channel/list?${stringify(params)}`);
 }
 
-// 供应商推广商品详情
-export async function queryProductSpreadProductDetail(params) {
-  return request(`${domain}/product/spread/product/detail?${stringify(params)}`);
+// 供应商推广创建时商品详情 基础商品
+export async function queryProductSpreadProductBaseDetail(params) {
+  return request(`${domain}/product/spread/product/base/detail?${stringify(params)}`);
+}
+
+// 供应商推广编辑时商品详情 渠道商品
+export async function queryProductSpreadProductChannelDetail(params) {
+  return request(`${domain}/product/spread/product/channel/detail?${stringify(params)}`);
+}
+
+// 供应商创建推广
+export async function productSpreadCreate(params) {
+  return request(`${domain}/product/spread/create`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 供应商更新推广
+export async function productSpreadUpdate(params) {
+  return request(`${domain}/product/spread/update`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 供应商撤销推广
+export async function productSpreadRevoke(params) {
+  return request(`${domain}/product/spread/revoke`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 供应商调整库存
+export async function updateProductStock(params) {
+  return request(`${domain}/revision/product/update/stock`, {
+    method: 'POST',
+    body: params,
+  });
 }
 
 // 供应商商品推广审核中列表
@@ -124,7 +161,17 @@ export async function spreadWaitProductionList(params) {
 
 // 获取下拉分组
 export async function getProductGroupCombo(params) {
-  return request(`${domain}/mini/product/group/combo`, {
+  return request(`${domain}/mini/product/group/combo`,  {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+// 审核推广商品 
+export async function spreadReviewProduct(params) {
+  return request(`${domain}/branch/product/spread/review`, {
     method: 'POST',
     body: {
       ...params,
@@ -141,6 +188,5 @@ export async function addProductToProductGroup(params) {
     },
   });
 }
-
 
 

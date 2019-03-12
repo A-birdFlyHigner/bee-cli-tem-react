@@ -37,8 +37,11 @@ export default {
   rowSelection: {
     selectedRowKeys: [],
     selections: true,
-    getCheckboxProps() {
-      return {};
+    getCheckboxProps(record) {
+      const { canSpreadCityNums, alreadySpreadCityNums } = record
+      return {
+        disabled: canSpreadCityNums <= alreadySpreadCityNums
+      };
     },
   },
   columns: [
@@ -126,13 +129,14 @@ export default {
       align: 'center',
       fixed: 'right',
       render: (text, record) => {
+        const { canSpreadCityNums, alreadySpreadCityNums } = record
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={() => editItem(record)}>编辑</a>
-            <span />
+            <a onClick={() => editItem(record)}>编辑</a><br />
+            {canSpreadCityNums <= alreadySpreadCityNums ? null :
             <a className="table-operate" onClick={() => handleStatus(record)}>
               设置推广
-            </a>
+            </a>}
           </div>
         );
       },

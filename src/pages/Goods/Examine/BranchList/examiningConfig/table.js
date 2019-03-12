@@ -8,7 +8,7 @@ import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
 
 // 渠道商品规格详情
-const getSkuDetail = (id) => {
+const getSkuDetail = (saleUnits) => {
   LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
@@ -18,14 +18,14 @@ const getSkuDetail = (id) => {
     },
     content () {
       return (
-        <SkuDetail productId={id} />
+        <SkuDetail saleUnitsInfo={saleUnits} />
       )
     }
   })
 }
 
 // 库存信息
-const getStoreInfo = (id) => {
+const getStoreInfo = (saleUnits) => {
   LeDialog.show({
     title: '库存信息',
     width: '1000px',
@@ -35,7 +35,7 @@ const getStoreInfo = (id) => {
     },
     content () {
       return (
-        <StoreInfo productId={id} />
+        <StoreInfo saleUnitsInfo={saleUnits} />
       )
     }
   })
@@ -43,14 +43,13 @@ const getStoreInfo = (id) => {
 
 // 审核
 const goExamine = (id) => {
-  console.log(id,"===")
   router.push({
     pathname: `/goods/examine/branchdetail/${id}`,
   })
 }
 
 export default {
-  rowKey: 'id',
+  rowKey: 'saleGoodsId',
   scroll: { x: 1600 },
   rowSelection: {
     selections: true,
@@ -60,8 +59,8 @@ export default {
   },
   columns: [{
     title: '渠道商品id',
-    dataIndex: 'cityCode',
-    key: 'cityCode',
+    dataIndex: 'saleGoodsId',
+    key: 'saleGoodsId',
     align: 'center',     
     singleLine: true,
   }, {
@@ -117,7 +116,7 @@ export default {
       return(
         <span>
           {record.saleUnits.length}个<br />
-          <a className="linkButton" onClick={()=> getSkuDetail(record.saleGoodsId)}>查看</a>
+          <a className="linkButton" onClick={()=> getSkuDetail(record.saleUnits)}>查看</a>
         </span>
       )
     }
@@ -156,7 +155,7 @@ export default {
         <div className={Sty.store}>
           <span>推广库存：{record.totalStock}</span><br />
           <span>累计售出：{record.saleStock}</span><br />
-          <a className="linkButton" onClick={()=> getStoreInfo(record.saleGoodsId)}>查看</a>
+          <a className="linkButton" onClick={()=> getStoreInfo(record.saleUnits)}>查看</a>
         </div>
       )
     }

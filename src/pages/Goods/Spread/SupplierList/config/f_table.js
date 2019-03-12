@@ -1,11 +1,25 @@
 import React from 'react';
+import moment from 'moment';
+import router from 'umi/router';
 import { ImageTextCard } from '@/components/InfoCard';
 import { LeDialog } from '@lib/lepage'
 import SkuDetail from '../../../common/skuDetail';
 
-const editItemStock = record => {};
+const editItemStock = record => {
+  const { saleGoodsId, cityCode, cityName, companyName } = record
+  router.push({
+    pathname: '/goods/spread/setting',
+    query: {
+      productIds: saleGoodsId,
+      cityIds: cityCode,
+      spreadName: `${companyName}（${cityName}）`,
+      status: 'edit'
+    }
+  })
+};
 
-const showSkuDetail = id => {
+const skuDetail = record => {
+  const { saleUnits } = record
   LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
@@ -14,44 +28,49 @@ const showSkuDetail = id => {
       return null;
     },
     content() {
-      return <SkuDetail productId={id} />;
+      return <SkuDetail saleUnits={saleUnits} />;
     },
   });
 };
 
 export default {
-  rowKey: 'id',
+  rowKey: 'saleGoodsId',
   scroll: { x: 1500 },
   columns: [
     {
       title: '渠道商品Id',
-      dataIndex: 'id',
+      dataIndex: 'saleGoodsId',
       width: 140,
       align: 'center',
     },
     {
       title: '基础信息',
-      dataIndex: 'id2',
+      dataIndex: 'name',
       render: (val, record) => {
+        const { mainImages = [] } = record
         return (
           <ImageTextCard
-            image={record.weixinQrcode}
+            image={mainImages.length ? mainImages[0].url : ''}
             infoList={[
               {
                 label: '商品名称',
-                value: record.provinceName,
+                value: record.name,
+              },
+              {
+                label: '品牌',
+                value: record.brandName,
               },
               {
                 label: '商品Id',
-                value: record.id,
+                value: record.saleGoodsId,
               },
               {
                 label: '发货方式',
-                value: record.id,
+                value: ['', '落地配', '入仓', '快递配送'][record.logisticsMethod],
               },
               {
                 label: '发货时效',
-                value: record.id,
+                value: ['', '次日达', '预售'][record.logisticsType],
               },
             ]}
           />
@@ -60,14 +79,13 @@ export default {
     },
     {
       title: '类目',
-      dataIndex: 'categoryPath',
-      width: 150,
-      render: (value, record) => {
-        const vals = '食品1,水果,橘子';
+      dataIndex: 'pathName',
+      width: 250,
+      render: (text) => {
         return (
           <div>
-            {vals &&
-              vals.split(',').map((item) => (
+            {text &&
+              text.split(',').map((item) => (
                 <span key={item}>
                   &gt;
                   {item}
@@ -80,72 +98,83 @@ export default {
     },
     {
       title: '规格',
-      dataIndex: 'name',
+      dataIndex: 'saleUnits',
       width: 100,
       align: 'center',
-      render: (val, record) => {
+      render: (saleUnits, record) => {
         return (
           <span>
-            3个
+            {saleUnits.length}个
             <br />
-            <a className="linkButton" onClick={() => showSkuDetail(record.id)}>
-              查看
-            </a>
+            <a className="linkButton" onClick={() => skuDetail(record)}> 查看 </a>
           </span>
         );
       },
     },
     {
       title: '价格信息',
-      dataIndex: 'phoneNumber',
+      dataIndex: 'salePrice',
       width: 200,
       align: 'center',
-      render: (val, record) => {
-        return <span>80.00~100.00</span>;
-      },
     },
     {
       title: '库存信息',
-      dataIndex: 'status3',
+      dataIndex: 'totalStock',
       width: 300,
       render: (val, record) => {
+        const { totalStock, saleStock } = record
         return (
           <div>
-            <p>推广总库存：100</p>
-            <p>累计售出：10</p>
+            <p>推广总库存：{totalStock}</p>
+            <p>累计售出：{saleStock}</p>
           </div>
         );
       },
     },
     {
       title: '推广城市',
-      dataIndex: 'managedCommunities',
+      dataIndex: 'cityName',
       width: 200,
-      render: (val, record) => {
+      render: (text, record) => {
+        const {cityName, companyName} = record
         return (
           <div>
-            <p>长沙分公司</p>
-            <p>长沙</p>
+            <p>{companyName}</p>
+            <p>{cityName}</p>
           </div>
         );
       },
     },
     {
       title: '提交推广时间',
-      dataIndex: 'status',
+      dataIndex: 'applyPromotionTime',
       width: 200,
       align: 'center',
+      render: (val) => {
+        return (
+          <div>
+            {moment(val).format('YYYY-MM-DD HH:mm:ss')}
+          </div>
+        )
+      }
     },
     {
       title: '审核时间',
-      dataIndex: 'status1',
+      dataIndex: 'reviewTime',
       width: 200,
       align: 'center',
+      render: (val) => {
+        return (
+          <div>
+            {moment(val).format('YYYY-MM-DD HH:mm:ss')}
+          </div>
+        )
+      }
     },
     {
       title: '原因',
-      dataIndex: 'status2',
-      width: 200,
+      dataIndex: 'promotionFailureReason',
+      width: 600,
       align: 'center',
     },
     {
