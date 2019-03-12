@@ -1,5 +1,5 @@
 import Reg from '@/utils/reg'
-import cityRule from '@/components/Rules/citySel/index'
+import cityRule from '@/components/Rules/branchcitySel/index'
 import categoryRule from '@/components/Rules/category'
 import moment from 'moment'
 
@@ -73,7 +73,7 @@ export default {
     cityRule({
       label: '城市',
       value: [],
-      deep: 2,
+      deep: 1,
     }),
     {
       label: '商品出售状态',

@@ -5,10 +5,9 @@ import { ImageTextCard } from '@/components/InfoCard'
 import router from 'umi/router'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
-import { dialogFormSetTimeConfig } from '../../../common/commonConfig'
+import { goSetTime } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
-import { addOrUpdate } from '@/services/goods'
 
 const { logisticsMethod, logisticsType } = commonMessage
 
@@ -52,31 +51,6 @@ const getStoreInfo = (saleUnits) => {
   })
 }
 
-// 排期
-const goSetTime = (saleGoodsId) => {
-
-  LeDialog.show(
-    {
-      title: '设置活动时间',
-      width: '600px',
-      content () {
-        return <LeForm {...dialogFormSetTimeConfig()} />
-      },
-      onOk: (values, suc) => {
-        const { startTime, endTime } = values.scheduleTime
-        const productIdList = []
-        productIdList.push(saleGoodsId)
-        addOrUpdate({ startTime, endTime, productIdList }).then(res => {
-          if (!res) return
-          // 管理弹窗
-          suc()
-        })
-      }
-    }
-  )
-
-}
-
 const dialogFormRevokeConfig = () => {
   return {
     form: {
@@ -116,7 +90,7 @@ const goRevoke = () => {
 }
 
 export default {
-  rowKey: 'id',
+  rowKey: 'saleGoodsId',
   scroll: { x: 1500 },
   rowSelection: {
     selections: true,

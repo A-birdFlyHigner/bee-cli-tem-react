@@ -97,9 +97,9 @@ export async function listUnScheduledProduct(params) {
   return request(`${domain}/revision/product/schedule/listUnScheduledProduct?${stringify(params)}`);
 }
 
-// 预排期列表
+// 修改排序
 export async function updateSortNumber(params) {
-  return request(`${domain}${domain}/revision/product/schedule/updateSortNumber`, {
+  return request(`${domain}/revision/product/schedule/updateSortNumber`, {
     method: 'POST',
     body: {
       ...params,
