@@ -20,7 +20,9 @@ export default class Detail extends Component {
     super(props)
     this.leForm = {}
     this.state = {
-      spreadList: []
+      spreadList: [],
+      newBtnLoading: false,
+      addBtnLoading: false,
     }
   }
 
@@ -106,7 +108,13 @@ export default class Detail extends Component {
       disabledCitys.push(...item.cityIds)
       return item
     })
+    this.setState({
+      newBtnLoading: true
+    })
     const channelList = await queryProductSpreadChannelList()
+    this.setState({
+      newBtnLoading: false
+    })
     if (!channelList) message.warning('获取推广渠道出现异常')
     const formConf = dialogFormConfig(channelList, disabledCitys)
     LeDialog.show({
@@ -157,6 +165,7 @@ export default class Detail extends Component {
   }
 
   beforeSubmitInfo = async () => {
+    this.setState({ addBtnLoading: true })
     let isError = false
     const keys = Object.keys(this.leForm)
     for (const i of keys) {
@@ -186,7 +195,10 @@ export default class Detail extends Component {
         })
       }
     }
-    if (isError) return
+    if (isError) {
+      this.setState({ addBtnLoading: false })
+      return
+    }
     this.handleSubInfo()
   }
 
@@ -216,10 +228,16 @@ export default class Detail extends Component {
     })
     if (edit) {
       const res = await productSpreadUpdate(createList[0])
-      if (!res) return
+      if (!res) {
+        this.setState({ addBtnLoading: false })
+        return
+      }
     } else {
       const res = await productSpreadCreate(createList)
-      if (!res) return
+      if (!res) {
+        this.setState({ addBtnLoading: false })
+        return
+      }
     }
     message.success('已提交，请等待审核')
     router.push({
@@ -231,7 +249,7 @@ export default class Detail extends Component {
   }
 
   render () {
-    const { spreadList, edit = false } = this.state
+    const { spreadList, newBtnLoading, addBtnLoading, edit = false } = this.state
     const configOption = {
       self: this,
       deleteFun: this.deleteSpreatItem
@@ -273,9 +291,9 @@ export default class Detail extends Component {
           {
             edit 
             ? null 
-            : <Button onClick={this.dialogAddSpread}>+新增推广渠道</Button>
+            : <Button loading={newBtnLoading} onClick={this.dialogAddSpread}>+新增推广渠道</Button>
           }
-          <Button type="primary" onClick={this.beforeSubmitInfo}>推广</Button>
+          <Button loading={addBtnLoading} type="primary" onClick={this.beforeSubmitInfo}>推广</Button>
           <Button>取消</Button>
         </div>
       </div>
