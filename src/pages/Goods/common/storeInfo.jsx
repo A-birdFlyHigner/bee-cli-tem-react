@@ -18,12 +18,18 @@ export default class StoreInfo extends Component {
         key: 'propertyPairList',
         align: 'center',
         render: (text, record) => {
-          const { saleStatus } = record
+          const { status } = record
+          const skuName = []
+
+          text.forEach(item => {
+            skuName.push(item.pvName)
+          })
+
           const StopSale = <span className='globalRed'>（停售）</span>
           return (
             <div>
-              { saleStatus !== 0 ? null : StopSale}
-              <span>{text.join('&')}</span>
+              { status !== 0 ? null : StopSale}
+              <span>{skuName.join('-')}</span>
             </div>
           )
         }

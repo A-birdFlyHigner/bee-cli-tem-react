@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import { LeDialog } from '@lib/lepage'
 import { ImageTextCard } from '@/components/InfoCard'
 import SkuDetail from '../../../common/skuInfo'
@@ -46,7 +47,7 @@ const getSkuDetail = (saleUnits) => {
 
 export default {
   rowKey: 'saleGoodsId',
-  scroll: { x: 1800 },
+  scroll: { x: 2000 },
   rowSelection: {
     selections: true,
     getCheckboxProps() {
@@ -187,11 +188,17 @@ export default {
     }
   }, {
     title: '出售时间',
-    dataIndex: 'phoneNumber',
+    dataIndex: 'scheduleTime',
     key: 'scheduleTime',
     align: 'center',     
-    width: 200,                    
-    singleLine: false,
+    width: 240,                    
+    render: (value,record) => {
+      return (
+        <div>
+          <span>{moment(record.scheduleStartTime).format('YYYY.MM.DD HH:mm:ss')}~{moment(record.scheduleEndTime).format('YYYY.MM.DD HH:mm:ss')}</span>
+        </div>
+      )
+    }
   },{
     title: '操作',
     width: 100,

@@ -55,7 +55,7 @@ export default {
     },
     timeRule({
       label: '商品出售时间',
-      name: ['reviewStartTime', 'reviewEndTime'],
+      name: ['saleStartTime', 'saleEndTime'],
       placeholder: ['请选择开始时间', '请选择结束时间'],
     }),
     cityRule({
