@@ -89,25 +89,6 @@ export default {
       },
     },
     {
-      label: '商品发货时效',
-      name: 'spreadTime',
-      component: 'Select',
-      props: {
-        placeholder: '请选择发货时效',
-        options: [{
-          label: '次日达',
-          value: 1,
-        }, {
-          label: '预售',
-          value: 2
-        }]
-      },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 3
-      }
-    },
-    {
       label: 'skuId',
       name: 'skuId',
       component: 'Input',

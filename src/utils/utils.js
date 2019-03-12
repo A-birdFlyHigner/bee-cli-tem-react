@@ -197,6 +197,7 @@ export function leListQuery(service) {
 
   return {
     formatBefore(queryParams) {
+      console.log('-----queryParams--', queryParams) 
       const query = JSON.parse(JSON.stringify(queryParams))
       let { categoryId = []} = query
       categoryId = categoryId[categoryId.length - 1]

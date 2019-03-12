@@ -1,5 +1,6 @@
 import Reg from '@/utils/reg'
 import cityRule from '@/components/Rules/branchcitySel/index'
+import timeRule from '@/components/Rules/timeSel/index'
 import categoryRule from '@/components/Rules/category'
 import moment from 'moment'
 
@@ -57,19 +58,11 @@ export default {
         placeholder: '请输入渠道商品Id'
       },
     },
-    {
+    timeRule({
       label: '商品出售时间',
-      name: 'saleTime',
-      component: 'RangePicker',
-      className: 'globalRange',                    
-      value: [],
-      props: {
-        format: 'YYYY-MM-DD HH:mm:ss',
-        placeholder: ['请选择开始时间', '请选择结束时间'],
-        showTime: true,
-        disabledDate: disabledDates                        
-      },
-    },
+      name: ['reviewStartTime', 'reviewEndTime'],
+      placeholder: ['请选择开始时间', '请选择结束时间'],
+    }),
     cityRule({
       label: '城市',
       value: [],
@@ -95,25 +88,6 @@ export default {
       // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
       when: (val) => {
         return val.type !== 4
-      }
-    },
-    {
-      label: '商品发货时效',
-      name: 'spreadTime',
-      component: 'Select',
-      props: {
-        placeholder: '请选择发货时效',
-        options: [{
-          label: '次日达',
-          value: 1,
-        }, {
-          label: '预售',
-          value: 2
-        }]
-      },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 3
       }
     },
     {
