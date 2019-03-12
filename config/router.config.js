@@ -21,7 +21,7 @@ export default [
           },
           {
             path: '/goods/publish',
-            name: '发布',
+            name: '新增商品',
             component: './Goods/Base/SupplierPublish',
             hideInMenu: true,
           },

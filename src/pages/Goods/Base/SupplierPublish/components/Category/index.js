@@ -8,7 +8,7 @@ const FN = () => {}
 async function fetchData (parentId = 0) {
   const resData = await queryCategoryList({ parentId })
   if (!resData) {
-    messageApi.error('获取分类失败!')
+    messageApi.error('获取类目失败!')
     return null
   }
 

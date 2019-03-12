@@ -19,6 +19,7 @@ const getCategoryConfig = () => {
           props: {
               children: '修改类目',
               onClick (err, values, leForm) {
+                debugger
                 // 创建商品，二次编辑分类
                 leForm.emit('edit-category', values)
               }

@@ -1,6 +1,14 @@
+import 'moment/locale/zh-cn';
+import moment from 'moment';
 import router from 'umi/router';
+import { message as messageApi } from 'antd'
+import { GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './common.config'
+import { publishGoods } from '@/services/goods';
+
+moment.locale('zh-cn');
 
 const emptyFormatFn = (arg) => arg
+const isAMomentObject = '_isAMomentObject'
 
 const trim = (value = '') => {
   if (typeof value !== 'string') {
@@ -9,12 +17,71 @@ const trim = (value = '') => {
   return value.trim()
 }
 
-const pick = (object, ...paths) => {
+const pick = (object, paths = []) => {
   const result = {}
   paths.forEach(path => {
     result[path] = object[path]
   })
   return result
+}
+
+const omit = (object, paths = []) => {
+  const result = {}
+  for (const key in object) {
+    if (paths.indexOf(key) === -1) {
+      result[key] = object[key]
+    }
+  }
+  return result
+}
+
+const getPropertyList = (values, prefix) => {
+  const list = []
+
+  for (const name in values) {
+    // filter {goodsPropertyNameId|warehousePropertyNameId}-999
+    if (name.indexOf(prefix) !== 0) continue
+
+    const rawValue = values[name]
+    if (rawValue === null || rawValue === undefined) continue
+
+    const propertyNameId = name.split('-')[1]
+
+    let propertyValue = []
+
+    // 日期、时间
+    if (typeof rawValue === 'object' && rawValue[isAMomentObject] === true) {
+      propertyValue = [{
+        pvName: moment(rawValue).format('YYYY-MM-DD HH:mm') // moment 格式化
+      }]
+    }
+    // 文本框
+    else if (typeof rawValue === 'string') {
+      propertyValue = [{
+        pvName: rawValue
+      }]
+    }
+    // 单选（不可自定义、可自定义）
+    else if (typeof rawValue === 'number') {
+      propertyValue = [{
+        id: rawValue
+      }]
+    }
+    // 多选（不可自定义、可自定义）
+    else if (rawValue instanceof Array && rawValue.length > 0) {
+      propertyValue = rawValue.map(id => {
+        return { id }
+      })
+    }
+
+    list.push({
+      propertyId: propertyNameId,
+      propertyValue
+    })
+  }
+
+  if (list.length === 0) return null
+  return list
 }
 
 const formatOptions = [
@@ -36,42 +103,51 @@ const formatOptions = [
   },
   {
     name: 'has69',
-    handle: emptyFormatFn,
+    handle: (value) => {
+      return value || false
+    },
   },
   {
     name: 'salePropertyList', // from skus field
     proxyName: 'skus',
     handle: (list) => {
-
+      return list.map(item => {
+        const { costPrice } = item
+        return {
+          ...omit(item, ['key', 'propertyValueNames']),
+          // 成本价乘以100，转成单位分
+          costPrice: Number(costPrice) * 100
+        }
+      })
     },
   },
   {
     name: 'skuMainImageList',
-    handle: (list) => {
+    handle: (value, values, leForm) => {
+      const list = leForm.getFormatValue('skuMainImageList')
       if (!list || list.length === 0) return null
 
       return list.map((item, index) => {
         return {
-          ...pick(item, ['url', 'width', 'height']),
-          sortOrder: index,
+          // propertyPairId: '', // 属性对Id
+          // id: 0, // 图片表Id
+          ...pick(item, ['url', 'width', 'height', 'propertyPairId', 'id']),
+          sortOrder: index + 1,
           type: 1, // 1 图片、 2 视频
-          // TODO:
-          propertyPairId: '', // 属性对Id
-          id: 0, // 图片表Id
         }
       })
     },
   },
   {
     name: 'goodsPropertyList',
-    handle: (list) => {
-
+    handle: (value, values) => {
+      return getPropertyList(values, GOODS_PROPERTY_NAME_ID)
     },
   },
   {
     name: 'warehousePropertyList',
-    handle: (list) => {
-
+    handle: (value, values) => {
+      return getPropertyList(values, WAREHOUSE_PROPERTY_NAME_ID)
     },
   },
   {
@@ -82,8 +158,8 @@ const formatOptions = [
       return list.map((item, index) => {
         return {
           ...pick(item, ['url', 'width', 'height']),
-          order: index,
-          type: 2, // 2 商品主图
+          order: index + 1,
+          type: 1, // 1 商品主图
         }
       })
     },
@@ -96,8 +172,8 @@ const formatOptions = [
       return list.map((item, index) => {
         return {
           ...pick(item, ['url', 'width', 'height']),
-          order: index,
-          type: 1, // 1 商品详情图
+          order: index + 1,
+          type: 2, // 2 商品详情图
         }
       })
     },
@@ -113,7 +189,7 @@ const getFormatValues = (values, leForm) => {
     const value = values[proxyName]
     return {
       name,
-      value: handle(value, leForm)
+      value: handle(value, values, leForm)
     }
   })
   .forEach(({ name, value }) => {
@@ -125,19 +201,38 @@ const getFormatValues = (values, leForm) => {
 
   return formatValues
 }
+
+const handleSubmit = async (err, values, leForm) => {
+  if (err) return
+
+  leForm.setProps('footer-submit-button', {
+    loading: true
+  })
+
+  const params = getFormatValues(values, leForm)
+  const resData = await publishGoods(params)
+  // TODO: 增加错误提示
+
+  // messageApi.success('商品创建成功，正在跳转商品列表页！')
+  setTimeout(() => {
+    // TODO: 去掉注释
+    // router.push('/goods/base/list')
+  }, 2000)
+
+  // 以上功能开发完，可去掉
+  leForm.setProps('footer-submit-button', {
+    loading: false
+  })
+}
+
 // 获取底部按钮表单配置
 const getButtonsConfig = () => {
   return [{
+      name: 'footer-submit-button',
       props: {
         type: 'primary',
         children: '保存',
-        onClick(err, values, leForm) {
-          if (err) return
-
-          const formatValues = getFormatValues(values, leForm)
-
-          window.console.log('formatValues: ', formatValues)
-        }
+        onClick: handleSubmit
       },
       options: {
         type: 'submit',

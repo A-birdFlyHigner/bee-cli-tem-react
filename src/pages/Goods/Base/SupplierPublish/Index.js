@@ -1,23 +1,51 @@
 import React, { Component } from 'react';
 import { LeForm } from '@lib/lepage';
 import Category from './components/Category'
+import moment from 'moment'
+import Mock from 'mockjs'
 import { getFormConfig } from './config';
 import { queryCategoryPropertyDetail } from '@/services/goods'
+
+const DEFAULT_FORM_VALUES = {
+  name: `书航商品 ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
+  desc: '小区乐专卖',
+  brandName: '毛线衣',
+  goodsMainImageList: [
+    {
+      height: 640,
+      order: 1,
+      type: 1,
+      uid: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
+      url: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
+      width: 640,
+    }
+  ],
+  goodsDetailImageList: [
+    {
+      height: 640,
+      order: 1,
+      type: 1,
+      uid: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
+      url: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
+      width: 640,
+    }
+  ]
+}
 
 class GoodsPublish extends Component {
   constructor(props) {
     super(props);
 
-    this.keepValues = {
-      name: '商品长名称',
-      desc: '商品短名称'
-    }
     this.state = {
       showCancel: false,
       showCategory: true,
       formConfig: {},
-    };
+    }
 
+    // FIXME: 测试用的默认值
+    this.keepValues = DEFAULT_FORM_VALUES;
+
+    // FIXME: 测试用的直接进入表单页面
     this.handleCategoryOK({
       categoryId: 20005,
       treeValues: [20006, 20040, 20041, 20005],
