@@ -1,4 +1,4 @@
-import { allBackoff, allSetSchedule, joinGroup } from '../../../common/commonConfig'
+import { allBackoff, allSetSchedule } from '../../../common/commonConfig'
 
 export default {
   form: {
@@ -19,14 +19,6 @@ export default {
         type: 'primary',
         children: '批量排期',
         onClick: allSetSchedule
-      }
-    },
-    {
-      inline: true,
-      props: {
-        type: 'primary',
-        children: '加入分组',
-        onClick: joinGroup
       }
     }
 
