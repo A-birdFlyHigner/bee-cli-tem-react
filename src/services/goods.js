@@ -18,6 +18,10 @@ export async function saveCategoryPropertyPair (params) {
   });
 }
 
+export function queryCommunityManager () {
+
+}
+
 // 供应商商品待推广列表
 export async function queryProductSpreadList(params) {
   return request(`${domain}/product/spread/wait/query?${stringify(params)}`);
