@@ -28,8 +28,8 @@ switch (ADMIN_TYPE) {
   case 'ADMIN':
     break;
   default:
-    localToken = JSON.parse(sessionStorage[key] || '{}')
-    localToken = 'e4d21162804549af93de0fed8abd1ced:1200'
+    localToken = JSON.parse(sessionStorage[key] || '{}').token
+    // localToken = 'e4d21162804549af93de0fed8abd1ced:1200'
 }
 
 const checkStatus = response => {

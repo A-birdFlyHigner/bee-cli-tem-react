@@ -1,7 +1,7 @@
 import { stringify } from 'qs'
 import request from '@/utils/request';
 
-const domain = '/adminApi';
+const domain = '/api';
 
 // 获取指定类目的属性
 export async function queryCategoryPropertyDetail (params) {
