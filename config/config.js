@@ -101,7 +101,8 @@ export default {
     },
   },
   devServer: {
-    publicPath: './'
+    // contentBase: './dist',
+    // publicPath: '/lebranch/'
   },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
