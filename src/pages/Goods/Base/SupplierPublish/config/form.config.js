@@ -12,7 +12,12 @@ import getGoodsDetailImageConfig from './goods.detail.image.config'
 export default (categoryProperties) => {
   return {
     settings: {
-      values: {}
+      values: {},
+    },
+    form: {
+      layout: {
+        label: 'w120'
+      }
     },
     items: [
       getCategoryConfig(), // 类目信息

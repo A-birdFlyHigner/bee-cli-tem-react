@@ -17,22 +17,35 @@ const showSpecDetailDialog = dataSource => {
       },
       {
         title: 'sku编码(发货编码)',
-        dataIndex: 'skuCode'
+        dataIndex: 'deliverCode',
+        render (value) {
+          return value || '/'
+        }
       },
       {
         title: 'sku规格',
-        dataIndex: 'name',
-        render(value) {
-          // TODO: 规格展示可售/停售状态
-          return value
+        dataIndex: 'propertyPairList',
+        render(value = [], { status } = {}) {
+          const statusRender = status === 0
+          ? <span style={{color: 'red'}}>停售</span>
+          : null
+          const skuText = value.map(item => item.pvName).join('-')
+
+          return (
+            <span>
+              {statusRender}
+              {skuText}
+            </span>
+          )
         }
       },
       {
         title: '成本价',
-        dataIndex: 'price'
+        dataIndex: 'costPrice'
       }
     ],
   }
+
   const listConfig = {
     tableConfig,
     dataSource
@@ -54,15 +67,20 @@ const showSpecDetailDialog = dataSource => {
 
 export default {
   rowKey: 'saleGoodsId',
-  columns: [{
-      title: '基础信息',
+  columns: [
+    {
+      title: '商品Id',
       dataIndex: 'saleGoodsId',
-      render(value, values) {
-        const {
-          mainImages: [mainImage] = [],
-          name,
-          brandName
-        } = values
+    },
+    {
+      title: '商品名称',
+      dataIndex: 'name',
+    },
+    {
+      title: '商品主图',
+      dataIndex: 'mainImages',
+      render(value = []) {
+        const [mainImage] = value
 
         // 商品第一张主图
         const imgRender = mainImage
@@ -72,20 +90,10 @@ export default {
           </span>
         : null
 
-        // 品牌，有品牌的时候展示
-        const brandRender = brandName
-        ?
-          <span>
-            {`品牌：${brandName}`} <br />
-          </span>
-        : null
-
+        // TODO: 预览多张大图功能还未实现
         return (
           <span>
-            {imgRender} {/* 商品第一张主图 */ }
-            商品名称：{name} <br /> { /* 商品长名称 */ }
-            {brandRender} {/* 品牌 */ }
-            商品Id：{value} {/* 商品id */ }
+            {imgRender}
           </span>
         )
       }
@@ -94,8 +102,14 @@ export default {
       title: '类目',
       dataIndex: 'pathName',
       render(value) {
-        // TODO: 要跟进后端的类目数据来展示，可能前端需要做处理
-        return value
+        const symbol = '>'
+        return value.split(',').map((item) => {
+          return (
+            <span key={item}>
+              {symbol} {item} <br />
+            </span>
+          )
+        })
       }
     },
     {
@@ -109,25 +123,27 @@ export default {
         return (
           <span>
             {value.length}个 <br />
-            <a onClick={() => {showSpecDetailDialog(value)}}>查看</a>
+            <a onClick={() => showSpecDetailDialog(value)}>查看</a>
           </span>
         )
       }
     },
     {
       title: '基础价格信息',
-      render() {
-        // 每个sku价格相同，显示一个成本价
-        // 每个sku成本价不相同，显示成XX~XX
-
-        // TODO: 缺少单个价格展示、价格区间展示的逻辑
-        return '成本价：100~200'
+      dataIndex: 'salePrice',
+      render(value) {
+        return `成本价：${value}`
       }
     },
     {
+      title: '品牌名',
+      dataIndex: 'brandName',
+    },
+    {
       title: '操作',
-      render() {
-        return <a onClick={() => {router.push('/goods/publish')}}>编辑</a>
+      render(value, item) {
+        const { saleGoodsId: id } = item
+        return <a onClick={() => {router.push(`/goods/publish?itemId=${id}`)}}>编辑</a>
       },
     },
   ],

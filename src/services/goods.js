@@ -8,14 +8,34 @@ export async function queryCategoryPropertyDetail (params) {
   return request(`${domain}/revision/category/property/detail?${stringify(params)}`);
 }
 
-// 保存商品属性值
-export async function savePropertyValue (params) {
-  return request(`${domain}/sku/propertyValue/save`, {
+// 创建属性对
+export async function saveCategoryPropertyPair (params) {
+  return request(`${domain}/revision/category/save/property`, {
     method: 'POST',
     body: {
       ...params,
     },
   });
+}
+
+// 发布商品
+export async function publishGoods (params) {
+  return request(`${domain}/revision/product/create`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+// 获取商品详情
+export async function getGoodsDetail (params) {
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
+}
+
+// 供应商商品列表
+export async function queryGoodsList (params) {
+  return request(`${domain}/revision/product/gys/table/query?${stringify(params)}`);
 }
 
 // 供应商可推广渠道列表
