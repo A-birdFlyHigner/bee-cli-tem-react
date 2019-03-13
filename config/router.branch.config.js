@@ -5,7 +5,7 @@ export default [
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
     routes: [
-      { path: '/', redirect: '/lepage/form' },
+      { path: '/', redirect: '/goods/schedule/branchlist' },
 
       // goods
       {
@@ -106,6 +106,7 @@ export default [
         path: '/lepage',
         name: 'LePage 示例',
         icon: 'lepage',
+        hideInMenu: true,        
         routes: [
           {
             path: '/lepage/form',
