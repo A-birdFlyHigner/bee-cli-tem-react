@@ -18,6 +18,7 @@ export default [
             path: '/goods/base/list',
             name: '基础商品列表',
             component: './Goods/Base/SupplierList',
+            hideInMenu: true,            
           },
           {
             path: '/goods/publish',
@@ -37,6 +38,7 @@ export default [
             path: '/goods/spread/list',
             name: '推广商品列表',
             component: './Goods/Spread/SupplierList',
+            hideInMenu: true,            
           },
           {
             path: '/goods/spread/setting',
@@ -47,38 +49,27 @@ export default [
 
           // 排期
           {
-            path: '/goods/schedule/adminlist',
-            name: '总部商品排期列表',
-            component: './Goods/Schedule/AdminList',
-          },
-          {
             path: '/goods/schedule/branchlist',
-            name: '分公司商品排期列表',
+            name: '商品排期列表',
             component: './Goods/Schedule/BranchList',
           },
           {
             path: '/goods/schedule/branchdetail/:id',
-            name: '分公司编辑商品详情',
+            name: '编辑商品详情',
             component: './Goods/Schedule/BranchDetail',
             hideInMenu: true,
-          },
-          {
-            path: '/goods/schedule/supplierlist',
-            name: '供应商商品排期列表',
-            component: './Goods/Schedule/SupplierList',
           },
 
           // 审核
           {
             path: '/goods/examine/branchlist',
-            name: '分公司商品审核列表',
+            name: '商品审核列表',
             component: './Goods/Examine/BranchList',
           },
           {
             path: '/goods/examine/branchdetail/:id',
-            name: '分公司审核商品详情',
+            name: '审核商品详情',
             component: './Goods/Examine/BranchDetail',
-            hideInMenu: true,
           },
 
         ],
@@ -89,13 +80,8 @@ export default [
         icon: 'city',
         routes: [
           {
-            path: '/city/cityList/adminList',
-            name: '总部城市列表',
-            component: './City/CityList/AdminList',
-          },
-          {
             path: '/city/cityList/branchList',
-            name: '分公司城市列表',
+            name: '城市列表',
             component: './City/CityList/BranchList',
           },
         ],
@@ -109,6 +95,7 @@ export default [
             path: '/supply/purchase/list',
             name: '采购单管理',
             component: './Supply/Purchase/SupplierList',
+            hideInMenu: true,            
           },
         ],
       },

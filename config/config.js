@@ -69,8 +69,8 @@ export default {
   plugins,
   history: 'hash',
   outputPath: './dist/le' + ADMIN_TYPE.toLowerCase(),
-  base: '/le' + ADMIN_TYPE.toLowerCase() + '/',
-  publicPath: '/le' + ADMIN_TYPE.toLowerCase() + '/',
+  // base: '/le' + ADMIN_TYPE.toLowerCase() + '/',
+  // publicPath: '/le' + ADMIN_TYPE.toLowerCase() + '/',
   define: {
     APP_TYPE: APP_TYPE || '',
     ADMIN_TYPE: ADMIN_TYPE || ''
@@ -90,21 +90,15 @@ export default {
     '@antv/data-set': 'DataSet',
     bizcharts: 'BizCharts',
   },
-  proxy: {
-    // 分公司    
+  proxy: { 
     '/adminApi': {
       // target: 'http://test-life-admin.51bushou.com/api', // 管理后台
-      target: 'http://test-life-seller.51bushou.com/api',  // 分公司店铺后台
+      // target: 'http://test-life-seller.51bushou.com/api',  // 分公司店铺后台
       // target: 'http://192.168.0.220:10002/api', //飞雪
+      target: 'http://192.168.1.46:10003/api', //瓶子
       // target: 'http://192.168.0.162:10002/api', //卫卫
       changeOrigin: true,
       pathRewrite: { '^/adminApi': '' },
-    },
-    // 总部
-    '/api': {
-      target: 'http://192.168.1.46:10003/api', //瓶子      
-      changeOrigin: true,
-      pathRewrite: { '^/api': '' },
     },
   },
   devServer: {
