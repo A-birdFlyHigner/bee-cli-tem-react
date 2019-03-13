@@ -13,14 +13,41 @@ import {
   productImg,
 } from '@/pages/Goods/common/productDetail'
 
+const compare = (big, small) => {
+  return Boolean(parseFloat(big) - parseFloat(small) > 0)
+}
+
 // 确定 err, values
 const confirm = (err, values)=> {
+  const skuPriceInfos = []
+  const { saleUnits } = values  
+  let isValid = true
 
   // 请求接口前校验 会员价格
-  message.warning('请求接口前校验 会员价格提示！')
+  saleUnits.forEach(item => {
+    const { grossProfit, marketPrice, memberPrice, nonmemberPrice, skuId, memeberCommission, noMemeberCommission } = item
+    skuPriceInfos.push({
+      grossProfit: grossProfit * 100,
+      marketPrice: marketPrice * 100,
+      memberPrice: memberPrice * 100,
+      nonMemberPrice: nonmemberPrice * 100,
+      skuId
+    })
+    if( !compare(marketPrice, nonmemberPrice) || !compare(nonmemberPrice, memberPrice) || !compare(memberPrice, 0) ){
+      message.warning('市场价>非会员价>会员价>0')
+      isValid = false
+    }
+    if( !compare(memeberCommission, 0) ){
+      message.warning('会员价佣金必须大于零')
+      isValid = false
+    }
+    if( !compare(noMemeberCommission, 0) ){
+      message.warning('非会员价佣金必须大于零')
+      isValid = false
+    }
+  });
+  if( !isValid ) return false
 
-  // TODO: 请求通过审核接口
-  const { saleUnits } = values
   const skuPriceInfosList = []
   saleUnits.forEach(element => {
     skuPriceInfosList.push({
