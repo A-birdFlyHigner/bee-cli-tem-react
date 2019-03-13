@@ -138,6 +138,10 @@ export default class Detail extends Component {
             })
           }
         })
+        branchList = branchList.filter(item => {
+          return item.children.length
+        })
+        if (!branchList) return message.warning('请选择有效推广渠道')
         const cityIds = []
         const spreadName = branchList.map(p => {
           const cityName = p.children.map(q => {
@@ -146,7 +150,7 @@ export default class Detail extends Component {
           }).join('、')
           return `${p.title}（${cityName}）`
         }).join('；')
-        if (!cityIds.length) return message.warning('推广渠道，选择到市')
+        if (!cityIds.length) return message.warning('请选择有效推广渠道')
         const {spreadList, productIds} = this.state
         this.setState({
           spreadList: [
@@ -217,7 +221,12 @@ export default class Detail extends Component {
             dispatchDate: item.dispatchDate,
             logisticsMethod: item.logisticsMethod,
             logisticsType: item.logisticsType,
-            spreadSkuList: item[`dataSource${pId}`]
+            spreadSkuList: item[`dataSource${pId}`].map(sku => {
+              return {
+                ...sku,
+                costPrice: sku.costPrice * 100
+              }
+            })
           })
         })
       }
