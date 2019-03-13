@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { LeForm } from '@lib/lepage';
-import Category from './components/Category/index'
 import moment from 'moment'
-import Mock from 'mockjs'
 import { getFormConfig } from './config';
 import { getGoodsDetail, queryCategoryPropertyDetail } from '@/services/goods'
 import { getPageQuery } from '@/utils/utils'
+import Category from './components/Category/index'
 import { SALE_PROPERTY_NAME_ID, GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './config/common.config'
+// import Sty from './Index.less'
 
 const DEFAULT_FORM_VALUES = {
   name: `书航商品 ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
@@ -77,12 +77,12 @@ class GoodsPublish extends Component {
       this.loadGoodsDetail(itemId)
     }
     else {
-      // FIXME: 测试用的直接进入表单页面
-      this.handleCategoryOK({
-        categoryId: 20005,
-        treeValues: [20006, 20040, 20041, 20005],
-        treeLabels: ["水产肉类/新鲜蔬果/熟食", "新鲜蔬菜/蔬菜制品", "新鲜蔬菜", "叶菜类"]
-      })
+      // // FIXME: 测试用的直接进入表单页面
+      // this.handleCategoryOK({
+      //   categoryId: 20005,
+      //   treeValues: [20006, 20040, 20041, 20005],
+      //   treeLabels: ["水产肉类/新鲜蔬果/熟食", "新鲜蔬菜/蔬菜制品", "新鲜蔬菜", "叶菜类"]
+      // })
     }
   }
 
