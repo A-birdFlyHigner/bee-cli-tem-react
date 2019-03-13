@@ -3,6 +3,8 @@ import { Input, Table } from 'antd'
 import Sty from './index.less'
 import Reg from '@/utils/reg'
 
+const RegGross = /^-?(([1-9]\d*)|0)?(\.\d{0,2})?$/
+
 const inputItems = [{
   title: '市场价（划掉价）',
   dataIndex: 'marketPrice',
@@ -24,7 +26,7 @@ const inputItems = [{
 const tabelColumns = (core, preview) => {
 
   const onInputChange = (val, index, name) => {
-    if (val !== '' && !Reg.Price.test(val)) return
+    if (val !== '' && !(name === 'grossProfit' ? RegGross : Reg.Price).test(val)) return
     const saleUnits = JSON.parse(JSON.stringify(core.getValue('saleUnits')))
     saleUnits[index][name] = val
     core.setValue('saleUnits', saleUnits)
@@ -99,7 +101,7 @@ export default function (preview) {
   return (leForm) => {
 
     const onBatchChange = (val, dataIndex) => {
-      if (val !== '' && !Reg.Price.test(val)) return
+      if (val !== '' && !(dataIndex === 'grossProfit' ? RegGross : Reg.Price).test(val)) return
       if (Number(val) > 1000000) return
       const saleUnits = leForm.getValue('saleUnits').map(p => {
         return {
