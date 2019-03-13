@@ -48,7 +48,6 @@ const getBaseInfoConfig = () => {
         },
         rules: {
           type: 'string',
-          required: true,
           message: '品牌名不能超过20个字符',
           max: 20
         }

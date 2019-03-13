@@ -5,11 +5,12 @@ const domain = '/adminApi';
 
 // 获取指定类目的属性
 export async function queryCategoryPropertyDetail (params) {
-  return request(`http://192.168.0.220:10002/api/revision/category/property/detail?${stringify(params)}`);
+  return request(`${domain}/revision/category/property/detail?${stringify(params)}`);
 }
 
-export async function savePropertyValue (params) {
-  return request(`http://test-life-seller.51bushou.com/api/sku/propertyValue/save`, {
+// 创建属性对
+export async function saveCategoryPropertyPair (params) {
+  return request(`${domain}/revision/category/save/property`, {
     method: 'POST',
     body: {
       ...params,
@@ -20,6 +21,26 @@ export async function savePropertyValue (params) {
 // 供应商商品待推广列表
 export async function queryProductSpreadList(params) {
   return request(`${domain}/product/spread/wait/query?${stringify(params)}`);
+// 发布商品
+}
+
+export async function publishGoods (params) {
+  return request(`${domain}/revision/product/create`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+// 获取商品详情
+export async function getGoodsDetail (params) {
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
+}
+
+// 供应商商品列表
+export async function queryGoodsList (params) {
+  return request(`${domain}/revision/product/gys/table/query?${stringify(params)}`);
 }
 
 // 供应商可推广渠道列表
