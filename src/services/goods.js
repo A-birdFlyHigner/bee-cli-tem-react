@@ -3,6 +3,8 @@ import request from '@/utils/request';
 
 const domain = '/api';
 
+export function queryCommunityManager () {}
+
 // 获取指定类目的属性
 export async function queryCategoryPropertyDetail (params) {
   return request(`${domain}/revision/category/property/detail?${stringify(params)}`);
