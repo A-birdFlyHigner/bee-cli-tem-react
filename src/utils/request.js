@@ -23,7 +23,7 @@ const codeMessage = {
 };
 
 // liqiang 123456 9999
-const localToken = '8fc7d9a375754ebb8d6c1c303b66b341:1133'
+const localToken = 'fc152c7aabd74285ad9e968df0c032a5:1133'
 // hangzhou 123456 
 // const localToken = 'f5ef04e8dead484dbb76fab40d38a7d7:1155'
 

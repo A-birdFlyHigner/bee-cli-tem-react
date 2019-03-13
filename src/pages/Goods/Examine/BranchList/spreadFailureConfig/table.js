@@ -8,7 +8,7 @@ import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
 
 // 渠道商品规格详情
-const getSkuDetail = (id) => {
+const getSkuDetail = (saleUnits) => {
   LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
@@ -18,14 +18,14 @@ const getSkuDetail = (id) => {
     },
     content () {
       return (
-        <SkuDetail productId={id} />
+        <SkuDetail saleUnitsInfo={saleUnits} />
       )
     }
   })
 }
 
 // 库存信息
-const getStoreInfo = (id) => {
+const getStoreInfo = (saleUnits) => {
   LeDialog.show({
     title: '库存信息',
     width: '1000px',
@@ -35,7 +35,7 @@ const getStoreInfo = (id) => {
     },
     content () {
       return (
-        <StoreInfo productId={id} />
+        <StoreInfo saleUnitsInfo={saleUnits} />
       )
     }
   })
