@@ -1,26 +1,41 @@
 import React, { Component } from 'react';
 import { LeForm } from '@lib/lepage';
 import Category from './components/Category'
-import { formConfig as defaultFormConfig } from './config';
-// import { queryCategoryPropertyDetail } from '@/services/goods'
+import { getFormConfig } from './config';
+import { queryCategoryPropertyDetail } from '@/services/goods'
 
 class GoodsPublish extends Component {
   constructor(props) {
     super(props);
 
+    this.keepValues = {
+      name: '商品长名称',
+      desc: '商品短名称'
+    }
     this.state = {
       showCancel: false,
-      // showCategory: true,
-      // formConfig: {},
-      showCategory: false,
-      formConfig: defaultFormConfig,
+      showCategory: true,
+      formConfig: {},
     };
 
-    this.formValues = {}
+    this.handleCategoryOK({
+      categoryId: 20005,
+      treeValues: [20006, 20040, 20041, 20005],
+      treeLabels: ["水产肉类/新鲜蔬果/熟食", "新鲜蔬菜/蔬菜制品", "新鲜蔬菜", "叶菜类"]
+    })
   }
 
   // 分类 下一步 操作
-  handleCategoryOK (category) {
+  async handleCategoryOK (category = {}) {
+    // TODO: 更换类目选择的值
+    const { categoryId, treeLabels = [] } = category
+    const categoryProperties = await queryCategoryPropertyDetail({
+      categoryId
+    })
+    if (!categoryProperties) return
+
+    const defaultFormConfig = getFormConfig(categoryProperties)
+
     const {
       settings: {
         values = {},
@@ -33,8 +48,9 @@ class GoodsPublish extends Component {
       settings: {
         values: {
           ...values,
-          ...this.formValues,
-          category: category.treeLabels.join('>')
+          ...this.keepValues,
+          categoryName: treeLabels.join('>'),
+          categoryId
         },
         ...restSettings
       }
@@ -56,15 +72,16 @@ class GoodsPublish extends Component {
 
   // 创建商品，二次编辑分类
   handleEditCategory (formData = {}) {
-    const keepNames = ['longName', 'shortName']
+    // 商品长名称、商品短名称、品牌名称、商品主图、商品详情图
+    const keepNames = ['name', 'desc', 'brandName', 'goodsMainImageList', 'goodsDetailImageList']
 
-    this.formValues = {}
+    this.keepValues = {}
     keepNames.forEach((name) => {
       const value = formData[name]
       if (value === null || value === undefined) {
         return
       }
-      this.formValues[name] = value
+      this.keepValues[name] = value
     })
     this.setState({
       showCancel: true,
@@ -75,20 +92,6 @@ class GoodsPublish extends Component {
   handleLeFormMount (leForm) {
     leForm.on('edit-category', this.handleEditCategory.bind(this))
   }
-
-  // async fetchCategory () {
-  //   const category = await queryCategoryPropertyDetail({
-  //     categoryId: 20005
-  //   })
-  //   debugger
-  //   this.setState({
-  //     category
-  //   })
-  // }
-
-  // handleLeFormChange (changeKeys, values, leForm) {
-  //   // TODO:
-  // }
 
   render() {
     const { state } = this;
@@ -103,7 +106,6 @@ class GoodsPublish extends Component {
       <LeForm
         {...state.formConfig}
         onMount={(leForm) => this.handleLeFormMount(leForm)}
-        // onChange={(...rest) => this.handleLeFormChange(...rest)}
       />;
 
     return (

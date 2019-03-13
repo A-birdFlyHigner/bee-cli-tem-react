@@ -237,7 +237,7 @@
   "goodsMainImageList": [{ // 商品主图
     "height": 200,
     "order": 1,
-    "type": 2, // 2 表示 商品主图
+    "type": 2, // 2 表示商品主图
     "url": "https://img.gegejia.com/life-mini/share/product/d0a8ea1a-32c1-4f6d-8883-290266b97437.png",
     "width": 200
   }],
