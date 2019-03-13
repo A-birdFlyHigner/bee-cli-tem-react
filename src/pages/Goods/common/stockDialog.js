@@ -9,12 +9,12 @@ const tabelColumns = core => {
     const Integer = /^-?\d*$/
     if (num !== '' && !Integer.test(num)) return;
     const items = JSON.parse(JSON.stringify(core.getValue('dataSource')));
-    const stockLast = items[index].stock3 + Number(num === '-' ? '' : num)
+    const stockLast = items[index].availStock + Number(num === '-' ? '' : num)
     if (stockLast < 0) {
-      num = -(items[index].stock3)
+      num = -(items[index].availStock)
     }
     if (stockLast > 10000) {
-      num = 10000 - items[index].stock3
+      num = 10000 - items[index].availStock
     }
     items[index][name] = String(num);
     core.setValue('dataSource', items);
@@ -33,30 +33,33 @@ const tabelColumns = core => {
   return [
     {
       title: 'skuId',
-      dataIndex: 'id',
+      dataIndex: 'skuId',
       align: 'center',
     },
     {
       title: 'sku码(发货编码)',
-      dataIndex: 'sku',
+      dataIndex: 'deliverCode',
       align: 'center',
     },
     {
       title: 'sku规格',
-      dataIndex: 'skutype',
+      dataIndex: 'propertyPairList',
+      width: 120,
       align: 'center',
-      render: (text) => {
+      render: (text, row) => {
+        const info = text.map(p => p.pnName)
+        const isStop = <span className='globalRed'>（停售）</span>
         return (
           <div>
-            <span className='globalRed'>（停售）</span>
-            <span>{text}</span>
+            {row.saleStatus === 0 ? isStop : null}
+            <span>{info.join('&')}</span>
           </div>
         )
       }
     },
     {
       title: '总库存',
-      dataIndex: 'stock',
+      dataIndex: 'spreadStock',
       align: 'center',
       render(text, row) {
         return text + Number(row.editStock === '-' ? '' : row.editStock)
@@ -64,17 +67,17 @@ const tabelColumns = core => {
     },
     {
       title: '待发货占用',
-      dataIndex: 'stock1',
+      dataIndex: 'notDeliverLockStock',
       align: 'center',
     },
     {
       title: '待付款占用',
-      dataIndex: 'stock2',
+      dataIndex: 'notPayLockStock',
       align: 'center',
     },
     {
       title: '可售库存',
-      dataIndex: 'stock3',
+      dataIndex: 'availStock',
       align: 'center',
       render(text, row) {
         return text + Number(row.editStock === '-' ? '' : row.editStock)
@@ -83,6 +86,7 @@ const tabelColumns = core => {
     {
       title: '调整可售库存',
       dataIndex: 'editStock',
+      width: 100,
       render: (text, row, index) => {
         return (
           <Input
@@ -97,11 +101,16 @@ const tabelColumns = core => {
   ];
 };
 
-
 export default tableData => {
+  const dataList = tableData.map(item => {
+    return {
+      ...item,
+      editStock: '0'
+    }
+  })
   return {
     settings: {
-      values: { dataSource: tableData },
+      values: { dataSource: dataList },
     },
     items: [
       {
@@ -129,12 +138,12 @@ export default tableData => {
             if (err) return message.warning('请输入整数');
             const items = core.getValue('dataSource').map(p => {
               let num = Number(val.batchSetStock)
-              const stockLast = p.stock3 + num
+              const stockLast = p.availStock + num
               if (stockLast < 0) {
-                num = -Number(p.stock3)
+                num = -Number(p.availStock)
               }
               if (stockLast > 10000) {
-                num = 10000 - p.stock3
+                num = 10000 - p.availStock
               }
               return {
                 ...p,
@@ -156,7 +165,7 @@ export default tableData => {
           const { dataSource } = values;
           return (
             <Table
-              rowKey="id"
+              rowKey="skuId"
               columns={tabelColumns(core)}
               pagination={false}
               dataSource={dataSource}

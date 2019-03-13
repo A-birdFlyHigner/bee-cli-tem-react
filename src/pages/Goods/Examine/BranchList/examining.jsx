@@ -4,7 +4,7 @@ import { LeList } from '@lib/lepage'
 import filterConfig from './examiningConfig/search'
 import operationConfig from './examiningConfig/operation'
 import tableConfig from './examiningConfig/table'
-import { queryCommunityManager } from '@/services/goods'
+import { spreadWaitProductionList } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
 
 export default class Examining extends Component {
@@ -19,7 +19,7 @@ export default class Examining extends Component {
       filterConfig,
       operationConfig,
       tableConfig,
-      ...leListQuery(queryCommunityManager)
+      ...leListQuery(spreadWaitProductionList)
     }
     return (
       <LeList {...config} />

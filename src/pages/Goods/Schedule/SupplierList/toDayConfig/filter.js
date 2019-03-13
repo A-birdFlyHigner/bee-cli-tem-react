@@ -1,18 +1,32 @@
 import Reg from '@/utils/reg';
-import categoryRule from '@/components/Rules/category'
+import categoryRule from '@/components/Rules/category';
 
 export default {
+  settings: {
+    value: {
+      saleStatus: 1
+    }
+  },
   form: {
     inline: true, // 表单布局是否为行内样式
   },
   items: [
     categoryRule({
       label: '类目',
+      name: 'categoryId',
       value: []
     }),
     {
-      label: '商品Id',
-      name: 'productId',
+      label: '商品名称',
+      name: 'name',
+      component: 'Input',
+      props: {
+        placeholder: '请输入商品名称',
+      },
+    },
+    {
+      label: '渠道商品Id',
+      name: 'channelProductId',
       component: 'Input',
       rules: {
         pattern: Reg.Num,
@@ -23,11 +37,15 @@ export default {
       },
     },
     {
-      label: '商品名称',
-      name: 'name',
+      label: '基础商品Id',
+      name: 'baseProductId',
       component: 'Input',
+      rules: {
+        pattern: Reg.Num,
+        message: '商品Id,请输入数字',
+      },
       props: {
-        placeholder: '请输入商品名称',
+        placeholder: '请输入商品Id',
       },
     },
     {

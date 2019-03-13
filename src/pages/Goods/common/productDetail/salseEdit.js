@@ -3,6 +3,8 @@ import { Input, Table } from 'antd'
 import Sty from './index.less'
 import Reg from '@/utils/reg'
 
+const RegGross = /^-?(([1-9]\d*)|0)?(\.\d{0,2})?$/
+
 const inputItems = [{
   title: '市场价（划掉价）',
   dataIndex: 'marketPrice',
@@ -24,7 +26,7 @@ const inputItems = [{
 const tabelColumns = (core, preview) => {
 
   const onInputChange = (val, index, name) => {
-    if (val !== '' && !Reg.Price.test(val)) return
+    if (val !== '' && !(name === 'grossProfit' ? RegGross : Reg.Price).test(val)) return
     const saleUnits = JSON.parse(JSON.stringify(core.getValue('saleUnits')))
     saleUnits[index][name] = val
     core.setValue('saleUnits', saleUnits)
@@ -44,7 +46,8 @@ const tabelColumns = (core, preview) => {
     align: 'center',
     width: 180,
     render: (val) => {
-      return <span>{val.join('-') || '默认'}</span>
+      const list = val.map(p => p.pnName)
+      return <span>{list.join('-') || '默认'}</span>
     }
   }, {
     title: 'sku编码（发货编码）',
@@ -82,29 +85,14 @@ const tabelColumns = (core, preview) => {
     width: 100,
   }, {
     title: '会员价佣金',
-    dataIndex: 'memberYongJin',
+    dataIndex: 'memeberCommission',
     align: 'center',
     width: 120,
-    render: (values, rows) => {
-      const {
-        memberPrice,
-        costPrice,
-        grossProfit
-      } = rows
-      return <span>{(memberPrice*100 - costPrice*100 - grossProfit*100)/100}</span>
-    }
   }, {
     title: '非会员价佣金',
-    dataIndex: 'nonmemberYongJin',
+    dataIndex: 'noMemeberCommission',
     align: 'center',
     width: 150,
-    render: (values, rows) => {
-      const {
-        nonmemberPrice,
-        costPrice,
-        grossProfit} = rows
-      return <span>{(nonmemberPrice*100 - costPrice*100 - grossProfit*100)/100}</span>
-    }
   }]
 }
 
@@ -113,7 +101,7 @@ export default function (preview) {
   return (leForm) => {
 
     const onBatchChange = (val, dataIndex) => {
-      if (val !== '' && !Reg.Price.test(val)) return
+      if (val !== '' && !(dataIndex === 'grossProfit' ? RegGross : Reg.Price).test(val)) return
       if (Number(val) > 1000000) return
       const saleUnits = leForm.getValue('saleUnits').map(p => {
         return {

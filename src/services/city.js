@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 
-const domain = '/adminApi';
+const domain = '/api';
 
 // 分公司城市列表
 export async function queryBranchCityManager(params) {

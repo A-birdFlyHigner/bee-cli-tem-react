@@ -1,11 +1,7 @@
 import Reg from '@/utils/reg'
-import cityRule from '@/components/Rules/citySel/index'
+import cityRule from '@/components/Rules/branchcitySel/index'
+import timeRule from '@/components/Rules/timeSel/index'
 import categoryRule from '@/components/Rules/category'
-import moment from 'moment'
-
-const disabledDates = (current) => {
-  return current && current < moment().endOf('day')
-}
 
 export default {
   form: {
@@ -57,75 +53,35 @@ export default {
         placeholder: '请输入渠道商品Id'
       },
     },
-    {
+    timeRule({
       label: '商品出售时间',
-      name: 'saleTime',
-      component: 'RangePicker',
-      className: 'globalRange',                    
-      value: [],
-      props: {
-        format: 'YYYY-MM-DD HH:mm:ss',
-        placeholder: ['请选择开始时间', '请选择结束时间'],
-        showTime: true,
-        disabledDate: disabledDates                        
-      },
-    },
+      name: ['saleStartTime', 'saleEndTime'],
+      placeholder: ['请选择开始时间', '请选择结束时间'],
+    }),
     cityRule({
       label: '城市',
       value: [],
-      deep: 2,
+      deep: 1,
     }),
     {
       label: '商品出售状态',
-      name: 'saleingStatus',
+      name: 'saleStatus',
       component: 'Select',
       props: {
         placeholder: '请选择商品出售状态',
         options: [{
+          label: '全部',
+          value: 0,
+        },{
           label: '出售中',
           value: 1,
         }, {
           label: '正在预热',
           value: 2
         }, {
-          label: '已排期',
+          label: '等待上线',
           value: 3
         }]
-      },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 4
-      }
-    },
-    {
-      label: '商品发货时效',
-      name: 'spreadTime',
-      component: 'Select',
-      props: {
-        placeholder: '请选择发货时效',
-        options: [{
-          label: '次日达',
-          value: 1,
-        }, {
-          label: '预售',
-          value: 2
-        }]
-      },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 3
-      }
-    }, 
-    {
-      label: '商品Id',
-      name: 'productId',
-      component: 'Input',
-      rules: {
-        pattern: Reg.Num,
-        message: '商品Id,请输入数字'
-      },
-      props: {
-        placeholder: '请输入商品Id'
       },
     },
     {

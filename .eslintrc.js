@@ -11,6 +11,7 @@ module.exports = {
   },
   globals: {
     APP_TYPE: true,
+    ADMIN_TYPE: true,
     page: true,
   },
   rules: {

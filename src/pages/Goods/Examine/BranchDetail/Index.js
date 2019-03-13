@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import router from 'umi/router';
 import { LeForm } from '@lib/lepage'
 import { message } from 'antd'
-import {queryBranchProductSpreadDetail} from '@/services/goods'
+import {queryBranchProductSpreadDetail,spreadReviewProduct} from '@/services/goods'
 
 import {
+  onChange,
   baseInfo,
-  salseInfo,
   salseEdit,
   logistics,
   wareHouse,
@@ -16,31 +16,70 @@ import {
   examined,
 } from '@/pages/Goods/common/productDetail'
 
+const compare = (big, small) => {
+  return Boolean(parseFloat(big) - parseFloat(small) > 0)
+}
+
 // 确定
-const confirm = (err, values)=> {
+const confirm = async (err, values)=> {
+  const { saleGoodsId, saleUnits } = values
   const type = values.examineData.chooseType
+  const skuPriceInfos = []
+  let isValid = true
   if ((!values.examineData.rejuctReason) && (type === 2)) {
     message.warning('请输入拒绝原因！')
     return false
   }
-
-  // TODO: 请求通过审核接口
-
-  // 通过审核 进入审核通过未排期列表， 拒绝 进入审核推广失败列表
-  if (type === 1) {
-    router.push({
-      pathname: '/goods/examine/branchlist'
+  saleUnits.forEach(item => {
+    const { grossProfit, marketPrice, memberPrice, nonmemberPrice, skuId, memeberCommission, noMemeberCommission } = item
+    skuPriceInfos.push({
+      grossProfit: grossProfit * 100,
+      marketPrice: marketPrice * 100,
+      memberPrice: memberPrice * 100,
+      nonMemberPrice: nonmemberPrice * 100,
+      skuId
     })
-  } else {
-    router.push({
-      pathname: '/goods/examine/branchlist',
-      query: {
-        tabType: '2'
-      }
-    })
+    if( !compare(marketPrice, nonmemberPrice) || !compare(nonmemberPrice, memberPrice) || !compare(memberPrice, 0) ){
+      message.warning('市场价>非会员价>会员价>0')
+      isValid = false
+    }
+    if( !compare(memeberCommission, 0) ){
+      message.warning('会员价佣金必须大于零')
+      isValid = false
+    }
+    if( !compare(noMemeberCommission, 0) ){
+      message.warning('非会员价佣金必须大于零')
+      isValid = false
+    }
+  });
+  if( !isValid ) return false
+
+  const option = {
+    channelProductIdList: [
+      saleGoodsId
+    ],
+    skuPriceInfos,
+    status: type
   }
+  const Br = await spreadReviewProduct(option)
+  if(Br) {
+    const tip = type === 1? '已通过审核':'已拒绝审核'
+    message.success(tip);
 
-  return false
+    // 通过审核 进入审核通过未排期列表， 拒绝 进入审核推广失败列表
+    if (type === 1) {
+      router.push({
+        pathname: '/goods/examine/branchlist'
+      })
+    } else {
+      router.push({
+        pathname: '/goods/examine/branchlist',
+        query: {
+          tabType: '2'
+        }
+      })
+    }
+  }
 }
 
 // 取消
@@ -58,7 +97,8 @@ export default class Detail extends Component {
       productId: params.id,
       leFormConf: {
         settings: {
-          globalStatus: 'preview'
+          globalStatus: 'preview',
+          onChange
         },
         form: {
           layout: {
@@ -67,9 +107,7 @@ export default class Detail extends Component {
         },
         items: [
           ...baseInfo,
-          ...salseInfo,
           salseEdit(),
-          salseEdit(true),
           ...logistics,
           ...wareHouse,
           ...skuMainImg,

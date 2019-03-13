@@ -1,24 +1,18 @@
 import React, { Component } from 'react'
 import { LeForm, LeDialog } from '@lib/lepage'
 import _ from 'lodash'
+import router from 'umi/router';
 import { Button, message } from 'antd'
 import spreadConfig from './spread'
 import * as Sty from '../Index.less'
 import dialogFormConfig from '../../common/spreadDialog'
-
-const proList = [{
-  productName: '面包',
-  sku: '1kg',
-  deliverCode: '001',
-  costPrice: 200,
-  stockCount: 100
-}, {
-  productName: '火腿',
-  sku: '2kg',
-  deliverCode: '050301',
-  costPrice: 300,
-  stockCount: 100
-}]
+import {
+  queryProductSpreadChannelList, 
+  queryProductSpreadProductBaseDetail, 
+  queryProductSpreadProductChannelDetail, 
+  productSpreadCreate, 
+  productSpreadUpdate
+} from '@/services/goods'
 
 export default class Detail extends Component {
 
@@ -26,12 +20,19 @@ export default class Detail extends Component {
     super(props)
     this.leForm = {}
     this.state = {
-      spreadList: []
+      spreadList: [],
+      newBtnLoading: false,
+      addBtnLoading: false,
     }
   }
 
   componentWillMount () {
     const { query } = this.props
+    if (query.status === 'edit') {
+      this.setState({
+        edit: true
+      })
+    }
     if (query.spreadName) {
       this.setState({
         spreadList: [{
@@ -39,7 +40,7 @@ export default class Detail extends Component {
           cityIds: _.concat(query.cityIds),
           productIds: _.concat(query.productIds)
         }],
-        productIds: _.concat(query.productIds)
+        productIds: _.concat(query.productIds),
       })
     } 
     else {
@@ -57,17 +58,38 @@ export default class Detail extends Component {
     })
   }
 
-  getSkuListByproductId (key, id) {
+  getSkuListByproductId = async (key, id) => {
     const { state } = this
-    if (state[`dataSource${id}`]) {  
+    if (state[`dataSource${id}`]) {
       this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(state[`dataSource${id}`])))
     } else {
-      setTimeout(() => {
-        this.setState({
-          [`dataSource${id}`]: JSON.parse(JSON.stringify(proList))
+      const { edit = false } = state
+      let dataList
+      if (edit) {
+        dataList = await queryProductSpreadProductChannelDetail({productId: id})
+        if (!dataList) return
+        const { logisticsMethod, logisticsType, dispatchDate} = dataList
+        this.leForm[key].setValues({
+          logisticsMethod,
+          logisticsType,
+          dispatchDate
         })
-        this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(proList)))
-      }, 100)
+      } else {
+        dataList = await queryProductSpreadProductBaseDetail({productId: id})
+        if (!dataList) return
+      }
+      const {skuDetailList = [], productName} = dataList
+      dataList = skuDetailList.map(sku => {
+        return {
+          ...sku,
+          stockCount: sku.spreadStock,
+          productName
+        }
+      })
+      this.setState({
+        [`dataSource${id}`]: JSON.parse(JSON.stringify(dataList))
+      })
+      this.leForm[key].setValue(`dataSource${id}`, JSON.parse(JSON.stringify(dataList)))
     }
   }
 
@@ -79,13 +101,22 @@ export default class Detail extends Component {
     })
   }
 
-  dialogAddSpread = () => {
+  dialogAddSpread = async () => {
     const { spreadList } = this.state
-    const tags = ['全部', '华南地区', '华东地区']
-    const disabledCitys = _.concat(spreadList.map(item => {
-      return item.cityIds
-    }))
-    const formConf = dialogFormConfig(tags, disabledCitys)
+    const disabledCitys = []
+    spreadList.map(item => {
+      disabledCitys.push(...item.cityIds)
+      return item
+    })
+    this.setState({
+      newBtnLoading: true
+    })
+    const channelList = await queryProductSpreadChannelList()
+    this.setState({
+      newBtnLoading: false
+    })
+    if (!channelList) message.warning('获取推广渠道出现异常')
+    const formConf = dialogFormConfig(channelList, disabledCitys)
     LeDialog.show({
       title: '可选推广渠道',
       width: '800px',
@@ -115,6 +146,7 @@ export default class Detail extends Component {
           }).join('、')
           return `${p.title}（${cityName}）`
         }).join('；')
+        if (!cityIds.length) return message.warning('推广渠道，选择到市')
         const {spreadList, productIds} = this.state
         this.setState({
           spreadList: [
@@ -127,15 +159,15 @@ export default class Detail extends Component {
           ]
         })
         suc()
+        return false
       }
     })
   }
 
   beforeSubmitInfo = async () => {
+    this.setState({ addBtnLoading: true })
     let isError = false
-
     const keys = Object.keys(this.leForm)
-
     for (const i of keys) {
       const item = this.leForm[i]
       const errors = await item.validate()
@@ -154,7 +186,7 @@ export default class Detail extends Component {
             const { costPrice, stockCount } = q
             if (!costPrice || !stockCount) {
               const { value: { spreadName } = {} } = item
-              if (isError) {
+              if (!isError) {
                 message.warning(`请完善${spreadName}下的商品成本价和推广库存`) 
               }
               isError = true
@@ -163,15 +195,16 @@ export default class Detail extends Component {
         })
       }
     }
-
-    
-    if (isError) return
+    if (isError) {
+      this.setState({ addBtnLoading: false })
+      return
+    }
     this.handleSubInfo()
   }
 
-  handleSubInfo () {
+  handleSubInfo = async () => {
     const createList = []
-    const {productIds} = this.state
+    const {productIds, edit = false} = this.state
     productIds.forEach(pId => {
       const citySpreadDetailList = []
       const keys = Object.keys(this.leForm)
@@ -193,11 +226,30 @@ export default class Detail extends Component {
         citySpreadDetailList
       })
     })
-    console.log(createList)
+    if (edit) {
+      const res = await productSpreadUpdate(createList[0])
+      if (!res) {
+        this.setState({ addBtnLoading: false })
+        return
+      }
+    } else {
+      const res = await productSpreadCreate(createList)
+      if (!res) {
+        this.setState({ addBtnLoading: false })
+        return
+      }
+    }
+    message.success('已提交，请等待审核')
+    router.push({
+      pathname: '/goods/spread/list',
+      query: {
+        status: '2'
+      }
+    })
   }
 
   render () {
-    const { spreadList } = this.state
+    const { spreadList, newBtnLoading, addBtnLoading, edit = false } = this.state
     const configOption = {
       self: this,
       deleteFun: this.deleteSpreatItem
@@ -210,14 +262,18 @@ export default class Detail extends Component {
             const firstItem = (
               <p className={Sty.firstp}>
                 <span>推广渠道{ind + 1}：</span>
-                <Button 
-                  type="primary" 
-                  size="small" 
-                  className={Sty.spreadDelBtn}
-                  onClick={() => this.deleteSpreatItem.call(this, spreadName)}
-                >
-                删 除
-                </Button>
+                {
+                  edit
+                  ? null : 
+                  <Button 
+                    type="primary" 
+                    size="small" 
+                    className={Sty.spreadDelBtn}
+                    onClick={() => this.deleteSpreatItem.call(this, spreadName)}
+                  >
+                    删 除
+                  </Button>
+                }
               </p>
             )
             return (
@@ -232,8 +288,12 @@ export default class Detail extends Component {
           })
         }
         <div className={Sty.btnGroup}>
-          <Button onClick={this.dialogAddSpread}>+新增推广渠道</Button>
-          <Button type="primary" onClick={this.beforeSubmitInfo}>推广</Button>
+          {
+            edit 
+            ? null 
+            : <Button loading={newBtnLoading} onClick={this.dialogAddSpread}>+新增推广渠道</Button>
+          }
+          <Button loading={addBtnLoading} type="primary" onClick={this.beforeSubmitInfo}>推广</Button>
           <Button>取消</Button>
         </div>
       </div>

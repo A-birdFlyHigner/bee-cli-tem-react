@@ -2,6 +2,7 @@ import React from 'react'
 import { message } from 'antd'
 import { LeDialog, LeForm } from '@lib/lepage'
 import * as Sty from '../index.less'
+import { spreadReviewProduct } from '@/services/goods'
 
 const dialogFormConfig = (count) => {
   return {
@@ -43,9 +44,8 @@ const dialogFormConfig = (count) => {
 }
 
 const setBranchList = (err, values, formCore, listCore) => {
-  const productIds = listCore.getSelectedRowKeys()
-  const count = productIds.length
-
+  const channelProductIdList = listCore.getSelectedRowKeys()
+  const count = channelProductIdList.length
   if (!count) {
     message.warning('请至少勾选一项！')
     return
@@ -58,7 +58,19 @@ const setBranchList = (err, values, formCore, listCore) => {
       content () {
         return <LeForm {...dialogFormConfig(count)} />
       },
-      onOk: () => {
+      onOk: (val, hide) => {
+        const { rejectReason } = val
+        const option = {
+          channelProductIdList,
+          comment: rejectReason,
+          status: 2
+        }
+        spreadReviewProduct(option).then(res =>{
+          if( !res ) return
+          listCore.refresh()
+          hide()
+          message.success('已拒绝成功');
+        })
         // return new Promise(async (resolve, reject) => {
         //   await sleep(1500);
         //   resolve();

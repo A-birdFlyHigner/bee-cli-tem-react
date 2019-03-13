@@ -5,7 +5,7 @@ import { Table } from 'antd'
 export default class SkuInfo extends Component {
   constructor(props) {
     super(props)
-    const { saleUnitsInfo = []} = this.props
+    const { saleUnitsInfo } = this.props
 
     this.state = {
       columns: [{
@@ -17,7 +17,25 @@ export default class SkuInfo extends Component {
         title: 'SKU规格',
         dataIndex: 'propertyPairList',
         key: 'propertyPairList',
-        align: 'center'
+        align: 'center',
+        render: (text, record) => {
+          const { status } = record
+          const skuName = []
+
+          text.forEach(item => {
+            skuName.push(item.pvName)
+          })
+
+          const StopSale = <span className='globalRed'>（停售）</span>
+          return (
+            <div>
+              { status !== 0 ? null : StopSale}
+
+              <span>{skuName.join('-')}</span>
+
+            </div>
+          )
+        }
       },  {
         title: '市场价',
         dataIndex: 'marketPrice',
