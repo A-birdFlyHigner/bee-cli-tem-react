@@ -70,6 +70,7 @@ export default [
             path: '/goods/examine/branchdetail/:id',
             name: '审核商品详情',
             component: './Goods/Examine/BranchDetail',
+            hideInMenu: true,            
           },
 
         ],
