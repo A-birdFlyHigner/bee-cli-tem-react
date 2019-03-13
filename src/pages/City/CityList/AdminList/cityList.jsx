@@ -21,7 +21,7 @@ export default class AdminCityList extends Component {
       ...leListQuery(queryCommunityManager)
     }
     return (
-      <LeList {...config}></LeList>
+      <LeList {...config} />
     )
   }
 }

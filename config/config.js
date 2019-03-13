@@ -69,8 +69,8 @@ export default {
   plugins,
   history: 'hash',
   outputPath: './dist/le' + ADMIN_TYPE.toLowerCase(),
-  // base: '/le' + ADMIN_TYPE.toLowerCase() + '/',
-  // publicPath: '/le' + ADMIN_TYPE.toLowerCase() + '/',
+  base: '/le' + ADMIN_TYPE.toLowerCase() + '/',
+  publicPath: '/le' + ADMIN_TYPE.toLowerCase() + '/',
   define: {
     APP_TYPE: APP_TYPE || '',
     ADMIN_TYPE: ADMIN_TYPE || ''
