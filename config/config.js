@@ -69,6 +69,7 @@ export default {
     bizcharts: 'BizCharts',
   },
   proxy: {
+    // 分公司    
     '/adminApi': {
       // target: 'http://test-life-admin.51bushou.com/api', // 管理后台
       // target: 'http://test-life-seller.51bushou.com/api',  // 分公司店铺后台
@@ -76,6 +77,12 @@ export default {
       target: 'http://192.168.0.162:10002/api', //卫卫
       changeOrigin: true,
       pathRewrite: { '^/adminApi': '' },
+    },
+    // 总部
+    '/api': {
+      target: 'http://192.168.1.46:10003/api', //瓶子      
+      changeOrigin: true,
+      pathRewrite: { '^/api': '' },
     },
   },
   ignoreMomentLocale: true,

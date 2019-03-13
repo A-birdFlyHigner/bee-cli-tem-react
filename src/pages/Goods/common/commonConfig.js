@@ -5,7 +5,9 @@ import { LeDialog, LeForm } from '@lib/lepage'
 import moment from 'moment'
 import React from 'react'
 import * as Sty from './index.less'
-import { backOff, addOrUpdate, updateSortNumber, getProductGroupCombo, addProductToProductGroup, revokeProductSpeard } from '@/services/goods'
+import { backOff, addOrUpdate, updateSortNumber, getProductGroupCombo, addProductToProductGroup, revokeProductSpeard,
+  setProductReviewStatus, revokeProductPromotion, forceBackProductList     
+} from '@/services/goods'
 
 const { RangePicker } = DatePicker
 
@@ -473,6 +475,317 @@ export function allRevoke(err, values, formCore, listCore) {
           
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
+          listCore.refresh();
+        })
+      }
+    }
+  )
+}
+
+
+// -------------------- 总部排期相关 -----------------
+
+// 审核config
+const examineFormConfig = (count) => {
+  return {
+    form: {
+      layout: { // 表单布局 左侧和右侧比例
+        label: 0,
+        control: 24
+      }
+    },
+    items: [
+      {
+        label: '',
+        name: 'text',
+        render: () => {
+          return(
+            <div>
+              {
+                count ?
+                  <div className={Sty.dialogMb}>已批量选中{count}个商品，确定对商品进行以下审核？</div>
+                :
+                  <div className={Sty.dialogMb}>确定对商品进行以下审核？</div>
+              }
+            </div>
+          )
+        },
+      },
+      {
+        label: '',
+        name: 'chooseType',
+        component: 'RadioGroup',
+        follow: true,
+        props:{
+          options:[
+            {
+              label:'通过',
+              value:2,
+            },
+            {
+              label:'拒绝',
+              value:3,
+            }
+          ]
+        }
+      },
+      {
+        label:'',
+        name: 'rejectReason',
+        component: 'Input',
+        className: Sty.rejectReason,
+        props:{
+          placeholder: '请输入拒绝原因，不超过20字',
+          maxLength: 20,
+        },
+        // when true false 控制隐藏显示此组件
+        when: (val) => {
+          return val.chooseType === 1
+        }
+      }
+    ],
+  }
+}
+
+// 总部批量撤销config
+const revokeFormConfig = (count) => {
+
+  return {
+    form: {
+      layout: { // 表单布局 左侧和右侧比例
+        label: 0,
+        control: 24
+      }
+    },
+    items: [
+      {
+        label: '',
+        name: 'text',
+        render: () => {
+          return(
+            <div>
+              <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量撤销推广？</div>
+              <div className='globalRed'>总部撤销，商品将回到商家后台等待推广列表中，需重新推广。</div> 
+            </div>
+          )
+        },
+      },
+    ],
+  }
+}
+
+// 总部批量回退config
+const alladminBackFormConfig = (count) => {
+  return {
+    form: {
+      layout: { // 表单布局 左侧和右侧比例
+        label: 0,
+        control: 24
+      }
+    },
+    items: [
+      {
+        label: '',
+        name: 'tags',
+        render: () => {
+          return(
+            <div>
+              <div className={Sty.dialogMb}>已批量选中{count}个商品，确定批量回退？</div>
+              <div className='globalRed'>总部强制回退到分公司未排期列表中</div> 
+            </div>
+          )
+        },
+      },
+    ],
+  }
+}
+
+// 单个审核
+export function goExamine(saleGoodsId) {
+  LeDialog.show(
+    {
+      title: '审核',
+      width: '600px',
+      content () {
+        return <LeForm {...examineFormConfig()} />
+      },
+      onOk: (values, suc) => {
+        const { chooseType } = values
+        const comment = values.rejectReason ? values.rejectReason : ''
+        const channelProductIds = []
+        channelProductIds.push(saleGoodsId)
+
+        setProductReviewStatus({ 
+          channelProductIds, 
+          status: chooseType,
+          comment
+        }).then(res => {
+          if (!res) return
+          // 关闭弹窗
+          
+          suc()
+          // TODO: 刷新列表 单个数据操作拿不到leList 
+          // leList.refresh();
+        })
+
+      }
+    }
+  )
+}
+
+// 批量审核
+export function goallExamine(err, values, formCore, listCore) {
+  const channelProductIds = listCore.getSelectedRowKeys()
+  const count = channelProductIds.length
+
+  if (!count) {
+    message.warning('请至少勾选一项！')
+    return
+  }
+
+  LeDialog.show(
+    {
+      title: '批量审核',
+      width: '600px',
+      content () {
+        return <LeForm {...examineFormConfig(count)} />
+      },
+      onOk: (value, suc) => {
+
+        const { chooseType } = value
+        const comment = value.rejectReason ? value.rejectReason : ''
+
+        setProductReviewStatus({ 
+          channelProductIds, 
+          status: chooseType,
+          comment
+        }).then(res => {
+          if (!res) return
+          // 关闭弹窗
+          suc()
+          listCore.refresh();
+        })
+      }
+    }
+  )
+}
+
+// 总部单个撤销
+export function goadminRevoke(saleGoodsId) {
+  LeDialog.show(
+    {
+      title: '撤销推广',
+      width: '400px',
+      content () {
+        return <LeForm {...dialogFormTextConfig('撤销推广')} />
+      },
+      onOk: (values, suc) => {
+
+        const channelProductIdList = []
+        channelProductIdList.push(saleGoodsId)
+
+        revokeProductPromotion({
+          channelProductIdList, 
+        }).then(res => {
+          if (!res) return
+          // 关闭弹窗
+          
+          suc()
+          // TODO: 刷新列表 单个数据操作拿不到leList 
+          // leList.refresh();
+        })
+      }
+    }
+  )
+}
+
+// 总部批量撤销
+export function alladminRevoke(err, values, formCore, listCore) {
+  const channelProductIdList = listCore.getSelectedRowKeys()
+  const count = channelProductIdList.length
+  if (!count) {
+    message.warning('请至少勾选一项！')
+    return
+  }
+
+  LeDialog.show(
+    {
+      title: '撤销推广',
+      width: '400px',
+      content () {
+        return <LeForm {...revokeFormConfig('撤销推广')} />
+      },
+      onOk: (values, suc) => {
+        revokeProductPromotion({ 
+          channelProductIdList,
+        }).then(res => {
+          if (!res) return
+          // 关闭弹窗
+          
+          suc()
+          // TODO: 刷新列表 单个数据操作拿不到leList 
+          listCore.refresh();
+        })
+      }
+    }
+  )
+}
+
+// 总部单个回退
+export function goadminBack (saleGoodsId) {
+  LeDialog.show(
+    {
+      title: '回退',
+      width: '400px',
+      content () {
+        return <LeForm {...dialogFormTextConfig('回退')} />
+      },
+      onOk: (values, suc) => {
+        const channelProductIdList = []
+        channelProductIdList.push(saleGoodsId)
+
+        forceBackProductList({ 
+          channelProductIdList, 
+        }).then(res => {
+          if (!res) return
+          // 关闭弹窗
+          
+          suc()
+          // TODO: 刷新列表 拿不到leList
+          // leList.refresh();
+        })
+
+        suc()
+      }
+    }
+  )
+}
+
+// 总部批量回退
+export function alladminBack(err, values, formCore, listCore){
+  const channelProductIdList = listCore.getSelectedRowKeys()
+  const count = channelProductIdList.length
+
+  if (!count) {
+    message.warning('请至少勾选一项！')
+    return
+  }
+
+  LeDialog.show(
+    {
+      title: '批量回退',
+      width: '400px',
+      content () {
+        return <LeForm {...alladminBackFormConfig(count)} />
+      },
+      onOk: ( suc ) => {
+        forceBackProductList({ 
+          channelProductIdList, 
+        }).then(res => {
+          if (!res) return
+          // 关闭弹窗
+          
+          suc()
           listCore.refresh();
         })
       }

@@ -59,22 +59,10 @@ export default {
     }),
     {
       label: '分公司',
-      name: 'branchOffice',
+      name: 'companyName',
       component: 'Input',
       props: {
         placeholder: '请输入分公司',
-      },
-    },
-    {
-      label: '商品Id',
-      name: 'productId',
-      component: 'Input',
-      rules: {
-        pattern: Reg.Num,
-        message: '商品Id,请输入数字'
-      },
-      props: {
-        placeholder: '请输入商品Id'
       },
     },
     {
