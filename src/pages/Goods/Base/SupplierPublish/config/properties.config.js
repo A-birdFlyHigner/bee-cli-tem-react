@@ -1,6 +1,7 @@
 import React from 'react'
 import { message as messageApi, Tag } from 'antd';
 import { FN } from './common.config'
+import { saveCategoryPropertyPair } from '@/services/goods'
 
 // 属性值输入类型枚举
 const COMPONENT_ENUMS = {
@@ -9,8 +10,8 @@ const COMPONENT_ENUMS = {
   3: 'CheckboxGroup',
   4: 'CheckboxGroup',
   5: 'Input',
-  6: 'DatePicker',
-  7: 'TimePicker'
+  6: 'DatePicker', // 日期
+  7: 'DatePicker' // 时间
 }
 
 // 错误占位符前缀枚举
@@ -25,10 +26,10 @@ const MESSAGE_PREFIX = {
 }
 
 // 添加属性对
-const handleAddPropertyPair = (leForm, name, event, okFn = FN) => {
-  const {
-    target = {}
-  } = event
+const handleAddPropertyPair = async (leForm, name, event, okFn = FN) => {
+  const { target = {} } = event
+  if (target.disabled) return
+
   let {
     value: label = ''
   } = target
@@ -47,39 +48,49 @@ const handleAddPropertyPair = (leForm, name, event, okFn = FN) => {
     messageApi.warn('属性名不能重复!')
     return
   }
+  target.disabled = true
 
-  const value = label
-
-  // add
-  options.push({
-    label,
-    value,
-    extend: null,
-    isCustom: true
+  // 创建属性对
+  const propertyPairId = await saveCategoryPropertyPair({
+    propertyNameId: name.split('-')[1],
+    propertyValue: label
   })
 
-  // update
-  leForm.setProps(name, {
-    options
-  })
+  if (!propertyPairId) {
+    messageApi.error('属性名创建失败')
+  }
+  else {
+    // add
+    options.push({
+      label,
+      value: propertyPairId,
+      isCustom: true
+    })
 
-  // clear
-  target.value = ''
+    // update
+    leForm.setProps(name, {
+      options
+    })
 
-  okFn()
+    // clear
+    target.value = ''
+
+    okFn()
+  }
+  target.disabled = false
 }
 
 // 删除属性对
-const handleRemPropertyPair = (leForm, name, propertyValueId, okFn = FN) => {
+const handleRemPropertyPair = (leForm, name, propertyPairId, okFn = FN) => {
   // update props
   const { options = [] } = leForm.getProps(name)
-  const propertyPairs = options.filter(({ value }) => value !== propertyValueId)
+  const propertyPairs = options.filter(({ value }) => value !== propertyPairId)
   leForm.setProps(name, {
     options: propertyPairs
   })
 
   // update value
-  const values = (leForm.getValue(name) || []).filter(value => value !== propertyValueId)
+  const values = (leForm.getValue(name) || []).filter(value => value !== propertyPairId)
   leForm.setValue(name, values)
 
   // complete
@@ -115,8 +126,7 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
       restProps.options = propertyPairs.map(propertyPair => {
         return {
           label: propertyPair.pvName,
-          value: propertyPair.propertyValueId,
-          extend: propertyPair
+          value: propertyPair.id
         }
       })
     }
@@ -131,7 +141,7 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
       restProps.placeholder = message
     }
 
-    // 绑定onChange事件
+    // 修改属性值，绑定onChange事件
     if ([2, 5].indexOf(inputType) !== -1) {
       restProps.onChange = (event) => {
         const { value } = event.target
@@ -142,23 +152,36 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
       restProps.onChange = (value) => handleChangeValue(leForm, name, value, okFn)
     }
 
+    // 日期格式
+    if (inputType === 6) {
+      restProps.format = 'YYYY-MM-DD'
+    }
+
+    // 时间格式
+    if (inputType === 7) {
+      restProps.showTime = {
+        format: 'HH:mm:ss',
+      }
+      restProps.format = 'YYYY-MM-DD HH:mm:ss'
+    }
+
     // 2单选可自定义、4多选可自定义
     if ([2, 4].indexOf(inputType) !== -1) {
       customInputItem = {
         inline: true,
         props: {
           placeholder: '自定义',
-          maxLength: 128,
+          maxLength: 10,
           onPressEnter: (event) => handleAddPropertyPair(leForm, name, event, okFn)
         }
       }
 
-      const getPropertySelecteds = (values) => {
-        const propertyValueIds = values[name] || []
-        const { options: propertyOptions } = leForm.getProps(name)
+      const getSelectedPropertyPairs = (values) => {
+        const propertyPairIds = values[name] || []
+        const { options: pairs } = leForm.getProps(name)
 
-        return propertyOptions.filter(propertyOption => {
-          return propertyOption.isCustom && propertyValueIds.indexOf(propertyOption.value) !== -1
+        return pairs.filter(propertyPair => {
+          return propertyPair.isCustom && propertyPairIds.indexOf(propertyPair.value) !== -1
         })
       }
 
@@ -166,21 +189,21 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
         label: '自定义标签',
         listenKeys: [name],
         when (values) {
-          const selecteds = getPropertySelecteds(values)
-          return selecteds.length !== 0
+          const pairs = getSelectedPropertyPairs(values)
+          return pairs.length !== 0
         },
         render (values) {
-          const selecteds = getPropertySelecteds(values)
-          if (selecteds.length === 0) return null
+          const pairs = getSelectedPropertyPairs(values)
+          if (pairs.length === 0) return null
 
-          return selecteds.map(({ label: pvName, value: propertyValueId }) => {
+          return pairs.map(({ label: propertyValueName, value: propertyPairId }) => {
             return (
               <Tag
-                key={propertyValueId}
+                key={propertyPairId}
                 closable
-                onClose={() => {handleRemPropertyPair(leForm, name, propertyValueId, okFn)}}
+                onClose={() => {handleRemPropertyPair(leForm, name, propertyPairId, okFn)}}
               >
-                {pvName}
+                {propertyValueName}
               </Tag>
             )
           })

@@ -1,3 +1,5 @@
+import categoryRule from '@/components/Rules/category'
+
 export default {
   settings: {
     initValues: {},
@@ -10,14 +12,12 @@ export default {
     },
   },
 
-  items: [{
-    label: '类目',
-      name: 'categoryId', // TODO: 没有实现类目组件
-      component: 'Select',
-      props: {
-        placeholder: '请选择类目',
-      },
-    },
+  items: [
+    categoryRule({
+      label: '类目',
+      name: 'categoryId',
+      value: []
+    }),
     {
       label: '商品名称',
       name: 'name',

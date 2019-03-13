@@ -22,10 +22,22 @@ const codeMessage = {
   504: '网关超时。',
 };
 
+<<<<<<< HEAD
 // liqiang 123456 9999
 const localToken = 'fc152c7aabd74285ad9e968df0c032a5:1133'
 // hangzhou 123456 
 // const localToken = 'f5ef04e8dead484dbb76fab40d38a7d7:1155'
+=======
+let localToken = ''
+const key = 'HQBSFORSHOP'
+switch (ADMIN_TYPE) {
+  case 'ADMIN':
+    break;
+  default:
+    localToken = JSON.parse(sessionStorage[key] || '{}').token
+    // localToken = 'e4d21162804549af93de0fed8abd1ced:1200'
+}
+>>>>>>> b7b7795ee1674adc46fc7a3d2afa5ebc9f2d3dec
 
 const checkStatus = response => {
   if (response.status >= 200 && response.status < 300) {
@@ -141,6 +153,12 @@ export default function request(url, option) {
       if (String(response.status) === '1') {
         return response.data
       }
+
+      if (ADMIN_TYPE !== 'ADMIN' && response.errorCode === 10010){
+        sessionStorage.removeItem('HQBSFORSHOP')
+        window.location.pathname = '/login'
+      }
+
       message.error(response.errorMessage || response.message)
       return null
     })

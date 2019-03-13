@@ -5,6 +5,7 @@ import { message } from 'antd'
 import {queryBranchProductSpreadDetail,spreadReviewProduct} from '@/services/goods'
 
 import {
+  onChange,
   baseInfo,
   salseEdit,
   logistics,
@@ -51,7 +52,6 @@ const confirm = async (err, values)=> {
       isValid = false
     }
   });
-
   if( !isValid ) return false
 
   const option = {
@@ -97,7 +97,8 @@ export default class Detail extends Component {
       productId: params.id,
       leFormConf: {
         settings: {
-          globalStatus: 'preview'
+          globalStatus: 'preview',
+          onChange
         },
         form: {
           layout: {

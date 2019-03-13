@@ -1,3 +1,3 @@
-import formConfig from './form.config';
+import getFormConfig from './form.config';
 
-export { formConfig };
+export { getFormConfig };

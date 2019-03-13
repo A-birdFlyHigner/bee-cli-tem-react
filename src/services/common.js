@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 import { stringify } from 'qs';
 
-const domain = '/adminApi';
+const domain = '/api';
 
 export async function queryProvinceList(params) {
   return request(`${domain}/common/provinceList`, {

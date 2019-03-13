@@ -1,16 +1,16 @@
 import { stringify } from 'qs'
 import request from '@/utils/request';
 
-const domain = '/adminApi';
-const api = '/api';
+const domain = '/api';
 
 // 获取指定类目的属性
 export async function queryCategoryPropertyDetail (params) {
-  return request(`http://192.168.0.220:10002/api/revision/category/property/detail?${stringify(params)}`);
+  return request(`${domain}/revision/category/property/detail?${stringify(params)}`);
 }
 
-export async function savePropertyValue (params) {
-  return request(`http://test-life-seller.51bushou.com/api/sku/propertyValue/save`, {
+// 创建属性对
+export async function saveCategoryPropertyPair (params) {
+  return request(`${domain}/revision/category/save/property`, {
     method: 'POST',
     body: {
       ...params,
@@ -20,7 +20,7 @@ export async function savePropertyValue (params) {
 
 // 总部商品排期出售中
 export async function queryHotProductList(params) {
-  return request(`${api}/schedule/product/query/hot/list`, {
+  return request(`${domain}/schedule/product/query/hot/list`, {
     method: 'POST',
     body: params,
   });
@@ -28,7 +28,7 @@ export async function queryHotProductList(params) {
 
 // 总部商品排期已排期
 export async function querySchedulingProductList(params) {
-  return request(`${api}/schedule/product/query/scheduling/list`, {
+  return request(`${domain}/schedule/product/query/scheduling/list`, {
     method: 'POST',
     body: params,
   });
@@ -36,7 +36,7 @@ export async function querySchedulingProductList(params) {
 
 // 总部商品排期预排期
 export async function queryPreScheduleProductList(params) {
-  return request(`${api}/schedule/product/query/pre/schedule/list`, {
+  return request(`${domain}/schedule/product/query/pre/schedule/list`, {
     method: 'POST',
     body: params,
   });
@@ -44,7 +44,7 @@ export async function queryPreScheduleProductList(params) {
 
 // 总部商品排期未排期
 export async function queryUnScheduleProductList(params) {
-  return request(`${api}/schedule/product/query/un/schedule/list`, {
+  return request(`${domain}/schedule/product/query/un/schedule/list`, {
     method: 'POST',
     body: params,
   });
@@ -52,7 +52,7 @@ export async function queryUnScheduleProductList(params) {
 
 // 总部商品管理预排期审核
 export async function setProductReviewStatus(params) {
-  return request(`${api}/schedule/product/set/review/status`, {
+  return request(`${domain}/schedule/product/set/review/status`, {
     method: 'POST',
     body: params,
   });
@@ -60,7 +60,7 @@ export async function setProductReviewStatus(params) {
 
 // 总部商品管理商品撤销推广
 export async function revokeProductPromotion(params) {
-  return request(`${api}/schedule/product/revoke/promotion`, {
+  return request(`${domain}/schedule/product/revoke/promotion`, {
     method: 'POST',
     body: params,
   });
@@ -68,7 +68,7 @@ export async function revokeProductPromotion(params) {
 
 // 总部商品管理商品强制回退
 export async function forceBackProductList(params) {
-  return request(`${api}/schedule/product/force/back`, {
+  return request(`${domain}/schedule/product/force/back`, {
     method: 'POST',
     body: params,
   });
@@ -77,6 +77,26 @@ export async function forceBackProductList(params) {
 // 供应商商品待推广列表
 export async function queryProductSpreadList(params) {
   return request(`${domain}/product/spread/wait/query?${stringify(params)}`);
+// 发布商品
+}
+
+export async function publishGoods (params) {
+  return request(`${domain}/revision/product/create`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+// 获取商品详情
+export async function getGoodsDetail (params) {
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
+}
+
+// 供应商商品列表
+export async function queryGoodsList (params) {
+  return request(`${domain}/revision/product/gys/table/query?${stringify(params)}`);
 }
 
 // 供应商可推广渠道列表
