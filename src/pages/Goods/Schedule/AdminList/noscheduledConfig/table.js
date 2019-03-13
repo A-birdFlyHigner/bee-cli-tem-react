@@ -1,7 +1,10 @@
 import React from 'react'
 import { goadminRevoke } from '../../../common/commonConfig'
 import tableConfig from '../../common/table.config'
+import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
+
+const { reviewStatus } = commonMessage
 
 export default {
   rowKey: 'id',
@@ -15,15 +18,22 @@ export default {
   columns: [
     ...tableConfig,  {
     title: '审核状态',
-    dataIndex: 'examineStatus',
-    key: 'examineStatus',
+    dataIndex: 'status',
+    key: 'status',
     align: 'center',  
     width: 600,       
-    render: () => {
+    render: (value, record) => {
       return (
         <div className={Sty.store}>
-          <span>已拒绝</span><br />
-          <span>原因：不符合规则</span><br />
+          {
+            record.status !== 2 ? 
+              <span>{reviewStatus[record.status]}</span>
+            :
+              <div>
+                <span>已拒绝</span><br />
+                <span>原因：{reviewStatus[record.status]}</span><br />
+              </div>
+          }
         </div>
       )
     }

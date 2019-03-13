@@ -38,7 +38,12 @@ export default [
             name: '总部商品排期列表',
             component: './Goods/Schedule/AdminList',
           },
-
+          {
+            path: '/goods/schedule/adminExaminedetail/:id',
+            name: '总部商品审核详情',
+            component: './Goods/Schedule/AdminExaminedetail',
+            hideInMenu: true,            
+          },
         ],
       },
       {
