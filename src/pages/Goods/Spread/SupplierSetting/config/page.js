@@ -207,7 +207,7 @@ export default class Detail extends Component {
   }
 
   handleSubInfo = async () => {
-    const createList = []
+    let createList = []
     const {productIds, edit = false} = this.state
     productIds.forEach(pId => {
       const citySpreadDetailList = []
@@ -235,17 +235,21 @@ export default class Detail extends Component {
         citySpreadDetailList
       })
     })
+    createList = createList.filter(item => {
+      return item.citySpreadDetailList.length
+    })
+    if (!createList.length) return message.warning('请添加推广信息')
     if (edit) {
       const res = await productSpreadUpdate(createList[0])
       if (!res) {
         this.setState({ addBtnLoading: false })
-        return
+        return false
       }
     } else {
       const res = await productSpreadCreate(createList)
       if (!res) {
         this.setState({ addBtnLoading: false })
-        return
+        return false
       }
     }
     message.success('已提交，请等待审核')
