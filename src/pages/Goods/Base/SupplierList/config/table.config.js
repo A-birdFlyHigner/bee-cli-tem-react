@@ -29,11 +29,12 @@ const showSpecDetailDialog = dataSource => {
           const statusRender = status === 0
           ? <span style={{color: 'red'}}>停售</span>
           : null
+          const skuText = value.map(item => item.pvName).join('-')
 
           return (
             <span>
               {statusRender}
-              {value.join('-')}
+              {skuText}
             </span>
           )
         }
@@ -142,7 +143,7 @@ export default {
       title: '操作',
       render(value, item) {
         const { saleGoodsId: id } = item
-        return <a onClick={() => {router.push(`/goods/publish?id=${id}`)}}>编辑</a>
+        return <a onClick={() => {router.push(`/goods/publish?itemId=${id}`)}}>编辑</a>
       },
     },
   ],

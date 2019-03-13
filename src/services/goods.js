@@ -28,6 +28,11 @@ export async function publishGoods (params) {
   });
 }
 
+// 获取商品详情
+export async function getGoodsDetail (params) {
+  return request(`${domain}/revision/product/detail?${stringify(params)}`);
+}
+
 // 供应商商品列表
 export async function queryGoodsList (params) {
   return request(`${domain}/revision/product/gys/table/query?${stringify(params)}`);

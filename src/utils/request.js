@@ -23,7 +23,7 @@ const codeMessage = {
 };
 
 // liqiang 123456 9999
-const localToken = '6b595ef842bf4cc8bd57893a9b06e112:1198'
+const localToken = '8493d8efd5bd4391849fa375a3ed9a65:1198'
 // const localToken = 'f5ef04e8dead484dbb76fab40d38a7d7:1155'
 
 const checkStatus = response => {

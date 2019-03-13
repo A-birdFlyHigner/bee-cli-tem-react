@@ -32,6 +32,7 @@ module.exports = {
     'no-await-in-loop': 0,
     'no-loop-func': 0,
     'no-continue': 0,
+    'class-methods-use-this': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-static-element-interactions': 0,
