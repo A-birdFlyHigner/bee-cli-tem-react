@@ -3,6 +3,8 @@ import request from '@/utils/request';
 
 const domain = '/api';
 
+export function queryCommunityManager () {}
+
 // 获取指定类目的属性
 export async function queryCategoryPropertyDetail (params) {
   return request(`${domain}/revision/category/property/detail?${stringify(params)}`);
@@ -18,8 +20,60 @@ export async function saveCategoryPropertyPair (params) {
   });
 }
 
-export function queryCommunityManager () {
+// 总部商品排期出售中
+export async function queryHotProductList(params) {
+  return request(`${domain}/schedule/product/query/hot/list`, {
+    method: 'POST',
+    body: params,
+  });
+}
 
+// 总部商品排期已排期
+export async function querySchedulingProductList(params) {
+  return request(`${domain}/schedule/product/query/scheduling/list`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 总部商品排期预排期
+export async function queryPreScheduleProductList(params) {
+  return request(`${domain}/schedule/product/query/pre/schedule/list`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 总部商品排期未排期
+export async function queryUnScheduleProductList(params) {
+  return request(`${domain}/schedule/product/query/un/schedule/list`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 总部商品管理预排期审核
+export async function setProductReviewStatus(params) {
+  return request(`${domain}/schedule/product/set/review/status`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 总部商品管理商品撤销推广
+export async function revokeProductPromotion(params) {
+  return request(`${domain}/schedule/product/revoke/promotion`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 总部商品管理商品强制回退
+export async function forceBackProductList(params) {
+  return request(`${domain}/schedule/product/force/back`, {
+    method: 'POST',
+    body: params,
+  });
 }
 
 // 供应商商品待推广列表
@@ -134,7 +188,7 @@ export async function revokeProductSpeard(params) {
   });
 }
 
-// 商品排期
+// 分公司商品排期
 export async function addOrUpdate(params) {
   return request(`${domain}/revision/product/schedule/addOrUpdate`, {
     method: 'POST',
@@ -144,7 +198,7 @@ export async function addOrUpdate(params) {
   });
 }
 
-// 商品回退
+// 分公司商品回退
 export async function backOff(params) {
   return request(`${domain}/revision/product/schedule/backOff`, {
     method: 'POST',
@@ -154,22 +208,22 @@ export async function backOff(params) {
   });
 }
 
-// 预排期列表
+// 分公司预排期列表
 export async function listPreScheduledProduct(params) {
   return request(`${domain}/revision/product/schedule/listPreScheduledProduct?${stringify(params)}`);
 }
 
-// 已排期列表
+// 分公司已排期列表
 export async function listScheduledProduct(params) {
   return request(`${domain}/revision/product/schedule/listScheduledProduct?${stringify(params)}`);
 }
 
-// 未排期列表
+// 分公司未排期列表
 export async function listUnScheduledProduct(params) {
   return request(`${domain}/revision/product/schedule/listUnScheduledProduct?${stringify(params)}`);
 }
 
-// 修改排序
+// 分公司修改排序
 export async function updateSortNumber(params) {
   return request(`${domain}/revision/product/schedule/updateSortNumber`, {
     method: 'POST',
@@ -189,7 +243,7 @@ export async function spreadFailureProductionList(params) {
   return request(`${domain}/branch/product/spread/failure?${stringify(params)}`);
 }
 
-// 获取下拉分组
+// 分公司获取下拉分组
 export async function getProductGroupCombo(params) {
   return request(`${domain}/mini/product/group/combo`,  {
     method: 'POST',
@@ -209,7 +263,7 @@ export async function spreadReviewProduct(params) {
   });
 }
 
-// 加入分组
+// 分公司加入分组
 export async function addProductToProductGroup(params) {
   return request(`${domain}/mini/product/group/product/add`, {
     method: 'POST',

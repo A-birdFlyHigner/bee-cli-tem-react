@@ -1,6 +1,7 @@
 import React from 'react'
 import { LeDialog, LeForm } from '@lib/lepage'
 import { message } from 'antd'
+import { alladminBack } from '../../../common/commonConfig'
 
 import * as Sty from '../index.less'
 
@@ -62,7 +63,7 @@ export default {
       props: {
         type: 'primary',
         children: '批量回退',
-        onClick: setBranchList
+        onClick: alladminBack
       }
     }
   ]

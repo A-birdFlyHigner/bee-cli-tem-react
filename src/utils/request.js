@@ -24,12 +24,15 @@ const codeMessage = {
 
 let localToken = ''
 const key = 'HQBSFORSHOP'
+const { location } = window
 switch (ADMIN_TYPE) {
   case 'ADMIN':
     break;
   default:
     localToken = JSON.parse(sessionStorage[key] || '{}').token
-    // localToken = 'e4d21162804549af93de0fed8abd1ced:1200'
+    if (!localToken) {
+      location.href = `${location.origin}/#/login`
+    }
 }
 
 const checkStatus = response => {
@@ -149,7 +152,7 @@ export default function request(url, option) {
 
       if (ADMIN_TYPE !== 'ADMIN' && response.errorCode === 10010){
         sessionStorage.removeItem('HQBSFORSHOP')
-        window.location.pathname = '/login'
+        location.href = `${location.origin}/#/login`
       }
 
       message.error(response.errorMessage || response.message)
