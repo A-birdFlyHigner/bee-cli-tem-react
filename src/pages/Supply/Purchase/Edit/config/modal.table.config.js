@@ -26,30 +26,30 @@ export default {
     },
     {
       title: 'SKU编码',
-      dataIndex: 'baseSaleGoodsId',
+      dataIndex: 'skuCode',
     },
     {
       title: '主图',
-      dataIndex: 'mainImages',
+      dataIndex: 'skuImage',
       render(value, values, index) {
         return (
           <span>
-            <img src={value && value[0]} alt="主图"/>
+            <img src={value} alt="主图"/>
           </span>
         );
       },
     },
     {
       title: '商品名称',
-      dataIndex: 'name',
+      dataIndex: 'itemName',
     },
     {
-      title: 'SKU名称(字段待定)',
-      dataIndex: 'SKU_Name',
+      title: 'SKU名称',
+      dataIndex: 'skuName',
     },
     {
       title: '供应商成本价',
-      dataIndex: 'salePrice',
+      dataIndex: 'supplierPrice',
     },
   ],
 };

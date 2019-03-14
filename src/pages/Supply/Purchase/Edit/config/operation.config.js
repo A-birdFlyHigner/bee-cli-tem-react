@@ -2,51 +2,54 @@ import SearchSelect from '@/components/Rules/SearchSelect'
 import {getSupplierEmunList} from '@/services/supply'
 import moment from 'moment';
 
-export default {
-  settings: {
-    initValues: {},
-  },
-  form: {
-    inline: false,
-    layout: {
-      label: 'w120',
-      columns: 3,
+export default (params) => {
+  return {
+    settings: {
+      initValues: {},
+      values: params
     },
-  },
-  items: [
-    {
-      label: '仓库名称',
-      name: 'warehouseCode',
-      component: 'Select',
-      props: {
-        placeholder: '请选择采购订单状态',
-        options: [],
+    form: {
+      inline: false,
+      layout: {
+        label: 'w120',
+        columns: 3,
       },
     },
-    SearchSelect({
-      label: '供应商名称',
-      name: 'supplierCode',
-      placeholder: '请输入供应商名称',
-      requestService: getSupplierEmunList
-    },),
-    {
-      label: '期望入库时间',
-      name: 'expectInputTime',
-      component: 'DatePicker',
-      value: moment('2019-01-30 12:00:00'),
-      props: {
-        placeholder: '请选择期望入库时间',
+    items: [
+      {
+        label: '仓库名称',
+        name: 'warehouseCode',
+        component: 'Select',
+        props: {
+          placeholder: '请选择采购订单状态',
+          options: [],
+        },
       },
-    },
-    {
-      label: '失效时间',
-      name: 'invalidTime',
-      component: 'DatePicker',
-      value: moment('2019-01-30 12:00:00'),
-      props: {
-        placeholder: '请选择失效时间',
+      SearchSelect({
+        label: '供应商名称',
+        name: 'supplierCode',
+        placeholder: '请输入供应商名称',
+        requestService: getSupplierEmunList
+      },),
+      {
+        label: '期望入库时间',
+        name: 'expectInboundTime',
+        component: 'DatePicker',
+        value: moment(),
+        props: {
+          placeholder: '请选择期望入库时间',
+        },
       },
-    },
-  ],
-  buttons: []
-};
+      {
+        label: '失效时间',
+        name: 'loseEfficacyTime',
+        component: 'DatePicker',
+        value: moment(),
+        props: {
+          placeholder: '请选择失效时间',
+        },
+      },
+    ],
+    buttons: []
+  };
+}

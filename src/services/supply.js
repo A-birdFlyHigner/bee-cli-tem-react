@@ -178,7 +178,7 @@ export async function exportDelivery (deliverCode) {
 
 // 获取基础商品列表
 export async function getBasicItemList (params) {
-  return request(`${domain}/api/base/product/query/list`, {
+  return request(`${domain}/supplyChainCommon/listBaseSku`, {
     method: 'POST',
     body: {
       ...params,
@@ -190,8 +190,17 @@ export async function getBasicItemList (params) {
 export async function addPurchase (params) {
   return request(`${domain}/purchase/savePurchaseOrder`, {
     method: 'POST',
-    // body: params,
     body: {param: JSON.stringify(params)},
   });
 }
+
+// 编辑采购单
+export async function editPurchase (params) {
+  console.log('params', params)
+  return request(`${domain}/purchase/updatePurchaseOrder`, {
+    method: 'POST',
+    body: {param: JSON.stringify(params)},
+  });
+}
+
 
