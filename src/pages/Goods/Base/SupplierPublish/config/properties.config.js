@@ -172,6 +172,9 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
         props: {
           placeholder: '自定义',
           maxLength: 10,
+          style: {
+            minWidth: '100px'
+          },
           onPressEnter: (event) => handleAddPropertyPair(leForm, name, event, okFn)
         }
       }
@@ -188,6 +191,7 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
       selectedTagItem = {
         label: '自定义标签',
         listenKeys: [name],
+        className: 'no-form-item-custom-tag',
         when (values) {
           const pairs = getSelectedPropertyPairs(values)
           return pairs.length !== 0
@@ -216,9 +220,11 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
         name,
         component: COMPONENT_ENUMS[inputType],
         follow: true,
+        itemClassName: 'gp-properties-item',
         props: {
           ...restProps,
           required,
+          className: 'gp-properties-comp'
         },
         rules: {
           required,

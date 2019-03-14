@@ -17,6 +17,7 @@ const getCategoryConfig = () => {
               return true
           },
           props: {
+              size: 'small',
               children: '修改类目',
               onClick (err, values, leForm) {
                 // 创建商品，二次编辑分类

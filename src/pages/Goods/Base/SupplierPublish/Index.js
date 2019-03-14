@@ -8,6 +8,25 @@ import Category from './components/Category/index'
 import { SALE_PROPERTY_NAME_ID, GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './config/common.config'
 // import Sty from './Index.less'
 
+const pick = (object, paths = []) => {
+  const result = {}
+  paths.forEach(path => {
+    result[path] = object[path]
+  })
+  return result
+}
+
+const omit = (object, paths = []) => {
+  const result = {}
+  for (const key in object) {
+    if (paths.indexOf(key) === -1) {
+      result[key] = object[key]
+    }
+  }
+  return result
+}
+
+
 const DEFAULT_FORM_VALUES = {
   name: `书航商品 ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
   desc: '小区乐专卖',
@@ -34,29 +53,12 @@ const DEFAULT_FORM_VALUES = {
   ]
 }
 
-const pick = (object, paths = []) => {
-  const result = {}
-  paths.forEach(path => {
-    result[path] = object[path]
-  })
-  return result
-}
-
-const omit = (object, paths = []) => {
-  const result = {}
-  for (const key in object) {
-    if (paths.indexOf(key) === -1) {
-      result[key] = object[key]
-    }
-  }
-  return result
-}
 
 class GoodsPublish extends Component {
   constructor(props) {
     super(props);
 
-    const { itemId = null } = getPageQuery()
+    const { itemId = null, mock = false } = getPageQuery()
 
     this.state = {
       itemId,
@@ -66,23 +68,22 @@ class GoodsPublish extends Component {
       formConfig: {},
     }
 
-    // FIXME: 测试用的默认值
-    this.keepValues = {} // DEFAULT_FORM_VALUES;
+    this.keepValues = mock ? DEFAULT_FORM_VALUES : {}
   }
 
   componentWillMount () {
+    const { mock = false } = getPageQuery()
     const { itemId } = this.state
     // 编辑商品
     if (itemId) {
       this.loadGoodsDetail(itemId)
     }
-    else {
-      // // FIXME: 测试用的直接进入表单页面
-      // this.handleCategoryOK({
-      //   categoryId: 20005,
-      //   treeValues: [20006, 20040, 20041, 20005],
-      //   treeLabels: ["水产肉类/新鲜蔬果/熟食", "新鲜蔬菜/蔬菜制品", "新鲜蔬菜", "叶菜类"]
-      // })
+    else if (mock){
+      this.handleCategoryOK({
+        categoryId: 20005,
+        treeValues: [20006, 20040, 20041, 20005],
+        treeLabels: ["水产肉类/新鲜蔬果/熟食", "新鲜蔬菜/蔬菜制品", "新鲜蔬菜", "叶菜类"]
+      })
     }
   }
 
@@ -189,7 +190,7 @@ class GoodsPublish extends Component {
     const categoryProperties = await queryCategoryPropertyDetail({
       categoryId
     })
-    if (!categoryProperties) return null
+    if (!categoryProperties) return {}
 
     const formConfig = getFormConfig(categoryProperties)
 
@@ -261,7 +262,7 @@ class GoodsPublish extends Component {
 
     const form = isInit
     ?
-      <div style={{display: showCategory ? 'none' : 'block'}}>
+      <div style={{display: showCategory ? 'none' : 'block'}} className='goods-publish'>
         <LeForm
           {...formConfig}
           onMount={(leForm) => this.handleLeFormMount(leForm)}

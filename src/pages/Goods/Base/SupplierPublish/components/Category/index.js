@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Cascader, Button, message as messageApi } from 'antd'
 import PropTypes from 'prop-types'
 import { queryCategoryList } from '@/services/common';
-import './index.less'
+import Sty from './index.less';
 
 const FN = () => {}
 async function fetchData (parentId = 0) {
@@ -62,7 +62,7 @@ class Category extends Component {
     const { props, selected = null } = this
 
     if (selected === null) {
-      // TODO: 增加错误提示
+      messageApi.error('请选择商品类目')
       return
     }
 
@@ -90,14 +90,15 @@ class Category extends Component {
   render () {
     const { props, state } = this
     return (
-      <div className='category-warp'>
-        <div className='header'>
-          <span className='title'>新建基础商品/选择类目</span>
-          {/* <span className='btns'></span> */}
-          {/* <span className='msg'></span> */}
-        </div>
-        <div className='content'>
+      <div className={Sty.categoryWarp}>
+        {/* <div className={Sty.header}>
+          <span className={Sty.title}>新建基础商品/选择类目</span>
+          <span className='btns'></span>
+          <span className='msg'></span>
+        </div> */}
+        <div className={Sty.content}>
           <Cascader
+            className={Sty.cascader}
             options={state.options}
             loadData={this.loadData}
             onChange={this.handleChange}
@@ -105,13 +106,15 @@ class Category extends Component {
             autoFocus
           />
         </div>
-        <div className='footer'>
+        <div className={Sty.footer}>
           <Button
+            className={Sty.buttonCancel}
             hidden={!props.showCancel}
             onClick={this.handleCacel}
           >取消
           </Button>
           <Button
+            className={Sty.buttonOk}
             onClick={this.handleOK}
           >下一步，填写商品信息
           </Button>

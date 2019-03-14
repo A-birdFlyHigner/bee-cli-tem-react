@@ -10,9 +10,13 @@ export const FN = () => {}
 
 export const getHead = (title) => {
   return {
-  component: 'Item',
+    component: 'Item',
     render () {
-      return <div><b>{title}</b></div>
+      return (
+        <div className='gp-head'>
+          <em /><span>{title}</span>
+        </div>
+      )
     }
   }
 }
@@ -21,7 +25,7 @@ export const getTip = (msg) => {
   return {
     component: 'Item',
     render () {
-      return <div>{msg}</div>
+      return <div className='gp-tip'>{msg}</div>
     }
   }
 }
