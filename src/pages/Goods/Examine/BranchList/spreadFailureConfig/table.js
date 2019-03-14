@@ -3,9 +3,11 @@ import moment from 'moment'
 import { LeDialog } from '@lib/lepage'
 import { ImageTextCard } from '@/components/InfoCard'
 import * as Sty from '../index.less'
-
+import commonMessage from '@/static/commonMessage'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
+
+const { logisticsMethod, logisticsType } = commonMessage
 
 // 渠道商品规格详情
 const getSkuDetail = (saleUnits) => {
@@ -63,8 +65,20 @@ export default {
               value: record.name,
             },
             {
-              label: '商品Id',
-              value: record.saleGoodsId,
+              label: '品牌',
+              value: record.brandName,
+            },
+            {
+              label: '商品id',
+              value: record.baseSaleGoodsId,
+            },
+            {
+              label: '发货方式',
+              value: logisticsMethod[record.logisticsMethod],
+            },
+            {
+              label: '发货时效',
+              value: logisticsType[record.logisticsType],
             },
           ]}
         />

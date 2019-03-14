@@ -1,10 +1,18 @@
 import React from 'react'
+import router from 'umi/router'
 import { goadminRevoke } from '../../../common/commonConfig'
 import tableConfig from '../../common/table.config'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
 const { reviewStatus } = commonMessage
+
+// 进入审核详情
+const goBaseDetail = (id) => {
+  router.push({
+    pathname: `/goods/base/detail/${id}`,
+  })
+}
 
 export default {
   rowKey: 'id',
@@ -46,6 +54,8 @@ export default {
       return (
         <div className="operateBtn-container-inline">
           <a onClick={()=> goadminRevoke(record.saleGoodsId)}>撤销推广</a>
+          <span />
+          <a onClick={()=> goBaseDetail(record.saleGoodsId)}>查看</a>
         </div>
       )
     }

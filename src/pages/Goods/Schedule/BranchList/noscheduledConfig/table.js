@@ -81,11 +81,11 @@ export default {
             },
             {
               label: '品牌',
-              value: record.brandName?record.brandName:'无',
+              value: record.brandName,
             },
             {
               label: '商品id',
-              value: record.saleGoodsId,
+              value: record.baseSaleGoodsId,
             },
             {
               label: '发货方式',

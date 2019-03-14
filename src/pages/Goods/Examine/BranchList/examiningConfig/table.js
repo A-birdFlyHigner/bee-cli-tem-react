@@ -3,9 +3,12 @@ import router from 'umi/router'
 import moment from 'moment'
 import { LeDialog } from '@lib/lepage'
 import { ImageTextCard } from '@/components/InfoCard'
+import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
+
+const { logisticsMethod, logisticsType } = commonMessage
 
 // 渠道商品规格详情
 const getSkuDetail = (saleUnits) => {
@@ -50,7 +53,7 @@ const goExamine = (id) => {
 
 export default {
   rowKey: 'saleGoodsId',
-  scroll: { x: 1600 },
+  scroll: { x: 1800 },
   rowSelection: {
     selections: true,
     getCheckboxProps() {
@@ -76,8 +79,20 @@ export default {
               value: record.name,
             },
             {
-              label: '商品Id',
-              value: record.saleGoodsId,
+              label: '品牌',
+              value: record.brandName
+            },
+            {
+              label: '商品id',
+              value: record.baseSaleGoodsId,
+            },
+            {
+              label: '发货方式',
+              value: logisticsMethod[record.logisticsMethod],
+            },
+            {
+              label: '发货时效',
+              value: logisticsType[record.logisticsType],
             },
           ]}
         />
@@ -176,7 +191,7 @@ export default {
   }, {
     title: '提审时间',
     dataIndex: 'applyPromotionTime',
-    width: 100,                                                                                
+    width: 200,                                                                                
     key: 'applyPromotionTime',
     align: 'center', 
     render: (val) =>{
