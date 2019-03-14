@@ -15,7 +15,7 @@ export default (params) => {
     items: [
       {
         label: '商品类目',
-        name: 'categoryId',
+        name: 'categoryCode',
         component: 'Input',
         props: {
           placeholder: '请选择商品类目',
@@ -23,7 +23,7 @@ export default (params) => {
       },
       {
         label: '商品名称',
-        name: 'name',
+        name: 'itemName',
         component: 'Input',
         props: {
           placeholder: '请输入商品名称',
@@ -31,7 +31,7 @@ export default (params) => {
       },
       {
         label: 'SKU编码',
-        name: 'skuId',
+        name: 'skuCode',
         component: 'Input',
         props: {
           placeholder: '请输入SKU编码',

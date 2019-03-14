@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import { operationConfig, /*tableConfig*/modalFilterConfig, modalTableConfig } from './config';
-import { Modal, Button, Input } from 'antd';
+import { Modal, Button, Input, message } from 'antd';
 import './index.less';
 import router from 'umi/router';
-import {getPurchaseDetailList, addPurchase, getBasicItemList, getWarehouseEmunList} from '@/services/supply'
+import {getPurchaseDetail, getPurchaseDetailList, addPurchase, editPurchase, getBasicItemList, getWarehouseEmunList} from '@/services/supply'
 import {leListQuery} from '@/utils/utils'
+import moment from 'moment'
 
-const listConfig = {
-  filterConfig: operationConfig,
-  // tableConfig,
+/*const listConfig = {
+  filterConfig: {...operationConfig()},
   // ...leListQuery(purchaseDetailList)
-  // url: 'purchase/listPurchaseOrderDetail',
-};
+};*/
 
 const formatType = 'YYYY-MM-DD'
 const type = 'admin'
@@ -20,17 +19,31 @@ const type = 'admin'
 class PurchaseEdit extends Component {
   constructor(props) {
     super(props);
-    console.log('router', router);
+    let self = this
     this.showModal.bind(this);
     this.deleteRow.bind(this);
     this.save.bind(this);
     this.listDataSource = {}
-    this.inputData = {}
-    let self = this
     self.inputRef = {}
-    console.log('pathname', props.history.location.pathname.indexOf('detail') > -1)
-
-    const listConfigCombine = { ...listConfig };
+    self.pageType = props.history.location.pathname.indexOf('add') > -1 ? 'add': 'edit'
+    self.purchaseNo = props.location.query.purchaseNo
+    let listConfigCombine = {}
+    if (self.pageType === 'edit') {
+      listConfigCombine = {
+        filterConfig: {...operationConfig({purchaseNo: self.purchaseNo})},
+        ...leListQuery(getPurchaseDetailList)
+      };
+      listConfigCombine.filterConfig.items[1] = {
+        label: '供应商名称',
+        name: 'supplierName',
+        component: 'Input',
+      }
+    } else {
+      listConfigCombine = {
+        filterConfig: {...operationConfig(),},
+        // ...leListQuery(purchaseDetailList)
+      };
+    }
     listConfigCombine.tableConfig = {
       columns: [
         {
@@ -39,39 +52,38 @@ class PurchaseEdit extends Component {
         },
         {
           title: 'SKU编码',
-          dataIndex: 'baseSaleGoodsId',
+          dataIndex: 'skuCode',
         },
         {
           title: '主图',
-          dataIndex: 'mainImages',
+          dataIndex: 'skuImage',
           render(value, values, index) {
             return (
               <span>
-            <img src={value && value[0]} alt="主图"/>
+            <img src={value} alt="主图"/>
           </span>
             );
           },
         },
         {
           title: '商品名称',
-          dataIndex: 'name',
+          dataIndex: 'itemName',
         },
         {
-          title: 'SKU名称(字段待定)',
-          dataIndex: 'SKU_Name',
+          title: 'SKU名称',
+          dataIndex: 'skuName',
         },
         {
           title: '供应商成本价',
-          dataIndex: 'salePrice',
+          dataIndex: 'supplierPrice',
         },
         {
           title: '采购数量',
-          dataIndex: 'PurchaseQuantity',
+          dataIndex: 'expectSkuCount',
           render: (value, record, index) => {
-            return <Input
-              ref={input => self.inputRef[record.baseSaleGoodsId] = input}
+            return <Input ref={input => self.inputRef[record.skuCode] = input} defaultValue={value}
               onChange={(value)=>{
-                console.log('value', value)
+                // console.log('value', value)
               }}
             />
           }
@@ -120,19 +132,22 @@ class PurchaseEdit extends Component {
         },
       },
     ];
-    // listConfigCombine.tableConfig.columns[7] =
+    this.listConfig = {...listConfigCombine}
+    if (self.pageType === 'edit') {
+      this.listConfig = {
+        ...listConfigCombine,
+      }
+    }
 
     this.state = {
-      listConfig: listConfigCombine,
+      listConfig: this.listConfig,
       listConfigModal: {},
       modalVisible: false,
     };
 
-
   }
 
   onSelectChange = (selectedRowKeys, LeList) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys, LeList.getDataSource());
     const data = LeList.getDataSource();
     const newData = data.filter(item => {
       for (let i = 0; i < selectedRowKeys.length; i++) {
@@ -149,9 +164,11 @@ class PurchaseEdit extends Component {
     };
   };
   showModal = (error, values, core) => {
-    console.log('error, values, core', error, values, core);
     const listConfigModalCombine = {
-      filterConfig: {...modalFilterConfig({supplierCode: values.supplierCode})},
+      filterConfig: {...modalFilterConfig({
+          supplierCode: values.supplierCode,
+          warehouseCode: values.warehouseCode,
+        })},
       tableConfig: modalTableConfig,
       ...leListQuery(getBasicItemList)
     };
@@ -163,42 +180,57 @@ class PurchaseEdit extends Component {
     });
   };
   cancel = () => {
-    console.log('cancel')
     router.push('/supply/purchase/list')
   }
   save = () => {
-    // console.log('save', this.listDataSource.newData)
+    if (this.pageType === 'edit') {
+      this.listDataSource.newData = this.list.listCore.getDataSource();
+      this.listDataSource.pagination = this.list.listCore.getPageData();
+    }
+    console.log('this.listDataSource111', this.listDataSource)
     const list = this.listDataSource.newData
-    // console.log('inputRef', this.inputRef)
-    // console.log('value', this.inputRef[0].state.value)
+
+    console.log('this', this)
     const purchaseOrderDetail = list && list.map((item)=>{
-      console.log('item', item)
+      const {skuCode, skuName, skuImage, itemName, supplierPrice} = item
       return {
-        skucode: item.baseSaleGoodsId,
-        skuName: '写死',
-        skuImage: item.mainImages && item.mainImages[0],
-        itemName: item.name,
-        supplierPrice: item.salePrice,
-        expectSkuCount: this.inputRef[item.baseSaleGoodsId].state.value
+        purchaseNo: this.purchaseNo,
+        skuCode,
+        skuName,
+        skuImage,
+        itemName,
+        supplierPrice,
+        expectSkuCount: this.inputRef[item.skuCode].state.value
       }
     })
 
-    console.log('purchaseOrderDetail', purchaseOrderDetail)
-    const expectInboundTime = this.list.listCore.getFilterData().expectInboundTime
-    const loseEfficacyTime = this.list.listCore.getFilterData().loseEfficacyTime
-    console.log('expectInboundTime', expectInboundTime)
-    console.log('loseEfficacyTime', loseEfficacyTime)
+    const temp = this.list.listCore.getFilterData()
+    console.log('temp', temp)
+    const expectInboundTime = temp.expectInboundTime
+    const loseEfficacyTime = temp.loseEfficacyTime
     const saveData = {
-      supplierCode: this.list.listCore.getFilterData().supplierCode,
-      warehouseCode: this.list.listCore.getFilterData().warehouseCode,
-      expectInboundTime: expectInboundTime && moment(expectInboundTime).format(formatType),
-      loseEfficacyTime: loseEfficacyTime && moment(loseEfficacyTime).format(formatType),
+      purchaseNo: temp.purchaseNo,
+      supplierCode: temp.supplierCode,
+      warehouseCode: temp.warehouseCode,
+      expectInboundTime: expectInboundTime && moment(expectInboundTime._d).format(formatType),
+      loseEfficacyTime: loseEfficacyTime && moment(loseEfficacyTime._d).format(formatType),
       purchaseOrderDetail,
     }
-    console.log('saveData', saveData)
-    addPurchase(saveData).then(res=>{
-      console.log('res', res)
-    })
+    if (this.pageType === 'add') {
+      console.log('a')
+      addPurchase(saveData).then(res=>{
+        // console.log('res', res)
+        if (res.status === 1) {
+          message.success('保存成功')
+        }
+      })
+    } else {
+      console.log('e')
+      editPurchase(saveData).then((res,a,b)=>{
+        console.log('res,a,b', res,a,b)
+      })
+    }
+
   }
   handleOk = (e) => {
     console.log('this.listDataSource', this.listDataSource);
@@ -237,7 +269,19 @@ class PurchaseEdit extends Component {
         return {value: item.key, label: item.value}
       })
       self.list.filterCore.setProps('warehouseCode', { options: data });
+      getPurchaseDetail(this.purchaseNo).then(res=>{
+        const {warehouseCode, supplierName, supplierCode, expectInboundTime, loseEfficacyTime} = res
+        self.list.filterCore.setValues({
+          purchaseNo: this.purchaseNo,
+          warehouseCode,
+          supplierName,
+          supplierCode,
+          expectInboundTime: moment(expectInboundTime),
+          loseEfficacyTime: moment(loseEfficacyTime),
+        });
+      })
     })
+
   }
   render() {
     const { state } = this;
