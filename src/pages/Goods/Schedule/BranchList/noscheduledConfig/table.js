@@ -53,7 +53,7 @@ const getStoreInfo = (saleUnits) => {
 
 export default {
   rowKey: 'saleGoodsId',
-  scroll: { x: 1500 },
+  scroll: { x: 1800 },
   rowSelection: {
     selections: true,
     getCheckboxProps() {
@@ -99,12 +99,28 @@ export default {
         />
       )
     }
-  }, {
+  },  {
     title: '类目',
     dataIndex: 'pathName',
-    key: 'pathName',
-    align: 'center',        
-    width: 100,
+    key: 'pathName',      
+    width: 300,
+    mutipleLine: true,
+    render: (vals) => {
+      return (
+        <div>
+          {
+            vals && vals.split(',').map(
+              (item) => (
+                <span key={item}>
+                  &gt;
+                  { item }<br />
+                </span>
+              )
+            )
+          }
+        </div>
+      )
+    },
   }, {
     title: '规格',
     dataIndex: 'specifications',

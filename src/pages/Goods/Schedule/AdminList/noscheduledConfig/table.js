@@ -27,8 +27,7 @@ export default {
     ...tableConfig,  {
     title: '审核状态',
     dataIndex: 'status',
-    key: 'status',
-    align: 'center',  
+    key: 'status', 
     width: 600,       
     render: (value, record) => {
       return (
@@ -48,7 +47,7 @@ export default {
   }, {
     title: '操作',
     width: 100,
-    align: 'center', 
+    align: 'center',
     fixed: 'right',  
     render: (text, record) => {
       return (

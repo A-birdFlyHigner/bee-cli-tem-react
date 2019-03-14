@@ -28,8 +28,7 @@ export default {
     title: '审核状态',
     dataIndex: 'status',
     key: 'status',
-    width: 200,                                                           
-    align: 'center',                      
+    width: 200,                                                                                 
     render: (value, record) => {
       return (
         <div className={Sty.store}>
@@ -47,8 +46,8 @@ export default {
     }
   }, {
     title: '操作',
-    width: 100,
-    align: 'center', 
+    width: 100, 
+    align: 'center',
     fixed: 'right',                   
     render: (text, record) => {
       return (

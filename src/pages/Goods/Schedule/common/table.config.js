@@ -52,8 +52,7 @@ export default
         dataIndex: 'saleGoodsId',
         key: 'saleGoodsId',
         singleLine: true,
-        width: 300,        
-        align: 'center',             
+        width: 300,                     
       }, {
         title: '基础信息',
         key: 'baseInfo',
@@ -91,15 +90,30 @@ export default
       }, {
         title: '类目',
         dataIndex: 'pathName',
-        key: 'pathName',
-        align: 'center',      
+        key: 'pathName',      
         width: 300,
+        mutipleLine: true,
+        render: (vals) => {
+          return (
+            <div>
+              {
+                vals && vals.split(',').map(
+                  (item) => (
+                    <span key={item}>
+                      &gt;
+                      { item }<br />
+                    </span>
+                  )
+                )
+              }
+            </div>
+          )
+        },
       }, {
         title: '规格',
         dataIndex: 'specifications',
         key: 'specifications',
-        width: 100,           
-        align: 'center',                    
+        width: 100,                               
         render: (val, record) => {
           return(
             <span>
@@ -111,8 +125,7 @@ export default
       }, {
         title: '价格信息',
         dataIndex: 'price',
-        key: 'price',
-        align: 'center',  
+        key: 'price',  
         width: 300,                                 
         render: (values,record) => {
           return (
@@ -128,8 +141,7 @@ export default
       }, {
         title: '出售时间',
         dataIndex: 'scheduleTime',
-        key: 'scheduleTime',
-        align: 'center',     
+        key: 'scheduleTime',     
         width: 240,                    
         render: (value,record) => {
           return (
@@ -141,8 +153,7 @@ export default
       }, {
         title: '库存信息',
         dataIndex: 'storeInfo',
-        key: 'storeInfo',
-        align: 'center',    
+        key: 'storeInfo',    
         width: 300,                                   
         render: (value,record) => {
           return (
@@ -156,8 +167,7 @@ export default
       }, {
         title: '地址信息',
         dataIndex: 'addressInfo',
-        key: 'addressInfo',
-        align: 'center',    
+        key: 'addressInfo',    
         width: 600,                                   
         render: (value,record) => {
           return (
