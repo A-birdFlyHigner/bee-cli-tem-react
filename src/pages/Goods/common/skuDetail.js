@@ -27,7 +27,7 @@ export default class SkuDetail extends Component {
           key: 'propertyPairList',
           align: 'center',
           render: (text, record) => {
-            const info = text.map(p => p.pnName)
+            const info = text.map(p => p.pvName)
             const { saleStatus } = record
             const StopSale = <span className='globalRed'>（停售）</span>
             return (

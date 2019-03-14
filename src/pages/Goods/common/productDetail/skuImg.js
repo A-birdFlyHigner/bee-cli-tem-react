@@ -2,13 +2,21 @@ import React from 'react'
 import Sty from './index.less'
 import ImgPreview from '@/components/ImgPreview'
 
+const whenFun = (values) => {
+  const {saleUnitImages = []} = values
+  return !!saleUnitImages.length
+}
+
 export default [
   {
     label: 'sku主图',
     className: 'box-header',
-    render () {
-      return <span className={Sty.headerSpan}>（销售属性项：颜色）</span>
-    }
+    render (values) {
+      const {saleUnitImages = []} = values
+      const first = saleUnitImages.length ? saleUnitImages[0] : ''
+      return first ? <span className={Sty.headerSpan}>（销售属性项：{first.pnName}）</span> : ''
+    },
+    when: whenFun
   }, {
     name: 'saleUnitImages',
     value: [],
@@ -20,7 +28,7 @@ export default [
             saleUnitImages.map((item) => {
               return (
                 <div className={Sty.imgInline} key={item.id}>
-                  <span>{ item.propertyPairId }：</span>
+                  <span>{ item.pvName }：</span>
                   <ImgPreview url={item.url} />
                 </div>
               )
@@ -28,6 +36,7 @@ export default [
           }
         </div>
       )
-    }
+    },
+    when: whenFun
   }
 ]
