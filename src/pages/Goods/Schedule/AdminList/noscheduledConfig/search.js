@@ -85,7 +85,7 @@ export default {
       deep: 2,
     }),
     {
-      label: 'skuId',
+      label: '渠道skuId',
       name: 'skuId',
       component: 'Input',
       rules: {

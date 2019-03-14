@@ -76,12 +76,17 @@ export async function forceBackProductList(params) {
   });
 }
 
+// 总部商品管理基础商品详情
+export async function getAdminProductDetail(params) {
+  return request(`${domain}/base/product/detail?${stringify(params)}`);
+}
+
 // 供应商商品待推广列表
 export async function queryProductSpreadList(params) {
   return request(`${domain}/product/spread/wait/query?${stringify(params)}`);
-// 发布商品
 }
 
+// 发布商品
 export async function publishGoods (params) {
   return request(`${domain}/revision/product/create`, {
     method: 'POST',

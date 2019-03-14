@@ -47,12 +47,12 @@ const tabelColumns = core => {
       width: 120,
       align: 'center',
       render: (text, row) => {
-        const info = text.map(p => p.pnName)
+        const info = text.map(p => p.pvName)
         const isStop = <span className='globalRed'>（停售）</span>
         return (
           <div>
-            {row.saleStatus === 0 ? isStop : null}
-            <span>{info.join('&')}</span>
+            {row.status === 0 ? isStop : null}
+            <span>{info.join('&') || '默认'}</span>
           </div>
         )
       }

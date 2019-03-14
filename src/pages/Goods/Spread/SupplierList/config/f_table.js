@@ -100,7 +100,6 @@ export default {
       title: '规格',
       dataIndex: 'saleUnits',
       width: 100,
-      align: 'center',
       render: (saleUnits, record) => {
         return (
           <span>
@@ -115,7 +114,6 @@ export default {
       title: '价格信息',
       dataIndex: 'salePrice',
       width: 200,
-      align: 'center',
     },
     {
       title: '库存信息',
@@ -149,7 +147,6 @@ export default {
       title: '提交推广时间',
       dataIndex: 'applyPromotionTime',
       width: 200,
-      align: 'center',
       render: (val) => {
         return (
           <div>
@@ -162,7 +159,6 @@ export default {
       title: '审核时间',
       dataIndex: 'reviewTime',
       width: 200,
-      align: 'center',
       render: (val) => {
         return (
           <div>
@@ -175,7 +171,6 @@ export default {
       title: '原因',
       dataIndex: 'promotionFailureReason',
       width: 600,
-      align: 'center',
     },
     {
       title: '操作',

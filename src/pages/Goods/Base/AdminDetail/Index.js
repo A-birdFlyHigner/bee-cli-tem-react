@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { LeForm } from '@lib/lepage'
-import {queryBranchProductSpreadDetail} from '@/services/goods'
+import {getAdminProductDetail} from '@/services/goods'
 import {
   onChange,
   baseInfo,
   salseInfo,
-  salseEdit,
   logistics,
   wareHouse,
   skuMainImg,
@@ -34,8 +33,6 @@ export default class Detail extends Component {
         items: [
           ...baseInfo,
           ...salseInfo,
-          salseEdit(),
-          salseEdit(true),
           ...logistics,
           ...wareHouse,
           ...skuMainImg,
@@ -49,7 +46,7 @@ export default class Detail extends Component {
   onMountLeForm = (formCore) => {
     this.formCore = formCore
     const {productId} = this.state
-    queryBranchProductSpreadDetail({channelProductId: productId, productId}).then(res => {
+    getAdminProductDetail({productId}).then(res => {
       if (!res) return
       formCore.setValues(res)
     })

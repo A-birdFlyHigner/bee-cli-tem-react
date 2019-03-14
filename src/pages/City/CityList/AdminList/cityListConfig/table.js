@@ -4,7 +4,7 @@ import router from 'umi/router'
 // 查看详情 TODO：点击查看城市排期详情
 const goCityDetail = () => {
   router.push({
-    pathname: '/goods/base/detail/:id',
+    // pathname: '/goods/base/detail/:id',
   })
 }
 

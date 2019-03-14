@@ -16,7 +16,7 @@ const tabelColumns = () => {
     align: 'center',
     width: 220,
     render: (val) => {
-      const list = val.map(p => p.pnName)
+      const list = val.map(p => p.pvName)
       return <span>{list.join('-') || '默认'}</span>
     }
   }, {

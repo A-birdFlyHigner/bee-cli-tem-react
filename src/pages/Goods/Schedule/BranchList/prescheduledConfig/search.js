@@ -88,7 +88,7 @@ export default {
       placeholder: ['请选择开始时间', '请选择结束时间'],
     }),
     {
-      label: 'skuId',
+      label: '渠道skuId',
       name: 'skuId',
       component: 'Input',
       rules: {

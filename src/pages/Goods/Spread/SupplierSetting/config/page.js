@@ -138,6 +138,10 @@ export default class Detail extends Component {
             })
           }
         })
+        branchList = branchList.filter(item => {
+          return item.children.length
+        })
+        if (!branchList) return message.warning('请选择有效推广渠道')
         const cityIds = []
         const spreadName = branchList.map(p => {
           const cityName = p.children.map(q => {
@@ -146,7 +150,7 @@ export default class Detail extends Component {
           }).join('、')
           return `${p.title}（${cityName}）`
         }).join('；')
-        if (!cityIds.length) return message.warning('推广渠道，选择到市')
+        if (!cityIds.length) return message.warning('请选择有效推广渠道')
         const {spreadList, productIds} = this.state
         this.setState({
           spreadList: [
@@ -171,25 +175,22 @@ export default class Detail extends Component {
     for (const i of keys) {
       const item = this.leForm[i]
       const errors = await item.validate()
-      if (errors) {
-        if (isError) {
-          const msg = errors[Object.keys(errors)[0]]
-          message.warning(msg)
-        }
+      if (errors && !isError) {
+        const msg = errors[Object.keys(errors)[0]]
+        message.warning(msg)
         isError = true
-      } 
+      }
       else if (!isError) {
         item.value.productIds.forEach(p => {
           const list = item.value[`dataSource${p}`]
-
           list.forEach((q) => {
             const { costPrice, stockCount } = q
             if (!costPrice || !stockCount) {
               const { value: { spreadName } = {} } = item
               if (!isError) {
                 message.warning(`请完善${spreadName}下的商品成本价和推广库存`) 
+                isError = true
               }
-              isError = true
             }
           })
         })
@@ -203,7 +204,7 @@ export default class Detail extends Component {
   }
 
   handleSubInfo = async () => {
-    const createList = []
+    let createList = []
     const {productIds, edit = false} = this.state
     productIds.forEach(pId => {
       const citySpreadDetailList = []
@@ -211,32 +212,47 @@ export default class Detail extends Component {
 
       for (const i of keys) {
         const item = this.leForm[i].value
-        item.cityIds.forEach(cId => {
-          citySpreadDetailList.push({
-            cityCode: cId,
-            dispatchDate: item.dispatchDate,
-            logisticsMethod: item.logisticsMethod,
-            logisticsType: item.logisticsType,
-            spreadSkuList: item[`dataSource${pId}`]
+        if (item.productIds.indexOf(pId) > -1) {
+          item.cityIds.forEach(cId => {
+            citySpreadDetailList.push({
+              cityCode: cId,
+              dispatchDate: item.dispatchDate,
+              logisticsMethod: item.logisticsMethod,
+              logisticsType: item.logisticsType,
+              spreadSkuList: item[`dataSource${pId}`].map(sku => {
+                return {
+                  ...sku,
+                  costPrice: sku.costPrice * 100
+                }
+              })
+            })
           })
-        })
+        }
       }
       createList.push({
         productId: pId,
         citySpreadDetailList
       })
     })
+    createList = createList.filter(item => {
+      return item.citySpreadDetailList.length
+    })
+    if (!createList.length) {
+      this.setState({ addBtnLoading: false })
+      message.warning('请添加推广信息')
+      return false
+    }
     if (edit) {
       const res = await productSpreadUpdate(createList[0])
       if (!res) {
         this.setState({ addBtnLoading: false })
-        return
+        return false
       }
     } else {
       const res = await productSpreadCreate(createList)
       if (!res) {
         this.setState({ addBtnLoading: false })
-        return
+        return false
       }
     }
     message.success('已提交，请等待审核')

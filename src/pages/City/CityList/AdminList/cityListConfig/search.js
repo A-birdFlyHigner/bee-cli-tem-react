@@ -12,22 +12,11 @@ export default {
     }),
     {
       label: '所属分公司',
-      name: 'branchCompanyName',
-      component: 'Select',
+      name: 'partnerCompanyId',
+      component: 'Input',
       props: {
-        placeholder: '请选择分公司',
-        options: [{
-          label: '分公司1',
-          value: 1,
-        }, {
-          label: '分公司2',
-          value: 2
-        }]
+        placeholder: '请输入所属分公司',
       },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 3
-      }
     },
   ],
   buttons: [{

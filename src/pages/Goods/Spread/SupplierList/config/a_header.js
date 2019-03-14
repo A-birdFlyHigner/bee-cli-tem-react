@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { LeDialog } from '@lib/lepage';
+import router from 'umi/router';
 import {productSpreadRevoke} from '@/services/goods'
 
 const batchCancelSpread = (err, values, formCore, listCore) => {
@@ -32,6 +33,16 @@ export default {
         type: 'primary',
         children: '批量撤销推广',
         onClick: batchCancelSpread,
+      },
+    },
+    {
+      component: 'Button',
+      props: {
+        type: 'primary',
+        children: '新增商品',
+        onClick: () => {
+          router.push('/goods/publish')
+        },
       },
     },
   ],

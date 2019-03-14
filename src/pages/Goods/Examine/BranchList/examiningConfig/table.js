@@ -3,9 +3,12 @@ import router from 'umi/router'
 import moment from 'moment'
 import { LeDialog } from '@lib/lepage'
 import { ImageTextCard } from '@/components/InfoCard'
+import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
+
+const { logisticsMethod, logisticsType } = commonMessage
 
 // 渠道商品规格详情
 const getSkuDetail = (saleUnits) => {
@@ -50,7 +53,7 @@ const goExamine = (id) => {
 
 export default {
   rowKey: 'saleGoodsId',
-  scroll: { x: 1600 },
+  scroll: { x: 1800 },
   rowSelection: {
     selections: true,
     getCheckboxProps() {
@@ -76,8 +79,20 @@ export default {
               value: record.name,
             },
             {
-              label: '商品Id',
-              value: record.saleGoodsId,
+              label: '品牌',
+              value: record.brandName
+            },
+            {
+              label: '商品id',
+              value: record.baseSaleGoodsId,
+            },
+            {
+              label: '发货方式',
+              value: logisticsMethod[record.logisticsMethod],
+            },
+            {
+              label: '发货时效',
+              value: logisticsType[record.logisticsType],
             },
           ]}
         />
@@ -87,7 +102,7 @@ export default {
     title: '类目',
     dataIndex: 'pathName',
     key: 'pathName',
-    align: 'center',     
+    align: 'left',     
     width: 200,                                                       
     mutipleLine: true,
     render: (vals) => {
@@ -110,8 +125,8 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
-    width: 100,                                                       
-    align: 'center',     
+    width: 150,                                                       
+    align: 'left',     
     render: (val, record) => {
       return(
         <span>
@@ -124,8 +139,8 @@ export default {
     title: '价格信息',
     dataIndex: 'price',
     key: 'price',
-    width: 280,                                                       
-    align: 'center',     
+    width: 250,                                                       
+    align: 'left',     
     render: (val, record) => {
       return (
         <div className={Sty.prices}>
@@ -141,15 +156,15 @@ export default {
     title: '推广城市',
     dataIndex: 'cityName',
     key: 'cityName',
-    align: 'center',     
-    width: 100,                                                           
+    align: 'left',     
+    width: 150,                                                           
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
     key: 'storeInfo',
-    align: 'center',     
-    width: 280,                                                               
+    align: 'left',     
+    width: 240,                                                               
     render: (val, record) => {
       return (
         <div className={Sty.store}>
@@ -163,22 +178,22 @@ export default {
     title: '店铺名称',
     dataIndex: 'sellerMainName',
     key: 'sellerMainName',
-    align: 'center',   
-    width: 100,                                                                     
+    align: 'left',   
+    width: 140,                                                                     
     singleLine: true,
   }, {
     title: '店铺Id',
     dataIndex: 'sellerMainId',
     key: 'sellerMainId',
-    align: 'center',  
+    align: 'left',  
     width: 100,                                                                            
     singleLine: true,
   }, {
     title: '提审时间',
     dataIndex: 'applyPromotionTime',
-    width: 100,                                                                                
+    width: 200,                                                                                
     key: 'applyPromotionTime',
-    align: 'center', 
+    align: 'left', 
     render: (val) =>{
       return (
         <div> 

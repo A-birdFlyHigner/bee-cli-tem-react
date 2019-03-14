@@ -12,9 +12,9 @@ import { backOff, addOrUpdate, updateSortNumber, getProductGroupCombo, addProduc
 const { RangePicker } = DatePicker
 
 // rangepicker的 时间禁用 
-const disabledDate = (current) => {
-  return current && current < moment().endOf('day')
-}
+// const disabledDate = (current) => {
+//   return current && current < moment().endOf('day')
+// }
 
 // 过滤
 const filterData = (input, option) => {
@@ -82,7 +82,6 @@ export function dialogFormSetTimeConfig(count) {
                 count?<div>已批量选中{count}个商品，确定批量排期？</div>:null
               }
               <RangePicker
-                disabledDate={disabledDate}
                 placeholder={['开始时间','结束时间']}
                 onChange={e => changeTime(e,leFormCore)}
                 className='scheduleRange'

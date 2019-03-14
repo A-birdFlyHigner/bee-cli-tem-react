@@ -149,6 +149,14 @@ export default function request(url, option) {
       if (String(response.status) === '1') {
         return response.data
       }
+      const result = response.data
+      if(ADMIN_TYPE === 'ADMIN' 
+        && typeof result === 'string' 
+        && result.indexOf("<script>") !== -1 
+        && result.indexOf("</script>") !== -1) {
+        eval(result.replace("<script>",""))
+        return null
+      }
 
       if (ADMIN_TYPE !== 'ADMIN' && response.errorCode === 10010){
         sessionStorage.removeItem('HQBSFORSHOP')

@@ -24,7 +24,7 @@ const renderTreeNodes = data =>
   });
 
 export default (channelList, disabledCitys = []) => {
-  const treeData = channelList.map((item, index) => {
+  let treeData = channelList.map((item, index) => {
     return {
       title: item.companyName,
       key: String(index),
@@ -37,6 +37,13 @@ export default (channelList, disabledCitys = []) => {
           disabled
         }
       })
+    }
+  })
+  treeData = treeData.map(item => {
+    const canSel = item.children.filter(p => !p.disabled)
+    return {
+      ...item,
+      disabled: !canSel.length,
     }
   })
   return {
