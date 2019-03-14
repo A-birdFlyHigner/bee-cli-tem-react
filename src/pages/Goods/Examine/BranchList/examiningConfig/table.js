@@ -102,7 +102,7 @@ export default {
     title: '类目',
     dataIndex: 'pathName',
     key: 'pathName',
-    align: 'center',     
+    align: 'left',     
     width: 200,                                                       
     mutipleLine: true,
     render: (vals) => {
@@ -125,8 +125,8 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
-    width: 100,                                                       
-    align: 'center',     
+    width: 150,                                                       
+    align: 'left',     
     render: (val, record) => {
       return(
         <span>
@@ -139,8 +139,8 @@ export default {
     title: '价格信息',
     dataIndex: 'price',
     key: 'price',
-    width: 280,                                                       
-    align: 'center',     
+    width: 250,                                                       
+    align: 'left',     
     render: (val, record) => {
       return (
         <div className={Sty.prices}>
@@ -156,15 +156,15 @@ export default {
     title: '推广城市',
     dataIndex: 'cityName',
     key: 'cityName',
-    align: 'center',     
-    width: 100,                                                           
+    align: 'left',     
+    width: 150,                                                           
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
     key: 'storeInfo',
-    align: 'center',     
-    width: 280,                                                               
+    align: 'left',     
+    width: 240,                                                               
     render: (val, record) => {
       return (
         <div className={Sty.store}>
@@ -178,14 +178,14 @@ export default {
     title: '店铺名称',
     dataIndex: 'sellerMainName',
     key: 'sellerMainName',
-    align: 'center',   
-    width: 100,                                                                     
+    align: 'left',   
+    width: 140,                                                                     
     singleLine: true,
   }, {
     title: '店铺Id',
     dataIndex: 'sellerMainId',
     key: 'sellerMainId',
-    align: 'center',  
+    align: 'left',  
     width: 100,                                                                            
     singleLine: true,
   }, {
@@ -193,7 +193,7 @@ export default {
     dataIndex: 'applyPromotionTime',
     width: 200,                                                                                
     key: 'applyPromotionTime',
-    align: 'center', 
+    align: 'left', 
     render: (val) =>{
       return (
         <div> 
