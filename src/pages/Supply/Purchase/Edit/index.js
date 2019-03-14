@@ -8,7 +8,6 @@ import './index.less';
 import router from 'umi/router';
 import {getPurchaseDetail, getPurchaseDetailList, addPurchase, editPurchase, getBasicItemList, getWarehouseEmunList} from '@/services/supply'
 
-
 const formatType = 'YYYY-MM-DD'
 
 class PurchaseEdit extends Component {
@@ -53,7 +52,7 @@ class PurchaseEdit extends Component {
           title: '主图',
           dataIndex: 'skuImage',
           render(value) {
-            return (<span><img src={value} alt="主图" /></span>)
+            return (<span><img style={{width: '100px'}} src={value} alt="主图" /></span>)
           },
         },
         {
@@ -86,7 +85,15 @@ class PurchaseEdit extends Component {
           width: '80px',
           render(value, values) {
             return (
-              <div><a onClick={()=>{self.deleteRow(values)}}>删除</a></div>
+              <div>
+                <a onClick={(e)=>{
+                  e.preventDefault()
+                  self.deleteRow(values)
+                }}
+                >
+                  删除
+                </a>
+              </div>
             );
           },
         }
@@ -145,17 +152,19 @@ class PurchaseEdit extends Component {
         return {value: item.key, label: item.value}
       })
       self.list.filterCore.setProps('warehouseCode', { options: data });
-      getPurchaseDetail(this.purchaseNo).then(resp=>{
-        const {warehouseCode, supplierName, supplierCode, expectInboundTime, loseEfficacyTime} = resp
-        self.list.filterCore.setValues({
-          purchaseNo: this.purchaseNo,
-          warehouseCode,
-          supplierName,
-          supplierCode,
-          expectInboundTime: moment(expectInboundTime),
-          loseEfficacyTime: moment(loseEfficacyTime),
-        });
-      })
+      if (self.pageType === 'edit') {
+        getPurchaseDetail(this.purchaseNo).then(resp=>{
+          const {warehouseCode, supplierName, supplierCode, expectInboundTime, loseEfficacyTime} = resp
+          self.list.filterCore.setValues({
+            purchaseNo: this.purchaseNo,
+            warehouseCode,
+            supplierName,
+            supplierCode,
+            expectInboundTime: moment(expectInboundTime),
+            loseEfficacyTime: moment(loseEfficacyTime),
+          });
+        })
+      }
     })
 
   }
@@ -179,6 +188,15 @@ class PurchaseEdit extends Component {
   };
 
   showModal = (error, values) => {
+    if (!values.warehouseCode) {
+      message.error('仓库不能为空')
+      return
+    }
+    if (!values.supplierCode) {
+      message.error('供应商不能为空')
+      return
+    }
+
     const listConfigModalCombine = {
       filterConfig: {...modalFilterConfig({
           supplierCode: values.supplierCode,
@@ -208,21 +226,30 @@ class PurchaseEdit extends Component {
     const list = this.listDataSource.newData
 
     console.log('this', this)
+    let errFlag = false
     const purchaseOrderDetail = list && list.map((item)=>{
       const {skuCode, skuName, skuImage, itemName, supplierPrice} = item
-      return {
-        purchaseNo: this.purchaseNo,
-        skuCode,
-        skuName,
-        skuImage,
-        itemName,
-        supplierPrice,
-        expectSkuCount: this.inputRef[item.skuCode].state.value
+      if (!this.inputRef[item.skuCode].state.value) {
+        message.error('采购数量不能为空')
+        errFlag = true
+      } else{
+        return {
+          purchaseNo: this.purchaseNo,
+          skuCode,
+          skuName,
+          skuImage,
+          itemName,
+          supplierPrice,
+          expectSkuCount: this.inputRef[item.skuCode].state.value
+        }
       }
     })
 
+    if (errFlag) {
+      return
+    }
+
     const temp = this.list.listCore.getFilterData()
-    console.log('temp', temp)
     const {expectInboundTime} = temp
     const {loseEfficacyTime} = temp
     const saveData = {
@@ -234,23 +261,23 @@ class PurchaseEdit extends Component {
       purchaseOrderDetail,
     }
     if (this.pageType === 'add') {
-      console.log('a')
-      addPurchase(saveData).then(res=>{
-        // console.log('res', res)
-        if (res.status === 1) {
+      addPurchase(saveData).then((res)=>{
+        console.log('res', res)
+        if (res && res.status === 1) {
           message.success('保存成功')
         }
       })
     } else {
-      console.log('e')
-      editPurchase(saveData).then((res,a,b)=>{
-        console.log('res,a,b', res,a,b)
+      editPurchase(saveData).then((res)=>{
+        if (res && res.status === 1) {
+          message.success('保存成功')
+        }
       })
     }
 
   }
 
-  handleOk = (e) => {
+  handleOk = () => {
     console.log('this.listDataSource', this.listDataSource);
     this.list.listCore.setDataSource(this.listDataSource.newData);
     this.list.listCore.setPageData(this.listDataSource.pagination);
@@ -299,7 +326,7 @@ class PurchaseEdit extends Component {
           width="80%"
           destroyOnClose
         >
-          <LeList {...state.listConfigModal} ref={list => this.modalList = list} />
+          <LeList {...state.listConfigModal} ref={modalList => this.modalList = modalList} />
         </Modal>
       </div>
     );

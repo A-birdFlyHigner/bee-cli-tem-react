@@ -24,7 +24,7 @@ export default (options = {}) => {
       }
       const selectOptions = await requestService(params).then(res => {
 
-        return res.map(item => {return {value: item.key, label: item.value}})
+        return res && res.map(item => {return {value: item.key, label: item.value}})
       });
 
       console.log('selectOptions', selectOptions)

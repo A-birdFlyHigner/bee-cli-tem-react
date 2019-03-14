@@ -17,8 +17,9 @@ class List extends Component {
     super(props);
     this.state = {
       listConfig,
-    };
+    }
   }
+
   componentDidMount() {
     const self = this
     getWarehouseEmunList().then((res)=>{
@@ -28,6 +29,7 @@ class List extends Component {
       self.list.filterCore.setProps('warehouseCode', { options: data });
     })
   }
+
   render() {
     const { state } = this;
     return <LeList {...state.listConfig} ref={list => this.list = list} />;

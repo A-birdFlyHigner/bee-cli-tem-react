@@ -40,6 +40,14 @@ export async function getVillageEmunList (params) {
   });
 }
 
+// 模糊查询商品枚举列表
+export async function getGoodsEmunList (params) {
+  return request(`${domain}/supplyChainCommon/likeSearch/itemName`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
 // 获取采购单基础信息
 export async function getPurchaseDetail (purchaseNo) {
   return request(`${domain}/purchase/getPurchaseOrder`, {
@@ -155,16 +163,6 @@ export async function getExportDeliveryList (params) {
     body: params,
   });
 }
-/*
-// 获取配送单详情列表
-export async function exportDelivery (params) {
-  return request(`${domain}/miniDeliverNote/exportForWarehouse`, {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
-}*/
 
 // 配送单导出
 export async function exportDelivery (deliverCode) {
@@ -196,11 +194,16 @@ export async function addPurchase (params) {
 
 // 编辑采购单
 export async function editPurchase (params) {
-  console.log('params', params)
   return request(`${domain}/purchase/updatePurchaseOrder`, {
     method: 'POST',
     body: {param: JSON.stringify(params)},
   });
 }
 
-
+// 下载关联的销售订单
+export async function exportPurchaseOrder (purchaseNo) {
+  window.open(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, "_blank");
+  // return request(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, {
+  //   method: 'GET',
+  // });
+}

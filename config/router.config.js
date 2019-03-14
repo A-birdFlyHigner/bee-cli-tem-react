@@ -114,16 +114,19 @@ export default [
             path: '/supply/purchase/detail',
             name: '采购单详情',
             component: './Supply/Purchase/Detail',
+            hideInMenu: true,
           },
           {
             path: '/supply/purchase/add',
             name: '采购单添加',
             component: './Supply/Purchase/Edit',
+            hideInMenu: true,
           },
           {
             path: '/supply/purchase/edit',
             name: '采购单编辑',
             component: './Supply/Purchase/Edit',
+            hideInMenu: true,
           },
           {
             path: '/supply/input/list',
@@ -139,6 +142,7 @@ export default [
             path: '/supply/delivery/detail',
             name: '配送单详情',
             component: './Supply/Delivery/Detail',
+            hideInMenu: true,
           },
           {
             path: '/supply/output/list',

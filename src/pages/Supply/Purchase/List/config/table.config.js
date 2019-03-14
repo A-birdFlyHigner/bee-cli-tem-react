@@ -1,13 +1,16 @@
 import React from 'react';
 import {Tooltip, Icon, Modal} from 'antd'
 import moment from 'moment'
+import {exportPurchaseOrder} from '@/services/supply'
 
 const formatType = 'YYYY-MM-DD HH:mm:ss'
 
 const {confirm} = Modal
 
 const download = values => {
-  console.log('download', values)
+  exportPurchaseOrder(values.purchaseNo).then(res=>{
+    console.log('res', res)
+  })
 };
 
 const cancelConfirm = values => {
@@ -117,8 +120,9 @@ export default {
       render(value, values, index) {
         return (
           <div>
-            <span>{value}</span>;
-            <a href="javascript:;" onClick={download.bind(null, values)} >下载</a>;
+            <span>{value}</span>
+            { value ? <a href="javascript:;" onClick={download.bind(null, values)} >下载</a> : null}
+
           </div>
         );
       },
