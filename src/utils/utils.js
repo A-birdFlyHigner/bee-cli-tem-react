@@ -3,6 +3,25 @@ import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
 
+// 强制保留2位小数，如：2，会在2后面补上00.即2.00 
+export function toDecimal2 (x) {
+  let f = parseFloat(x);
+  if (Number.isNaN(f)) {
+    return '';
+  }
+  f = Math.round(x * 100) / 100;
+  let s = f.toString();
+  let rs = s.indexOf('.');
+  if (rs < 0) {
+    rs = s.length;
+    s += '.';
+  }
+  while (s.length <= rs + 2) {
+    s += '0';
+  }
+  return s;
+}
+
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
 }

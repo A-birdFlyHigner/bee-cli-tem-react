@@ -2,9 +2,10 @@ import moment from 'moment';
 import router from 'umi/router';
 import { message as messageApi } from 'antd'
 import { GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './common.config'
-import { trim, pick, omit, emptyFn } from '../utils'
+import { trim, pick, omit, emptyFn, Cache } from '../utils'
 import { publishGoods } from '@/services/goods';
 
+const actionCache = Cache.manage('action')
 const isAMomentObject = '_isAMomentObject'
 
 const getPropertyList = (values, prefix) => {
@@ -176,17 +177,9 @@ const getFormatValues = (values, leForm) => {
 }
 
 const handleSubmit = async (err, values, leForm) => {
+  actionCache.set('isSubmit', true)
+
   if (err) return
-
-  const { has69, skus } = values
-
-  // 校验69码
-  if (has69) {
-    const deliverCodes = skus.map(sku => (sku.deliverCode || '').trim())
-    if (deliverCodes.indexOf('') !== -1) {
-      leForm.setError('skus', '发货编码不能为空')
-    }
-  }
 
   leForm.setProps('footer-submit-button', {
     loading: true
@@ -196,6 +189,7 @@ const handleSubmit = async (err, values, leForm) => {
   const resData = await publishGoods(params)
 
   if (resData) {
+    leForm.clearCache()
     messageApi.success('商品创建成功，正在跳转商品列表页！')
     setTimeout(() => {
       router.push('/goods/base/list')
