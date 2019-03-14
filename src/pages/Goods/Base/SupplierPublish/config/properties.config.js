@@ -1,6 +1,6 @@
 import React from 'react'
 import { message as messageApi, Tag } from 'antd';
-import { FN } from './common.config'
+import { emptyFn } from '../utils'
 import { saveCategoryPropertyPair } from '@/services/goods'
 
 // 属性值输入类型枚举
@@ -26,7 +26,7 @@ const MESSAGE_PREFIX = {
 }
 
 // 添加属性对
-const handleAddPropertyPair = async (leForm, name, event, okFn = FN) => {
+const handleAddPropertyPair = async (leForm, name, event, okFn = emptyFn) => {
   const { target = {} } = event
   if (target.disabled) return
 
@@ -76,7 +76,7 @@ const handleAddPropertyPair = async (leForm, name, event, okFn = FN) => {
     target.value = ''
     setTimeout (() => {
       target.focus();
-    }, 200)
+    }, 300)
 
     okFn()
   }
@@ -84,7 +84,7 @@ const handleAddPropertyPair = async (leForm, name, event, okFn = FN) => {
 }
 
 // 删除属性对
-const handleRemPropertyPair = (leForm, name, propertyPairId, okFn = FN) => {
+const handleRemPropertyPair = (leForm, name, propertyPairId, okFn = emptyFn) => {
   // update props
   const { options = [] } = leForm.getProps(name)
   const propertyPairs = options.filter(({ value }) => value !== propertyPairId)
@@ -101,14 +101,14 @@ const handleRemPropertyPair = (leForm, name, propertyPairId, okFn = FN) => {
 }
 
 // 修改属性对值
-const handleChangeValue = (leForm, name, value, okFn = FN) => {
+const handleChangeValue = (leForm, name, value, okFn = emptyFn) => {
   leForm.setValue(name, value)
   okFn()
 }
 
 // 属性项包装
 const getPropertiesWrap = (leForm, properties = [], options = {}) => {
-  const { okFn = FN, namePrefix = 'pnId' } = options
+  const { okFn = emptyFn, namePrefix = 'pnId' } = options
   const result = properties.map(property => {
     const {
       propertyName: label,

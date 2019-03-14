@@ -2,35 +2,10 @@ import moment from 'moment';
 import router from 'umi/router';
 import { message as messageApi } from 'antd'
 import { GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './common.config'
+import { trim, pick, omit, emptyFn } from '../utils'
 import { publishGoods } from '@/services/goods';
 
-const emptyFormatFn = (arg) => arg
 const isAMomentObject = '_isAMomentObject'
-
-const trim = (value = '') => {
-  if (typeof value !== 'string') {
-    return value
-  }
-  return value.trim()
-}
-
-const pick = (object, paths = []) => {
-  const result = {}
-  paths.forEach(path => {
-    result[path] = object[path]
-  })
-  return result
-}
-
-const omit = (object, paths = []) => {
-  const result = {}
-  for (const key in object) {
-    if (paths.indexOf(key) === -1) {
-      result[key] = object[key]
-    }
-  }
-  return result
-}
 
 const getPropertyList = (values, prefix) => {
   const list = []
@@ -85,7 +60,7 @@ const getPropertyList = (values, prefix) => {
 const formatOptions = [
   {
     name: 'categoryId',
-    handle: emptyFormatFn,
+    handle: emptyFn,
   },
   {
     name: 'name',
@@ -183,7 +158,7 @@ const getFormatValues = (values, leForm) => {
 
   formatOptions
   .map((option) => {
-    const { name, proxyName = name, handle = emptyFormatFn } = option
+    const { name, proxyName = name, handle = emptyFn } = option
     const value = values[proxyName]
     return {
       name,

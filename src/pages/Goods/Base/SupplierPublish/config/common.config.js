@@ -6,8 +6,6 @@ export const GOODS_PROPERTY_NAME_ID = 'goodsPropertyNameId'
 
 export const WAREHOUSE_PROPERTY_NAME_ID = 'warehousePropertyNameId'
 
-export const FN = () => {}
-
 export const getHead = (title) => {
   return {
     component: 'Item',
