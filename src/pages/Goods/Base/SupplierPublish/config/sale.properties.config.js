@@ -3,15 +3,18 @@ import { Table, Button, Input, InputNumber } from 'antd'
 import { SALE_PROPERTY_NAME_ID, getHead, getTip } from './common.config'
 import { getPropertiesWrap } from './properties.config'
 import regUtils from '@/utils/reg'
+import { Cache } from '../utils'
 import { toDecimal2 } from '@/utils/utils'
 
+const saleCache = Cache.create('sale.properties.config')
+
 const DEFAULT_SKU = {
+  status: 1, // 1可用，0停用
   costPrice: '', // 成本价, 单位分
-  deliverCode: '',// 发货编码, 前端校验唯一、玲珑确认
   restriction: 10, // sku限购数量
+  deliverCode: '',// 发货编码
   propertyValueNames: [],
   propertyPairIds: [],
-  status: 1, // 1可用，0停用
   enableDeliverCode: false
 }
 
@@ -39,7 +42,7 @@ const updateSkus = (leForm, saleProperties = []) => {
 
       return curPairs.map(curPair => {
         const key = curPair.value
-        const cache = leForm.getCache(key)
+        const cache = saleCache.get(key)
         if (cache) return cache
 
         const sku = {
@@ -50,7 +53,7 @@ const updateSkus = (leForm, saleProperties = []) => {
           enableDeliverCode: has69
         }
 
-        leForm.setCache(key, {...sku})
+        saleCache.set(key, {...sku})
         return sku
       })
     }
@@ -62,7 +65,7 @@ const updateSkus = (leForm, saleProperties = []) => {
     const combs = preSkus.map(preSku => {
       return curPairs.map(curPair => {
         const key = `${preSku.key}-${curPair.value}`
-        const cache = leForm.getCache(key)
+        const cache = saleCache.get(key)
         if (cache) return cache
 
         const sku = {
@@ -73,7 +76,7 @@ const updateSkus = (leForm, saleProperties = []) => {
           enableDeliverCode: has69
         }
 
-        leForm.setCache(key, {...sku})
+        saleCache.set(key, {...sku})
         return sku
       })
     })
@@ -82,53 +85,6 @@ const updateSkus = (leForm, saleProperties = []) => {
   }, [])
 
   leForm.setValue('skus', skus)
-
-  // const skus = [
-  //   {
-  //     key: '7579',
-  //     costPrice: 100, // 成本价, 单位分
-  //     deliverCode: "D01",// 发货编码, 前端校验唯一、玲珑确认
-  //     restriction: 20, // sku限购数量
-  //     propertyValueNames: ['黑色'],
-  //     propertyPairIds: [75798],
-  //     status: 1, // 1可用，0停用
-  //   },
-  //   {
-  //     key: '75798-75799',
-  //     costPrice: 100, // 成本价, 单位分
-  //     deliverCode: "D01",// 发货编码, 前端校验唯一、玲珑确认
-  //     restriction: 20, // sku限购数量
-  //     propertyValueNames: ['黑色', 'S码'],
-  //     propertyPairIds: [75798, 75799],
-  //     status: 1, // 1可用，0停用
-  //   },
-  //   {
-  //     key: '75798-75800',
-  //     costPrice: 200, // 成本价, 单位分
-  //     deliverCode: "E01",// 发货编码, 前端校验唯一、玲珑确认
-  //     restriction: 30, // sku限购数量
-  //     propertyValueNames: ['白色', 'S码'],
-  //     propertyPairIds: [75798, 75800],
-  //     status: 0, // 1可用，0停用
-  //   }
-  // ]
-}
-
-const getDefaultSkus = (saleProperties = []) => {
-  if (saleProperties.length === 0) {
-    const key = 'default'
-    const skus = [
-      {
-        ...DEFAULT_SKU,
-        key,
-        propertyValueNames: ['默认'],
-        propertyPairIds: [],
-      }
-    ]
-    return skus
-  }
-
-  return []
 }
 
 // 更新单个
@@ -146,7 +102,7 @@ const handleUpdateSingle = (leForm, { colKey, cellValue, rowItem, rowIndex } = {
 
   // 更新sku历史记忆
   skus.forEach((sku) => {
-    leForm.setCache(sku.key, sku)
+    saleCache.set(sku.key, sku)
   })
 
   // 更新sku表格
@@ -167,7 +123,7 @@ const handleUpdateBatch = (leForm, { colKey, originKey, batchValue, formatValue 
 
   // 更新sku历史记忆
   skus.forEach((sku) => {
-    leForm.setCache(sku.key, sku)
+    saleCache.set(sku.key, sku)
   })
 
   leForm.setValues({
@@ -365,7 +321,6 @@ const getSkus = (leForm, saleProperties = []) => {
   return {
       label: 'sku规格',
       name: 'skus',
-      value: getDefaultSkus(saleProperties),
       className: 'no-form-item-sku',
       // component: 'Item',
       render ({ skus = [], has69 = false }) {

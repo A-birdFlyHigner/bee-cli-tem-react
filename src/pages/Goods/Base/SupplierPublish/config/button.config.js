@@ -5,7 +5,7 @@ import { GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './common.con
 import { trim, pick, omit, emptyFn, Cache } from '../utils'
 import { publishGoods } from '@/services/goods';
 
-const actionCache = Cache.manage('action')
+const buttonCache = Cache.create('button.config')
 const isAMomentObject = '_isAMomentObject'
 
 const getPropertyList = (values, prefix) => {
@@ -177,7 +177,7 @@ const getFormatValues = (values, leForm) => {
 }
 
 const handleSubmit = async (err, values, leForm) => {
-  actionCache.set('isSubmit', true)
+  buttonCache.set('isSubmit', true)
 
   if (err) return
 
@@ -189,7 +189,7 @@ const handleSubmit = async (err, values, leForm) => {
   const resData = await publishGoods(params)
 
   if (resData) {
-    leForm.clearCache()
+    Cache.clear()
     messageApi.success('商品创建成功，正在跳转商品列表页！')
     setTimeout(() => {
       router.push('/goods/base/list')

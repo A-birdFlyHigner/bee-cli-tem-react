@@ -96,6 +96,16 @@ export async function publishGoods (params) {
   });
 }
 
+// 修改商品
+export async function updateGoods (params) {
+  return request(`${domain}/revision/product/update`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
 // 获取商品详情
 export async function getGoodsDetail (params) {
   return request(`${domain}/revision/product/detail?${stringify(params)}`);
@@ -258,7 +268,7 @@ export async function getProductGroupCombo(params) {
   });
 }
 
-// 审核推广商品 
+// 审核推广商品
 export async function spreadReviewProduct(params) {
   return request(`${domain}/branch/product/spread/review`, {
     method: 'POST',

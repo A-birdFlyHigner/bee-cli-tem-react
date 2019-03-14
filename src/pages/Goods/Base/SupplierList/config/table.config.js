@@ -27,9 +27,11 @@ const showSpecDetailDialog = dataSource => {
         dataIndex: 'propertyPairList',
         render(value = [], { status } = {}) {
           const statusRender = status === 0
-          ? <span style={{color: 'red'}}>停售</span>
+          ? <span style={{color: 'red'}}>(停售)</span>
           : null
-          const skuText = value.map(item => item.pvName).join('-')
+          const skuText = value.length === 0
+          ? '默认'
+          : value.map(item => item.pvName).join('-')
 
           return (
             <span>
@@ -103,9 +105,10 @@ export default {
       dataIndex: 'pathName',
       render(value) {
         const symbol = '>'
-        return value.split(',').map((item) => {
+        return value.split(',').map((item, index) => {
+          const key = `${item}-${index}`
           return (
-            <span key={item}>
+            <span key={key}>
               {symbol} {item} <br />
             </span>
           )
