@@ -3,6 +3,7 @@ import { LeForm } from '@lib/lepage'
 import { message } from 'antd'
 import {queryBranchProductSpreadDetail, updateSkuPrice } from '@/services/goods'
 import {
+  onChange,  
   baseInfo,
   salseInfo,
   salseEdit,
@@ -84,7 +85,8 @@ export default class Detail extends Component {
       productId: params.id,
       leFormConf: {
         settings: {
-          globalStatus: 'preview'
+          globalStatus: 'preview',
+          onChange          
         },
         form: {
           layout: {

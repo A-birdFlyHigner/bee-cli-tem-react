@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import router from 'umi/router';
 import { LeForm } from '@lib/lepage'
 import { message } from 'antd'
-import { getGoodsDetail,setProductReviewStatus } from '@/services/goods'
+import { getAdminProductDetail,setProductReviewStatus } from '@/services/goods'
 
 import {
   onChange,
@@ -102,9 +101,9 @@ export default class Detail extends Component {
 
   onMountLeForm = (formCore) => {
     this.formCore = formCore
-    const {productId} = this.state
+    const { productId } = this.state
 
-    getGoodsDetail({productId}).then(res => {
+    getAdminProductDetail({productId: Number(productId)}).then(res => {
       if (!res) return
       formCore.setValues(res)
     })
