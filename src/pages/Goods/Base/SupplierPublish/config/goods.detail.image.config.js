@@ -15,6 +15,7 @@ const getGoodsDetailImageConfig = () => {
       uploadConfig({
         label: '商品详情',
         name: 'goodsDetailImageList',
+        className: 'no-form-item-goods-detail-image-list',
         props: {
           required: true,
           top: '必填，最多22张图片，图片宽度最小限制尺寸620，长度最大限制1000，文件小于400KB',

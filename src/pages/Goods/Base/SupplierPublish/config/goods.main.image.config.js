@@ -17,6 +17,7 @@ const getGoodsMainImageConfig = () => {
       uploadConfig({
         label: '商品主图',
         name: 'goodsMainImageList',
+        className: 'no-form-item-goods-main-image-list',
         props: {
           required: true,
           top: '必填，1-5张商品主图，分辨率640*640，文件小于400KB',
