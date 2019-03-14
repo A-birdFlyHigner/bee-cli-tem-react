@@ -1,11 +1,8 @@
-import 'moment/locale/zh-cn';
 import moment from 'moment';
 import router from 'umi/router';
 import { message as messageApi } from 'antd'
 import { GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './common.config'
 import { publishGoods } from '@/services/goods';
-
-moment.locale('zh-cn');
 
 const emptyFormatFn = (arg) => arg
 const isAMomentObject = '_isAMomentObject'
@@ -51,8 +48,9 @@ const getPropertyList = (values, prefix) => {
 
     // 日期、时间
     if (typeof rawValue === 'object' && rawValue[isAMomentObject] === true) {
+      // FIXME: 日期格式化后，会带上时间
       propertyValue = [{
-        pvName: moment(rawValue).format('YYYY-MM-DD HH:mm') // moment 格式化
+        pvName: moment(rawValue._d).format('YYYY-MM-DD HH:mm:ss') // moment 格式化
       }]
     }
     // 文本框
@@ -205,21 +203,31 @@ const getFormatValues = (values, leForm) => {
 const handleSubmit = async (err, values, leForm) => {
   if (err) return
 
+  const { has69, skus } = values
+
+  // 校验69码
+  if (has69) {
+    const deliverCodes = skus.map(sku => (sku.deliverCode || '').trim())
+    if (deliverCodes.indexOf('') !== -1) {
+      leForm.setError('skus', '发货编码不能为空')
+    }
+  }
+
   leForm.setProps('footer-submit-button', {
     loading: true
   })
 
   const params = getFormatValues(values, leForm)
   const resData = await publishGoods(params)
-  // TODO: 增加错误提示
 
-  // messageApi.success('商品创建成功，正在跳转商品列表页！')
-  setTimeout(() => {
-    // TODO: 去掉注释
-    // router.push('/goods/base/list')
-  }, 2000)
+  if (resData) {
+    messageApi.success('商品创建成功，正在跳转商品列表页！')
+    setTimeout(() => {
+      router.push('/goods/base/list')
+    }, 2000)
+    return
+  }
 
-  // 以上功能开发完，可去掉
   leForm.setProps('footer-submit-button', {
     loading: false
   })

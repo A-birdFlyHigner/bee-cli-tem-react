@@ -195,19 +195,6 @@ const getHas69Code = () => {
 // 批量设置
 const getBatch = (leForm) => {
   return [
-      // {
-      //     label: '批量设置',
-      //     name: 'batch-deliverCode',
-      //     follow: true,
-      //     props: {
-      //         placeholder: '请输入sku编码',
-      //         onChange: (e) => onChangeUpdateBatch(leForm, {
-      //           colKey: 'deliverCode',
-      //           batchKey: 'batch-deliverCode',
-      //           batchVal: e.target.value
-      //         })
-      //     }
-      // },
       {
         label: '批量设置',
         name: 'batch-costPrice',
@@ -223,8 +210,8 @@ const getBatch = (leForm) => {
       },
       {
         name: 'batch-restriction',
-        inline: true,
         component: 'InputNumber',
+        inline: true,
         props: {
           placeholder: '请输入限购数量',
           min: 0,
@@ -250,6 +237,7 @@ const getColumns = (leForm, has69) => {
 
           return (
             <Button
+              size='small'
               onClick={() => onChangeUpdateSingle(leForm, {
                 colKey: 'status',
                 cellValue: opposite,
@@ -268,27 +256,6 @@ const getColumns = (leForm, has69) => {
             return value.join('-')
           }
       },
-      // 商品有69码，发货编码必须唯一
-      (has69
-        ? {
-            title: 'sku编码(发货编码)',
-            dataIndex: 'deliverCode',
-            render (value, item, index) {
-                return (
-                  <Input
-                    value={value}
-                    onChange={(e) => onChangeUpdateSingle(leForm, {
-                      colKey: 'deliverCode',
-                      cellValue: e.target.value,
-                      rowItem: item,
-                      rowIndex: index
-                    })}
-                  />
-                )
-            }
-          }
-        : null
-      ),
       {
           title: '成本价',
           dataIndex: 'costPrice',
@@ -322,7 +289,26 @@ const getColumns = (leForm, has69) => {
                 />
               )
           }
-      }
+      },
+      // 商品有69码，发货编码必须唯一
+      {
+        title: 'sku编码(发货编码)',
+        dataIndex: 'deliverCode',
+        render (value, item, index) {
+            return (
+              <Input
+                value={has69 ? value : ''}
+                disabled={!has69}
+                onChange={(e) => onChangeUpdateSingle(leForm, {
+                  colKey: 'deliverCode',
+                  cellValue: e.target.value,
+                  rowItem: item,
+                  rowIndex: index
+                })}
+              />
+            )
+        }
+      },
   ]
 
   return columns.filter(column => column !== null)
@@ -331,12 +317,17 @@ const getColumns = (leForm, has69) => {
 // sku组合
 const getSkus = (leForm, saleProperties = []) => {
   return {
+      label: 'sku规格',
       name: 'skus',
       value: getDefaultSkus(saleProperties),
-      component: 'Item',
-      render ({ skus: dataSource, has69 }) {
+      className: 'no-form-item-sku',
+      // component: 'Item',
+      render ({ skus = [], has69 = false }) {
           const columns = getColumns(leForm, has69)
-          return <Table columns={columns} dataSource={dataSource} pagination={false} />
+          const locale = {
+            emptyText: '暂无sku规格'
+          }
+          return <Table columns={columns} dataSource={skus} locale={locale} pagination={false} />
       }
   }
 }

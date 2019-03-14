@@ -50,3 +50,95 @@ ol {
     }
   }
 }
+
+.goods-publish {
+  .no-form-item-content-elem > * {
+    min-width: auto !important;
+  }
+
+  .no-form-item-inline {
+    margin-bottom: 0 !important;
+  }
+
+  .no-form-item-label {
+    color: #444;
+  }
+
+  .no-form-item-content-suffix {
+    color: #888;
+    font-size: 10px;
+  }
+
+  .no-form-item-error {
+    margin-top: 5px;
+    // font-size: 10px;
+  }
+
+  // skus 规格项目
+  .no-form-item-sku {
+    margin-top: 15px;
+
+    .ant-table-wrapper {
+      width: 800px;
+    }
+
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+      padding: 5px;
+    }
+  }
+
+  .no-form-item-custom-tag {
+    .no-form-item-label {
+      color: #888;
+    }
+
+    // 自定义标签
+    .ant-tag {
+      height: 22px;
+      margin-top: 4px;
+      margin-right: 0;
+      line-height: 22px;
+    }
+  }
+
+  // 头部标题栏
+  .gp-head {
+    display: flex;
+    height: 20px;
+    margin: 20px 0 10px;
+    line-height: 20px;
+
+    em {
+      display: inline-block;
+      width: 2px;
+      height: 20px;
+      margin-right: 10px;
+      background: #333;
+    }
+
+    span {
+      color: #333;
+      font-weight: bold;
+    }
+  }
+
+  // 提示
+  .gp-tip {
+    margin: 10px 0 10px 12px;
+    color: #f60;
+    font-size: 10px;
+    line-height: 14px;
+  }
+
+  // 属性项
+  .gp-properties-item > .no-form-item-control {
+    width: 80%;
+  }
+
+  // 属性列表
+  .gp-properties-comp {
+    display: flex;
+    flex-flow: row wrap;
+    width: auto;
+  }
+}

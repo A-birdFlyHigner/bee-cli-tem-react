@@ -10,14 +10,12 @@ const DEFAULT_OPTIONS = {
   skuImagePropertyName: ''
 }
 
-// FIXME: 待优化，把 upload组件的 options 单独传，不能放在最外层@泊舟
 const UPLOAD_OPTIONS = {
   limit: 1,
   size: 400,
   types: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'],
   width: 640,
   height: 640,
-  // minWidth: '',
 }
 
 const Cache = {}
@@ -44,8 +42,7 @@ const getFormConfig = (leForm, propertyPairs = []) => {
             listType: 'picture-card',
             className: 'avatar-uploader',
           },
-          ...UPLOAD_OPTIONS,
-          // options: {}
+          options: UPLOAD_OPTIONS,
           rules: {
             type: 'array',
             required: true,
@@ -89,9 +86,11 @@ const getSkuMainImages = (options = {}) => {
   }
 
   return {
+    label: 'sku主图',
     name: 'skuMainImageList',
     listenKeys: [relatedName],
     props: {
+      top: '必填，分辨率640*640，文件小于400KB!',
       required
     },
     formatValue,
@@ -102,7 +101,7 @@ const getSkuMainImages = (options = {}) => {
     render(values, leForm) {
       const propertyPairIds = values[relatedName] || []
       if (required && propertyPairIds.length === 0) {
-        return <Alert message={`请先选择销售属性-${skuImagePropertyName}`} type='info' />
+        return <Alert message={`请先选择 销售属性：“${skuImagePropertyName}”`} type='info' />
       }
 
       const { options: propertyPairs } = leForm.getProps(relatedName)
@@ -138,7 +137,7 @@ const getSkuMainImageConfig = (options = DEFAULT_OPTIONS) => {
   return () => {
     return [
       getHead(`sku主图（销售属性项：${skuImagePropertyName}）`),
-      getTip('sku主图：必填，分辨率640*640，文件小于400KB!'),
+      // getTip('sku主图：必填，分辨率640*640，文件小于400KB!'),
       getSkuMainImages(options)
     ]
   }

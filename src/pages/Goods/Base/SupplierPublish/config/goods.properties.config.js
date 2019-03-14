@@ -6,10 +6,10 @@ const getGoodsPropertiesConfig = (goodsProperties = []) => {
   return (leForm) => {
     return [
       getHead('商品属性'),
+      getTip('注：根据商品类目不同，展示商品属性字段不同。'),
       ...getPropertiesWrap(leForm, goodsProperties, {
         namePrefix: GOODS_PROPERTY_NAME_ID
       }),
-      getTip('注：根据商品类目不同，展示商品属性字段不同。')
     ]
   }
 }
