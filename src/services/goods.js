@@ -84,9 +84,9 @@ export async function getAdminProductDetail(params) {
 // 供应商商品待推广列表
 export async function queryProductSpreadList(params) {
   return request(`${domain}/product/spread/wait/query?${stringify(params)}`);
-// 发布商品
 }
 
+// 发布商品
 export async function publishGoods (params) {
   return request(`${domain}/revision/product/create`, {
     method: 'POST',
