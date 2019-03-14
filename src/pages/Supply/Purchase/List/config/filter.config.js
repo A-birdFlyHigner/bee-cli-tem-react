@@ -1,4 +1,6 @@
-import { purchaseState, purchaseSource, supplierState } from '../../../common/constants';
+import { purchaseState, purchaseSource, supplierState } from '@/pages/Supply/common/constants';
+import SearchSelect from '@/components/Rules/SearchSelect'
+import {getSupplierEmunList} from '@/services/supply'
 
 // const admin = 0
 // const seller = 1
@@ -8,9 +10,8 @@ export default {
   settings: {
     initValues: {
       status: 99,
-      origin: 99,
+      source: 99,
       supplierConfirmStatus: 99,
-      // fromType
     },
   },
 
@@ -31,20 +32,19 @@ export default {
         placeholder: '请选择采购时间',
       },
     },
+    SearchSelect({
+      label: '供应商名称',
+      name: 'supplierCode',
+      placeholder: '请输入供应商名称',
+      requestService: getSupplierEmunList
+    },),
     {
       label: '仓库名称',
       name: 'warehouseCode',
-      component: 'Input',
+      component: 'Select',
       props: {
-        placeholder: '请输入仓库名称',
-      },
-    },
-    {
-      label: '供应商名称',
-      name: 'supplierCode',
-      component: 'Input',
-      props: {
-        placeholder: '请输入供应商名称',
+        placeholder: '请选择采购订单状态',
+        options: [],
       },
     },
     {
@@ -97,16 +97,5 @@ export default {
         type: 'reset',
       },
     },
-    // {
-    //   props: {
-    //     type: 'danger',
-    //     children: '导出',
-    //     onClick(err, values, formCore, listCore) {},
-    //   },
-    //   options: {
-    //     type: 'none',
-    //     validate: true,
-    //   },
-    // },
   ],
 };

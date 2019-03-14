@@ -26,7 +26,6 @@ const getOptions = (options, value ,newChildren) => {
         children: getOptions(option.children, value, newChildren)
       }
     }
-
     if (option.value === value) {
       return {
         ...option,

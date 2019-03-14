@@ -1,5 +1,6 @@
 import React from 'react';
 import {Tooltip, Icon, Modal} from 'antd'
+import moment from 'moment'
 
 const formatType = 'YYYY-MM-DD HH:mm:ss'
 
@@ -80,6 +81,11 @@ export default {
         </div>
       ),
       dataIndex: 'loseEfficacyTime',
+      render(value, values, index) {
+        return (
+          <span>{moment(value).format(formatType)}</span>
+        );
+      },
     },
     {
       title: '仓库名称',

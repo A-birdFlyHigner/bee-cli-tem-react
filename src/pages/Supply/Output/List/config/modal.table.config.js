@@ -24,7 +24,7 @@ export default {
     },
     {
       title: '入库数量',
-      dataIndex: 'checkCount',
+      dataIndex: 'skuCount',
     },
   ],
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Input} from 'antd'
 
 // const deleteRow = values => {
 //   console.log('values', this, values);
@@ -12,27 +13,37 @@ export default {
     },
     {
       title: 'SKU编码',
-      dataIndex: 'SKU_No',
+      dataIndex: 'baseSaleGoodsId',
     },
     {
       title: '主图',
-      dataIndex: 'imgUrl',
+      dataIndex: 'mainImages',
+      render(value, values, index) {
+        return (
+          <span>
+            <img src={value && value[0]} alt="主图"/>
+          </span>
+        );
+      },
     },
     {
       title: '商品名称',
-      dataIndex: 'goodsName',
+      dataIndex: 'name',
     },
     {
-      title: 'SKU名称',
+      title: 'SKU名称(字段待定)',
       dataIndex: 'SKU_Name',
     },
     {
       title: '供应商成本价',
-      dataIndex: 'costPrice',
+      dataIndex: 'salePrice',
     },
     {
       title: '采购数量',
       dataIndex: 'PurchaseQuantity',
+      render: (value, record, index) => {
+        return <Input ref={input => this.input[record.baseSaleGoodsId] = input}/>
+      }
     },
     // {
     //   title: '操作',

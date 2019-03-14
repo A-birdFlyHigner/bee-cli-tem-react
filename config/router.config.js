@@ -113,7 +113,7 @@ export default [
           {
             path: '/supply/purchase/detail',
             name: '采购单详情',
-            component: './Supply/Purchase/Edit',
+            component: './Supply/Purchase/Detail',
           },
           {
             path: '/supply/purchase/add',
@@ -143,12 +143,12 @@ export default [
           {
             path: '/supply/output/list',
             name: '出库单管理',
-            component: './Supply/Output/list',
+            component: './Supply/Output/List',
           },
           {
             path: '/supply/warehouse/list',
             name: '商品在仓库存管理',
-            component: './Supply/Warehouse/list',
+            component: './Supply/Warehouse/List',
           },
           {
             path: '/supply/delivery/export',

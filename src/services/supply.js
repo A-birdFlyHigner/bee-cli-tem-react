@@ -1,20 +1,10 @@
-import { stringify } from 'qs'
 import request from '@/utils/request';
 
 const domain = '/adminApi';
 
 // 获取采购单列表
-export async function purchaseList (params) {
+export async function getPurchaseList (params) {
   return request(`${domain}/purchase/listPurchaseOrder`, {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
-}
-// 获取采购单详情列表
-export async function purchaseDetailList (params) {
-  return request(`${domain}/purchase/listPurchaseOrderDetail`, {
     method: 'POST',
     body: {
       ...params,
@@ -27,8 +17,42 @@ export async function exportInputList (params) {
   return request(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${params}`);
 }
 
-export async function savePropertyValue (params) {
-  return request(`http://test-life-seller.51bushou.com/api/sku/propertyValue/save`, {
+// 模糊查询供应商列表
+export async function getSupplierEmunList (params) {
+  return request(`${domain}/supplyChainCommon/likeSearch/supplierName`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 模糊查询仓库列表
+export async function getWarehouseEmunList () {
+  return request(`${domain}/supplyChainCommon/queryAllWarehouse`, {
+    method: 'POST',
+  });
+}
+
+// 模糊查询小区列表
+export async function getVillageEmunList (params) {
+  return request(`${domain}/supplyChainCommon/likeSearch/communityName`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 获取采购单基础信息
+export async function getPurchaseDetail (purchaseNo) {
+  return request(`${domain}/purchase/getPurchaseOrder`, {
+    method: 'POST',
+    body: {
+      purchaseNo,
+    },
+  });
+}
+
+// 获取采购单详情列表
+export async function getPurchaseDetailList (params) {
+  return request(`${domain}/purchase/listPurchaseOrderDetail`, {
     method: 'POST',
     body: {
       ...params,
@@ -36,8 +60,9 @@ export async function savePropertyValue (params) {
   });
 }
 
-export async function queryCommunityManager(params) {
-  return request(`${domain}/product/list`, {
+// 获取入库单列表
+export async function getInputList (params) {
+  return request(`${domain}/inbound/listInboundOrder`, {
     method: 'POST',
     body: {
       ...params,
@@ -45,19 +70,9 @@ export async function queryCommunityManager(params) {
   });
 }
 
-// 商品详情
-export async function queryProductDetail(params) {
-  return request(`${domain}/revision/product/detail?${stringify(params)}`);
-}
-
-// 分公司商品审核详情
-export async function queryBranchProductSpreadDetail(params) {
-  return request(`${domain}/revision/product/detail?${stringify(params)}`);
-}
-
-// 商品排期
-export async function addOrUpdate(params) {
-  return request(`${domain}/revision/product/schedule/addOrUpdate`, {
+// 获取入库单详情列表
+export async function getInputDetailList (params) {
+  return request(`${domain}/inbound/listInboundOrderDetail`, {
     method: 'POST',
     body: {
       ...params,
@@ -65,9 +80,9 @@ export async function addOrUpdate(params) {
   });
 }
 
-// 商品回退
-export async function backOff(params) {
-  return request(`${domain}/revision/product/schedule/backOff`, {
+// 获取出库单列表
+export async function getOutputList (params) {
+  return request(`${domain}/outbound/listOutboundOrder`, {
     method: 'POST',
     body: {
       ...params,
@@ -75,24 +90,9 @@ export async function backOff(params) {
   });
 }
 
-// 预排期列表
-export async function listPreScheduledProduct(params) {
-  return request(`${domain}/revision/product/schedule/listPreScheduledProduct?${stringify(params)}`);
-}
-
-// 已排期列表
-export async function listScheduledProduct(params) {
-  return request(`${domain}/revision/product/schedule/listScheduledProduct?${stringify(params)}`);
-}
-
-// 未排期列表
-export async function listUnScheduledProduct(params) {
-  return request(`${domain}/revision/product/schedule/listUnScheduledProduct?${stringify(params)}`);
-}
-
-// 预排期列表
-export async function updateSortNumber(params) {
-  return request(`${domain}${domain}/revision/product/schedule/updateSortNumber`, {
+// 获取出库单详情列表
+export async function getOutputDetailList (params) {
+  return request(`${domain}/outbound/listOutboundOrderDetail`, {
     method: 'POST',
     body: {
       ...params,
@@ -100,5 +100,98 @@ export async function updateSortNumber(params) {
   });
 }
 
+// 获取配送单列表
+export async function getDeliveryList (params) {
+  return request(`${domain}/delivery/listDeliveryOrder`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
 
+// 获取配送单详情基本信息
+export async function getDeliveryDetail (deliveryNo) {
+  return request(`${domain}/delivery/getDeliveryOrder`, {
+    method: 'POST',
+    body: {
+      deliveryNo,
+    },
+  });
+}
+
+// 获取配送单详情列表
+export async function getDeliveryDetailList (params) {
+  return request(`${domain}/delivery/listDeliveryOrderDetail`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+// 获取库存列表
+export async function getStockList (params) {
+  return request(`${domain}/stock/listOmsStock`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+// 获取库存详情列表
+export async function getStockDetailList (params) {
+  return request(`${domain}/stock/listOmsStockDetail`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+// 获取送货单导出列表
+export async function getExportDeliveryList (params) {
+  return request(`${domain}/miniDeliverNote/listForWarehouse`, {
+    method: 'POST',
+    body: params,
+  });
+}
+/*
+// 获取配送单详情列表
+export async function exportDelivery (params) {
+  return request(`${domain}/miniDeliverNote/exportForWarehouse`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}*/
+
+// 配送单导出
+export async function exportDelivery (deliverCode) {
+  return request(`${domain}/miniDeliverNote/exportForWarehouse`, {
+    method: 'POST',
+    body: {
+      deliverCode,
+    },
+  });
+}
+
+// 获取基础商品列表
+export async function getBasicItemList (params) {
+  return request(`${domain}/api/base/product/query/list`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+// 新增采购单
+export async function addPurchase (params) {
+  return request(`${domain}/purchase/savePurchaseOrder`, {
+    method: 'POST',
+    // body: params,
+    body: {param: JSON.stringify(params)},
+  });
+}
 

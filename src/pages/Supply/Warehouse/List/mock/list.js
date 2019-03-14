@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export default queryParams => {
   const { pageSize, currentPage } = queryParams;
-  const index = pageSize * (currentPage - 1);
+  const index = pageSize * (currentPage - 1) + 1;
 
   // 使用 Mock
   const data = Mock.mock({
@@ -11,18 +11,15 @@ export default queryParams => {
       {
         // 属性 id 是一个自增数，起始值为 1，每次增 1
         'key|+1': index,
-        goodsId: '@name(5)',
-        goodsInfo: '@cname(5)',
-        SKU_No: '@natural(5)',
-        supplierName: '@cname(5)',
-        totalInventory: '@natural(1,10)',
-        goodAbleInventory: '@natural(1,10)',
-        goodLockedInventory: '@natural(1,10)',
-        badAbleInventory: '@natural(1,10)',
-        badLockedInventory: '@natural(1,10)',
-        outputTime: moment()
+        inputNo: '@natural(5)',
+        purchaseNo: '@natural(5)',
+        inputTime: moment()
           .subtract(10, 'days')
           .calendar(),
+        warehouseName: '@name(5)',
+        supplierName: '@cname(5)',
+        inputSurvey: '@name(5)',
+        operator: '@name(5)',
       },
     ],
   });

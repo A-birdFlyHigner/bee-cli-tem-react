@@ -1,10 +1,9 @@
 import Mock from 'mockjs';
 import moment from 'moment';
-// import moment from 'moment'
 
 export default queryParams => {
   const { pageSize, currentPage } = queryParams;
-  const index = pageSize * (currentPage - 1);
+  const index = pageSize * (currentPage - 1) + 1;
 
   // 使用 Mock
   const data = Mock.mock({
@@ -12,16 +11,24 @@ export default queryParams => {
       {
         // 属性 id 是一个自增数，起始值为 1，每次增 1
         'key|+1': index,
-        deliveryNo: '@natural(5)',
-        deliveryDate: moment()
+        purchaseNo: 'CG@natural(100000,500000)',
+        purchaseTime: moment()
           .subtract(10, 'days')
           .calendar(),
-        warehouseName: '@name(5)',
-        deliveryType: '@name(5)',
-        villageName: '@name(5)',
-        villageManagePhone: '@natural(5)',
-        villageAddress: '@cname(5)',
-        deliverySurvey: '@cname(5)',
+        inputExpectTime: moment()
+          .subtract(10, 'days')
+          .calendar(),
+        invalidTime: moment()
+          .subtract(10, 'days')
+          .calendar(),
+        warehouse: '@ctitle(5,10)仓',
+        supplier: '@cname(5)供应',
+        supplySource: '@cname(5,10)',
+        supplySurvey: '@cname(5,10)',
+        confirmState: '@cname(5,10)',
+        supplyState: '@cname(5,10)',
+        sellerOrder: '@natural(100,500)',
+        inputNo: '@cname(5,10)',
       },
     ],
   });

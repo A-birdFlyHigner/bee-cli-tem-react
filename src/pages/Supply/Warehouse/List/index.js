@@ -1,42 +1,91 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
-import { filterConfig, operationConfig, tableConfig } from './config';
+import { filterConfig, tableConfig } from './config';
 import './index.less';
-import mockList from './mock/list';
+import {getStockList, getStockDetailList, getWarehouseEmunList} from '@/services/supply'
+import { Modal } from 'antd';
+import modalTableConfig from './config/modal.table.config';
+import {leListQuery} from '@/utils/utils'
 
 const listConfig = {
   filterConfig,
-  // operationConfig,
   tableConfig,
-  formatBefore(queryParams) {
-    return queryParams;
-  },
-  query(queryParams, url, method) {
-    return new Promise((resolve, reject) => {
-      const result = mockList(queryParams);
-      setTimeout(() => {
-        resolve(result);
-      }, 300);
-    });
-  },
-  formatAfter(result) {
-    return result;
-  },
-  url: 'http://localhost:8899/getList',
+  ...leListQuery(getStockList)
 };
 
-class ExampleDemo extends Component {
+const listConfigModal = {
+  filterConfig: {settings: {
+    values: {
+      warehouseCode: undefined,
+      skuCode: undefined,
+    }
+  }},
+  tableConfig: modalTableConfig,
+  ...leListQuery(getStockDetailList)
+};
+
+class List extends Component {
   constructor(props) {
     super(props);
+    const self = this
+    this.showDetail.bind(this)
+    const listConfigCombine = {...listConfig}
+    listConfigCombine.tableConfig.columns[10] = {
+      title: '操作',
+      render(value, values, index) {
+        return (
+          <div>
+            <a href="javascript:;" onClick={()=>{self.showDetail(values)}} >仓库详情</a>
+          </div>
+        );
+      },
+    },
+
     this.state = {
-      listConfig,
+      listConfig: listConfigCombine,
+      listConfigModal,
+      modalVisible: false,
     };
   }
-
+  showDetail = (params) => {
+    const listConfigModalMix = {...listConfigModal}
+    listConfigModalMix.filterConfig.settings.values.warehouseCode = params.warehouseCode
+    listConfigModalMix.filterConfig.settings.values.skuCode = params.skuCode
+    this.setState({
+      modalVisible: true,
+      listConfigModal: listConfigModalMix
+    });
+  };
+  handleCancel = (e) => {
+    this.setState({
+      modalVisible: false,
+    });
+  };
+  componentDidMount() {
+    const self = this
+    getWarehouseEmunList().then((res)=>{
+      const data = res && res.map(item=>{
+        return {value: item.key, label: item.value}
+      })
+      self.list.filterCore.setProps('warehouseCode', { options: data });
+    })
+  }
   render() {
     const { state } = this;
-    return <LeList {...state.listConfig} />;
+    return <div>
+      <LeList {...state.listConfig} ref={list => this.list = list}/>
+      <Modal
+        title="商品在仓库存"
+        visible={state.modalVisible}
+        onCancel={this.handleCancel}
+        width="80%"
+        footer={null}
+        destroyOnClose
+      >
+        <LeList {...state.listConfigModal} ref={list => this.modalList = list}/>
+      </Modal>
+    </div>
   }
 }
 
-export default ExampleDemo;
+export default List;
