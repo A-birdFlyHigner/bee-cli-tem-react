@@ -94,7 +94,6 @@ export default {
       title: '规格',
       dataIndex: 'saleUnits',
       width: 100,
-      align: 'center',
       render: (saleUnits, record) => {
         return (
           <span>
@@ -109,7 +108,6 @@ export default {
       title: '基础价格信息',
       dataIndex: 'salePrice',
       width: 200,
-      align: 'center',
     },
     {
       title: '可推广渠道（城市）',

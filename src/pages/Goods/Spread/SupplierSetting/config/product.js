@@ -38,7 +38,7 @@ const tabelColumns = (core, p) => {
     align: 'center',
     width: '200px',
     render: (text) => {
-      return <span>{text.join('&')}</span>
+      return <span>{text.join('&') || '默认'}</span>
     }
   }, 
   ...inputItems.map(item => {

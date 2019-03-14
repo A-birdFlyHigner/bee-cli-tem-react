@@ -138,7 +138,6 @@ export default {
       title: '规格',
       dataIndex: 'saleUnits',
       width: 100,
-      align: 'center',
       render: (saleUnits, record) => {
         return (
           <span>
@@ -153,7 +152,6 @@ export default {
       title: '价格信息',
       dataIndex: 'salePrice',
       width: 200,
-      align: 'center',
     },
     {
       title: '推广城市',
@@ -173,7 +171,6 @@ export default {
       title: '提交推广时间',
       dataIndex: 'applyPromotionTime',
       width: 200,
-      align: 'center',
       render: (val) => {
         return (
           <div>

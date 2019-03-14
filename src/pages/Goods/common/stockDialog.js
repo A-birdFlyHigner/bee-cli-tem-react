@@ -51,8 +51,8 @@ const tabelColumns = core => {
         const isStop = <span className='globalRed'>（停售）</span>
         return (
           <div>
-            {row.saleStatus === 0 ? isStop : null}
-            <span>{info.join('&')}</span>
+            {row.status === 0 ? isStop : null}
+            <span>{info.join('&') || '默认'}</span>
           </div>
         )
       }
