@@ -7,16 +7,25 @@ import getWarehousePropertiesConfig from './warehouse.properties.config'
 import getGoodsMainImageConfig from './goods.main.image.config'
 import getButtonsConfig from './button.config'
 import getGoodsDetailImageConfig from './goods.detail.image.config'
+import { Cache } from '../utils'
+
+const actionCache = Cache.manage('action')
 
 // 发布商品表单配置
 export default (categoryProperties) => {
   return {
     settings: {
       values: {},
+      onChange (changeKeys, values, leForm) {
+        const { isSubmit = false } = actionCache.get()
+        if (isSubmit) {
+          leForm.validateItem(changeKeys);
+        }
+      }
     },
     form: {
       layout: {
-        label: 'w120'
+        label: 'w140'
       }
     },
     items: [
