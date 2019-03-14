@@ -1,7 +1,9 @@
 import React from 'react'
-import { Table, Button, Input } from 'antd'
+import { Table, Button, Input, InputNumber } from 'antd'
 import { SALE_PROPERTY_NAME_ID, getHead, getTip } from './common.config'
 import { getPropertiesWrap } from './properties.config'
+import regUtils from '@/utils/reg'
+import { toDecimal2 } from '@/utils/utils'
 
 const DEFAULT_SKU = {
   costPrice: '', // 成本价, 单位分
@@ -10,6 +12,7 @@ const DEFAULT_SKU = {
   propertyValueNames: [],
   propertyPairIds: [],
   status: 1, // 1可用，0停用
+  enableDeliverCode: false
 }
 
 // 更新sku组合
@@ -26,6 +29,7 @@ const updateSkus = (leForm, saleProperties = []) => {
       return propertyPairIds.indexOf(propertyOption.value) !== -1
     })
   })
+  const has69 = leForm.getValue('has69') || false
 
   const skus = propertyPairGroups.reduce((preSkus, curPairs, arr) => {
     if (preSkus.length === 0) {
@@ -43,9 +47,10 @@ const updateSkus = (leForm, saleProperties = []) => {
           key,
           propertyValueNames: [curPair.label],
           propertyPairIds: [curPair.value],
+          enableDeliverCode: has69
         }
 
-        leForm.getCache(key, {...sku})
+        leForm.setCache(key, {...sku})
         return sku
       })
     }
@@ -65,9 +70,10 @@ const updateSkus = (leForm, saleProperties = []) => {
           key,
           propertyValueNames: [...preSku.propertyValueNames, curPair.label],
           propertyPairIds: [...preSku.propertyPairIds, curPair.value],
+          enableDeliverCode: has69
         }
 
-        leForm.getCache(key, {...sku})
+        leForm.setCache(key, {...sku})
         return sku
       })
     })
@@ -125,8 +131,8 @@ const getDefaultSkus = (saleProperties = []) => {
   return []
 }
 
-// 触发单个更新操作
-const onChangeUpdateSingle = (leForm, { colKey, cellValue, rowItem, rowIndex } = {}) => {
+// 更新单个
+const handleUpdateSingle = (leForm, { colKey, cellValue, rowItem, rowIndex } = {}) => {
   const value = leForm.getValue('skus') || []
   const skus = value.map((item, index) => {
       if (rowIndex !== index) {
@@ -149,13 +155,13 @@ const onChangeUpdateSingle = (leForm, { colKey, cellValue, rowItem, rowIndex } =
   })
 }
 
-// 触发批量更新操作
-const onChangeUpdateBatch = (leForm, { colKey, batchKey, batchVal }) => {
+// 更新批量
+const handleUpdateBatch = (leForm, { colKey, originKey, batchValue, formatValue }) => {
   const value = leForm.getValue('skus') || []
   const skus = value.map((item) => {
       return {
           ...item,
-          [colKey]: batchVal
+          [colKey]: formatValue || batchValue
       }
   })
 
@@ -164,10 +170,9 @@ const onChangeUpdateBatch = (leForm, { colKey, batchKey, batchVal }) => {
     leForm.setCache(sku.key, sku)
   })
 
-  // 更新sku表格
   leForm.setValues({
-      [batchKey]: batchVal,
-      skus
+    [originKey]: batchValue,
+    skus
   })
 }
 
@@ -183,45 +188,72 @@ const getSaleProperties = (leForm, saleProperties = []) => {
 }
 
 // 69码
-const getHas69Code = () => {
+const getHas69 = (leForm) => {
   return {
-      label: '商品是否有69码',
-      name: 'has69',
-      value: false,
-      component: 'Checkbox'
+    label: '商品是否有69码',
+    name: 'has69',
+    component: 'Checkbox',
+    props: {
+      onChange: (value) => handleUpdateBatch(leForm, {
+        colKey: 'enableDeliverCode',
+        originKey: 'has69',
+        batchValue: value
+      })
+    }
   }
 }
 
 // 批量设置
 const getBatch = (leForm) => {
   return [
-      {
-        label: '批量设置',
-        name: 'batch-costPrice',
-        follow: true,
-        props: {
-          placeholder: '请输入成本价',
-          onChange: (e) => onChangeUpdateBatch(leForm, {
+    {
+      label: '批量设置',
+      name: 'batch-costPrice',
+      follow: true,
+      props: {
+        placeholder: '请输入成本价',
+        maxLength: 10,
+        onChange: (e) => {
+          const { value } = e.target
+          if (value && !regUtils.Price.test(value)) {
+            return
+          }
+          handleUpdateBatch(leForm, {
             colKey: 'costPrice',
-            batchKey: 'batch-costPrice',
-            batchVal: e.target.value
+            originKey: 'batch-costPrice',
+            batchValue: value,
+            formatValue: toDecimal2(value)
           })
-        }
-      },
-      {
-        name: 'batch-restriction',
-        component: 'InputNumber',
-        inline: true,
-        props: {
-          placeholder: '请输入限购数量',
-          min: 0,
-          onChange: (value) => onChangeUpdateBatch(leForm, {
-            colKey: 'restriction',
-            batchKey: 'batch-restriction',
-            batchVal: value
-          })
+        },
+        onBlur: () => {
+          leForm.setValue('batch-costPrice', '')
         }
       }
+    },
+    {
+      name: 'batch-restriction',
+      component: 'InputNumber',
+      inline: true,
+      props: {
+        placeholder: '请输入限购数量',
+        min: 1,
+        maxLength: 10,
+        onChange: (value) => {
+          if (value && !regUtils.Num.test(value)) {
+            return
+          }
+
+          handleUpdateBatch(leForm, {
+            colKey: 'restriction',
+            originKey: 'batch-restriction',
+            batchValue: value
+          })
+        },
+        onBlur: () => {
+          leForm.setValue('batch-restriction', null)
+        }
+      }
+    }
   ]
 }
 
@@ -238,7 +270,7 @@ const getColumns = (leForm, has69) => {
           return (
             <Button
               size='small'
-              onClick={() => onChangeUpdateSingle(leForm, {
+              onClick={() => handleUpdateSingle(leForm, {
                 colKey: 'status',
                 cellValue: opposite,
                 rowItem: item,
@@ -260,15 +292,25 @@ const getColumns = (leForm, has69) => {
           title: '成本价',
           dataIndex: 'costPrice',
           render (value, item, index) {
+            const handleValue = (e, isFormat) => {
+              const { value } = e.target
+              if (value && !regUtils.Price.test(value)) {
+                return
+              }
+
+              handleUpdateSingle(leForm, {
+                colKey: 'costPrice',
+                cellValue: isFormat ? toDecimal2(value) : value,
+                rowItem: item,
+                rowIndex: index
+              })
+            }
               return (
                 <Input
                   value={value}
-                  onChange={(e) => onChangeUpdateSingle(leForm, {
-                    colKey: 'costPrice',
-                    cellValue: e.target.value,
-                    rowItem: item,
-                    rowIndex: index
-                  })}
+                  maxLength={10}
+                  onChange={(e) => handleValue(e, false)}
+                  onBlur={(e) => handleValue(e, true)}
                 />
               )
           }
@@ -278,11 +320,13 @@ const getColumns = (leForm, has69) => {
           dataIndex: 'restriction',
           render (value, item, index) {
               return (
-                <Input
+                <InputNumber
                   value={value}
-                  onChange={(e) => onChangeUpdateSingle(leForm, {
+                  min={1}
+                  maxLength={10}
+                  onChange={(value) => handleUpdateSingle(leForm, {
                     colKey: 'restriction',
-                    cellValue: e.target.value,
+                    cellValue: value,
                     rowItem: item,
                     rowIndex: index
                   })}
@@ -295,18 +339,20 @@ const getColumns = (leForm, has69) => {
         title: 'sku编码(发货编码)',
         dataIndex: 'deliverCode',
         render (value, item, index) {
-            return (
-              <Input
-                value={has69 ? value : ''}
-                disabled={!has69}
-                onChange={(e) => onChangeUpdateSingle(leForm, {
-                  colKey: 'deliverCode',
-                  cellValue: e.target.value,
-                  rowItem: item,
-                  rowIndex: index
-                })}
-              />
-            )
+          const { enableDeliverCode: enable } = item
+          return (
+            <Input
+              value={enable ? value : ''}
+              disabled={!enable}
+              maxLength={20}
+              onChange={(e) => handleUpdateSingle(leForm, {
+                colKey: 'deliverCode',
+                cellValue: e.target.value,
+                rowItem: item,
+                rowIndex: index
+              })}
+            />
+          )
         }
       },
   ]
@@ -328,6 +374,45 @@ const getSkus = (leForm, saleProperties = []) => {
             emptyText: '暂无sku规格'
           }
           return <Table columns={columns} dataSource={skus} locale={locale} pagination={false} />
+      },
+      rules ({ skus = [], has69 = false }) {
+        const getMsg = (message) => {
+          return { message }
+        }
+
+        // 成本价
+        {
+          const costPrices = skus.map(sku => sku.costPrice || null)
+          const hasNull = costPrices.some(item => item === null)
+          if (hasNull) {
+            return getMsg('成本价不能为空')
+          }
+        }
+
+        // 限购数量
+        {
+          const restrictions = skus.map(sku => sku.restriction || null)
+          const hasNull = restrictions.some(item => item === null)
+          if (hasNull) {
+            return getMsg('限购数量不能为空')
+          }
+        }
+
+        // 校验69码
+        if (has69) {
+          const deliverCodes = skus.map(sku => (sku.deliverCode || '').trim() || null)
+          const hasNull = deliverCodes.some(item => item === null)
+          if (hasNull) {
+            return getMsg('sku编码(发货编码)不能为空')
+          }
+
+          const hasRepeat = deliverCodes.length !== [...new Set(deliverCodes)].length
+          if (hasRepeat) {
+            return getMsg('sku编码(发货编码)不能重复')
+          }
+        }
+
+        return null
       }
   }
 }
@@ -339,7 +424,7 @@ const getSalePropertiesConfig = (saleProperties = []) => {
           getHead('销售属性'),
           getTip('注：商品规格根据类目规定显示，支持0-2级，没有规格时可不填'),
           ...getSaleProperties(leForm, saleProperties),
-          getHas69Code(),
+          getHas69(leForm),
           ...getBatch(leForm),
           getSkus(leForm, saleProperties)
       ]
