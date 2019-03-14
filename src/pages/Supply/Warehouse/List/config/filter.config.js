@@ -1,3 +1,6 @@
+import SearchSelect from '@/components/Rules/SearchSelect'
+import {getSupplierEmunList} from '@/services/supply'
+
 export default {
   core: {
     initValues: {},
@@ -14,23 +17,21 @@ export default {
   items: [
     {
       label: '仓库名称',
-      name: 'warehouseName',
-      component: 'Input',
+      name: 'warehouseCode',
+      component: 'Select',
       props: {
-        placeholder: '请输入仓库名称',
+        placeholder: '请选择仓库名称',
       },
     },
-    {
+    SearchSelect({
       label: '供应商名称',
-      name: 'supplierName',
-      component: 'Input',
-      props: {
-        placeholder: '请输入供应商名称',
-      },
-    },
+      name: 'supplierCode',
+      placeholder: '请输入供应商名称',
+      requestService: getSupplierEmunList
+    },),
     {
       label: '商品ID',
-      name: 'goodsId',
+      name: 'itemCode',
       component: 'Input',
       props: {
         placeholder: '请输入商品ID',
@@ -38,14 +39,13 @@ export default {
     },
     {
       label: 'SKU编码',
-      name: 'SKU_No',
+      name: 'skuCode',
       component: 'Input',
       props: {
         placeholder: '请输入SKU编码',
       },
     },
   ],
-
   buttons: [
     {
       props: {

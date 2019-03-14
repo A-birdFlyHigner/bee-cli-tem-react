@@ -1,3 +1,5 @@
+import SearchSelect from '@/components/Rules/SearchSelect'
+import {getSupplierEmunList} from '@/services/supply'
 import moment from 'moment';
 
 export default {
@@ -14,20 +16,19 @@ export default {
   items: [
     {
       label: '仓库名称',
-      name: 'warehouseName',
-      component: 'Input',
+      name: 'warehouseCode',
+      component: 'Select',
       props: {
-        placeholder: '请输入仓库名称',
+        placeholder: '请选择采购订单状态',
+        options: [],
       },
     },
-    {
+    SearchSelect({
       label: '供应商名称',
-      name: 'supplierName',
-      component: 'Input',
-      props: {
-        placeholder: '请输入供应商名称',
-      },
-    },
+      name: 'supplierCode',
+      placeholder: '请输入供应商名称',
+      requestService: getSupplierEmunList
+    },),
     {
       label: '期望入库时间',
       name: 'expectInputTime',

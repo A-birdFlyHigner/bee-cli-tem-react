@@ -1,139 +1,59 @@
-import { LeDialog } from '@lib/lepage';
-import sleep from '../../common/utils/sleep';
 
-const onClickAdd = (err, values, formCore, listCore) => {
-  LeDialog.show(
-    {
-      form: {
-        layout: {
-          label: 'w120',
-        },
-      },
-      items: [
-        {
-          label: '采购时间',
-          name: 'purchasing',
-          rules: {
-            type: 'string',
-            required: true,
-            message: '请填写内容',
-          },
-        },
-        {
-          label: '仓库名称',
-          name: 'warehouse',
-        },
-        {
-          label: '供应商名称',
-          name: 'supplier',
-        },
-        {
-          label: '采购订单状态',
-          name: 'status',
-        },
-        {
-          label: '采购订单来源',
-          name: 'origin',
-        },
-        {
-          label: '供应商确认状态',
-          name: 'confirm',
-        },
-      ],
+export default (params) => {
+  return {
+    settings: {
+      globalStatus: 'preview',
+      values: {...params}
     },
-    {
-      title: '新建采购单',
-      width: '500px',
-      onOk: (values, hide) => {
-        return new Promise(async (resolve, reject) => {
-          await sleep(1500);
-          resolve();
-          hide();
-          listCore.refresh();
-        });
-      },
-    }
-  );
-};
-
-export default {
-  settings: {
-    globalStatus: 'preview',
-    initValues: {},
-  },
-  form: {
-    inline: false,
-    layout: {
-      label: 'w120',
-      columns: 3,
-    },
-  },
-  items: [
-    {
-      label: '仓库名称',
-      name: 'warehouseName',
-      component: 'Input',
-      props: {
-        placeholder: '请输入仓库名称',
+    form: {
+      inline: false,
+      layout: {
+        label: 'w120',
+        columns: 3,
       },
     },
-    {
-      label: '供应商名称',
-      name: 'supplierName',
-      component: 'Input',
-      props: {
-        placeholder: '请输入供应商名称',
+    items: [
+      {
+        label: '配送单号',
+        name: 'deliveryNo',
+        component: 'Input',
       },
-    },
-    {
-      label: '期望入库时间',
-      name: 'inputExpectTime',
-      component: 'DatePicker',
-      props: {
-        placeholder: '请选择期望入库时间',
+      {
+        label: '配送日期',
+        name: 'createTime',
+        component: 'Input',
       },
-    },
-    {
-      label: '失效时间',
-      name: 'invalidTime',
-      component: 'DatePicker',
-      value: 0,
-      props: {
-        placeholder: '请选择失效时间',
+      {
+        label: '仓库名称',
+        name: 'warehouseName',
+        component: 'Input',
       },
-    },
-  ],
-  buttons: [
-    // {
-    //   props: {
-    //     type: 'primary',
-    //     children: '查询',
-    //     onClick(err, values, formCore, listCore) {},
-    //   },
-    //   options: {
-    //     type: 'submit',
-    //     validate: true, // default true
-    //   },
-    // },
-    // {
-    //   props: {
-    //     children: '重置',
-    //     onClick(err, values, formCore, listCore) {},
-    //   },
-    //   options: {
-    //     type: 'reset',
-    //   },
-    // },
-    {
-      props: {
-        type: 'primary',
-        children: '添加商品',
-        onClick: onClickAdd,
+      {
+        label: '配送单类型',
+        name: 'deliveryType',
+        component: 'Input',
       },
-      options: {
-        type: 'none',
-        validate: true,
+      {
+        label: '小区名称',
+        name: 'communityName',
+        component: 'Input',
       },
-    },
-  ],
-};
+      {
+        label: '小区长',
+        name: 'consigneeName',
+        component: 'Input',
+      },
+      {
+        label: '小区长电话',
+        name: 'consigneeMobile',
+        component: 'Input',
+      },
+      {
+        label: '小区长地址',
+        name: 'communityAddress',
+        component: 'Input',
+      },
+    ],
+    buttons: []
+  };
+}

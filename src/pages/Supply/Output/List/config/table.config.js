@@ -1,53 +1,21 @@
 import React from 'react';
-import { LeDialog } from '@lib/lepage';
+import moment from 'moment';
 
-const showDetail = values => {
-  LeDialog.show(
-    {
-      core: {
-        values,
-        globalStatus: 'preview',
-      },
-      form: {
-        layout: {
-          label: 'w120',
-        },
-      },
-      items: [
-        {
-          label: '采购时间',
-          name: 'purchasing',
-        },
-        {
-          label: '仓库名称',
-          name: 'warehouse',
-        },
-        {
-          label: '供应商名称',
-          name: 'supplier',
-        },
-        {
-          label: '采购订单状态',
-          name: 'status',
-        },
-        {
-          label: '采购订单来源',
-          name: 'origin',
-          props: {
-            onChange() {
-              this.setState({
-                dataSource: [],
-              });
-            },
-          },
-        },
-      ],
-    },
-    {
-      title: '查看详情',
-    }
-  );
-};
+const formatType = 'YYYY-MM-DD HH:mm:ss'
+
+// communityAddress: ""
+// communityName: ""
+// consigneeMobile: ""
+// consigneeName: ""
+// delieryGeneralInfo: null
+// deliveryNo: ""
+// opertorName: null
+// outboundNo: "YCWLD2019030100041"
+// outboundTime: 1551419034000
+// status: 0
+// type: 0
+// warehouseCode: ""
+// warehouseName: null
 
 export default {
   columns: [
@@ -57,15 +25,27 @@ export default {
     },
     {
       title: '出库单号',
-      dataIndex: 'outputNo',
+      dataIndex: 'outboundNo',
     },
     {
-      title: '上游单号',
-      dataIndex: 'upperNo',
+      title: '配送单号',
+      dataIndex: 'deliveryNo',
+      render(value, values, index) {
+        return (
+          <div>
+            <a href={`/supply/delivery/detail?deliveryNo=${value}`}>{value}</a>
+          </div>
+        );
+      },
     },
     {
       title: '出库时间',
-      dataIndex: 'outputTime',
+      dataIndex: 'outboundTime',
+      render(value, values, index) {
+        return (
+          <span>{value ? moment(value).format(formatType) : '无数据'}</span>
+        );
+      },
     },
     {
       title: '仓库名称',
@@ -73,25 +53,15 @@ export default {
     },
     {
       title: '收货人',
-      dataIndex: 'receiver',
+      dataIndex: 'consigneeName',
     },
     {
       title: '出库单概况',
-      dataIndex: 'outputSurvey',
+      dataIndex: 'delieryGeneralInfo',
     },
     {
       title: '操作人',
-      dataIndex: 'operator',
-    },
-    {
-      title: '操作',
-      render(value, values, index) {
-        return (
-          <div>
-            <span onClick={showDetail.bind(null, values)}>查看</span>;
-          </div>
-        );
-      },
+      dataIndex: 'opertorName',
     },
   ],
 };

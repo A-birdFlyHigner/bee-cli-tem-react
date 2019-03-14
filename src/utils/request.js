@@ -142,17 +142,17 @@ export default function request(url, option) {
       // DELETE and 204 do not return data by default
       // using .json will report an error.
 
-      // const contentType = response.headers.get('content-type')
-      // if (contentType.includes('text/html')) {
-      //   return response.text().then(res => {
-      //     if (Object.prototype.toString.call(res) === '[object String]' && res.indexOf('window.location.href') !== -1) {
-      //       const result = res.replace('<script>', '').replace('</script>','');
-      //       console.log('result', result)
-      //       document.body.appendChild(result)
-      //       // eval(res.replace('<script>', '').replace('</script>',''))
-      //     }
-      //   })
-      // }
+      const contentType = response.headers.get('content-type')
+      if (contentType.includes('text/html')) {
+        return response.text().then(res => {
+          if (Object.prototype.toString.call(res) === '[object String]' && res.indexOf('window.location.href') !== -1) {
+            const result = res.replace('<script>', '').replace('</script>','').slice(22).slice(0,-1);
+            window.location.href = result
+            // document.body.appendChild(result)
+            // eval(res.replace('<script>', '').replace('</script>',''))
+          }
+        })
+      }
 
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();

@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export default queryParams => {
   const { pageSize, currentPage } = queryParams;
-  const index = pageSize * (currentPage - 1);
+  const index = pageSize * (currentPage - 1) + 1;
 
   // 使用 Mock
   const data = Mock.mock({
@@ -11,14 +11,15 @@ export default queryParams => {
       {
         // 属性 id 是一个自增数，起始值为 1，每次增 1
         'key|+1': index,
-        SKU_No: '@number(5)',
-        // 'SKU_No': moment().subtract(10, 'days').calendar(),
-        imgUrl: '@name(10)',
-        goodsName: '@ctitle(5,10)',
-        SKU_name: '@cname(5)',
-        status: '@name(10)',
-        costPrice: '@number(10)',
-        PurchaseQuantity: '@name(10)',
+        SKU_No: '@natural(5)',
+        inputNumber: '@natural(5，200)',
+        inputTime: moment()
+          .subtract(10, 'days')
+          .calendar(),
+        goodsName: '@name(5)',
+        SKU_Name: '@cname(5)',
+        inputSurvey: '@name(5)',
+        imgUrl: '@name(5)',
       },
     ],
   });

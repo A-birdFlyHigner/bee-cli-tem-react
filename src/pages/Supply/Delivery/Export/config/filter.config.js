@@ -22,10 +22,10 @@ export default {
     },
     {
       label: '仓库名称',
-      name: 'warehouse',
-      component: 'Input',
+      name: 'warehouseCode',
+      component: 'Select',
       props: {
-        placeholder: '请输入仓库名称',
+        placeholder: '请选择仓库名称',
       },
     },
   ],

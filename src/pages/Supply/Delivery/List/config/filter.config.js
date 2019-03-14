@@ -1,5 +1,13 @@
+import { purchaseState, purchaseSource, supplierState } from '@/pages/Supply/common/constants';
+import SearchSelect from '@/components/Rules/SearchSelect'
+import {getVillageEmunList} from '@/services/supply'
+
+// const admin = 0
+// const seller = 1
+// const fromType = admin
+
 export default {
-  core: {
+  settings: {
     initValues: {},
   },
 
@@ -13,32 +21,31 @@ export default {
 
   items: [
     {
-      label: '送货日期',
-      name: 'deliveryDate',
+      label: '送货时间',
+      name: 'expectOutboundTime',
       component: 'DatePicker',
       props: {
-        placeholder: '请选择送货日期',
+        placeholder: '请选择送货时间',
       },
     },
     {
       label: '仓库名称',
-      name: 'warehouse',
-      component: 'Input',
+      name: 'warehouseCode',
+      component: 'Select',
       props: {
-        placeholder: '请输入仓库名称',
+        placeholder: '请选择采购订单状态',
+        options: [],
       },
     },
-    {
+    SearchSelect({
       label: '小区名称',
-      name: 'villageName',
-      component: 'Input',
-      props: {
-        placeholder: '请输入小区名称',
-      },
-    },
+      name: 'communityName',
+      placeholder: '请输入小区名称',
+      requestService: getVillageEmunList
+    },),
     {
       label: '小区长电话',
-      name: 'villageManagePhone',
+      name: 'consigneeMobile',
       component: 'Input',
       props: {
         placeholder: '请输入小区长电话',

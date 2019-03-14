@@ -11,14 +11,14 @@ export default queryParams => {
       {
         // 属性 id 是一个自增数，起始值为 1，每次增 1
         'key|+1': index,
-        outputNo: '@natural(5)',
-        upperNo: '@natural(5)',
-        outputTime: moment()
+        inputNo: '@natural(5)',
+        purchaseNo: '@natural(5)',
+        inputTime: moment()
           .subtract(10, 'days')
           .calendar(),
         warehouseName: '@name(5)',
-        receiver: '@cname(5)',
-        outputSurvey: '@name(5)',
+        supplierName: '@cname(5)',
+        inputSurvey: '@name(5)',
         operator: '@name(5)',
       },
     ],

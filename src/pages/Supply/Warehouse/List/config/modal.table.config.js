@@ -1,7 +1,4 @@
 import React from 'react';
-import moment from 'moment';
-
-const formatType = 'YYYY-MM-DD HH:mm:ss'
 
 export default {
   columns: [
@@ -10,25 +7,8 @@ export default {
       dataIndex: 'key',
     },
     {
-      title: '商品ID',
-      dataIndex: 'itemCode',
-    },
-    {
-      title: '商品名称/规格',
-      dataIndex: 'itemName',
-      render(value, values, index) {
-        return (
-          <span>{value},{values.skuCountUnit}</span>
-        );
-      },
-    },
-    {
-      title: 'SKU编码',
-      dataIndex: 'skuCode',
-    },
-    {
-      title: '供应商名称',
-      dataIndex: 'supplierName',
+      title: '仓库',
+      dataIndex: 'warehouseName',
     },
     {
       title: '总库存',

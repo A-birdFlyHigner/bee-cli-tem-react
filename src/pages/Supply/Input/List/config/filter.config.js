@@ -1,10 +1,9 @@
+import SearchSelect from '@/components/Rules/SearchSelect'
+import {getSupplierEmunList} from '@/services/supply'
+
 export default {
   core: {
-    initValues: {
-      status: 0,
-      origin: 0,
-      confirm: 0,
-    },
+    initValues: {},
   },
 
   form: {
@@ -18,7 +17,7 @@ export default {
   items: [
     {
       label: '入库时间',
-      name: 'inputTime',
+      name: 'inboundTime',
       component: 'DatePicker',
       props: {
         placeholder: '请选择入库时间',
@@ -26,7 +25,7 @@ export default {
     },
     {
       label: '入库单号',
-      name: 'inputNo',
+      name: 'inboundNo',
       component: 'Input',
       props: {
         placeholder: '请输入入库单号',
@@ -42,20 +41,19 @@ export default {
     },
     {
       label: '仓库名称',
-      name: 'warehouseName',
-      component: 'Input',
+      name: 'warehouseCode',
+      component: 'Select',
       props: {
-        placeholder: '请输入仓库名称',
+        placeholder: '请选择采购订单状态',
+        options: [],
       },
     },
-    {
+    SearchSelect({
       label: '供应商名称',
-      name: 'supplierName',
-      component: 'Input',
-      props: {
-        placeholder: '请输入供应商名称',
-      },
-    },
+      name: 'supplierCode',
+      placeholder: '请输入供应商名称',
+      requestService: getSupplierEmunList
+    },),
   ],
   buttons: [
     {
@@ -78,16 +76,5 @@ export default {
         type: 'reset',
       },
     },
-    // {
-    //   props: {
-    //     type: 'danger',
-    //     children: '导出',
-    //     onClick(err, values, formCore, listCore) {},
-    //   },
-    //   options: {
-    //     type: 'none',
-    //     validate: true,
-    //   },
-    // },
   ],
 };

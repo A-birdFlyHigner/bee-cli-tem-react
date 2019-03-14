@@ -2,48 +2,23 @@ import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import { filterConfig, tableConfig } from './config';
 import './index.less';
-import mockList from './mock/list';
-import mockListModal from './mock/listModal';
+import {getInputList, getInputDetailList, getSupplierEmunList, getWarehouseEmunList} from '@/services/supply'
 import { Modal } from 'antd';
 import modalTableConfig from './config/modal.table.config';
+import {leListQuery} from '@/utils/utils'
 
 const listConfig = {
   filterConfig,
   tableConfig,
-  formatBefore(queryParams) {
-    return queryParams;
-  },
-  query(queryParams, url, method) {
-    return new Promise((resolve, reject) => {
-      const result = mockList(queryParams);
-      setTimeout(() => {
-        resolve(result);
-      }, 300);
-    });
-  },
-  formatAfter(result) {
-    return result;
-  },
-  url: 'http://localhost:8899/getList',
+  ...leListQuery(getInputList)
 };
 
 const listConfigModal = {
+  filterConfig: {settings: {
+    values: {inboundNo: undefined}
+    }},
   tableConfig: modalTableConfig,
-  formatBefore(queryParams) {
-    return queryParams;
-  },
-  query(queryParams, url, method) {
-    return new Promise((resolve, reject) => {
-      const result = mockListModal(queryParams);
-      setTimeout(() => {
-        resolve(result);
-      }, 300);
-    });
-  },
-  formatAfter(result) {
-    return result;
-  },
-  url: 'http://localhost:8899/getList',
+  ...leListQuery(getInputDetailList)
 };
 
 class List extends Component {
@@ -69,25 +44,31 @@ class List extends Component {
       modalVisible: false,
     };
   }
-  showDetail = (e) => {
+  showDetail = (params) => {
+    // console.log('params', params)
+    // debugger
+    // this.modalList.listCore.setValue('inboundNo', params.inboundNo)
+    const listConfigModalMix = {...listConfigModal}
+    listConfigModalMix.filterConfig.settings.values.inboundNo = params.inboundNo
     this.setState({
       modalVisible: true,
+      listConfigModal: listConfigModalMix
     });
   };
-/*  handleOk = (e) => {
-    console.log('this.listDataSource', this.listDataSource);
-    this.list.listCore.setDataSource(this.listDataSource.newData);
-    this.list.listCore.setPageData(this.listDataSource.pagination);
-    this.setState({
-      modalVisible: false,
-    });
-  };*/
   handleCancel = (e) => {
     this.setState({
       modalVisible: false,
     });
   };
-
+  componentDidMount() {
+    const self = this
+    getWarehouseEmunList().then((res)=>{
+      const data = res.map(item=>{
+        return {value: item.key, label: item.value}
+      })
+      self.list.filterCore.setProps('warehouseCode', { options: data });
+    })
+  }
   render() {
     const { state } = this;
     return <div>

@@ -1,4 +1,7 @@
 import React from 'react';
+import moment from 'moment';
+
+const formatType = 'YYYY-MM-DD HH:mm:ss'
 
 export default {
   columns: [
@@ -8,15 +11,27 @@ export default {
     },
     {
       title: '入库单号',
-      dataIndex: 'inputNo',
+      dataIndex: 'inboundNo',
     },
     {
       title: '采购单号',
       dataIndex: 'purchaseNo',
+      render(value, values, index) {
+        return (
+          <div>
+            <a href={`/supply/purchase/detail?purchaseNo=${value}`}>{value}</a>
+          </div>
+        );
+      },
     },
     {
       title: '入库时间',
-      dataIndex: 'inputTime',
+      dataIndex: 'inboundTime',
+      render(value, values, index) {
+        return (
+          <span>{value ? moment(value).format(formatType) : '无数据'}</span>
+        );
+      },
     },
     {
       title: '仓库名称',
@@ -28,11 +43,11 @@ export default {
     },
     {
       title: '入库单概况',
-      dataIndex: 'inputSurvey',
+      dataIndex: 'purchaseGeneralInfo',
     },
     {
       title: '操作人',
-      dataIndex: 'operator',
+      dataIndex: 'operaName',
     },
   ],
 };

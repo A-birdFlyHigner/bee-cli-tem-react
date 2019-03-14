@@ -1,6 +1,6 @@
 import React from 'react';
 
-const deleteRow = values => {
+const select = values => {
   console.log('values', this, values);
 };
 
@@ -26,38 +26,30 @@ export default {
     },
     {
       title: 'SKU编码',
-      dataIndex: 'SKU_No',
+      dataIndex: 'baseSaleGoodsId',
     },
     {
       title: '主图',
-      dataIndex: 'imgUrl',
+      dataIndex: 'mainImages',
+      render(value, values, index) {
+        return (
+          <span>
+            <img src={value && value[0]} alt="主图"/>
+          </span>
+        );
+      },
     },
     {
       title: '商品名称',
-      dataIndex: 'goodsName',
+      dataIndex: 'name',
     },
     {
-      title: 'SKU名称',
+      title: 'SKU名称(字段待定)',
       dataIndex: 'SKU_Name',
     },
     {
       title: '供应商成本价',
-      dataIndex: 'costPrice',
-    },
-    {
-      title: '采购数量',
-      dataIndex: 'PurchaseQuantity',
-    },
-    {
-      title: '操作',
-      width: '80px',
-      render(value, values, index) {
-        return (
-          <div>
-            <span onClick={() => {deleteRow(values)}}>删除</span>
-          </div>
-        );
-      },
+      dataIndex: 'salePrice',
     },
   ],
 };

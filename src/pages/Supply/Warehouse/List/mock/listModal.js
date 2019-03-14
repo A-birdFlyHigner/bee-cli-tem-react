@@ -1,5 +1,5 @@
 import Mock from 'mockjs';
-// import moment from 'moment'
+import moment from 'moment';
 
 export default queryParams => {
   const { pageSize, currentPage } = queryParams;
@@ -12,12 +12,14 @@ export default queryParams => {
         // 属性 id 是一个自增数，起始值为 1，每次增 1
         'key|+1': index,
         SKU_No: '@natural(5)',
-        imgUrl: '@name(10)',
-        goodsName: '@ctitle(5,10)',
+        inputNumber: '@natural(5，200)',
+        inputTime: moment()
+          .subtract(10, 'days')
+          .calendar(),
+        goodsName: '@name(5)',
         SKU_Name: '@cname(5)',
-        status: '@name(10)',
-        costPrice: '@natural(10)',
-        PurchaseQuantity: '@name(10)',
+        inputSurvey: '@name(5)',
+        imgUrl: '@name(5)',
       },
     ],
   });
