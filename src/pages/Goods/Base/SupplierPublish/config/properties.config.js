@@ -74,6 +74,9 @@ const handleAddPropertyPair = async (leForm, name, event, okFn = FN) => {
 
     // clear
     target.value = ''
+    setTimeout (() => {
+      target.focus();
+    }, 200)
 
     okFn()
   }
