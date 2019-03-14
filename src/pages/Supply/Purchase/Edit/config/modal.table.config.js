@@ -34,7 +34,7 @@ export default {
       render(value, values, index) {
         return (
           <span>
-            <img src={value} alt="主图"/>
+            <img style={{width: '100px'}} src={value} alt="主图" />
           </span>
         );
       },

@@ -1,3 +1,7 @@
+import categoryRule from '@/components/Rules/category'
+import SearchSelect from '@/components/Rules/SearchSelect'
+import {getGoodsEmunList} from '@/services/supply'
+
 export default (params) => {
   return {
     settings: {
@@ -13,22 +17,17 @@ export default (params) => {
     },
 
     items: [
-      {
-        label: '商品类目',
-        name: 'categoryCode',
-        component: 'Input',
-        props: {
-          placeholder: '请选择商品类目',
-        },
-      },
-      {
+      categoryRule({
+        label: '类目',
+        name: 'categoryId',
+        value: []
+      }),
+      SearchSelect({
         label: '商品名称',
-        name: 'itemName',
-        component: 'Input',
-        props: {
-          placeholder: '请输入商品名称',
-        },
-      },
+        name: 'itemCode',
+        placeholder: '请输入供应商名称',
+        requestService: getGoodsEmunList
+      },),
       {
         label: 'SKU编码',
         name: 'skuCode',
