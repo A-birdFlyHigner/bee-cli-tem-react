@@ -175,25 +175,22 @@ export default class Detail extends Component {
     for (const i of keys) {
       const item = this.leForm[i]
       const errors = await item.validate()
-      if (errors) {
-        if (isError) {
-          const msg = errors[Object.keys(errors)[0]]
-          message.warning(msg)
-        }
+      if (errors && !isError) {
+        const msg = errors[Object.keys(errors)[0]]
+        message.warning(msg)
         isError = true
-      } 
+      }
       else if (!isError) {
         item.value.productIds.forEach(p => {
           const list = item.value[`dataSource${p}`]
-
           list.forEach((q) => {
             const { costPrice, stockCount } = q
             if (!costPrice || !stockCount) {
               const { value: { spreadName } = {} } = item
               if (!isError) {
                 message.warning(`请完善${spreadName}下的商品成本价和推广库存`) 
+                isError = true
               }
-              isError = true
             }
           })
         })
@@ -215,20 +212,22 @@ export default class Detail extends Component {
 
       for (const i of keys) {
         const item = this.leForm[i].value
-        item.cityIds.forEach(cId => {
-          citySpreadDetailList.push({
-            cityCode: cId,
-            dispatchDate: item.dispatchDate,
-            logisticsMethod: item.logisticsMethod,
-            logisticsType: item.logisticsType,
-            spreadSkuList: item[`dataSource${pId}`].map(sku => {
-              return {
-                ...sku,
-                costPrice: sku.costPrice * 100
-              }
+        if (item.productIds.indexOf(pId) > -1) {
+          item.cityIds.forEach(cId => {
+            citySpreadDetailList.push({
+              cityCode: cId,
+              dispatchDate: item.dispatchDate,
+              logisticsMethod: item.logisticsMethod,
+              logisticsType: item.logisticsType,
+              spreadSkuList: item[`dataSource${pId}`].map(sku => {
+                return {
+                  ...sku,
+                  costPrice: sku.costPrice * 100
+                }
+              })
             })
           })
-        })
+        }
       }
       createList.push({
         productId: pId,
@@ -238,7 +237,11 @@ export default class Detail extends Component {
     createList = createList.filter(item => {
       return item.citySpreadDetailList.length
     })
-    if (!createList.length) return message.warning('请添加推广信息')
+    if (!createList.length) {
+      this.setState({ addBtnLoading: false })
+      message.warning('请添加推广信息')
+      return false
+    }
     if (edit) {
       const res = await productSpreadUpdate(createList[0])
       if (!res) {
