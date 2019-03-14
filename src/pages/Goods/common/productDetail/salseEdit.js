@@ -27,6 +27,7 @@ const tabelColumns = (core, preview) => {
 
   const onInputChange = (val, index, name) => {
     if (val !== '' && !(name === 'grossProfit' ? RegGross : Reg.Price).test(val)) return
+    if (Number(val) > 100000000) return
     const saleUnits = JSON.parse(JSON.stringify(core.getValue('saleUnits')))
     saleUnits[index][name] = val
     core.setValue('saleUnits', saleUnits)
@@ -102,7 +103,7 @@ export default function (preview) {
 
     const onBatchChange = (val, dataIndex) => {
       if (val !== '' && !(dataIndex === 'grossProfit' ? RegGross : Reg.Price).test(val)) return
-      if (Number(val) > 1000000) return
+      if (Number(val) > 100000000) return
       const saleUnits = leForm.getValue('saleUnits').map(p => {
         return {
           ...p,
