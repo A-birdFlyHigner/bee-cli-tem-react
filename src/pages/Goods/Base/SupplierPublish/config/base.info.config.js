@@ -13,7 +13,10 @@ const getBaseInfoConfig = () => {
           required: true,
           maxLength: 40,
           placeholder: '请输入长名称',
-          suffix: '简洁描述这是什么商品，展示在小程序端，限40字'
+          suffix: '简洁描述这是什么商品，展示在小程序端，限40字',
+          style: {
+            width: '500px'
+          }
         },
         rules: {
           type: 'string',
@@ -29,7 +32,10 @@ const getBaseInfoConfig = () => {
           required: true,
           maxLength: 20,
           placeholder: '请输入短名称',
-          suffix: '提炼文案，展示在小程序端的描述，限20字'
+          suffix: '提炼文案，展示在小程序端的描述，限20字',
+          style: {
+            width: '400px'
+          }
         },
         rules: {
           type: 'string',
