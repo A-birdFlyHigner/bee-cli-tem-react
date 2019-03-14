@@ -28,11 +28,11 @@ export default class SkuDetail extends Component {
           align: 'center',
           render: (text, record) => {
             const info = text.map(p => p.pvName)
-            const { stauts } = record
+            const { status } = record
             const StopSale = <span className='globalRed'>（停售）</span>
             return (
               <div>
-                { stauts !== 0 ? null : StopSale}
+                { status !== 0 ? null : StopSale}
                 <span>{info.join('&') || '默认'}</span>
               </div>
             )
