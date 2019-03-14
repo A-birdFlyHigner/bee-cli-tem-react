@@ -38,6 +38,7 @@ const getFormConfig = (leForm, propertyPairs = []) => {
           label,
           name: `${name}`, // propertyPairId
           value: Cache[`skuMainImageItem-${name}`],
+          className: 'no-form-item-sku-main-image-list',
           props: {
             listType: 'picture-card',
             className: 'avatar-uploader',

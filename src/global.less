@@ -109,11 +109,25 @@ ol {
     min-width: auto;
   }
 
+  .no-form-item-sku-main-image-list {
+    .no-form-item-label {
+      display: inline-block;
+      margin-top: 114px;
+      line-height: 14px;
+    }
+    .ant-upload-list-picture-card .ant-upload-list-item,
+    .ant-upload-select-picture-card {
+      width: 128px;
+      height: 128px;
+    }
+  }
+
   // 商品主图
   .no-form-item-goods-main-image-list {
-    .ant-upload-list-picture-card .ant-upload-list-item {
-      width: 160px;
-      height: 160px;
+    .ant-upload-list-picture-card .ant-upload-list-item,
+    .ant-upload-select-picture-card {
+      width: 128px;
+      height: 128px;
     }
     .no-form-item-content-elem > span {
       display: block;
@@ -139,6 +153,10 @@ ol {
       border: 0;
       border-radius: 0
     }
+    // .ant-upload-select-picture-card {
+      // width: 128px;
+      // height: 128px;
+    // }
     // .no-form-item-content-elem > span {
     //   display: block;
     // }

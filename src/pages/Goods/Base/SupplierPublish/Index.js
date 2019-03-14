@@ -1,58 +1,12 @@
 import React, { Component } from 'react';
 import { LeForm } from '@lib/lepage';
-import moment from 'moment'
 import { getFormConfig } from './config';
 import { getGoodsDetail, queryCategoryPropertyDetail } from '@/services/goods'
 import { getPageQuery } from '@/utils/utils'
+import { pick } from './utils'
 import Category from './components/Category/index'
 import { SALE_PROPERTY_NAME_ID, GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './config/common.config'
-// import Sty from './Index.less'
-
-const pick = (object, paths = []) => {
-  const result = {}
-  paths.forEach(path => {
-    result[path] = object[path]
-  })
-  return result
-}
-
-const omit = (object, paths = []) => {
-  const result = {}
-  for (const key in object) {
-    if (paths.indexOf(key) === -1) {
-      result[key] = object[key]
-    }
-  }
-  return result
-}
-
-
-const DEFAULT_FORM_VALUES = {
-  name: `书航商品 ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
-  desc: '小区乐专卖',
-  brandName: '毛线衣',
-  goodsMainImageList: [
-    {
-      height: 640,
-      order: 1,
-      type: 1,
-      uid: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
-      url: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
-      width: 640,
-    }
-  ],
-  goodsDetailImageList: [
-    {
-      height: 640,
-      order: 1,
-      type: 1,
-      uid: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
-      url: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
-      width: 640,
-    }
-  ]
-}
-
+import { DEFAULT_FORM_VALUES } from './mock/defaultFormValues'
 
 class GoodsPublish extends Component {
   constructor(props) {
@@ -74,10 +28,13 @@ class GoodsPublish extends Component {
   componentWillMount () {
     const { mock = false } = getPageQuery()
     const { itemId } = this.state
+
     // 编辑商品
     if (itemId) {
       this.loadGoodsDetail(itemId)
     }
+
+    // FIXME: 开发专用
     else if (mock){
       this.handleCategoryOK({
         categoryId: 20005,
