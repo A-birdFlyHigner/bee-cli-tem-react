@@ -42,7 +42,7 @@ export default {
     },
     {
       label: '渠道商品Id',
-      name: 'chanleProductId',
+      name: 'channelProductId',
       component: 'Input',
       rules: {
         pattern: Reg.Num,
