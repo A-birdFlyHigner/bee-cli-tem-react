@@ -1,76 +1,33 @@
 import React from 'react';
-import {Tooltip, Icon, Modal} from 'antd'
 import moment from 'moment'
+import Link from 'umi/link'
+import {exportDeliveryOrder} from '@/services/supply'
 
 const formatType = 'YYYY-MM-DD HH:mm:ss'
 
-const {confirm} = Modal
-
 const download = values => {
-  console.log('download', values)
-};
-
-const cancelConfirm = values => {
-  confirm({
-    title: '取消采购单',
-    content: '是否确定取消该采购单？',
-    onOk() {
-      console.log('cancelConfirm_OK');
-    },
-    onCancel() {
-      console.log('cancelConfirm_Cancel');
-    },
-  })
-};
-const submitConfirm = values => {
-  confirm({
-    title: '提交采购单',
-    content: '是否确定提交该采购单？',
-    onOk() {
-      console.log('submitConfirm_OK');
-    },
-    onCancel() {
-      console.log('submitConfirm_Cancel');
-    },
-  })
+  exportDeliveryOrder(values.deliveryNo)
 };
 
 export default {
+  // rowKey: 'id',
+  scroll: { x: 1800 },
   columns: [
     {
       title: '序号',
       dataIndex: 'key',
-      width: '40px',
+      width: 100,
     },
-
-    // areaCode: "333100"
-    // communityAddress: "杭州市西湖区"
-    // communityName: "财富中心小区"
-    // consigneeMobile: "176818283894"
-    // consigneeName: "小区长名称"
-    // createTime: 1551322177000
-    // delieryGeneralInfo: "共20种规格,1件商品"
-    // deliveryNo: "2019022838977170200"
-    // deliveryType: 0
-    // expectOutboundTime: 1551283200000
-    // referSellOrderCount: 0
-    // sellType: 1
-    // source: 1
-    // status: 0
-    // type: 0
-    // updateTime: 1551322179000
-    // warehouseCode: "1"
-    // warehouseName: null
     {
       title: '配送单号',
       dataIndex: 'deliveryNo',
-      width: '40px',
+      width: 200,
     },
     {
       title: '送货日期',
       dataIndex: 'expectOutboundTime',
-      width: '40px',
-      render(value, values, index) {
+      width: 200,
+      render(value) {
         return (
           <span>{value ? moment(value).format(formatType) : '无数据'}</span>
         );
@@ -79,11 +36,12 @@ export default {
     {
       title: '仓库',
       dataIndex: 'warehouseName',
-      width: '40px',
+      width: 200,
     },
     {
       title: '配送单类型',
       dataIndex: 'deliveryType',
+      width: 200,
       render(value, values, index) {
         return (
           <span>{value === 0 ? '入库' : '落地配'}</span>
@@ -93,52 +51,68 @@ export default {
     {
       title: '小区名称',
       dataIndex: 'communityName',
+      width: 200,
     },
     {
       title: '小区长',
       dataIndex: 'consigneeName',
+      width: 200,
     },
     {
       title: '小区长电话',
       dataIndex: 'consigneeMobile',
+      width: 200,
     },
     {
       title: '小区地址',
       dataIndex: 'communityAddress',
+      width: 200,
     },
     {
       title: '配送单概况',
       dataIndex: 'delieryGeneralInfo',
+      width: 200,
     },
     {
       title: '用户订单',
       dataIndex: 'referSellOrderCount',
+      width: 200,
       render(value, values, index) {
         return (
           <div>
-            <span>{value}</span>;
-            <a href="javascript:;" onClick={download.bind(null, values)} >下载</a>;
+            <span>{value}</span>
+            {
+              value ? <a href="javascript:;" onClick={()=>{download(values)}}>下载</a>: null
+            }
           </div>
         );
       },
     },
     {
       title: '出库单',
+      width: 200,
       render(value, values, index) {
-        console.log('values', values)
         return (
           <div>
-            <a href={`/supply/output/list?deliveryNo=${values.deliveryNo}`}>查看</a>
+            {
+              values.status === 1 || values.status === 3
+                ? <Link to={`/supply/output/list?deliveryNo=${values.deliveryNo}`}>查看</Link>
+                : '/'
+            }
           </div>
         );
       },
     },
     {
       title: '操作',
+      width: 100,
+      align: 'center',
+      fixed: 'right',
       render(value, values, index) {
         return (
           <div>
-            <a href={`/supply/delivery/detail?deliveryNo=${values.deliveryNo}`}>查看</a>;
+            <Link to={`/supply/delivery/detail?deliveryNo=${values.deliveryNo}`}>查看</Link>;
+            <Link to={`/supply/delivery/detail?deliveryNo=${values.deliveryNo}&differStatus=1`}>差异报告</Link>
           </div>
         );
       },

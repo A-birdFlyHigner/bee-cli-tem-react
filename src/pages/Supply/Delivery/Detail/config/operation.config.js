@@ -1,10 +1,5 @@
 export default {
-  settings: {
-    // globalStatus: 'preview',
-    initValues: {
-      differStatus: 0
-    },
-  },
+  settings: {},
   form: {
     inline: false,
     layout: {
@@ -17,12 +12,7 @@ export default {
       label: '仅查看差异产品',
       name: 'differStatus',
       component: 'Checkbox',
-      props: {
-        placeholder: '请输入仓库名称',
-        // onChange: (value) => {
-        //   console.log('value', value)
-        // }
-      },
+      props: {}
     },
   ],
   buttons: []

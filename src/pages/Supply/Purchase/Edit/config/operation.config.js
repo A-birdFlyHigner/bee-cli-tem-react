@@ -1,6 +1,5 @@
 import SearchSelect from '@/components/Rules/SearchSelect'
 import {getSupplierEmunList} from '@/services/supply'
-import moment from 'moment';
 
 export default (params) => {
   return {
@@ -35,7 +34,6 @@ export default (params) => {
         label: '期望入库时间',
         name: 'expectInboundTime',
         component: 'DatePicker',
-        value: moment(),
         props: {
           placeholder: '请选择期望入库时间',
         },
@@ -44,7 +42,6 @@ export default (params) => {
         label: '失效时间',
         name: 'loseEfficacyTime',
         component: 'DatePicker',
-        value: moment(),
         props: {
           placeholder: '请选择失效时间',
         },

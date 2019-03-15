@@ -5,13 +5,18 @@ import { message } from 'antd';
 import dialogFormConfig from '../../common/spreadDialog';
 import {queryProductSpreadChannelList} from '@/services/goods'
 
-const setBranchList = async (err, val, formCore, listCore) => {
-  const productIds = listCore.getSelectedRowKeys()
+const setBranchList = async (err, val, leForm, leList) => {
+  const productIds = leList.getSelectedRowKeys()
   if (!productIds.length) return message.warning('请至少勾选一项！')
+  leForm.setProps('batchBtn', {
+    loading: true,
+  })
   const channelList = await queryProductSpreadChannelList()
+  leForm.setProps('batchBtn', {
+    loading: false,
+  })
   if (!channelList) message.warning('获取推广渠道出现异常')
   const formConf = dialogFormConfig(channelList)
-  
   LeDialog.show({
     title: '可选推广渠道',
     width: '800px',
@@ -63,11 +68,22 @@ export default {
   },
   buttons: [
     {
+      name: 'batchBtn',
       inline: true,
       props: {
         type: 'primary',
         children: '批量设置推广',
         onClick: setBranchList,
+      },
+    },
+    {
+      component: 'Button',
+      props: {
+        type: 'primary',
+        children: '新增商品',
+        onClick: () => {
+          router.push('/goods/publish')
+        },
       },
     },
   ],

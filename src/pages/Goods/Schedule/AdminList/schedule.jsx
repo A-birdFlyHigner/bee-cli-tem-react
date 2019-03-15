@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import '@lib/lepage/lib/index.css'
 import { LeList } from '@lib/lepage'
-import filterConfig from './scheduledConfig/search'
-import operationConfig from './scheduledConfig/operation'
-import tableConfig from './scheduledConfig/table'
-import { listUnScheduledProduct } from '@/services/goods'
+import filterConfig from './saleingConfig/search'
+import operationConfig from './saleingConfig/operation'
+import tableConfig from './saleingConfig/table'
+import { querySchedulingProductList } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
 
-export default class Scheduled extends Component {
+export default class Saleing extends Component {
 
   constructor(props) {
     super()
@@ -19,7 +19,7 @@ export default class Scheduled extends Component {
       filterConfig,
       operationConfig,
       tableConfig,
-      ...leListQuery(listUnScheduledProduct)
+      ...leListQuery(querySchedulingProductList)
     }
     return (
       <LeList {...config} />

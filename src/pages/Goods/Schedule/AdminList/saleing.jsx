@@ -4,7 +4,7 @@ import { LeList } from '@lib/lepage'
 import filterConfig from './saleingConfig/search'
 import operationConfig from './saleingConfig/operation'
 import tableConfig from './saleingConfig/table'
-import { queryCommunityManager } from '@/services/goods'
+import { queryHotProductList } from '@/services/goods'
 import { leListQuery } from '@/utils/utils'
 
 export default class Saleing extends Component {
@@ -19,7 +19,7 @@ export default class Saleing extends Component {
       filterConfig,
       operationConfig,
       tableConfig,
-      ...leListQuery(queryCommunityManager)
+      ...leListQuery(queryHotProductList)
     }
     return (
       <LeList {...config} />

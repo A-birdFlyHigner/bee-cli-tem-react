@@ -1,5 +1,6 @@
 import Reg from '@/utils/reg'
 import cityRule from '@/components/Rules/citySel/index'
+import timeRule from '@/components/Rules/timeSel/index'
 import categoryRule from '@/components/Rules/category'
 
 export default {
@@ -52,28 +53,19 @@ export default {
         placeholder: '请输入渠道商品Id'
       },
     },
-    {
-      label: '商品发货时效',
-      name: 'spreadTime',
-      component: 'Select',
-      props: {
-        placeholder: '请选择发货时效',
-        options: [{
-          label: '次日达',
-          value: 1,
-        }, {
-          label: '预售',
-          value: 2
-        }]
-      },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 3
-      }
-    },
+    cityRule({
+      label: '城市',
+      value: [],
+      deep: 2,
+    }),
+    timeRule({
+      label: '总部审核时间',
+      name: ['reviewStartTime', 'reviewEndTime'],
+      placeholder: ['请选择开始时间', '请选择结束时间'],
+    }),
     {
       label: '分公司',
-      name: 'branchOffice',
+      name: 'companyName',
       component: 'Input',
       props: {
         placeholder: '请输入分公司',
@@ -81,54 +73,25 @@ export default {
     },
     {
       label: '总部商品审核状态',
-      name: 'seeStatus',
+      name: 'reviewStatus',
       component: 'Select',
       props: {
         placeholder: '请选择商品审核状态',
+        allowClear: true,
         options: [{
-          label: '已拒绝',
-          value: 1,
-        }, {
           label: '待审核',
+          value: 0
+        }, {
+          label: '审核通过',
+          value: 1
+        }, {
+          label: '审核拒绝',
           value: 2
         }]
       },
-      // val 表单值集合 core 表单核心 当values改变的时候，when就会去判断是否命中，如果命中就会重新渲染这部分 
-      when: (val) => {
-        return val.type !== 3
-      }
     }, 
-    cityRule({
-      label: '城市',
-      value: [],
-      deep: 2,
-    }),
     {
-      label: '商品Id',
-      name: 'productId',
-      component: 'Input',
-      rules: {
-        pattern: Reg.Num,
-        message: '商品Id,请输入数字'
-      },
-      props: {
-        placeholder: '请输入商品Id'
-      },
-    },
-    {
-      label: '总部审核时间',
-      name: 'examineTime',
-      component: 'RangePicker',
-      className: 'globalRange',                    
-      value: [],
-      props: {
-        format: 'YYYY-MM-DD HH:mm:ss',
-        placeholder: ['请选择开始时间', '请选择结束时间'],
-        showTime: true,
-      },
-    },
-    {
-      label: 'skuId',
+      label: '渠道skuId',
       name: 'skuId',
       component: 'Input',
       rules: {
@@ -144,9 +107,7 @@ export default {
     props: {
       type: 'primary',
       children: '查询',
-      // onClick(err, values, formCore, listCore) {
-
-      // }
+      // onClick(err, values, formCore, listCore) {}
     },
     options: {
       type: 'submit',
@@ -155,9 +116,7 @@ export default {
   }, {
     props: {
       children: '重置',
-      // onClick(err, values, formCore, listCore) {
-
-      // }
+      // onClick(err, values, formCore, listCore) {}
     },
     options: {
       type: 'reset',

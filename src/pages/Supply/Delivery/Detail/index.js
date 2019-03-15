@@ -4,27 +4,25 @@ import { filterConfig, operationConfig, tableConfig } from './config';
 import './index.less';
 import { getDeliveryDetail, getDeliveryDetailList } from '@/services/supply';
 import { leListQuery } from '@/utils/utils';
-import moment from 'moment';
 
 class PurchaseEdit extends Component {
   constructor(props) {
     super(props);
     this.listDataSource = {};
-    let self = this;
-    this.deliveryNo = self.props.location.query.deliveryNo;
+    const self = this;
+    self.deliveryNo = self.props.location.query.deliveryNo
+    self.differStatus = Number(self.props.location.query.differStatus) || 0
 
     const operationConfigMix = { ...operationConfig };
     operationConfigMix.items[0].props.onChange = (value) => {
-      // debugger
       self.list.operationCore.setValue('differStatus', value);
       self.list.filterCore.setValue('differStatus', value ? 1 : 0);
       self.list.listCore.fetch();
-      // debugger
     };
     const listConfig = {
       filterConfig: filterConfig({
-        deliveryNo: this.deliveryNo,
-        differStatus: 0,
+        deliveryNo: self.deliveryNo,
+        differStatus: self.differStatus,
       }),
       operationConfig: operationConfigMix,
       tableConfig,
@@ -32,13 +30,13 @@ class PurchaseEdit extends Component {
     };
     this.state = {
       listConfig,
-      modalVisible: false,
     };
   }
 
   componentDidMount() {
+    this.list.operationCore.setValue('differStatus', this.differStatus === 1)
     getDeliveryDetail(this.deliveryNo).then(({
-       deliveryNo, createTime, warehouseName, deliveryType,
+       createTime, warehouseName, deliveryType,
        communityName, consigneeName, consigneeMobile, communityAddress,
      }) => {
       // debugger
@@ -46,7 +44,7 @@ class PurchaseEdit extends Component {
         deliveryNo: this.deliveryNo,
         // createTime: createTime && moment(createTime),
         warehouseName,
-        // deliveryType: deliveryType === 0 ? '入仓' : '落地配',
+        deliveryType: deliveryType === 0 ? '入仓' : '落地配',
         communityName,
         consigneeName,
         consigneeMobile,

@@ -1,6 +1,5 @@
 import fetch from 'dva/fetch';
 import { notification, message } from 'antd';
-import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
 
@@ -22,10 +21,18 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-// liqiang 123456 9999
-const localToken = 'a6a9dde52988487fbf949d3c42974ff3:1155'
-// hangzhou 123456 
-// const localToken = 'f5ef04e8dead484dbb76fab40d38a7d7:1155'
+let localToken = ''
+const key = 'HQBSFORSHOP'
+const { location } = window
+switch (ADMIN_TYPE) {
+  case 'ADMIN':
+    break;
+  default:
+    localToken = JSON.parse(sessionStorage[key] || '{}').token
+    if (!localToken) {
+      location.href = `${location.origin}/#/login`
+    }
+}
 
 const checkStatus = response => {
   if (response.status >= 200 && response.status < 300) {
@@ -154,9 +161,24 @@ export default function request(url, option) {
 
 
     }).then(response => {
+      console.log('response222', response, response.status)
       if (String(response.status) === '1') {
         return response.data
       }
+      const result = response.data
+      if(ADMIN_TYPE === 'ADMIN' 
+        && typeof result === 'string' 
+        && result.indexOf("<script>") !== -1 
+        && result.indexOf("</script>") !== -1) {
+        eval(result.replace("<script>",""))
+        return null
+      }
+
+      if (ADMIN_TYPE !== 'ADMIN' && response.errorCode === 10010){
+        sessionStorage.removeItem('HQBSFORSHOP')
+        location.href = `${location.origin}/#/login`
+      }
+
       message.error(response.errorMessage || response.message)
       return null
     })
@@ -172,11 +194,11 @@ export default function request(url, option) {
       }
       // environment should not be used
       if (status === 403) {
-        router.push('/exception/403');
+        // router.push('/exception/403');
         return;
       }
       if (status <= 504 && status >= 500) {
-        router.push('/exception/500');
+        // router.push('/exception/500');
         return;
       }
       if (status >= 404 && status < 422) {

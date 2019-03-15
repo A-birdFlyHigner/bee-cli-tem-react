@@ -17,6 +17,9 @@ export default {
     {
       title: '主图',
       dataIndex: 'skuImage',
+      render(value) {
+        return (<span><img style={{width: '100px'}} src={value} alt="主图" /></span>)
+      },
     },
     {
       title: '商品名称',
@@ -29,7 +32,7 @@ export default {
     {
       title: '供应商成本价',
       dataIndex: 'supplierPrice',
-      render: (value, record)=>{
+      render: (value)=>{
         return (value / 100).toFixed(2)
       }
     },
@@ -45,16 +48,5 @@ export default {
       title: '差异数量',
       dataIndex: 'differCount',
     },
-    // {
-    //   title: '操作',
-    //   width: '80px',
-    //   render(value, values, index) {
-    //     return (
-    //       <div>
-    //         <a href="javascript:;" onClick={() => {deleteRow(values)}} >删除</a>
-    //       </div>
-    //     );
-    //   },
-    // },
   ],
 };

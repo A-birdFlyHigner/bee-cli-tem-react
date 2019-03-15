@@ -12,27 +12,34 @@ const tabelColumns = (core, p) => {
     dataIndex: 'stockCount',
   }]
   const onInputChange = (val, index, name) => {
-    if (val !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(val)) return
+    let num = val
+    if (num !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(num)) return
+    if (name === 'stockCount' && num > 10000) num = 10000
     const dataSource = JSON.parse(JSON.stringify(core.getValue(`dataSource${p}`)))
-    dataSource[index][name] = val
+    dataSource[index][name] = num
     core.setValue(`dataSource${p}`, dataSource)
   }
   return [{
     title: '商品名称',
     dataIndex: 'productName',
     align: 'center',
-    render: (value, row, index) => {
-      return {
-        children: value,
-        props: {
-          rowSpan: index === 0 ? 100 : 0
-        }
-      }
-    }
+    width: '200px',
+    // render: (value, row, index) => {
+    //   return {
+    //     children: value,
+    //     props: {
+    //       rowSpan: index === 0 ? data.length : 0
+    //     }
+    //   }
+    // }
   }, {
     title: 'sku组合',
-    dataIndex: 'sku',
+    dataIndex: 'propertyNameList',
     align: 'center',
+    width: '200px',
+    render: (text) => {
+      return <span>{text.join('&') || '默认'}</span>
+    }
   }, 
   ...inputItems.map(item => {
     return {
@@ -61,15 +68,17 @@ const makeProductItem = (productIds, leForm) => {
 
   return productIds.map(p => {
     const onBatchChange = (val, name) => {
-      if (val !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(val)) return
+      let num = val
+      if (num !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(num)) return
+      if (name === 'stockCount' && num > 10000) num = 10000
       const dataSource = leForm.getValue(`dataSource${p}`).map(item => {
         return {
           ...item,
-          [name]: val
+          [name]: num
         }
       })
       leForm.setValues({
-        [`${name}${p}`]: val,
+        [`${name}${p}`]: num,
         [`dataSource${p}`]: dataSource,
       })
     }
@@ -124,8 +133,8 @@ const makeProductItem = (productIds, leForm) => {
       render: (values, core) => {
         return (
           <Table 
-            rowKey='sku' 
-            columns={tabelColumns(core, p)} 
+            rowKey='saleUnitId' 
+            columns={tabelColumns(core, p, values[`dataSource${p}`])} 
             pagination={false}
             dataSource={values[`dataSource${p}`]} 
           />

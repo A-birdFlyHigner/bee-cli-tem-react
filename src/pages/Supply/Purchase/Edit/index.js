@@ -142,7 +142,6 @@ class PurchaseEdit extends Component {
       listConfigModal: {},
       modalVisible: false,
     };
-
   }
 
   componentDidMount() {
@@ -160,8 +159,10 @@ class PurchaseEdit extends Component {
             warehouseCode,
             supplierName,
             supplierCode,
-            expectInboundTime: moment(expectInboundTime),
-            loseEfficacyTime: moment(loseEfficacyTime),
+            // expectInboundTime: undefined,
+            expectInboundTime: expectInboundTime && moment(expectInboundTime),
+            // loseEfficacyTime: undefined,
+            loseEfficacyTime: loseEfficacyTime &&moment(loseEfficacyTime),
           });
         })
       }
@@ -257,7 +258,9 @@ class PurchaseEdit extends Component {
       supplierCode: temp.supplierCode,
       warehouseCode: temp.warehouseCode,
       expectInboundTime: expectInboundTime && moment(expectInboundTime._d).format(formatType),
+      // expectInboundTime: undefined,
       loseEfficacyTime: loseEfficacyTime && moment(loseEfficacyTime._d).format(formatType),
+      // loseEfficacyTime: undefined,
       purchaseOrderDetail,
     }
     if (this.pageType === 'add') {
@@ -274,7 +277,6 @@ class PurchaseEdit extends Component {
         }
       })
     }
-
   }
 
   handleOk = () => {

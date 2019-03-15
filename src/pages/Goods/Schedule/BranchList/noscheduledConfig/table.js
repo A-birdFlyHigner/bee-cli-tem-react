@@ -1,14 +1,13 @@
 import React from 'react'
-import { LeDialog, LeForm } from '@lib/lepage'
+import { LeDialog } from '@lib/lepage'
 import moment from 'moment'
 import { ImageTextCard } from '@/components/InfoCard'
 import router from 'umi/router'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
-import { dialogFormSetTimeConfig } from '../../../common/commonConfig'
+import { goSetTime, goRevoke } from '../../../common/commonConfig'
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
-import { addOrUpdate } from '@/services/goods'
 
 const { logisticsMethod, logisticsType } = commonMessage
 
@@ -52,72 +51,9 @@ const getStoreInfo = (saleUnits) => {
   })
 }
 
-// 排期
-const goSetTime = (saleGoodsId) => {
-
-  LeDialog.show(
-    {
-      title: '设置活动时间',
-      width: '600px',
-      content () {
-        return <LeForm {...dialogFormSetTimeConfig()} />
-      },
-      onOk: (values, suc) => {
-        const { startTime, endTime } = values.scheduleTime
-        const productIdList = []
-        productIdList.push(saleGoodsId)
-        addOrUpdate({ startTime, endTime, productIdList }).then(res => {
-          if (!res) return
-          // 管理弹窗
-          suc()
-        })
-      }
-    }
-  )
-
-}
-
-const dialogFormRevokeConfig = () => {
-  return {
-    form: {
-      layout: { // 表单布局 左侧和右侧比例
-        label: 6,
-        control: 14
-      }
-    },
-    items: [
-      {
-        label: '',
-        name: 'text',
-        render: () => {
-          return (
-            <div>确定撤销推广？</div>
-          )
-        },
-      },
-    ],
-  }
-}
-
-// 撤销
-const goRevoke = () => {
-  LeDialog.show(
-    {
-      title: '撤销推广',
-      width: '400px',
-      content () {
-        return <LeForm {...dialogFormRevokeConfig()} />
-      },
-      onOk: (values, suc) => {
-        suc()
-      }
-    }
-  )
-}
-
 export default {
-  rowKey: 'id',
-  scroll: { x: 1500 },
+  rowKey: 'saleGoodsId',
+  scroll: { x: 1800 },
   rowSelection: {
     selections: true,
     getCheckboxProps() {
@@ -145,11 +81,11 @@ export default {
             },
             {
               label: '品牌',
-              value: record.brandName?record.brandName:'无',
+              value: record.brandName,
             },
             {
               label: '商品id',
-              value: record.saleGoodsId,
+              value: record.baseSaleGoodsId,
             },
             {
               label: '发货方式',
@@ -163,17 +99,15 @@ export default {
         />
       )
     }
-  }, {
+  },  {
     title: '类目',
-    dataIndex: 'categoryName',
-    key: 'categoryName',
-    align: 'center',        
-    width: 100,                                               
+    dataIndex: 'pathName',
+    key: 'pathName',      
+    width: 300,
     mutipleLine: true,
-    render: () => {
-      const vals = '食品,水果,橘子'
+    render: (vals) => {
       return (
-        <div className="list-inline">
+        <div>
           {
             vals && vals.split(',').map(
               (item) => (
@@ -196,7 +130,7 @@ export default {
     render: (val, record) => {
       return(
         <span className="list-inline">
-          {record.properties.propertyValue}个<br />
+          {record.saleUnits.length}个<br />
           <a className="linkButton" onClick={()=> getSkuDetail(record.saleUnits)}>查看</a>
         </span>
       )
@@ -279,7 +213,7 @@ export default {
           <span />
           <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
           <span />
-          <a className='table-operate' onClick={()=> goRevoke(record)}>撤销推广</a>
+          <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId)}>撤销推广</a>
         </div>
       )
     }

@@ -50,15 +50,15 @@ export default {
       deep: 2,
     }),
     {
-      label: 'skuId',
+      label: '渠道skuId',
       name: 'skuId',
       component: 'Input',
       rules: {
         pattern: Reg.Num,
-        message: 'skuId,请输入数字',
+        message: '渠道skuId,请输入数字',
       },
       props: {
-        placeholder: '请输入skuId',
+        placeholder: '请输入渠道skuId',
       },
     },
   ],
@@ -67,7 +67,7 @@ export default {
       props: {
         type: 'primary',
         children: '查询',
-        onClick(err, values, formCore, listCore) {},
+        onClick() {},
       },
       options: {
         type: 'submit',
@@ -77,20 +77,10 @@ export default {
     {
       props: {
         children: '重置',
-        onClick(err, values, formCore, listCore) {},
+        onClick() {},
       },
       options: {
         type: 'reset',
-      },
-    },
-    {
-      props: {
-        children: '导出',
-        onClick(err, values, formCore, listCore) {},
-      },
-      options: {
-        type: 'none',
-        validate: true,
       },
     },
   ],

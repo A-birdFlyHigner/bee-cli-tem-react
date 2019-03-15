@@ -1,10 +1,5 @@
-import { purchaseState, purchaseSource, supplierState } from '@/pages/Supply/common/constants';
 import SearchSelect from '@/components/Rules/SearchSelect'
 import {getVillageEmunList} from '@/services/supply'
-
-// const admin = 0
-// const seller = 1
-// const fromType = admin
 
 export default {
   settings: {

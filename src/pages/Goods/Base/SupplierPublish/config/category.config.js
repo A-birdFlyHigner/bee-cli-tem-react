@@ -3,7 +3,6 @@ const getCategoryConfig = () => {
   return () => {
     return [
       {
-          // TODO: 表单配配置，缺少 分类ID 的 value
           label: '当前选择类目',
           name: 'categoryName',
           status: 'preview',
@@ -14,10 +13,11 @@ const getCategoryConfig = () => {
           name: 'categoryId',
           inline: true,
           when () {
-              // 二次编辑商品，则不能修改类目，没有【修改类目】按钮
+              // FIXME: 二次编辑商品，则不能修改类目，没有【修改类目】按钮
               return true
           },
           props: {
+              size: 'small',
               children: '修改类目',
               onClick (err, values, leForm) {
                 // 创建商品，二次编辑分类

@@ -13,6 +13,7 @@ export default (options = {}) => {
   return (leForm) => {
     const label = options.label || DEFAULT_OPTIONS.label;
     const name = options.name || DEFAULT_OPTIONS.name;
+    const placeholder = options.placeholder || DEFAULT_OPTIONS.placeholder;
     const value = options.value || [];
 
     return [
@@ -22,14 +23,14 @@ export default (options = {}) => {
         component: 'DatePicker',
         value: value[0] && moment(value[0]),
         props: {
-          placeholder: DEFAULT_OPTIONS.placeholder[0],
+          placeholder: placeholder[0],
           showTime: {
             format: 'HH:mm:ss',
           },
           format: 'YYYY-MM-DD HH:mm:ss',
           dateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
           disabledDate: s => {
-            const e = leForm.getValue[name[1]];
+            const e = leForm.getValue([name[1]]);
             if (!s || !e) return false;
             return s.valueOf() > e.valueOf();
           },
@@ -41,13 +42,13 @@ export default (options = {}) => {
         component: 'DatePicker',
         value: value[1] && moment(value[1]),
         props: {
-          placeholder: DEFAULT_OPTIONS.placeholder[1],
+          placeholder: placeholder[1],
           showTime: {
             format: 'HH:mm:ss',
           },
           format: 'YYYY-MM-DD HH:mm:ss',
           disabledDate: e => {
-            const s = leForm.getValue[name[0]];
+            const s = leForm.getValue([name[0]]);
             if (!e || !s) return false;
             return e.valueOf() < s.valueOf();
           },

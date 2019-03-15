@@ -1,19 +1,67 @@
 import React from 'react';
 import { ImageTextCard } from '@/components/InfoCard';
-import { LeDialog } from '@lib/lepage'
+import { LeDialog, LeForm } from '@lib/lepage'
 import router from 'umi/router';
 import SkuDetail from '../../../common/skuDetail';
+import { message } from 'antd';
+import dialogFormConfig from '../../common/spreadDialog';
+import {queryProductSpreadChannelList} from '@/services/goods'
 
+let isLoading = false
 const editItem = () => {};
 
-const handleStatus = (record) => {
+const handleStatus = async (record) => {
+  if (isLoading) return message.warning('数据处理中，请稍后')
   const {saleGoodsId} = record
-  router.push({
-    pathname: `/goods/spread/setting`,
-    query: {
-      productIds: saleGoodsId
-    }
-  })
+  const productIds = [saleGoodsId]
+  isLoading = true
+  const channelList = await queryProductSpreadChannelList()
+  isLoading = false
+  if (!channelList) message.warning('获取推广渠道出现异常')
+  const formConf = dialogFormConfig(channelList)
+  LeDialog.show({
+    title: '可选推广渠道',
+    width: '800px',
+    content: <LeForm {...formConf} />,
+    onOk: (values, suc) => {
+      const { checkedKeys, halfCheckedKeys, spreadTree } = values;
+      const allSel = [...checkedKeys, ...halfCheckedKeys];
+      let branchList = JSON.parse(JSON.stringify(spreadTree)).filter(p => {
+        return allSel.indexOf(p.key) > -1;
+      });
+      branchList = branchList.map(item => {
+        const { children } = item
+        return {
+          ...item,
+          children: children.filter(q => {
+            return allSel.indexOf(q.key) > -1;
+          })
+        }
+      })
+      const cityIds = [];
+      const spreadName = branchList
+        .map(p => {
+          const cityName = p.children
+            .map(q => {
+              cityIds.push(q.key);
+              return q.title;
+            })
+            .join('、');
+          return `${p.title}（${cityName}）`;
+        })
+        .join('；');
+      router.push({
+        pathname: `/goods/spread/setting`,
+        query: {
+          productIds,
+          cityIds,
+          spreadName
+        }
+      })
+      suc();
+    },
+  });
+  return false
 };
 
 const skuDetail = record => {
@@ -37,8 +85,11 @@ export default {
   rowSelection: {
     selectedRowKeys: [],
     selections: true,
-    getCheckboxProps() {
-      return {};
+    getCheckboxProps(record) {
+      const { canSpreadCityNums, alreadySpreadCityNums } = record
+      return {
+        disabled: canSpreadCityNums <= alreadySpreadCityNums
+      };
     },
   },
   columns: [
@@ -91,7 +142,6 @@ export default {
       title: '规格',
       dataIndex: 'saleUnits',
       width: 100,
-      align: 'center',
       render: (saleUnits, record) => {
         return (
           <span>
@@ -106,7 +156,6 @@ export default {
       title: '基础价格信息',
       dataIndex: 'salePrice',
       width: 200,
-      align: 'center',
     },
     {
       title: '可推广渠道（城市）',
@@ -126,13 +175,14 @@ export default {
       align: 'center',
       fixed: 'right',
       render: (text, record) => {
+        const { canSpreadCityNums, alreadySpreadCityNums } = record
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={() => editItem(record)}>编辑</a>
-            <span />
+            <a onClick={() => editItem(record)}>编辑</a><br />
+            {canSpreadCityNums <= alreadySpreadCityNums ? null :
             <a className="table-operate" onClick={() => handleStatus(record)}>
               设置推广
-            </a>
+            </a>}
           </div>
         );
       },

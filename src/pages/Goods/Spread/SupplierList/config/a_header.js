@@ -1,50 +1,25 @@
-import React from 'react'
-import { LeDialog, LeForm } from '@lib/lepage';
+import { message } from 'antd';
+import { LeDialog } from '@lib/lepage';
 import router from 'umi/router';
-import dialogFormConfig from '../../common/spreadDialog';
+import {productSpreadRevoke} from '@/services/goods'
 
-const setBranchList = (err, values, formCore, listCore, self) => {
-  const productIds = [1, 2];
-  const tags = ['全部', '华南地区', '华东地区'];
-  const formFonf = dialogFormConfig(tags)
+const batchCancelSpread = (err, values, formCore, listCore) => {
+  const productIds = listCore.getSelectedRowKeys()
+  if (!productIds.length) return message.warning('请至少勾选一项！')
   LeDialog.show({
-    title: '可选推广渠道',
-    width: '800px',
-    content: <LeForm {...formFonf} />,
-    onOk: (values, suc, core) => {
-      const { checkedKeys, halfCheckedKeys, spreadTree } = values;
-      const allSel = [...checkedKeys, ...halfCheckedKeys];
-      const branchList = JSON.parse(JSON.stringify(spreadTree)).filter(p => {
-        return allSel.indexOf(p.key) > -1;
-      });
-      branchList.forEach(p => {
-        p.children = p.children.filter(q => {
-          return allSel.indexOf(q.key) > -1;
-        });
-      });
-      const cityIds = [];
-      const spreadName = branchList
-        .map(p => {
-          const cityName = p.children
-            .map(q => {
-              cityIds.push(q.key);
-              return q.title;
-            })
-            .join('、');
-          return `${p.title}（${cityName}）`;
-        })
-        .join('；');
-      router.push({
-        pathname: `/goods/spread/setting`,
-        query: {
-          productIds,
-          cityIds,
-          spreadName
-        }
-      })
-      suc();
+    title: '批量撤销推广',
+    width: '400px',
+    content: () => {
+      return `已选择${productIds.length}个商品，确认批量撤销推广？`
     },
-  });
+    onOk: async (val, suc) => {
+      const res = await productSpreadRevoke(productIds)
+      if (!res) return
+      listCore.refresh()
+      suc()
+    }
+  })
+  return false
 };
 
 export default {
@@ -56,8 +31,18 @@ export default {
       inline: true,
       props: {
         type: 'primary',
-        children: '批量设置推广',
-        onClick: setBranchList,
+        children: '批量撤销推广',
+        onClick: batchCancelSpread,
+      },
+    },
+    {
+      component: 'Button',
+      props: {
+        type: 'primary',
+        children: '新增商品',
+        onClick: () => {
+          router.push('/goods/publish')
+        },
       },
     },
   ],

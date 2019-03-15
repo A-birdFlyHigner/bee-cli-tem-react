@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import { filterConfig, operationConfig, tableConfig } from './config';
-import mockList from './mock/list'
+import { queryGoodsList } from '@/services/goods'
+import { leListQuery } from '@/utils/utils'
 
 class GoodsList extends Component {
   constructor(props) {
@@ -12,29 +13,14 @@ class GoodsList extends Component {
         filterConfig,
         operationConfig,
         tableConfig,
-        // TODO: formatBefore、query、formatAfter 统一封装到 LeList
-        formatBefore(queryParams) {
-          return queryParams;
-        },
-        query(queryParams, url, method) {
-          return new Promise((resolve, reject) => {
-            const result = mockList(queryParams);
-            setTimeout(() => {
-              resolve(result);
-            }, 300);
-          });
-        },
-        formatAfter(result) {
-          return result;
-        },
-        url: '/revision/product/gys/table/query',
-      },
+        ...leListQuery(queryGoodsList)
+      }
     };
   }
 
   render() {
-    const { state } = this;
-    return <LeList {...state.listConfig} />
+    const { listConfig } = this.state;
+    return <LeList {...listConfig} />
   }
 }
 

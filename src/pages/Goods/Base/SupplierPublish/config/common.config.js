@@ -6,20 +6,24 @@ export const GOODS_PROPERTY_NAME_ID = 'goodsPropertyNameId'
 
 export const WAREHOUSE_PROPERTY_NAME_ID = 'warehousePropertyNameId'
 
-export const FN = () => {}
-
 export const getHead = (title) => {
   return {
-      render () {
-          return <div><b>{title}</b></div>
-      }
+    component: 'Item',
+    render () {
+      return (
+        <div className='gp-head'>
+          <em /><span>{title}</span>
+        </div>
+      )
+    }
   }
 }
 
 export const getTip = (msg) => {
   return {
-      render () {
-          return <div>{msg}</div>
-      }
+    component: 'Item',
+    render () {
+      return <div className='gp-tip'>{msg}</div>
+    }
   }
 }

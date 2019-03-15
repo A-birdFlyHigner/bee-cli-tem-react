@@ -1,13 +1,17 @@
 import React from 'react'
 import router from 'umi/router'
+import moment from 'moment'
 import { LeDialog } from '@lib/lepage'
 import { ImageTextCard } from '@/components/InfoCard'
+import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 import SkuDetail from '../../../common/skuInfo'
 import StoreInfo from '../../../common/storeInfo'
 
+const { logisticsMethod, logisticsType } = commonMessage
+
 // 渠道商品规格详情
-const getSkuDetail = (id) => {
+const getSkuDetail = (saleUnits) => {
   LeDialog.show({
     title: '渠道商品规格详情',
     width: '800px',
@@ -17,14 +21,14 @@ const getSkuDetail = (id) => {
     },
     content () {
       return (
-        <SkuDetail productId={id} />
+        <SkuDetail saleUnitsInfo={saleUnits} />
       )
     }
   })
 }
 
 // 库存信息
-const getStoreInfo = (id) => {
+const getStoreInfo = (saleUnits) => {
   LeDialog.show({
     title: '库存信息',
     width: '1000px',
@@ -34,7 +38,7 @@ const getStoreInfo = (id) => {
     },
     content () {
       return (
-        <StoreInfo productId={id} />
+        <StoreInfo saleUnitsInfo={saleUnits} />
       )
     }
   })
@@ -48,8 +52,8 @@ const goExamine = (id) => {
 }
 
 export default {
-  rowKey: 'id',
-  scroll: { x: 1600 },
+  rowKey: 'saleGoodsId',
+  scroll: { x: 1800 },
   rowSelection: {
     selections: true,
     getCheckboxProps() {
@@ -58,8 +62,8 @@ export default {
   },
   columns: [{
     title: '渠道商品id',
-    dataIndex: 'cityCode',
-    key: 'cityCode',
+    dataIndex: 'saleGoodsId',
+    key: 'saleGoodsId',
     align: 'center',     
     singleLine: true,
   }, {
@@ -68,15 +72,27 @@ export default {
     render: (val, record) => {
       return (
         <ImageTextCard
-          image={record.weixinQrcode}
+          image={record.mainImages[0].url}
           infoList={[
             {
               label: '商品名称',
-              value: record.provinceName,
+              value: record.name,
             },
             {
-              label: '商品Id',
-              value: record.id,
+              label: '品牌',
+              value: record.brandName
+            },
+            {
+              label: '商品id',
+              value: record.baseSaleGoodsId,
+            },
+            {
+              label: '发货方式',
+              value: logisticsMethod[record.logisticsMethod],
+            },
+            {
+              label: '发货时效',
+              value: logisticsType[record.logisticsType],
             },
           ]}
         />
@@ -84,13 +100,12 @@ export default {
     }
   }, {
     title: '类目',
-    dataIndex: 'categoryPath',
-    key: 'categoryPath',
-    align: 'center',     
-    width: 100,                                                       
+    dataIndex: 'pathName',
+    key: 'pathName',
+    align: 'left',     
+    width: 200,                                                       
     mutipleLine: true,
-    render: () => {
-      const vals = '食品,水果,橘子'
+    render: (vals) => {
       return (
         <div>
           {
@@ -110,13 +125,13 @@ export default {
     title: '规格',
     dataIndex: 'name',
     key: 'name',
-    width: 100,                                                       
-    align: 'center',     
+    width: 150,                                                       
+    align: 'left',     
     render: (val, record) => {
       return(
         <span>
-          3个<br />
-          <a className="linkButton" onClick={()=> getSkuDetail(record.id)}>查看</a>
+          {record.saleUnits.length}个<br />
+          <a className="linkButton" onClick={()=> getSkuDetail(record.saleUnits)}>查看</a>
         </span>
       )
     }
@@ -124,61 +139,68 @@ export default {
     title: '价格信息',
     dataIndex: 'price',
     key: 'price',
-    width: 280,                                                       
-    align: 'center',     
-    render: () => {
+    width: 250,                                                       
+    align: 'left',     
+    render: (val, record) => {
       return (
         <div className={Sty.prices}>
-          <span>市场价:80.00~100.00</span><br />
-          <span>成本价:80.00~100.00</span><br />
-          <span>非会员价:80.00~101.00</span><br />
-          <span>非会员价:60.00~102.00</span><br />
+          <span>市场价:{record.marketPriceStr}</span><br />
+          <span>成本价:{record.salePrice}</span><br />
+          <span>非会员价:{record.nonmemberPriceStr}</span><br />
+          <span>会员价:{record.memberPriceStr}</span><br />
+          <span>毛利:{record.grossProfitStr}</span><br />
         </div>
       )
     }
   }, {
     title: '推广城市',
-    dataIndex: 'spreadCity',
-    key: 'spreadCity',
-    align: 'center',     
-    width: 100,                                                           
+    dataIndex: 'cityName',
+    key: 'cityName',
+    align: 'left',     
+    width: 150,                                                           
     singleLine: true,
   }, {
     title: '库存信息',
     dataIndex: 'storeInfo',
     key: 'storeInfo',
-    align: 'center',     
-    width: 280,                                                               
+    align: 'left',     
+    width: 240,                                                               
     render: (val, record) => {
       return (
         <div className={Sty.store}>
-          <span>推广库存：100</span><br />
-          <span>累计售出：10</span><br />
-          <a className="linkButton" onClick={()=> getStoreInfo(record.id)}>查看</a>
+          <span>推广库存：{record.totalStock}</span><br />
+          <span>累计售出：{record.saleStock}</span><br />
+          <a className="linkButton" onClick={()=> getStoreInfo(record.saleUnits)}>查看</a>
         </div>
       )
     }
   }, {
     title: '店铺名称',
-    dataIndex: 'shopName',
-    key: 'shopName',
-    align: 'center',   
-    width: 100,                                                                     
+    dataIndex: 'sellerMainName',
+    key: 'sellerMainName',
+    align: 'left',   
+    width: 140,                                                                     
     singleLine: true,
   }, {
     title: '店铺Id',
-    dataIndex: 'shopId',
-    key: 'shopId',
-    align: 'center',  
+    dataIndex: 'sellerMainId',
+    key: 'sellerMainId',
+    align: 'left',  
     width: 100,                                                                            
     singleLine: true,
   }, {
     title: '提审时间',
-    dataIndex: 'passTime',
-    width: 100,                                                                                
-    key: 'passTime',
-    align: 'center',     
-    singleLine: true,
+    dataIndex: 'applyPromotionTime',
+    width: 200,                                                                                
+    key: 'applyPromotionTime',
+    align: 'left', 
+    render: (val) =>{
+      return (
+        <div> 
+          {moment(val).format('YYYY.MM.DD HH:mm:ss')}
+        </div>
+      )
+    }
   }, {
     title: '操作',
     width: 100,
@@ -187,7 +209,7 @@ export default {
     render: (text, record) => {
       return (
         <div className="operateBtn-container-inline">
-          <a onClick={()=> goExamine(record.id)}>审核</a>
+          <a onClick={()=> goExamine(record.saleGoodsId)}>审核</a>
         </div>
       )
     }

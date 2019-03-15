@@ -5,7 +5,7 @@ import { Table } from 'antd'
 export default class StoreInfo extends Component {
   constructor(props) {
     super(props)
-    const { saleUnits = []} = this.props
+    const { saleUnitsInfo = []} = this.props
     this.state = {
       columns: [{
         title: 'SKU id',
@@ -18,12 +18,18 @@ export default class StoreInfo extends Component {
         key: 'propertyPairList',
         align: 'center',
         render: (text, record) => {
-          const { saleStatus } = record
+          const { status } = record
+          const skuName = []
+
+          text.forEach(item => {
+            skuName.push(item.pvName)
+          })
+
           const StopSale = <span className='globalRed'>（停售）</span>
           return (
             <div>
-              { saleStatus !== 0 ? null : StopSale}
-              <span>{text.join('&')}</span>
+              { status !== 0 ? null : StopSale}
+              <span>{skuName.join('-')}</span>
             </div>
           )
         }
@@ -48,16 +54,16 @@ export default class StoreInfo extends Component {
         key: 'notPayLockStock',
         align: 'center'
       }, ],
-      saleUnits,
+      saleUnitsInfo,
     }
   }
 
   render () {
-    const { saleUnits, columns } = this.state;
+    const { saleUnitsInfo, columns } = this.state;
     return (
       <div style={{margin: '20px 0'}}>
         <Table 
-          dataSource={saleUnits} 
+          dataSource={saleUnitsInfo} 
           columns={columns} 
           pagination={false}
         />

@@ -2,9 +2,6 @@ import { purchaseState, purchaseSource, supplierState } from '@/pages/Supply/com
 import SearchSelect from '@/components/Rules/SearchSelect'
 import {getSupplierEmunList} from '@/services/supply'
 
-// const admin = 0
-// const seller = 1
-// const fromType = admin
 
 export default {
   settings: {
@@ -26,7 +23,7 @@ export default {
   items: [
     {
       label: '采购时间',
-      name: 'createTime',
+      name: 'purchaseTime',
       component: 'DatePicker',
       props: {
         placeholder: '请选择采购时间',

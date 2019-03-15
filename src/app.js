@@ -1,4 +1,8 @@
 import fetch from 'dva/fetch';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+
+moment.locale('zh-cn');
 
 export const dva = {
   config: {
@@ -30,15 +34,18 @@ export function patchRoutes(routes) {
 }
 
 export function render(oldRender) {
-  fetch('/api/auth_routes')
-    .then(res => res.json())
-    .then(
-      ret => {
-        authRoutes = ret;
-        oldRender();
-      },
-      () => {
-        oldRender();
-      }
-    );
+  authRoutes = { authority: ['admin', 'user'] }
+  oldRender();
+
+  // fetch('/api/auth_routes')
+  //   .then(res => res.json())
+  //   .then(
+  //     ret => {
+  //       authRoutes = ret;
+  //       oldRender();
+  //     },
+  //     () => {
+  //       oldRender();
+  //     }
+  //   );
 }

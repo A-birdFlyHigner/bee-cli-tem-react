@@ -1,12 +1,29 @@
 // https://umijs.org/config/
 import os from 'os';
-import pageRoutes from './router.config';
+import adminRoutes from './router.admin.config';
+import branchRoutes from './router.branch.config';
+import supplierRoutes from './router.supplier.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 import slash from 'slash2';
 
 const { pwa, primaryColor } = defaultSettings;
-const { NODE_ENV, APP_TYPE, TEST } = process.env;
+const { NODE_ENV, APP_TYPE, TEST, ADMIN_TYPE = 'ADMIN' } = process.env;
+
+let pageRoutes = []
+switch (ADMIN_TYPE) {
+  case 'ADMIN':
+  pageRoutes = adminRoutes
+  break;
+
+  case 'BRANCH':
+  pageRoutes = branchRoutes
+  break;
+
+  case 'SUPPLIER':
+  pageRoutes = supplierRoutes
+  break;
+}
 
 const plugins = [
   [
@@ -50,8 +67,13 @@ const plugins = [
 export default {
   // add for transfer to umi
   plugins,
+  history: 'hash',
+  outputPath: './dist/le' + ADMIN_TYPE.toLowerCase(),
+  base: '/le' + ADMIN_TYPE.toLowerCase() + '/',
+  publicPath: '/le' + ADMIN_TYPE.toLowerCase() + '/',
   define: {
     APP_TYPE: APP_TYPE || '',
+    ADMIN_TYPE: ADMIN_TYPE || ''
   },
   treeShaking: true,
   targets: {
@@ -68,12 +90,13 @@ export default {
     '@antv/data-set': 'DataSet',
     bizcharts: 'BizCharts',
   },
-  proxy: {
+  proxy: { 
     '/adminApi': {
       // target: 'http://test-life-admin.51bushou.com/api', // 管理后台
       // target: 'http://test-life-seller.51bushou.com/api',  // 分公司店铺后台
       target: 'http://dev.host:10003/api',  // 君潇
       // target: 'http://192.168.0.220:10002/api', //飞雪
+      // target: 'http://192.168.1.46:10003/api', //瓶子
       // target: 'http://192.168.0.162:10002/api', //卫卫
       changeOrigin: true,
       pathRewrite: { '^/adminApi': '' },
@@ -87,6 +110,10 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/sellerApi': '' },
     },
+  },
+  devServer: {
+    // contentBase: './dist',
+    // publicPath: '/lebranch/'
   },
   ignoreMomentLocale: true,
   lessLoaderOptions: {

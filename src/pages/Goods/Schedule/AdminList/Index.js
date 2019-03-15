@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Tabs } from 'antd'
 import Saleing from './saleing'
+import Schedule from './schedule'
 import Prescheduled from './prescheduled'
 import Noscheduled from './noscheduled'
 
@@ -19,7 +20,7 @@ export default class SpreadList extends Component {
           <Saleing />
         </TabPane>
         <TabPane tab="已排期" key="2">
-          <Saleing />
+          <Schedule />
         </TabPane>
         <TabPane tab="预排期" key="3">
           <Prescheduled />
