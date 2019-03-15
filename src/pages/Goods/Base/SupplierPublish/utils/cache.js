@@ -5,42 +5,60 @@ class Cache {
     this.cache = {}
   }
 
-  get (key) {
-    if (!key) {
+  get (name) {
+    if (!name) {
       return this.cache
     }
-    return this.cache[key] || null
+    return this.cache[name] || null
   }
 
-  set(key, data) {
-    this.cache[key] = data
+  set(name, data) {
+    this.cache[name] = data
   }
 
-  remove (key = null) {
-    if (!key) {
+  names () {
+    return Object.keys(this.cache)
+  }
+
+  values () {
+    return this.names().map(name => this.get(name))
+  }
+
+  updateItem (name, key, value) {
+    const data = this.get(name)
+    this.set(name, {
+      ...data,
+      [key]: value
+    })
+  }
+
+  updateAll (key, value) {
+    this.names().forEach((name) => this.updateItem(name, key, value))
+  }
+
+  remove (name = null) {
+    if (!name) {
       this.cache = {}
     } else {
-      delete this.cache[key]
+      delete this.cache[name]
     }
   }
 
-
-  static create (name) {
+  static create (alias) {
     const { list } = this
-    if (typeof name !== 'string') {
-      throw new Error('The Cache name must be of type string')
+    if (typeof alias !== 'string') {
+      throw new Error('The Cache alias must be of type string')
     }
-    if (typeof list[name] === 'undefined') {
-      list[name] = new Cache()
+    if (typeof list[alias] === 'undefined') {
+      list[alias] = new Cache()
     }
-    return list[name]
+    return list[alias]
   }
 
   static clear () {
-    for (const key of Object.keys(this.list)) {
-      const item = this.list[key]
-      item.cache = {}
-    }
+    Object.keys(this.list).forEach(alias => {
+      this.list[alias].remove()
+    })
   }
 }
 
