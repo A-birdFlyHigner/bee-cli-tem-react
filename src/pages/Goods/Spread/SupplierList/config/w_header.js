@@ -82,7 +82,7 @@ export default {
         type: 'primary',
         children: '新增商品',
         onClick: () => {
-          router.push('/goods/publish')
+          router.push('/goods/create')
         },
       },
     },

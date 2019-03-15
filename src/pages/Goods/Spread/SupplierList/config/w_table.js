@@ -8,7 +8,10 @@ import dialogFormConfig from '../../common/spreadDialog';
 import {queryProductSpreadChannelList} from '@/services/goods'
 
 let isLoading = false
-const editItem = () => {};
+const editItem = (record) => {
+  const { saleGoodsId: id } = record
+  router.push(`/goods/update?itemId=${id}`)
+};
 
 const handleStatus = async (record) => {
   if (isLoading) return message.warning('数据处理中，请稍后')
