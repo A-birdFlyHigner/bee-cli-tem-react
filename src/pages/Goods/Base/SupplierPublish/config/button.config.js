@@ -3,7 +3,7 @@ import router from 'umi/router';
 import { message as messageApi } from 'antd'
 import { GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './common.config'
 import { trim, pick, omit, emptyFn, Cache } from '../utils'
-import { publishGoods } from '@/services/goods';
+import { createGoods, updateGoods } from '@/services/goods';
 
 const buttonCache = Cache.create('button.config')
 const isAMomentObject = '_isAMomentObject'
@@ -59,6 +59,10 @@ const getPropertyList = (values, prefix) => {
 }
 
 const formatOptions = [
+  {
+    name: 'saleGoodsId',
+    handle: emptyFn,
+  },
   {
     name: 'categoryId',
     handle: emptyFn,
@@ -176,40 +180,61 @@ const getFormatValues = (values, leForm) => {
   return formatValues
 }
 
-const handleSubmit = async (err, values, leForm) => {
-  buttonCache.set('isSubmit', true)
-
-  if (err) return
-
+const switchAwait = (leForm, loading) => {
   leForm.setProps('footer-submit-button', {
-    loading: true
-  })
-
-  const params = getFormatValues(values, leForm)
-  const resData = await publishGoods(params)
-
-  if (resData) {
-    Cache.clear()
-    messageApi.success('商品创建成功，正在跳转商品列表页！')
-    setTimeout(() => {
-      router.push('/goods/base/list')
-    }, 2000)
-    return
-  }
-
-  leForm.setProps('footer-submit-button', {
-    loading: false
+    loading
   })
 }
 
+const handleCreate = async (leForm, values) => {
+  const params = getFormatValues(values, leForm)
+  const resData = await createGoods(params)
+
+  if (!resData) {
+    switchAwait(leForm, false)
+    return
+  }
+  Cache.clear()
+  messageApi.success('商品创建成功，正在跳转商品列表页！')
+  setTimeout(() => {
+    router.push('/goods/base/list')
+  }, 2000)
+}
+
+const handleUpdate = async (leForm, values) => {
+  const params = getFormatValues(values, leForm)
+  const resData = await updateGoods(params)
+
+  if (!resData) {
+    switchAwait(leForm, false)
+    return
+  }
+  Cache.clear()
+  messageApi.success('商品更新成功，正在跳转商品列表页！')
+  setTimeout(() => {
+    router.push('/goods/base/list')
+  }, 2000)
+}
+
 // 获取底部按钮表单配置
-const getButtonsConfig = () => {
+const getButtonsConfig = (globalOptions) => {
+  const { status } = globalOptions
   return [{
       name: 'footer-submit-button',
       props: {
         type: 'primary',
         children: '保存',
-        onClick: handleSubmit
+        onClick: async (err, values, leForm) => {
+          buttonCache.set('isSubmit', true)
+          if (err) return
+          switchAwait(leForm, true)
+          if (status === 'update') {
+            await handleUpdate(leForm, values)
+          }
+          else {
+            await handleCreate(leForm, values)
+          }
+        }
       },
       options: {
         type: 'submit',

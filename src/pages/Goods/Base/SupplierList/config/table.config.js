@@ -146,7 +146,7 @@ export default {
       title: '操作',
       render(value, item) {
         const { saleGoodsId: id } = item
-        return <a onClick={() => {router.push(`/goods/publish?itemId=${id}`)}}>编辑</a>
+        return <a onClick={() => {router.push(`/goods/update?itemId=${id}`)}}>编辑</a>
       },
     },
   ],

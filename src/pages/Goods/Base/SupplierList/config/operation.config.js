@@ -6,9 +6,9 @@ export default {
       component: 'Button',
       props: {
         type: 'primary',
-        children: '新增商品',
+        children: '新建商品',
         onClick: () => {
-          router.push('/goods/publish')
+          router.push('/goods/create')
         },
       },
     },

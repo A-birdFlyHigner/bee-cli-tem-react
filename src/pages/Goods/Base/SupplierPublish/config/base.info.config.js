@@ -6,6 +6,11 @@ const getBaseInfoConfig = () => {
     return [
       getHead('基础信息'),
       {
+        name: 'saleGoodsId',
+        status: 'preview',
+        className: 'no-form-item-saleGoodsId'
+      },
+      {
         name: 'name',
         label: '商品长名称',
         component: 'Input',

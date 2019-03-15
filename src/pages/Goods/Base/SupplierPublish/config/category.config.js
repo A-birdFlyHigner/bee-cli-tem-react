@@ -1,5 +1,5 @@
 // 获取类目表单配置
-const getCategoryConfig = () => {
+const getCategoryConfig = (globalOptions = {}) => {
   return () => {
     return [
       {
@@ -12,10 +12,7 @@ const getCategoryConfig = () => {
           component: 'Button',
           name: 'categoryId',
           inline: true,
-          when () {
-              // FIXME: 二次编辑商品，则不能修改类目，没有【修改类目】按钮
-              return true
-          },
+          when: globalOptions.status === 'create',
           props: {
               size: 'small',
               children: '修改类目',

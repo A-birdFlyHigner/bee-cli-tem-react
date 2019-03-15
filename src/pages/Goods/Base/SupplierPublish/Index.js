@@ -12,8 +12,32 @@ import { DEFAULT_FORM_VALUES } from './mock/defaultFormValues'
 
 const saleCache = Cache.create('sale.properties.config')
 
-const formatInitValues = (resData, categoryProperties) => {
+const mergeInitValuesFormConfig = (formConfig = {}, initValues = {}) => {
   const {
+    settings: {
+      values = {},
+      ...restSettings
+    } = {},
+    ...restFormConfig
+  } = formConfig
+
+  return {
+    settings: {
+      values: {
+        ...values,
+        ...initValues
+      },
+      ...restSettings
+    },
+    ...restFormConfig,
+  }
+}
+
+const formatUpdateFormConfig = (resData, categoryProperties, status) => {
+  const {
+    saleGoodsId,
+    categoryId,
+    pathName,
     name = '',
     desc = '',
     brandName = '',
@@ -21,11 +45,13 @@ const formatInitValues = (resData, categoryProperties) => {
     saleUnits = [], // sku 规格 和 销售属性
     properties = [] // 商品属性、仓库属性
   } = resData
-  const proxyBaseInfo = { name, desc, brandName, has69 }
+  const categoryName = pathName.split(',').join('>')
+  const proxyBaseInfo = { saleGoodsId, categoryId, categoryName, name, desc, brandName, has69 }
   const proxySaleProperties = {} // 销售属性
   const proxyOtherProperties = {} // 商品属性、仓库属性
   const skus = []
 
+  const { saleProperties = [] } = categoryProperties
   saleUnits.forEach(saleUnit => {
     const { propertyPairList = [] } = saleUnit
 
@@ -43,6 +69,21 @@ const formatInitValues = (resData, categoryProperties) => {
       const { id: pairId, propertyNameId } = pair
       const name = `${SALE_PROPERTY_NAME_ID}-${propertyNameId}`
       proxySaleProperties[name] = [...(proxySaleProperties[name] || []), pairId]
+
+      // 更新销售属性自定义选项
+      {
+        const { propertyPairs } = saleProperties.find(property => property.propertyNameId === propertyNameId) || {}
+        const propertyPair = propertyPairs.find(item => item.id === pairId)
+        if (propertyPair) {
+          propertyPair.disabled = true
+        }
+        else {
+          propertyPairs.push({
+            ...pair,
+            isCustom: true
+          })
+        }
+      }
     })
 
     const sku = {
@@ -66,15 +107,33 @@ const formatInitValues = (resData, categoryProperties) => {
   properties.forEach((propertie) => {
     const { propertyType, propertyNameId, propertyValue = [], propertyPairList = [] } = propertie
     let prefixName = ''
-    if (propertyType === 3) {
+    if (propertyType === 3) { // 商品属性
       prefixName = GOODS_PROPERTY_NAME_ID
     }
-    else if (propertyType === 4) {
+    else if (propertyType === 4) { // 销售属性
       prefixName = WAREHOUSE_PROPERTY_NAME_ID
     }
 
     const name = `${prefixName}-${propertyNameId}`
     const inputType = inputTypes[propertyNameId]
+
+    if ([2, 4].indexOf(inputType) !== -1) {
+      // 更新商品、仓库属性自定义选项
+      propertyPairList.forEach(pair => {
+        const { propertyPairs } = otherProperties.find(property => property.propertyNameId === propertyNameId) || {}
+        const propertyPair = propertyPairs.find(item => item.id === pair.propertyPairId)
+        if (propertyPair) {
+          propertyPair.disabled = true
+        }
+        else {
+          propertyPairs.push({
+            id: pair.propertyPairId,
+            pvName: pair.pvName,
+            isCustom: true
+          })
+        }
+      })
+    }
 
     switch (inputType) {
       case 1: // 单选不自定义
@@ -118,7 +177,7 @@ const formatInitValues = (resData, categoryProperties) => {
     }
   })
 
-  return {
+  const initValues =  {
     ...proxyBaseInfo,
     has69,
     ...proxySaleProperties,
@@ -127,6 +186,15 @@ const formatInitValues = (resData, categoryProperties) => {
     goodsMainImageList,
     goodsDetailImageList
   }
+
+  const formConfig = getFormConfig(categoryProperties, {
+    status,
+    disabledHas69: status === 'update'
+  })
+
+  if (!formConfig) return null
+
+  return mergeInitValuesFormConfig(formConfig, initValues)
 }
 
 class GoodsPublish extends Component {
@@ -134,16 +202,17 @@ class GoodsPublish extends Component {
     super(props);
 
     const { itemId = null, mock = false } = getPageQuery()
+    const status = itemId ? 'update' : 'create'
 
+    this.status = status // create、update
+    this.keepValues = mock ? DEFAULT_FORM_VALUES : {}
     this.state = {
       itemId,
       isInit: false,
       showCancel: false,
-      showCategory: !itemId,
+      showCategory: status === 'create',
       formConfig: {},
     }
-
-    this.keepValues = mock ? DEFAULT_FORM_VALUES : {}
   }
 
   componentWillMount () {
@@ -169,20 +238,17 @@ class GoodsPublish extends Component {
     const resData = await getGoodsDetail({
       productId: itemId
     })
-
     if (!resData) return
 
-    const { categoryId, pathName } = resData
-    const categoryName = pathName.split(',').join('>')
-    const { formConfig, categoryProperties } = await this.loadPublishFormConfig(categoryId, categoryName)
+    const { categoryId } = resData
+    const categoryProperties = await queryCategoryPropertyDetail({
+      categoryId
+    })
+    if (!categoryProperties) return
 
+    const { status } = this
+    const formConfig = formatUpdateFormConfig(resData, categoryProperties, status)
     if (!formConfig) return
-
-    const initValues = formatInitValues(resData, categoryProperties)
-    formConfig.settings.values = {
-      ...formConfig.settings.values,
-      ...initValues
-    }
 
     this.setState({
       isInit: true,
@@ -190,47 +256,31 @@ class GoodsPublish extends Component {
     })
   }
 
-  formatPublishData (formConfig, categoryId, categoryName) {
-    const {
-      settings: {
-        values = {},
-        ...restSettings
-      } = {}
-    } = formConfig
-
-    return {
-      ...formConfig,
-      settings: {
-        values: {
-          ...values,
-          ...this.keepValues,
-          categoryId,
-          categoryName,
-        },
-        ...restSettings
-      }
-    }
-  }
-
   async loadPublishFormConfig (categoryId, categoryName) {
+    const { status } = this
     const categoryProperties = await queryCategoryPropertyDetail({
       categoryId
     })
-    if (!categoryProperties) return {}
+    if (!categoryProperties) return null
 
-    const formConfig = getFormConfig(categoryProperties)
+    const formConfig = getFormConfig(categoryProperties, {
+      status
+    })
+    if (!formConfig) return null
 
-    return {
-      categoryProperties,
-      formConfig: this.formatPublishData(formConfig, categoryId, categoryName)
+    const initValues = {
+      ...this.keepValues,
+      categoryId,
+      categoryName,
     }
+    return mergeInitValuesFormConfig(formConfig, initValues)
   }
 
   // 分类 下一步 操作
   async handleCategoryOK (category = {}) {
     const { categoryId, treeLabels = [] } = category
     const categoryName = treeLabels.join('>')
-    const { formConfig } = await this.loadPublishFormConfig(categoryId, categoryName)
+    const formConfig = await this.loadPublishFormConfig(categoryId, categoryName)
 
     if (!formConfig) return
 

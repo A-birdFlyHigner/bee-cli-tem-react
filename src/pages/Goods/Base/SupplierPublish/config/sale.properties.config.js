@@ -144,12 +144,14 @@ const getSaleProperties = (leForm, saleProperties = []) => {
 }
 
 // 69码
-const getHas69 = (leForm) => {
+const getHas69 = (leForm, globalOptions) => {
+  const { disabledHas69 } = globalOptions
   return {
     label: '商品是否有69码',
     name: 'has69',
     component: 'Checkbox',
     props: {
+      disabled: disabledHas69,
       onChange: (value) => handleUpdateBatch(leForm, {
         colKey: 'enableDeliverCode',
         originKey: 'has69',
@@ -214,7 +216,7 @@ const getBatch = (leForm) => {
 }
 
 // sku表格列
-const getColumns = (leForm, has69) => {
+const getColumns = (leForm, globalOptions = {}) => {
   const columns = [
       {
         title: '状态',
@@ -295,10 +297,11 @@ const getColumns = (leForm, has69) => {
         title: 'sku编码(发货编码)',
         dataIndex: 'deliverCode',
         render (value, item, index) {
+          const { status } = globalOptions
           const { enableDeliverCode: enable } = item
           return (
             <Input
-              value={enable ? value : ''}
+              value={status === 'update' || enable ? value : ''}
               disabled={!enable}
               maxLength={20}
               onChange={(e) => handleUpdateSingle(leForm, {
@@ -317,14 +320,14 @@ const getColumns = (leForm, has69) => {
 }
 
 // sku组合
-const getSkus = (leForm, saleProperties = []) => {
+const getSkus = (leForm, globalOptions = {}) => {
   return {
       label: 'sku规格',
       name: 'skus',
       className: 'no-form-item-sku',
       // component: 'Item',
-      render ({ skus = [], has69 = false }) {
-          const columns = getColumns(leForm, has69)
+      render ({ skus = [] }) {
+          const columns = getColumns(leForm, globalOptions)
           const locale = {
             emptyText: '暂无sku规格'
           }
@@ -373,15 +376,15 @@ const getSkus = (leForm, saleProperties = []) => {
 }
 
 // 获取销售属性表单配置
-const getSalePropertiesConfig = (saleProperties = []) => {
+const getSalePropertiesConfig = (saleProperties = [], globalOptions = {}) => {
   return (leForm) => {
       return [
           getHead('销售属性'),
           getTip('注：商品规格根据类目规定显示，支持0-2级，没有规格时可不填'),
           ...getSaleProperties(leForm, saleProperties),
-          getHas69(leForm),
+          getHas69(leForm, globalOptions),
           ...getBatch(leForm),
-          getSkus(leForm, saleProperties)
+          getSkus(leForm, globalOptions)
       ]
   }
 }

@@ -134,7 +134,9 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
       restProps.options = propertyPairs.map(propertyPair => {
         return {
           label: propertyPair.pvName,
-          value: propertyPair.id
+          value: propertyPair.id,
+          disabled: propertyPair.disabled,
+          isCustom: propertyPair.isCustom
         }
       })
     }

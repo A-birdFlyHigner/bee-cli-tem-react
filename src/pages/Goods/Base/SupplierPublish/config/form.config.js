@@ -37,11 +37,19 @@ const getDefaultSkus = (saleProperties = []) => {
 }
 
 // 发布商品表单配置
-export default (categoryProperties = {}) => {
+export default (categoryProperties = {}, globalOptions = {}) => {
+  const {
+    saleProperties,
+    goodsProperties,
+    warehouseProperties,
+    isRequiredSKUImage,
+    skuImagePropertyId,
+    skuImagePropertyName
+  } = categoryProperties
   return {
     settings: {
       values: {
-        skus: getDefaultSkus(categoryProperties.saleProperties)
+        skus: getDefaultSkus(saleProperties)
       },
       onChange (changeKeys, values, leForm) {
         const { isSubmit = false } = buttonCache.get()
@@ -56,19 +64,19 @@ export default (categoryProperties = {}) => {
       }
     },
     items: [
-      getCategoryConfig(), // 类目信息
+      getCategoryConfig(globalOptions), // 类目信息
       getBaseInfoConfig(), // 基本信息
-      getSalePropertiesConfig(categoryProperties.saleProperties), // 销售属性
+      getSalePropertiesConfig(saleProperties, globalOptions), // 销售属性
       getSkuMainImageConfig({
-        isRequiredSKUImage: categoryProperties.isRequiredSKUImage,
-        skuImagePropertyId: categoryProperties.skuImagePropertyId,
-        skuImagePropertyName: categoryProperties.skuImagePropertyName
+        isRequiredSKUImage,
+        skuImagePropertyId,
+        skuImagePropertyName
       }), // SKU主图
-      getGoodsPropertiesConfig(categoryProperties.goodsProperties), // 商品属性
-      getWarehousePropertiesConfig(categoryProperties.warehouseProperties), // 仓库属性
+      getGoodsPropertiesConfig(goodsProperties), // 商品属性
+      getWarehousePropertiesConfig(warehouseProperties), // 仓库属性
       getGoodsMainImageConfig(), // 商品主图
       getGoodsDetailImageConfig() // 商品详情图
     ],
-    buttons: getButtonsConfig()
+    buttons: getButtonsConfig(globalOptions)
   }
 }

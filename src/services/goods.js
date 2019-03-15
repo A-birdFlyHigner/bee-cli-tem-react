@@ -87,7 +87,7 @@ export async function queryProductSpreadList(params) {
 }
 
 // 发布商品
-export async function publishGoods (params) {
+export async function createGoods (params) {
   return request(`${domain}/revision/product/create`, {
     method: 'POST',
     body: {
