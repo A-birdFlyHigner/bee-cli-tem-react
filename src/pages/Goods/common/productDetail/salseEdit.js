@@ -38,8 +38,8 @@ const tabelColumns = (core, preview) => {
     dataIndex: 'status',
     align: 'center',
     width: 80,
-    render: () => {
-      return '可用'
+    render: (text) => {
+      return ['停售', '可售'][text]
     }
   }, {
     title: 'sku组合',

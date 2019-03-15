@@ -7,8 +7,8 @@ const tabelColumns = () => {
     dataIndex: 'status',
     align: 'center',
     width: 120,
-    render: () => {
-      return '可用'
+    render: (text) => {
+      return ['停售', '可售'][text]
     }
   }, {
     title: 'sku组合',
