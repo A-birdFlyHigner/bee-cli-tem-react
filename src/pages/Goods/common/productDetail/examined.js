@@ -40,17 +40,17 @@ export default function () {
         // 初始化数据 相当于了此Item的状态值
         value: {
           rejuctReason: '',  // 拒绝原因
-          chooseType: 1,     // 1 通过 2 拒绝
+          chooseType: 2,     // 2 通过 3 拒绝
         },
         render(value, leFormCore) {
           const { examineData } = value
           return (
             <div className={Sty.examineRadio}>
               <RadioGroup onChange={e => changeSelect(e,leFormCore)} value={examineData.chooseType}>
-                <Radio key={2} className={Sty.radioRejuct} value={2}>
-                  拒绝 {examineData.chooseType === 2 ? <Input onChange={e => changeReason(e,leFormCore)} placeholder="必填，请输入拒绝原因，不超过20个字" maxLength={20} />:null}
+                <Radio key={2} className={Sty.radioRejuct} value={3}>
+                  拒绝 {examineData.chooseType === 3 ? <Input onChange={e => changeReason(e,leFormCore)} placeholder="必填，请输入拒绝原因，不超过20个字" maxLength={20} />:null}
                 </Radio>
-                <Radio key={1} className={Sty.radioPass} value={1}>
+                <Radio key={1} className={Sty.radioPass} value={2}>
                   通过
                 </Radio>
               </RadioGroup>

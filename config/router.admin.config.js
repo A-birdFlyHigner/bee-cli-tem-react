@@ -29,13 +29,19 @@ export default [
           // 排期
           {
             path: '/goods/schedule/adminlist',
-            name: '总部商品排期列表',
+            name: '商品排期列表',
             component: './Goods/Schedule/AdminList',
           },
           {
             path: '/goods/schedule/adminExaminedetail/:id',
-            name: '总部商品审核详情',
+            name: '商品审核详情',
             component: './Goods/Schedule/AdminExaminedetail',
+            hideInMenu: true,            
+          },
+          {
+            path: '/goods/schedule/adminProductdetail/:id',
+            name: '商品详情',
+            component: './Goods/Schedule/AdminProductdetail',
             hideInMenu: true,            
           },
         ],
