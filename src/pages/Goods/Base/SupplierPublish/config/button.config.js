@@ -194,7 +194,6 @@ const handleCreate = async (leForm, values) => {
     switchAwait(leForm, false)
     return
   }
-  Cache.clear()
   messageApi.success('商品创建成功，正在跳转商品列表页！')
   setTimeout(() => {
     router.push('/goods/base/list')
@@ -209,7 +208,6 @@ const handleUpdate = async (leForm, values) => {
     switchAwait(leForm, false)
     return
   }
-  Cache.clear()
   messageApi.success('商品更新成功，正在跳转商品列表页！')
   setTimeout(() => {
     router.push('/goods/base/list')

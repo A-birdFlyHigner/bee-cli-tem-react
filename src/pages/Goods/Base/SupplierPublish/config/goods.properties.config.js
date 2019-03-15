@@ -3,6 +3,7 @@ import { getPropertiesWrap } from './properties.config'
 
 // 获取商品属性表单配置
 const getGoodsPropertiesConfig = (goodsProperties = []) => {
+  if (goodsProperties.length === 0) return null
   return (leForm) => {
     return [
       getHead('商品属性'),

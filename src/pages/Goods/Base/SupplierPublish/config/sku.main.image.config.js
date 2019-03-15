@@ -1,7 +1,8 @@
 import React from 'react'
 import { Alert } from 'antd'
 import { LeForm } from '@lib/lepage'
-import { SALE_PROPERTY_NAME_ID, getHead, getTip } from './common.config'
+import { Cache } from '../utils'
+import { SALE_PROPERTY_NAME_ID, getHead } from './common.config'
 import uploadConfig from '@/components/Rules/imgUpload/index'
 
 const DEFAULT_OPTIONS = {
@@ -18,14 +19,14 @@ const UPLOAD_OPTIONS = {
   height: 640,
 }
 
-const Cache = {}
+const skuMainImageCache = Cache.create('sku.main.image.config')
 
 const getFormConfig = (leForm, propertyPairs = []) => {
   return {
     settings: {
       onChange (changeNames, values) {
         changeNames.forEach(name => {
-          Cache[`skuMainImageItem-${name}`] = values[name] || []
+          skuMainImageCache.set(name, values[name] || [])
         })
       }
     },
@@ -37,7 +38,7 @@ const getFormConfig = (leForm, propertyPairs = []) => {
         return uploadConfig({
           label,
           name: `${name}`, // propertyPairId
-          value: Cache[`skuMainImageItem-${name}`],
+          value: skuMainImageCache.get(name),
           className: 'no-form-item-sku-main-image-list',
           props: {
             listType: 'picture-card',
