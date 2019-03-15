@@ -9,15 +9,50 @@ import getButtonsConfig from './button.config'
 import getGoodsDetailImageConfig from './goods.detail.image.config'
 import { Cache } from '../utils'
 
-const actionCache = Cache.manage('action')
+const buttonCache = Cache.create('button.config')
+
+// FIXME: 与 sale.properties.config 有重复定义
+const DEFAULT_SKU = {
+  status: 1, // 1可用，0停用
+  costPrice: '', // 成本价, 单位分
+  restriction: 10, // sku限购数量
+  deliverCode: '',// 发货编码
+  propertyValueNames: [],
+  propertyPairIds: [],
+  enableDeliverCode: false
+}
+
+const getDefaultSkus = (saleProperties = []) => {
+  if (saleProperties.length === 0) {
+    const skus = [{
+      ...DEFAULT_SKU,
+      key: 'default',
+      propertyValueNames: ['默认'],
+      propertyPairIds: [],
+    }]
+    return skus
+  }
+
+  return []
+}
 
 // 发布商品表单配置
-export default (categoryProperties) => {
+export default (categoryProperties = {}, globalOptions = {}) => {
+  const {
+    saleProperties,
+    goodsProperties,
+    warehouseProperties,
+    isRequiredSKUImage,
+    skuImagePropertyId,
+    skuImagePropertyName
+  } = categoryProperties
   return {
     settings: {
-      values: {},
+      values: {
+        skus: getDefaultSkus(saleProperties)
+      },
       onChange (changeKeys, values, leForm) {
-        const { isSubmit = false } = actionCache.get()
+        const { isSubmit = false } = buttonCache.get()
         if (isSubmit) {
           leForm.validateItem(changeKeys);
         }
@@ -29,19 +64,19 @@ export default (categoryProperties) => {
       }
     },
     items: [
-      getCategoryConfig(), // 类目信息
+      getCategoryConfig(globalOptions), // 类目信息
       getBaseInfoConfig(), // 基本信息
-      getSalePropertiesConfig(categoryProperties.saleProperties), // 销售属性
+      getSalePropertiesConfig(saleProperties, globalOptions), // 销售属性
       getSkuMainImageConfig({
-        isRequiredSKUImage: categoryProperties.isRequiredSKUImage,
-        skuImagePropertyId: categoryProperties.skuImagePropertyId,
-        skuImagePropertyName: categoryProperties.skuImagePropertyName
+        isRequiredSKUImage,
+        skuImagePropertyId,
+        skuImagePropertyName
       }), // SKU主图
-      getGoodsPropertiesConfig(categoryProperties.goodsProperties), // 商品属性
-      getWarehousePropertiesConfig(categoryProperties.warehouseProperties), // 仓库属性
+      getGoodsPropertiesConfig(goodsProperties), // 商品属性
+      getWarehousePropertiesConfig(warehouseProperties), // 仓库属性
       getGoodsMainImageConfig(), // 商品主图
       getGoodsDetailImageConfig() // 商品详情图
     ],
-    buttons: getButtonsConfig()
+    buttons: getButtonsConfig(globalOptions)
   }
 }

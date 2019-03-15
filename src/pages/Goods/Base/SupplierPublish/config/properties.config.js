@@ -84,7 +84,7 @@ const handleAddPropertyPair = async (leForm, name, event, okFn = emptyFn) => {
 }
 
 // 删除属性对
-const handleRemPropertyPair = (leForm, name, propertyPairId, okFn = emptyFn) => {
+const handleRemPropertyPair = (leForm, name, propertyPairId, inputType, okFn = emptyFn) => {
   // update props
   const { options = [] } = leForm.getProps(name)
   const propertyPairs = options.filter(({ value }) => value !== propertyPairId)
@@ -92,9 +92,14 @@ const handleRemPropertyPair = (leForm, name, propertyPairId, okFn = emptyFn) => 
     options: propertyPairs
   })
 
-  // update value
-  const values = (leForm.getValue(name) || []).filter(value => value !== propertyPairId)
-  leForm.setValue(name, values)
+  if (inputType === 2) { // 2 单选自定义
+    leForm.setValue(name, null)
+  }
+  else if (inputType === 4) { // 4 多选自定义
+    // update value
+    const values = (leForm.getValue(name) || []).filter(value => value !== propertyPairId)
+    leForm.setValue(name, values)
+  }
 
   // complete
   okFn()
@@ -129,7 +134,9 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
       restProps.options = propertyPairs.map(propertyPair => {
         return {
           label: propertyPair.pvName,
-          value: propertyPair.id
+          value: propertyPair.id,
+          disabled: propertyPair.disabled,
+          isCustom: propertyPair.isCustom
         }
       })
     }
@@ -183,12 +190,22 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
       }
 
       const getSelectedPropertyPairs = (values) => {
-        const propertyPairIds = values[name] || []
         const { options: pairs } = leForm.getProps(name)
 
-        return pairs.filter(propertyPair => {
-          return propertyPair.isCustom && propertyPairIds.indexOf(propertyPair.value) !== -1
-        })
+        if (inputType === 2) { // 2单选可自定义
+          const pairId = values[name] || null
+          return pairs.filter(pair => {
+            return pair.isCustom && pairId === pair.value
+          })
+        }
+
+        if (inputType === 4) { // 4多选可自定义
+          const pairIds = values[name] || []
+          return pairs.filter(pair => {
+            return pair.isCustom && pairIds.indexOf(pair.value) !== -1
+          })
+        }
+        return false
       }
 
       selectedTagItem = {
@@ -208,7 +225,7 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
               <Tag
                 key={propertyPairId}
                 closable
-                onClose={() => {handleRemPropertyPair(leForm, name, propertyPairId, okFn)}}
+                onClose={() => {handleRemPropertyPair(leForm, name, propertyPairId, inputType, okFn)}}
               >
                 {propertyValueName}
               </Tag>

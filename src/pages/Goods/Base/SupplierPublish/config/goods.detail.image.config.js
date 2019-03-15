@@ -2,7 +2,7 @@ import uploadConfig from '@/components/Rules/imgUpload/index'
 
 const UPLOAD_OPTIONS = {
   limit: 22,
-  size: 400,
+  // size: 400,
   types: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'],
   maxHeight: 1000,
   minWidth: 620,
