@@ -7,13 +7,15 @@ import SkuDetail from '../../../common/skuDetail';
 import stockConfig from '../../../common/stockDialog';
 import {updateProductStock} from '@/services/goods'
 
-const editItemStock = record => {
+const editItemStock = (record, status) => {
   const {saleUnits} = record
   LeDialog.show({
     title: `商品名称：${record.name}`,
     width: '900px',
-    content: <LeForm {...stockConfig(saleUnits)} />,
+    maskClosable: status === 'preview',
+    content: <LeForm {...stockConfig(saleUnits, status)} />,
     onOk(values, suc) {
+      if (status === 'preview') return suc()
       const { dataSource } = values
       let stockList = dataSource.map(val => {
         return {
@@ -54,12 +56,6 @@ const skuDetail = record => {
 export default {
   rowKey: 'saleGoodsId',
   scroll: { x: 1500 },
-  rowSelection: {
-    selections: true,
-    getCheckboxProps() {
-      return {};
-    },
-  },
   columns: [
     {
       title: '渠道商品Id',
@@ -192,6 +188,7 @@ export default {
           <div>
             <p>推广总库存：{totalStock}</p>
             <p>累计售出：{saleStock}</p>
+            <p><a onClick={() => editItemStock(record, 'preview')}>查看</a></p>
           </div>
         );
       },

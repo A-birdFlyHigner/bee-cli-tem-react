@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import filterConfig from './noScheduleConfig/filter';
+import operationConfig from './noScheduleConfig/operation';
 import tableConfig from './noScheduleConfig/table';
 import { listUnScheduledProduct } from '@/services/goods';
 import { leListQuery } from '@/utils/utils';
@@ -14,6 +15,7 @@ export default class Wating extends Component {
   render() {
     const config = {
       filterConfig,
+      operationConfig,
       tableConfig,
       ...leListQuery(listUnScheduledProduct),
     };
