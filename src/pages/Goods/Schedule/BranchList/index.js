@@ -14,14 +14,21 @@ export default class SpreadList extends Component {
   }
   
   render () {
+    const branchJoinType = window.sessionStorage.getItem('HQBSFORSHOP').branchJoinType? window.sessionStorage.getItem('HQBSFORSHOP').branchJoinType:''
     return (
       <Tabs size='large' defaultActiveKey="1">
         <TabPane tab="未排期" key="1">
           <Noscheduled />
         </TabPane>
-        <TabPane tab="预排期" key="2">
-          <Prescheduled />
-        </TabPane>
+        {
+          branchJoinType && branchJoinType===2 
+          ?
+            <TabPane tab="预排期" key="2">
+              <Prescheduled />
+            </TabPane>
+          : 
+            null
+        }
         <TabPane tab="已排期" key="3">
           <Scheduled />
         </TabPane>
