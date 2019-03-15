@@ -9,8 +9,8 @@ import Category from './components/Category/index'
 import { SALE_PROPERTY_NAME_ID, GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './config/common.config'
 import { DEFAULT_FORM_VALUES } from './mock/defaultFormValues'
 
-
 const saleCache = Cache.create('sale.properties.config')
+const skuMainImageCache = Cache.create('sku.main.image.config')
 
 const mergeInitValuesFormConfig = (formConfig = {}, initValues = {}) => {
   const {
@@ -43,6 +43,7 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
     brandName = '',
     useBarCode: has69 = false,
     saleUnits = [], // sku 规格 和 销售属性
+    saleUnitImages = [],
     properties = [] // 商品属性、仓库属性
   } = resData
   const categoryName = pathName.split(',').join('>')
@@ -50,6 +51,15 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
   const proxySaleProperties = {} // 销售属性
   const proxyOtherProperties = {} // 商品属性、仓库属性
   const skus = []
+
+  saleUnitImages.map(item => {
+    const { id, url, width, height, propertyPairId } = item
+    const data = [{
+      id, url, uid: url, width, height
+    }]
+    skuMainImageCache.set(propertyPairId, data)
+    return data
+  })
 
   const { saleProperties = [] } = categoryProperties
   saleUnits.forEach(saleUnit => {
@@ -87,8 +97,9 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
     })
 
     const sku = {
-      ...pick(saleUnit, ['status', 'costPrice', 'restriction', 'deliverCode']),
+      ...pick(saleUnit, ['skuId', 'status', 'costPrice', 'restriction', 'deliverCode']),
       key,
+      saleUnitId: saleUnit.skuId,
       propertyValueNames,
       propertyPairIds,
       enableDeliverCode: false
@@ -201,6 +212,7 @@ class GoodsPublish extends Component {
   constructor(props) {
     super(props);
 
+    Cache.clear()
     const { itemId = null, mock = false } = getPageQuery()
     const status = itemId ? 'update' : 'create'
 

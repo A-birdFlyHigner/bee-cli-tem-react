@@ -263,14 +263,14 @@ const getColumns = (leForm, globalOptions = {}) => {
                 rowIndex: index
               })
             }
-              return (
-                <Input
-                  value={value}
-                  maxLength={10}
-                  onChange={(e) => handleValue(e, false)}
-                  onBlur={(e) => handleValue(e, true)}
-                />
-              )
+            return (
+              <Input
+                value={value}
+                maxLength={10}
+                onChange={(e) => handleValue(e, false)}
+                onBlur={(e) => handleValue(e, true)}
+              />
+            )
           }
       },
       {
@@ -338,12 +338,28 @@ const getSkus = (leForm, globalOptions = {}) => {
           return { message }
         }
 
+        if (skus.length === 0) {
+          return getMsg('sku规格不能为空')
+        }
+
+        if (skus.length > 200) {
+          return getMsg('sku规格不能超过200个')
+        }
+
         // 成本价
         {
           const costPrices = skus.map(sku => sku.costPrice || null)
-          const hasNull = costPrices.some(item => item === null)
+          const hasNull = costPrices.some(costPrice => costPrice === null)
           if (hasNull) {
             return getMsg('成本价不能为空')
+          }
+
+          const hasOver10Million = costPrices.some(costPrice => {
+            const num = Number(costPrice)
+            return num <= 0 || num >= 10000000
+          })
+          if (hasOver10Million) {
+            return getMsg(`成本价必须大于0元且低于1000万元`)
           }
         }
 
