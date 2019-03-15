@@ -15,7 +15,7 @@ const goBaseDetail = (id) => {
 }
 
 export default {
-  rowKey: 'id',
+  rowKey: 'saleGoodsId',
   scroll: { x: 1800 },
   rowSelection: {
     selections: true,

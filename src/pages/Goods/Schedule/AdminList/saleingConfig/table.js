@@ -12,7 +12,7 @@ const goBaseDetail = (id) => {
 
 export default {
   rowKey: 'saleGoodsId',
-  scroll: { x: 1800 },
+  scroll: { x: 2000 },
   rowSelection: {
     selections: true,
     getCheckboxProps() {
