@@ -1,5 +1,5 @@
 class Cache {
-  static cache = {}
+  static list = {}
 
   constructor () {
     this.cache = {}
@@ -26,18 +26,21 @@ class Cache {
 
 
   static create (name) {
-    const { cache } = this
+    const { list } = this
     if (typeof name !== 'string') {
       throw new Error('The Cache name must be of type string')
     }
-    if (typeof cache[name] === 'undefined') {
-      cache[name] = new Cache()
+    if (typeof list[name] === 'undefined') {
+      list[name] = new Cache()
     }
-    return cache[name]
+    return list[name]
   }
 
   static clear () {
-    this.cache = {}
+    for (const key of Object.keys(this.list)) {
+      const item = this.list[key]
+      item.cache = {}
+    }
   }
 }
 

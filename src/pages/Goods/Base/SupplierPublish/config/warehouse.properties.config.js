@@ -3,6 +3,7 @@ import { getPropertiesWrap } from './properties.config'
 
 // 获取仓库属性表单配置
 const getWarehousePropertiesConfig = (warehouseProperties = []) => {
+  if (warehouseProperties.length === 0) return null
   return (leForm) => {
     return [
       getHead('仓库属性'),
