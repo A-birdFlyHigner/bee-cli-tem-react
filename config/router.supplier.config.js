@@ -20,8 +20,14 @@ export default [
             component: './Goods/Base/SupplierList',
           },
           {
-            path: '/goods/publish',
-            name: '新增商品',
+            path: '/goods/create',
+            name: '新建商品',
+            component: './Goods/Base/SupplierPublish',
+            hideInMenu: true,
+          },
+          {
+            path: '/goods/update',
+            name: '更新商品',
             component: './Goods/Base/SupplierPublish',
             hideInMenu: true,
           },

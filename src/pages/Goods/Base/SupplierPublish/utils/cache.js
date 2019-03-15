@@ -25,7 +25,7 @@ class Cache {
   }
 
 
-  static manage (name) {
+  static create (name) {
     const { cache } = this
     if (typeof name !== 'string') {
       throw new Error('The Cache name must be of type string')
@@ -36,7 +36,7 @@ class Cache {
     return cache[name]
   }
 
-  static reset () {
+  static clear () {
     this.cache = {}
   }
 }

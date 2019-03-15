@@ -87,8 +87,18 @@ export async function queryProductSpreadList(params) {
 }
 
 // 发布商品
-export async function publishGoods (params) {
+export async function createGoods (params) {
   return request(`${domain}/revision/product/create`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+// 修改商品
+export async function updateGoods (params) {
+  return request(`${domain}/revision/product/update`, {
     method: 'POST',
     body: {
       ...params,
@@ -258,7 +268,7 @@ export async function getProductGroupCombo(params) {
   });
 }
 
-// 审核推广商品 
+// 审核推广商品
 export async function spreadReviewProduct(params) {
   return request(`${domain}/branch/product/spread/review`, {
     method: 'POST',

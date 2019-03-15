@@ -251,7 +251,7 @@
   }],
   "salePropertyList": [{ // 销售属性
     "costPrice": 100, // 成本价, 单位分
-    "deliverCode": "D01",// 发货编码, 前端校验唯一、玲珑确认
+    "deliverCode": "D01",// 发货编码
     "restriction": 20, // sku限购数量
     "propertyPairIds": [75798, 75799, 75800],
     "status": 1, // 1可用，0停用
