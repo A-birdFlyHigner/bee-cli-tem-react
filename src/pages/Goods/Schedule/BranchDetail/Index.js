@@ -67,7 +67,7 @@ const confirm = (err, values)=> {
     if (!res) return
     window.history.back(-1)  
   })
-
+  return false
 }
 
 // 取消 err, values

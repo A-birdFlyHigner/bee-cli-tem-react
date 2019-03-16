@@ -238,7 +238,7 @@ export function allBackoff(err, values, formCore, listCore){
       content () {
         return <LeForm {...dialogFormConfig(count)} />
       },
-      onOk: ( values, suc ) => {
+      onOk: ( value, suc ) => {
         backOff({ 
           channelProductIdList, 
         }).then(res => {
@@ -458,7 +458,7 @@ export function allRevoke(err, values, formCore, listCore) {
       content () {
         return <LeForm {...dialogFormTextConfig('撤销推广')} />
       },
-      onOk: (values, suc) => {
+      onOk: (value, suc) => {
         revokeProductSpeard({ 
           channelProductIdList,
         }).then(res => {
@@ -710,7 +710,7 @@ export function alladminRevoke(err, values, formCore, listCore) {
       content () {
         return <LeForm {...revokeFormConfig(count)} />
       },
-      onOk: (values, suc) => {
+      onOk: (value, suc) => {
         revokeProductPromotion({ 
           channelProductIdList,
         }).then(res => {
@@ -771,7 +771,7 @@ export function alladminBack(err, values, formCore, listCore){
       content () {
         return <LeForm {...alladminBackFormConfig(count)} />
       },
-      onOk: ( values, suc ) => {
+      onOk: ( value, suc ) => {
         forceBackProductList({ 
           channelProductIdList, 
         }).then(res => {
