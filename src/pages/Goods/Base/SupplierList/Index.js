@@ -20,7 +20,11 @@ class GoodsList extends Component {
 
   render() {
     const { listConfig } = this.state;
-    return <LeList {...listConfig} />
+    return (
+      <div className='base-goods-list'>
+        <LeList {...listConfig} />
+      </div>
+    )
   }
 }
 
