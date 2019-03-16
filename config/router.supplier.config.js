@@ -6,7 +6,6 @@ export default [
     Routes: ['src/pages/Authorized'],
     routes: [
       { path: '/', redirect: '/goods/base/list' },
-
       // goods
       {
         path: '/goods',
@@ -55,7 +54,18 @@ export default [
           {
             path: '/supply/purchase/list',
             name: '采购单管理',
-            component: './Supply/Purchase/SupplierList',
+            component: './Supply/Purchase/List',
+          },
+          {
+            path: '/supply/purchase/detail',
+            name: '采购单详情',
+            component: './Supply/Purchase/Detail',
+            hideInMenu: true,
+          },
+          {
+            path: '/supply/warehouse/list',
+            name: '商品在仓库存管理',
+            component: './Supply/Warehouse/List',
           },
         ],
       },
