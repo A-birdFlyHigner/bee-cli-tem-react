@@ -13,6 +13,27 @@ const listConfig = {
   ...leListQuery(getStockList)
 };
 
+if (ADMIN_TYPE === 'SUPPLIER') {
+  listConfig.filterConfig.items = [
+    {
+      label: '商品ID',
+      name: 'itemCode',
+      component: 'Input',
+      props: {
+        placeholder: '请输入商品ID',
+      },
+    },
+    {
+      label: 'SKU编码',
+      name: 'skuCode',
+      component: 'Input',
+      props: {
+        placeholder: '请输入SKU编码',
+      },
+    },
+  ]
+}
+
 const listConfigModal = {
   filterConfig: {settings: {
     values: {
@@ -32,14 +53,14 @@ class List extends Component {
     const listConfigCombine = {...listConfig}
     listConfigCombine.tableConfig.columns[10] = {
       title: '操作',
-      render(value, values, index) {
+      render(value, values) {
         return (
           <div>
             <a href="javascript:;" onClick={()=>{self.showDetail(values)}} >仓库详情</a>
           </div>
         );
       },
-    },
+    }
 
     this.state = {
       listConfig: listConfigCombine,
@@ -47,20 +68,7 @@ class List extends Component {
       modalVisible: false,
     };
   }
-  showDetail = (params) => {
-    const listConfigModalMix = {...listConfigModal}
-    listConfigModalMix.filterConfig.settings.values.warehouseCode = params.warehouseCode
-    listConfigModalMix.filterConfig.settings.values.skuCode = params.skuCode
-    this.setState({
-      modalVisible: true,
-      listConfigModal: listConfigModalMix
-    });
-  };
-  handleCancel = (e) => {
-    this.setState({
-      modalVisible: false,
-    });
-  };
+
   componentDidMount() {
     const self = this
     getWarehouseEmunList().then((res)=>{
@@ -70,21 +78,39 @@ class List extends Component {
       self.list.filterCore.setProps('warehouseCode', { options: data });
     })
   }
+
+  showDetail = (params) => {
+    const listConfigModalMix = {...listConfigModal}
+    listConfigModalMix.filterConfig.settings.values.warehouseCode = params.warehouseCode
+    listConfigModalMix.filterConfig.settings.values.skuCode = params.skuCode
+    this.setState({
+      modalVisible: true,
+      listConfigModal: listConfigModalMix
+    });
+  }
+
+  handleCancel = (e) => {
+    this.setState({
+      modalVisible: false,
+    });
+  }
+
   render() {
     const { state } = this;
-    return <div>
-      <LeList {...state.listConfig} ref={list => this.list = list}/>
-      <Modal
-        title="商品在仓库存"
-        visible={state.modalVisible}
-        onCancel={this.handleCancel}
-        width="80%"
-        footer={null}
-        destroyOnClose
-      >
-        <LeList {...state.listConfigModal} ref={list => this.modalList = list}/>
-      </Modal>
-    </div>
+    return (
+      <div>
+        <LeList {...state.listConfig} ref={list => this.list = list}/>
+        <Modal
+          title="商品在仓库存"
+          visible={state.modalVisible}
+          onCancel={this.handleCancel}
+          width="80%"
+          footer={null}
+          destroyOnClose
+        >
+          <LeList {...state.listConfigModal} ref={list => this.modalList = list}/>
+        </Modal>
+      </div>)
   }
 }
 

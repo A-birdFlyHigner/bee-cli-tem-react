@@ -6,7 +6,6 @@ export default [
     Routes: ['src/pages/Authorized'],
     routes: [
       { path: '/', redirect: '/goods/schedule/branchlist' },
-
       // goods
       {
         path: '/goods',
@@ -100,7 +99,6 @@ export default [
           },
         ],
       },
-
       // lepage
       {
         path: '/lepage',
