@@ -147,6 +147,9 @@ export default function request(url, option) {
       return response.json();
     }).then(response => {
       if (String(response.status) === '1') {
+        if (!response.data && typeof(response.data)!=="undefined" && response.data!==0) {
+          return 1
+        } 
         return response.data
       }
       const result = response.data
