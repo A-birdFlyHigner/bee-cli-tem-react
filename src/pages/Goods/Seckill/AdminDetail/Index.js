@@ -65,7 +65,7 @@ const confirm = async (err, values) => {
 
 // 取消
 const cancel = ()=> {
-
+  window.close()
 }
 
 export default class Detail extends Component {
