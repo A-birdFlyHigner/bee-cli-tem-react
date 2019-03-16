@@ -44,6 +44,14 @@ export default [
             component: './Goods/Schedule/AdminProductdetail',
             hideInMenu: true,            
           },
+
+          // 秒杀定价
+          {
+            path: '/goods/seckill/detail/:id',
+            name: '秒杀商品详情',
+            component: './Goods/Seckill/AdminDetail',
+            hideInMenu: true,
+          },
         ],
       },
       {
