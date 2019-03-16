@@ -1,15 +1,20 @@
 import React from 'react'
 import router from 'umi/router'
 
-// 查看详情 TODO：点击查看城市排期详情
-const goCityDetail = () => {
+// 查看详情 TODO：点击查看城市已排期详情
+const goCityDetail = (record) => {
   router.push({
-    // pathname: '/goods/base/detail/:id',
+    pathname: '/goods/schedule/adminlist',
+    query: {
+      tabType: '2',
+      cityCode: record.cityCode,
+      provinceCode: record.provinceCode
+    }
   })
 }
 
 export default {
-  rowKey: 'id',
+  rowKey: '1',
   scroll: { x: 1300 },
   columns: [{
     title: '城市id',
