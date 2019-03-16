@@ -4,6 +4,7 @@ import { message as messageApi } from 'antd'
 import { GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './common.config'
 import { trim, pick, omit, emptyFn, Cache } from '../utils'
 import { createGoods, updateGoods } from '@/services/goods';
+import { getPageQuery } from '@/utils/utils'
 
 const buttonCache = Cache.create('button.config')
 const isAMomentObject = '_isAMomentObject'
@@ -186,6 +187,17 @@ const switchAwait = (leForm, loading) => {
   })
 }
 
+const jumpRoute = () => {
+  const { redirect, from = '/goods/base/list' } = getPageQuery() || {}
+
+  if (redirect) {
+    window.location.href = decodeURIComponent(redirect)
+  }
+  setTimeout(() => {
+    router.push(from)
+  }, 2000)
+}
+
 const handleCreate = async (leForm, values) => {
   const params = getFormatValues(values, leForm)
   const resData = await createGoods(params)
@@ -195,9 +207,7 @@ const handleCreate = async (leForm, values) => {
     return
   }
   messageApi.success('商品创建成功，正在跳转商品列表页！')
-  setTimeout(() => {
-    router.push('/goods/base/list')
-  }, 2000)
+  jumpRoute()
 }
 
 const handleUpdate = async (leForm, values) => {
@@ -209,9 +219,7 @@ const handleUpdate = async (leForm, values) => {
     return
   }
   messageApi.success('商品更新成功，正在跳转商品列表页！')
-  setTimeout(() => {
-    router.push('/goods/base/list')
-  }, 2000)
+  jumpRoute()
 }
 
 // 获取底部按钮表单配置
