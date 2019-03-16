@@ -14,7 +14,8 @@ export default class SpreadList extends Component {
   }
   
   render () {
-    const branchJoinType = window.sessionStorage.getItem('HQBSFORSHOP').userInfo.branchJoinType? window.sessionStorage.getItem('HQBSFORSHOP').userInfo.branchJoinType:''
+    // 只有直营分公司有【预排期】，加盟分公司没有预排期状态 2 直营 
+    const branchJoinType = JSON.parse(window.sessionStorage.getItem('HQBSFORSHOP')).userInfo.branchJoinType? JSON.parse(window.sessionStorage.getItem('HQBSFORSHOP')).userInfo.branchJoinType:''
     return (
       <Tabs size='large' defaultActiveKey="1">
         <TabPane tab="未排期" key="1">

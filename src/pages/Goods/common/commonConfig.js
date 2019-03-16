@@ -238,7 +238,7 @@ export function allBackoff(err, values, formCore, listCore){
       content () {
         return <LeForm {...dialogFormConfig(count)} />
       },
-      onOk: ( suc ) => {
+      onOk: ( values, suc ) => {
         backOff({ 
           channelProductIdList, 
         }).then(res => {
@@ -270,13 +270,10 @@ export function goBack (saleGoodsId) {
         }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
         })
-
-        suc()
       }
     }
   )
@@ -330,7 +327,6 @@ export function goSetTime(saleGoodsId) {
         addOrUpdate({ startTime, endTime, productIdList }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
@@ -409,7 +405,6 @@ export function setGroupValue(saleGoodsId) {
         }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
@@ -438,7 +433,6 @@ export function goRevoke(saleGoodsId) {
         }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
@@ -618,7 +612,6 @@ export function goExamine(saleGoodsId) {
         }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
@@ -650,6 +643,7 @@ export function goallExamine(err, values, formCore, listCore) {
         const { chooseType } = value
         const comment = value.rejectReason ? value.rejectReason : ''
 
+        // 2 通过 3 拒绝
         if ((!comment) && (chooseType === 3)) {
           message.success('请输入拒绝原因！');          
           return
@@ -664,7 +658,8 @@ export function goallExamine(err, values, formCore, listCore) {
           listCore.refresh();          
           // 关闭弹窗
           suc()
-          message.success('已批量审核成功');          
+          const messageText = chooseType===3 ? '已批量拒绝' : '已批量审核'
+          message.success(messageText);          
         })
       }
     }
@@ -688,9 +683,8 @@ export function goadminRevoke(saleGoodsId) {
         revokeProductPromotion({
           channelProductIdList, 
         }).then(res => {
-          if (!res) return
-          // 关闭弹窗
-          
+          if (!res) return 
+          message.success('撤销推广成功');           
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
@@ -720,7 +714,7 @@ export function alladminRevoke(err, values, formCore, listCore) {
         revokeProductPromotion({ 
           channelProductIdList,
         }).then(res => {
-          if (!res) return
+          if (!res) return 
           listCore.refresh();          
           // 关闭弹窗
           suc()
@@ -747,9 +741,8 @@ export function goadminBack (saleGoodsId) {
         forceBackProductList({ 
           channelProductIdList, 
         }).then(res => {
-          if (!res) return
+          if (!res) return 
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
@@ -778,7 +771,7 @@ export function alladminBack(err, values, formCore, listCore){
       content () {
         return <LeForm {...alladminBackFormConfig(count)} />
       },
-      onOk: ( suc ) => {
+      onOk: ( values, suc ) => {
         forceBackProductList({ 
           channelProductIdList, 
         }).then(res => {

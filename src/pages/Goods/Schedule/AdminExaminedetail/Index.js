@@ -34,7 +34,7 @@ const confirm = async (err, values)=> {
     channelProductIds, 
     status,
     comment
-  }).then(res => {
+  }).then(res => { 
     if (!res) return
     if ( status === 2)  {
       message.warning('审核成功！')    
@@ -43,7 +43,6 @@ const confirm = async (err, values)=> {
     }
     window.history.back(-1)
   })
-
 }
 
 // 取消
