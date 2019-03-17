@@ -4,7 +4,7 @@ import moment from 'moment'
 import { getFormConfig } from './config';
 import { getGoodsDetail, queryCategoryPropertyDetail } from '@/services/goods'
 import { getPageQuery } from '@/utils/utils'
-import { pick, Cache } from './utils'
+import { pick, Cache, convertSkus } from './utils'
 import Category from './components/Category/index'
 import { SALE_PROPERTY_NAME_ID, GOODS_PROPERTY_NAME_ID, WAREHOUSE_PROPERTY_NAME_ID } from './config/common.config'
 import { DEFAULT_FORM_VALUES } from './mock/defaultFormValues'
@@ -34,7 +34,7 @@ const mergeInitValuesFormConfig = (formConfig = {}, initValues = {}) => {
 }
 
 // 销售属性
-const proxySalePropertiesConfig = (saleUnits, saleProperties) => {
+const proxySalePropertiesConfig = (saleUnits, saleCategoryProperties) => {
   const proxySaleProperties = {}
 
   saleUnits.forEach(saleUnit => {
@@ -52,21 +52,23 @@ const proxySalePropertiesConfig = (saleUnits, saleProperties) => {
     propertyPairList.forEach(pair => {
       const { id: pairId, propertyNameId } = pair
       const name = `${SALE_PROPERTY_NAME_ID}-${propertyNameId}`
-      proxySaleProperties[name] = [...(proxySaleProperties[name] || []), pairId]
+      const pairIds = proxySaleProperties[name] || []
 
-      // 更新销售属性自定义选项
-      {
-        const { propertyPairs } = saleProperties.find(property => property.propertyNameId === propertyNameId) || {}
-        const propertyPair = propertyPairs.find(item => item.id === pairId)
-        if (propertyPair) {
-          propertyPair.disabled = true
-        }
-        else {
-          propertyPairs.push({
-            ...pair,
-            custom: false,
-          })
-        }
+      if (pairIds.indexOf(pairId) === -1) {
+        pairIds.push(pairId)
+      }
+      proxySaleProperties[name] = pairIds
+
+      const { propertyPairs = [] } = saleCategoryProperties.find(property => property.propertyNameId === propertyNameId) || {}
+      const propertyPair = propertyPairs.find(item => item.id === pairId)
+      if (propertyPair) {
+        propertyPair.disabled = true
+      }
+      else {
+        propertyPairs.push({
+          ...pair,
+          custom: false,
+        })
       }
     })
 
@@ -82,6 +84,46 @@ const proxySalePropertiesConfig = (saleUnits, saleProperties) => {
   })
 
   return proxySaleProperties
+}
+
+const formatSkusValue = (proxySaleProperties, saleCategoryProperties) => {
+  // ['salePropertyNameId-888', 'salePropertyNameId-999']
+  const relateds = saleCategoryProperties.map(salePropertie => {
+    const { propertyNameId } = salePropertie
+    return {
+      propertyNameId,
+      name: `${SALE_PROPERTY_NAME_ID}-${propertyNameId}`
+    }
+  })
+
+  // [[{ label, value }, { }], [{ label, value }, { }]]
+  const propertyPairGroups = relateds.map(related => {
+    const { propertyPairs = [] } = saleCategoryProperties.find(property => property.propertyNameId === related.propertyNameId) || {}
+    const propertyOptions = propertyPairs.map(propertyPair => {
+      return {
+        label: propertyPair.pvName,
+        value: propertyPair.id,
+        disabled: propertyPair.disabled || false,
+        custom: propertyPair.custom || false
+      }
+    })
+
+    const propertyPairIds = proxySaleProperties[related.name] || []
+    if (propertyPairIds.length === 0) {
+      return propertyOptions.map(propertyOption => {
+        return {
+          ...propertyOption,
+          notHas: true
+        }
+      })
+    }
+
+    return propertyOptions.filter(propertyOption => {
+      return propertyPairIds.indexOf(propertyOption.value) !== -1
+    })
+  })
+
+  return convertSkus(propertyPairGroups)
 }
 
 // 商品属性、仓库属性
@@ -209,7 +251,7 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
     ...baseInfo,
     has69,
     ...proxySaleProperties, // { [propertyNameId]: [1000, 10001, 10002] }
-    skus: [],
+    skus: formatSkusValue(proxySaleProperties, saleCategoryProperties),
     ...proxyGoodsProperties,
     ...proxyWarehouseProperties,
     goodsMainImageList: formatImagesConfig(resData.mainImages),
