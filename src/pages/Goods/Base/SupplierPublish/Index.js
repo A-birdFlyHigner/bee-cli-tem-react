@@ -33,40 +33,14 @@ const mergeInitValuesFormConfig = (formConfig = {}, initValues = {}) => {
   }
 }
 
-const formatUpdateFormConfig = (resData, categoryProperties, status) => {
-  const {
-    saleGoodsId,
-    categoryId,
-    pathName,
-    name = '',
-    desc = '',
-    brandName = '',
-    useBarCode: has69 = false,
-    saleUnits = [], // sku 规格 和 销售属性
-    saleUnitImages = [],
-    properties = [] // 商品属性、仓库属性
-  } = resData
-  const categoryName = pathName.split(',').join('>')
-  const proxyBaseInfo = { saleGoodsId, categoryId, categoryName, name, desc, brandName, has69 }
-  const proxySaleProperties = {} // 销售属性
-  const proxyOtherProperties = {} // 商品属性、仓库属性
-  const skus = []
+// 销售属性
+const proxySalePropertiesConfig = (saleUnits, saleProperties) => {
+  const proxySaleProperties = {}
 
-  saleUnitImages.map(item => {
-    const { id, url, width, height, propertyPairId } = item
-    const data = [{
-      id, url, uid: url, width, height
-    }]
-    skuMainImageCache.set(propertyPairId, data)
-    return data
-  })
-
-  const { saleProperties = [] } = categoryProperties
   saleUnits.forEach(saleUnit => {
     const { propertyPairList = [] } = saleUnit
 
     const propertyPairIds = propertyPairList.map(pair => pair.id)
-
     const propertyValueNames = propertyPairList.length === 0
     ? ['默认']
     : propertyPairList.map(pair => pair.pvName)
@@ -90,7 +64,7 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
         else {
           propertyPairs.push({
             ...pair,
-            isCustom: true
+            custom: false,
           })
         }
       }
@@ -104,18 +78,21 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
       propertyPairIds,
       enableDeliverCode: false
     }
-    skus.push(sku)
     saleCache.set(key, sku)
   })
 
-  const { goodsProperties = [], warehouseProperties = [] } = categoryProperties
-  const otherProperties = [...goodsProperties, ...warehouseProperties]
+  return proxySaleProperties
+}
+
+// 商品属性、仓库属性
+const proxyRestPropertiesConfig = (restProperties, restCategoryProperties) => {
+  const proxyRestProperties = {}
   const inputTypes = {}
-  otherProperties.forEach(({ propertyNameId, inputType }) => {
+  restCategoryProperties.forEach(({ propertyNameId, inputType }) => {
     inputTypes[propertyNameId] = inputType
   })
 
-  properties.forEach((propertie) => {
+  restProperties.forEach((propertie) => {
     const { propertyType, propertyNameId, propertyValue = [], propertyPairList = [] } = propertie
     let prefixName = ''
     if (propertyType === 3) { // 商品属性
@@ -129,9 +106,9 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
     const inputType = inputTypes[propertyNameId]
 
     if ([2, 4].indexOf(inputType) !== -1) {
-      // 更新商品、仓库属性自定义选项
+      // 商品、仓库属性自定义选项
       propertyPairList.forEach(pair => {
-        const { propertyPairs } = otherProperties.find(property => property.propertyNameId === propertyNameId) || {}
+        const { propertyPairs } = restCategoryProperties.find(property => property.propertyNameId === propertyNameId) || {}
         const propertyPair = propertyPairs.find(item => item.id === pair.propertyPairId)
         if (propertyPair) {
           propertyPair.disabled = true
@@ -140,7 +117,7 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
           propertyPairs.push({
             id: pair.propertyPairId,
             pvName: pair.pvName,
-            isCustom: true
+            custom: true
           })
         }
       })
@@ -149,24 +126,24 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
     switch (inputType) {
       case 1: // 单选不自定义
       case 2: // 单选可自定义
-      proxyOtherProperties[name] = propertyPairList[0].propertyPairId
+        proxyRestProperties[name] = propertyPairList[0].propertyPairId
       break;
 
       case 3: // 多选不自定义
       case 4: // 多选可自定义
-      proxyOtherProperties[name] = propertyPairList.map(pair => pair.propertyPairId)
+        proxyRestProperties[name] = propertyPairList.map(pair => pair.propertyPairId)
       break;
 
       case 5: // 输入框
-        [proxyOtherProperties[name]] = propertyValue
+        [proxyRestProperties[name]] = propertyValue
       break;
 
       case 6: // 日期
-        proxyOtherProperties[name] = moment(propertyValue[0])
+        proxyRestProperties[name] = moment(propertyValue[0])
       break;
 
       case 7: // 时间
-        proxyOtherProperties[name] = moment(propertyValue[0])
+        proxyRestProperties[name] = moment(propertyValue[0])
       break;
 
       default:
@@ -174,28 +151,69 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
     }
   })
 
-  const goodsMainImageList = resData.mainImages.map(img => {
-    return {
-      ...img,
-      uid: img.url
-    }
-  })
+  return proxyRestProperties
+}
 
-  const goodsDetailImageList = resData.detailImages.map(img => {
+// sku主图
+const initSkuMainImagesCahce = (saleUnitImages) => {
+  saleUnitImages.map(item => {
+    const { id, url, width, height, propertyPairId } = item
+    const data = [{
+      id, url, uid: url, width, height
+    }]
+    skuMainImageCache.set(propertyPairId, data)
+    return data
+  })
+}
+
+// 商品主图、商品详情图
+const formatImagesConfig = (images) => {
+  return images.map(img => {
     return {
       ...img,
       uid: img.url
     }
   })
+}
+
+const formatUpdateFormConfig = (resData, categoryProperties, status) => {
+  const {
+    saleGoodsId,
+    categoryId,
+    pathName = [],
+    name = '',
+    desc = '',
+    brandName = '',
+    useBarCode: has69 = false,
+    saleUnits = [], // sku 规格 和 销售属性
+    saleUnitImages = [],
+    properties: goodsProperties = [], // 商品属性
+    warehouseProperties = [] // 仓库属性
+  } = resData
+  const categoryName = pathName.split(',').join('>')
+  const baseInfo = { saleGoodsId, categoryId, categoryName, name, desc, brandName, has69 }
+
+  const {
+    saleProperties: saleCategoryProperties = [],
+    goodsProperties: goodsCategoryProperties = [],
+    warehouseProperties: warehouseCategoryProperties = []
+  } = categoryProperties
+
+  const proxySaleProperties = proxySalePropertiesConfig(saleUnits, saleCategoryProperties) // 销售属性
+  const proxyGoodsProperties = proxyRestPropertiesConfig(goodsProperties, goodsCategoryProperties) // 商品属性
+  const proxyWarehouseProperties = proxyRestPropertiesConfig(warehouseProperties, warehouseCategoryProperties) // 仓库属性
+
+  initSkuMainImagesCahce(saleUnitImages)
 
   const initValues =  {
-    ...proxyBaseInfo,
+    ...baseInfo,
     has69,
-    ...proxySaleProperties,
-    skus,
-    ...proxyOtherProperties,
-    goodsMainImageList,
-    goodsDetailImageList
+    ...proxySaleProperties, // { [propertyNameId]: [1000, 10001, 10002] }
+    skus: [],
+    ...proxyGoodsProperties,
+    ...proxyWarehouseProperties,
+    goodsMainImageList: formatImagesConfig(resData.mainImages),
+    goodsDetailImageList: formatImagesConfig(resData.detailImages)
   }
 
   const formConfig = getFormConfig(categoryProperties, {

@@ -64,7 +64,7 @@ const handleAddPropertyPair = async (leForm, name, event, okFn = emptyFn) => {
     options.push({
       label,
       value: propertyPairId,
-      isCustom: true
+      custom: true
     })
 
     // update
@@ -135,8 +135,8 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
         return {
           label: propertyPair.pvName,
           value: propertyPair.id,
-          disabled: propertyPair.disabled,
-          isCustom: propertyPair.isCustom
+          disabled: propertyPair.disabled || false,
+          custom: propertyPair.custom || false
         }
       })
     }
@@ -195,14 +195,14 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
         if (inputType === 2) { // 2单选可自定义
           const pairId = values[name] || null
           return pairs.filter(pair => {
-            return pair.isCustom && pairId === pair.value
+            return pair.custom && pairId === pair.value
           })
         }
 
         if (inputType === 4) { // 4多选可自定义
           const pairIds = values[name] || []
           return pairs.filter(pair => {
-            return pair.isCustom && pairIds.indexOf(pair.value) !== -1
+            return pair.custom && pairIds.indexOf(pair.value) !== -1
           })
         }
         return false
