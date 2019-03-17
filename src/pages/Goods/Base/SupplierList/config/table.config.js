@@ -54,6 +54,10 @@ const showSpecDetailDialog = dataSource => {
   LeDialog.show({
     title: '基础商品规格详情',
     width: 600,
+    style: {
+      maxHeight: 500,
+      overflowX: 'auto'
+    },
     footer() {
       return null
     },
