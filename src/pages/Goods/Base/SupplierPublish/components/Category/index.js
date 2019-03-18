@@ -26,8 +26,8 @@ const makeItem = (list) => {
 }
 
 class Category extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       options: []
@@ -90,6 +90,7 @@ class Category extends Component {
   render () {
     const { props, state } = this
     return (
+
       <div className={Sty.categoryWarp}>
         {/* <div className={Sty.header}>
           <span className={Sty.title}>新建基础商品/选择类目</span>
@@ -120,20 +121,20 @@ class Category extends Component {
           </Button>
         </div>
       </div>
-    )
+    );
   }
 }
 
 Category.propTypes = {
   showCancel: PropTypes.bool,
   onOk: PropTypes.func,
-  onCancel: PropTypes.func
-}
+  onCancel: PropTypes.func,
+};
 
 Category.defaultProps = {
   showCancel: false,
   onOk: FN,
-  onCancel: FN
-}
+  onCancel: FN,
+};
 
-export default Category
+export default Category;
