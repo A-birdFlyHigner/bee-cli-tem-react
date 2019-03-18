@@ -128,7 +128,7 @@ const proxyRestPropertiesConfig = (restProperties, restCategoryProperties) => {
     if (propertyType === 3) { // 商品属性
       prefixName = GOODS_PROPERTY_NAME_ID
     }
-    else if (propertyType === 4) { // 销售属性
+    else if (propertyType === 4) { // 仓库属性
       prefixName = WAREHOUSE_PROPERTY_NAME_ID
     }
 
@@ -140,10 +140,7 @@ const proxyRestPropertiesConfig = (restProperties, restCategoryProperties) => {
       propertyPairList.forEach(pair => {
         const { propertyPairs } = restCategoryProperties.find(property => property.propertyNameId === propertyNameId) || {}
         const propertyPair = propertyPairs.find(item => item.id === pair.propertyPairId)
-        if (propertyPair) {
-          propertyPair.disabled = true
-        }
-        else {
+        if (!propertyPair) {
           propertyPairs.push({
             id: pair.propertyPairId,
             pvName: pair.pvName,
