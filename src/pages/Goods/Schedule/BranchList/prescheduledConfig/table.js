@@ -190,8 +190,8 @@ export default {
     }
   }, {
     title: '总部审核状态',
-    dataIndex: 'status',
-    key: 'status',
+    dataIndex: 'reviewStatus',
+    key: 'reviewStatus',
     width: 200,                                                           
     align: 'center',                      
     render: (value, record) => {
@@ -218,7 +218,7 @@ export default {
       return (
         <div className="operateBtn-container-inline list-inline">
           {
-            record.status !== 2?
+            record.reviewStatus !== 3?
               <div>
                 <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值({record.sortNumber})</a>
                 <span />

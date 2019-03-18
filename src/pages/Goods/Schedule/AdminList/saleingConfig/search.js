@@ -6,8 +6,8 @@ export default function(cityCodes,provinceCodes) {
   console.log('---cityCode', cityCodes)
   console.log('---provinceCode', provinceCodes)
   
-  const cityCode = cityCodes.toString()
-  const provinceCode = provinceCodes.toString()
+  const cityCode = cityCodes?cityCodes.toString():''
+  const provinceCode = provinceCodes?provinceCodes.toString():''
   
   return {
     settings:{
