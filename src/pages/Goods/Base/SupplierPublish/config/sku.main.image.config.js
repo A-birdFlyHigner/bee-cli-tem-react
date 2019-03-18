@@ -20,6 +20,7 @@ const UPLOAD_OPTIONS = {
 }
 
 const skuMainImageCache = Cache.create('sku.main.image.config')
+const buttonCache = Cache.create('button.config')
 
 const getFormConfig = (leForm, propertyPairs = []) => {
   return {
@@ -28,6 +29,12 @@ const getFormConfig = (leForm, propertyPairs = []) => {
         changeNames.forEach(name => {
           skuMainImageCache.set(name, values[name] || [])
         })
+
+        // 仅校验 sku 主图
+        const { isSubmit = false } = buttonCache.get()
+        if (isSubmit) {
+          leForm.validateItem(['skuMainImageList']);
+        }
       }
     },
     form: {
@@ -57,7 +64,11 @@ const getFormConfig = (leForm, propertyPairs = []) => {
 }
 
 const getSkuMainImages = (options = {}) => {
-  const { isRequiredSKUImage: required, skuImagePropertyId, skuImagePropertyName } = options
+  const {
+    isRequiredSKUImage: required,
+    skuImagePropertyId,
+    skuImagePropertyName
+  } = options
   const relatedName = `${SALE_PROPERTY_NAME_ID}-${skuImagePropertyId}` // salePropertyNameId-{propertyNameId}
 
   let childLeForm = null
@@ -65,23 +76,23 @@ const getSkuMainImages = (options = {}) => {
     childLeForm = leForm
   }
 
+  let propertyPairIds = []
   const formatValue = () => {
     const list = []
     if (!childLeForm) {
       return list
     }
 
-    // FIXME: item 动态被移除后，这里还能获取
     const values = childLeForm.getValues()
-    for (const key of Object.keys(values)) {
-      if (!values[key] || values[key].length !== 1) {
+    for (const pairId of propertyPairIds) {
+      if (!values[pairId] || values[pairId].length !== 1) {
         list.push(null)
         continue
       }
-      const item = values[key][0] // limit 1
+      const item = values[pairId][0] // limit 1
       list.push({
         ...item,
-        propertyPairId: key
+        propertyPairId: pairId
       })
     }
     return list
@@ -96,12 +107,8 @@ const getSkuMainImages = (options = {}) => {
       required
     },
     formatValue,
-    // when (values) {
-    //   const propertyPairIds = values[relatedName] || []
-    //   return propertyPairIds.length > 0
-    // },
     render(values, leForm) {
-      const propertyPairIds = values[relatedName] || []
+      propertyPairIds = values[relatedName] || []
       if (required && propertyPairIds.length === 0) {
         return <Alert message={`请先选择 销售属性：“${skuImagePropertyName}”`} type='info' />
       }
@@ -121,8 +128,11 @@ const getSkuMainImages = (options = {}) => {
         required,
         message: 'sku主图不能为空'
       }
-      if (required && list.length === 0) return result
-      if (list.indexOf(null) !== -1) return result
+      if (required && list.length === 0)
+        return result
+
+      if (list.indexOf(null) !== -1)
+        return result
 
       return null
     }
@@ -132,9 +142,13 @@ const getSkuMainImages = (options = {}) => {
 
 // 获取SKU主图表单配置
 const getSkuMainImageConfig = (options = DEFAULT_OPTIONS) => {
-  const { skuImagePropertyId, skuImagePropertyName } = options
+  const {
+    skuImagePropertyId,
+    skuImagePropertyName
+  } = options
 
-  if (!skuImagePropertyId) return null
+  if (!skuImagePropertyId)
+    return null
 
   return () => {
     return [
