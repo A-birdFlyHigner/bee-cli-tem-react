@@ -79,14 +79,14 @@ export default (options = {}) => {
 
     setTimeout(() => {
       queryProvinceList().then(res => setValueFun(0, res));
-      if (leForm.getValue[DEFAULT_OPTIONS.name[0]]) {
+      if (leForm.getValue([DEFAULT_OPTIONS.name[0]])) {
         queryCityList({
-          provinceCode: leForm.getValue[DEFAULT_OPTIONS.name[0]],
+          provinceCode: leForm.getValue([DEFAULT_OPTIONS.name[0]]),
         }).then(res => setValueFun(1, res));
       }
-      if (deep === 3 && leForm.getValue[DEFAULT_OPTIONS.name[1]]) {
+      if (deep === 3 && leForm.getValue([DEFAULT_OPTIONS.name[1]])) {
         queryDistrictList({
-          cityCode: leForm.getValue[DEFAULT_OPTIONS.name[1]],
+          cityCode: leForm.getValue([DEFAULT_OPTIONS.name[1]]),
         }).then(res => setValueFun(2, res));
       }
     });

@@ -47,7 +47,7 @@ export default [
           // 排期
           {
             path: '/goods/schedule/supplierlist',
-            name: '供应商商品排期列表',
+            name: '排期商品列表',
             component: './Goods/Schedule/SupplierList',
           },
         ],

@@ -163,6 +163,9 @@ export default function request(url, option) {
     }).then(response => {
       console.log('response222', response, response.status)
       if (String(response.status) === '1') {
+        if (!response.data && typeof(response.data)!=="undefined" && response.data!==0) {
+          return 1
+        } 
         return response.data
       }
       const result = response.data

@@ -27,6 +27,7 @@ const tabelColumns = (core, preview) => {
 
   const onInputChange = (val, index, name) => {
     if (val !== '' && !(name === 'grossProfit' ? RegGross : Reg.Price).test(val)) return
+    if (Number(val) > 100000000) return
     const saleUnits = JSON.parse(JSON.stringify(core.getValue('saleUnits')))
     saleUnits[index][name] = val
     core.setValue('saleUnits', saleUnits)
@@ -37,8 +38,8 @@ const tabelColumns = (core, preview) => {
     dataIndex: 'status',
     align: 'center',
     width: 80,
-    render: () => {
-      return '可用'
+    render: (text) => {
+      return ['停售', '可售'][text]
     }
   }, {
     title: 'sku组合',
@@ -102,7 +103,7 @@ export default function (preview) {
 
     const onBatchChange = (val, dataIndex) => {
       if (val !== '' && !(dataIndex === 'grossProfit' ? RegGross : Reg.Price).test(val)) return
-      if (Number(val) > 1000000) return
+      if (Number(val) > 100000000) return
       const saleUnits = leForm.getValue('saleUnits').map(p => {
         return {
           ...p,
@@ -114,12 +115,11 @@ export default function (preview) {
         saleUnits
       })
     }
-    const batchItem = preview ? [] : inputItems.map((item, index) => {
+    const batchItem = preview ? [] : inputItems.map((item) => {
       return {
-        label: (index === 0) ? `批量设置${'      '}${item.title}` : item.title,
+        label: item.title,
         name: `batch${item.dataIndex}`,
-        follow: index === 0,
-        inline: index !== 0,
+        inline: true,
         component: 'Input',
         status: item.disabled ? 'disabled' : 'edit',
         className: Sty.batchSetLabel,
@@ -135,6 +135,10 @@ export default function (preview) {
       label: '销售属性',
       className: 'box-header',
     }, 
+    {
+      label: '批量设置',
+      follow: true,
+    },
     ...batchItem,
     {
       name: 'saleUnits',

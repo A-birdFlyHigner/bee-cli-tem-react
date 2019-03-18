@@ -262,6 +262,11 @@ export default class Detail extends Component {
         status: '2'
       }
     })
+    return false
+  }
+
+  cancelClick = () => {
+    router.go(-1)
   }
 
   render () {
@@ -310,7 +315,7 @@ export default class Detail extends Component {
             : <Button loading={newBtnLoading} onClick={this.dialogAddSpread}>+新增推广渠道</Button>
           }
           <Button loading={addBtnLoading} type="primary" onClick={this.beforeSubmitInfo}>推广</Button>
-          <Button>取消</Button>
+          <Button onClick={this.cancelClick}>取消</Button>
         </div>
       </div>
     )

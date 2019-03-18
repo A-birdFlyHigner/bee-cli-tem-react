@@ -7,15 +7,15 @@ import * as Sty from '../index.less'
 
 const { reviewStatus } = commonMessage
 
-// 进入审核详情
+// 进入商品详情
 const goBaseDetail = (id) => {
   router.push({
-    pathname: `/goods/base/detail/${id}`,
+    pathname: `/goods/schedule/adminProductdetail/${id}`,
   })
 }
 
 export default {
-  rowKey: 'id',
+  rowKey: 'saleGoodsId',
   scroll: { x: 1800 },
   rowSelection: {
     selections: true,

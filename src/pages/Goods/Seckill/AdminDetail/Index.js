@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { LeForm } from '@lib/lepage'
 import { message } from 'antd'
-import {queryBranchProductSpreadDetail, updateSkuPrice } from '@/services/goods'
+import {getAdminProductDetail, spikeProductPriceUpdate} from '@/services/goods'
+import Sty from './Index.less'
+
 import {
-  onChange,  
+  onChange,
   baseInfo,
-  salseInfo,
   salseEdit,
   logistics,
   wareHouse,
@@ -18,13 +19,12 @@ const compare = (big, small) => {
   return Boolean(parseFloat(big) - parseFloat(small) > 0)
 }
 
-// 确定 err, values
-const confirm = (err, values)=> {
+// 确定
+const confirm = async (err, values) => {
+  const { saleGoodsId, saleUnits } = values
   const skuPriceInfos = []
-  const { saleUnits } = values  
   let isValid = true
-
-  // 请求接口前校验 会员价格
+  let option = {}
   saleUnits.forEach(item => {
     const { grossProfit, marketPrice, memberPrice, nonmemberPrice, skuId, memeberCommission, noMemeberCommission } = item
     skuPriceInfos.push({
@@ -49,30 +49,23 @@ const confirm = (err, values)=> {
   });
   if( !isValid ) return false
 
-  const skuPriceInfosList = []
-  saleUnits.forEach(element => {
-    skuPriceInfosList.push({
-      grossProfit: element.grossProfit*100,
-      marketPrice: Number(element.marketPrice*100),
-      memberPrice: Number(element.memberPrice*100),
-      nonMemberPrice: Number(element.nonmemberPrice*100),
-      skuId: element.skuId
-    })
-  })
-
-  updateSkuPrice({
-    channelProductId: values.saleGoodsId, 
-    skuPriceInfos: skuPriceInfosList
-  }).then(res => {
-    if (!res) return
-    window.history.back(-1)  
-  })
+  option = {
+    channelProductId: saleGoodsId,
+    skuPriceInfos,
+  }
+  const res = await spikeProductPriceUpdate(option)
+  if (!res) return false
+  message.success('定价成功')
+  if (window.opener && window.opener.initSeckillDetail) {
+    window.opener.initSeckillDetail()
+    window.close()
+  }
   return false
 }
 
-// 取消 err, values
+// 取消
 const cancel = ()=> {
-  window.history.back(-1)
+  window.close()
 }
 
 export default class Detail extends Component {
@@ -86,7 +79,7 @@ export default class Detail extends Component {
       leFormConf: {
         settings: {
           globalStatus: 'preview',
-          onChange          
+          onChange
         },
         form: {
           layout: {
@@ -95,17 +88,17 @@ export default class Detail extends Component {
         },
         items: [
           ...baseInfo,
-          ...salseInfo,
           salseEdit(),
           ...logistics,
           ...wareHouse,
           ...skuMainImg,
           ...productInfo,
-          ...productImg,
+          ...productImg,     
         ],
         buttons: [
           {
             inline: true,
+            className: Sty.bottonBtn,
             props: {
               type: 'primary',
               children: '确定',
@@ -126,11 +119,9 @@ export default class Detail extends Component {
   }
 
   onMountLeForm = (formCore) => {
-
     this.formCore = formCore
     const {productId} = this.state
-    
-    queryBranchProductSpreadDetail({channelProductId: productId}).then(res => {
+    getAdminProductDetail({channelProductId: productId, productId}).then(res => {
       if (!res) return
       formCore.setValues(res)
     })

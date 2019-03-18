@@ -15,12 +15,11 @@ import {
   examined,
 } from '@/pages/Goods/common/productDetail'
 
-
 // 确定
 const confirm = async (err, values)=> {
-  // 2 通过 3 拒绝
+  // 总部审核详情的接口 2 通过 3 拒绝
   const { saleGoodsId } = values
-  const status = values.examineData.chooseType
+  const status = values.examineData.chooseType + 1
   const comment = values.examineData.rejuctReason ? values.examineData.rejuctReason : ''
   const channelProductIds = []
 
@@ -35,13 +34,16 @@ const confirm = async (err, values)=> {
     channelProductIds, 
     status,
     comment
-  }).then(res => {
+  }).then(res => { 
     if (!res) return
-    message.warning('拒绝成功！')    
+    if ( status === 2)  {
+      message.warning('审核成功！')    
+    } else {
+      message.warning('拒绝成功！')      
+    }
     window.history.back(-1)
   })
-
-
+  return false
 }
 
 // 取消

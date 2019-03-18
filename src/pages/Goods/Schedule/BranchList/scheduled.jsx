@@ -12,11 +12,15 @@ export default class Scheduled extends Component {
   constructor(props) {
     super()
     this.store = props
+    this.state = {
+      cityCode: this.store.cityCode||''
+    }
   }
   
   render () {
+    const { cityCode }= this.state
     const config = {
-      filterConfig,
+      filterConfig: filterConfig(cityCode),
       operationConfig,
       tableConfig,
       ...leListQuery(listScheduledProduct)

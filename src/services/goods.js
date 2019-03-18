@@ -81,6 +81,14 @@ export async function getAdminProductDetail(params) {
   return request(`${domain}/base/product/detail?${stringify(params)}`);
 }
 
+// 总部秒杀商品定价
+export async function spikeProductPriceUpdate(params) {
+  return request(`${domain}/spike/product/price/update`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
 // 供应商商品待推广列表
 export async function queryProductSpreadList(params) {
   return request(`${domain}/product/spread/wait/query?${stringify(params)}`);

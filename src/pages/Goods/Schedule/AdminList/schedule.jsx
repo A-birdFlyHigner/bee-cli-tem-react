@@ -12,11 +12,16 @@ export default class Saleing extends Component {
   constructor(props) {
     super()
     this.store = props
+    this.state = {
+      cityCode: this.store.cityCode||'',
+      provinceCode: this.store.provinceCode||'',
+    }
   }
   
   render () {
+    const { cityCode,provinceCode }= this.state    
     const config = {
-      filterConfig,
+      filterConfig: filterConfig(cityCode,provinceCode),
       operationConfig,
       tableConfig,
       ...leListQuery(querySchedulingProductList)

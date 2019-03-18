@@ -4,6 +4,7 @@ import router from 'umi/router';
 import { ImageTextCard } from '@/components/InfoCard';
 import { LeDialog } from '@lib/lepage'
 import SkuDetail from '../../../common/skuDetail';
+import Sty from '../Index.less'
 
 const editItemStock = record => {
   const { saleGoodsId, cityCode, cityName, companyName } = record
@@ -170,7 +171,14 @@ export default {
     {
       title: '原因',
       dataIndex: 'promotionFailureReason',
-      width: 600,
+      width: 400,
+      render: (text) => {
+        return (
+          <div className={Sty.reasonDiv}>
+            {text}
+          </div>
+        )
+      }
     },
     {
       title: '操作',

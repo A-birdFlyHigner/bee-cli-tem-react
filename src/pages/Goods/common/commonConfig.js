@@ -238,15 +238,14 @@ export function allBackoff(err, values, formCore, listCore){
       content () {
         return <LeForm {...dialogFormConfig(count)} />
       },
-      onOk: ( suc ) => {
+      onOk: ( value, suc ) => {
         backOff({ 
           channelProductIdList, 
         }).then(res => {
           if (!res) return
-          // 关闭弹窗
-          
+          listCore.refresh();          
           suc()
-          listCore.refresh();
+          message.success('已批量回退成功');
         })
       }
     }
@@ -271,13 +270,10 @@ export function goBack (saleGoodsId) {
         }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
         })
-
-        suc()
       }
     }
   )
@@ -305,9 +301,9 @@ export function allSetSchedule(err, values, formCore, listCore) {
 
         addOrUpdate({ startTime, endTime, productIdList }).then(res => {
           if (!res) return
-          // 关闭弹窗
+          listCore.refresh();          
           suc()
-          listCore.refresh();
+          message.success('已批量排期成功');
         })
 
       }
@@ -331,7 +327,6 @@ export function goSetTime(saleGoodsId) {
         addOrUpdate({ startTime, endTime, productIdList }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
@@ -378,9 +373,9 @@ export function joinGroup(err, values, formCore, listCore) {
             productIds,
           }).then(resData => {
             if (!resData) return
-            // 关闭弹窗
+            listCore.refresh();          
             suc()
-            // listCore.refresh();
+            message.success('加入分组成功');
           })
   
         }
@@ -410,7 +405,6 @@ export function setGroupValue(saleGoodsId) {
         }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
@@ -439,7 +433,6 @@ export function goRevoke(saleGoodsId) {
         }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
@@ -465,16 +458,14 @@ export function allRevoke(err, values, formCore, listCore) {
       content () {
         return <LeForm {...dialogFormTextConfig('撤销推广')} />
       },
-      onOk: (values, suc) => {
+      onOk: (value, suc) => {
         revokeProductSpeard({ 
           channelProductIdList,
         }).then(res => {
           if (!res) return
-          // 关闭弹窗
-          
+          listCore.refresh();          
           suc()
-          // TODO: 刷新列表 单个数据操作拿不到leList 
-          listCore.refresh();
+          message.success('已批量撤销成功');
         })
       }
     }
@@ -539,7 +530,7 @@ const examineFormConfig = (count) => {
         },
         // when true false 控制隐藏显示此组件
         when: (val) => {
-          return val.chooseType === 1
+          return val.chooseType === 3
         }
       }
     ],
@@ -621,7 +612,6 @@ export function goExamine(saleGoodsId) {
         }).then(res => {
           if (!res) return
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
@@ -650,9 +640,14 @@ export function goallExamine(err, values, formCore, listCore) {
         return <LeForm {...examineFormConfig(count)} />
       },
       onOk: (value, suc) => {
-
         const { chooseType } = value
         const comment = value.rejectReason ? value.rejectReason : ''
+
+        // 2 通过 3 拒绝
+        if ((!comment) && (chooseType === 3)) {
+          message.success('请输入拒绝原因！');          
+          return
+        }
 
         setProductReviewStatus({ 
           channelProductIds, 
@@ -660,9 +655,11 @@ export function goallExamine(err, values, formCore, listCore) {
           comment
         }).then(res => {
           if (!res) return
+          listCore.refresh();          
           // 关闭弹窗
           suc()
-          listCore.refresh();
+          const messageText = chooseType===3 ? '已批量拒绝' : '已批量审核'
+          message.success(messageText);          
         })
       }
     }
@@ -686,9 +683,8 @@ export function goadminRevoke(saleGoodsId) {
         revokeProductPromotion({
           channelProductIdList, 
         }).then(res => {
-          if (!res) return
-          // 关闭弹窗
-          
+          if (!res) return 
+          message.success('撤销推广成功');           
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
@@ -710,20 +706,19 @@ export function alladminRevoke(err, values, formCore, listCore) {
   LeDialog.show(
     {
       title: '撤销推广',
-      width: '400px',
+      width: '600px',
       content () {
-        return <LeForm {...revokeFormConfig('撤销推广')} />
+        return <LeForm {...revokeFormConfig(count)} />
       },
-      onOk: (values, suc) => {
+      onOk: (value, suc) => {
         revokeProductPromotion({ 
           channelProductIdList,
         }).then(res => {
-          if (!res) return
+          if (!res) return 
+          listCore.refresh();          
           // 关闭弹窗
-          
           suc()
-          // TODO: 刷新列表 单个数据操作拿不到leList 
-          listCore.refresh();
+          message.success('已撤销推广成功'); 
         })
       }
     }
@@ -746,9 +741,8 @@ export function goadminBack (saleGoodsId) {
         forceBackProductList({ 
           channelProductIdList, 
         }).then(res => {
-          if (!res) return
+          if (!res) return 
           // 关闭弹窗
-          
           suc()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
@@ -777,15 +771,15 @@ export function alladminBack(err, values, formCore, listCore){
       content () {
         return <LeForm {...alladminBackFormConfig(count)} />
       },
-      onOk: ( suc ) => {
+      onOk: ( value, suc ) => {
         forceBackProductList({ 
           channelProductIdList, 
         }).then(res => {
           if (!res) return
+          listCore.refresh();          
           // 关闭弹窗
-          
           suc()
-          listCore.refresh();
+          message.success('已批量回退成功'); 
         })
       }
     }

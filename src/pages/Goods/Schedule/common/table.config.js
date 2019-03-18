@@ -168,7 +168,7 @@ export default
         title: '地址信息',
         dataIndex: 'addressInfo',
         key: 'addressInfo',    
-        width: 600,                                   
+        width: 500,                                   
         render: (value,record) => {
           return (
             <div>

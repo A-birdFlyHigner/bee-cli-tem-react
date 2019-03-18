@@ -11,16 +11,34 @@ export default class SpreadList extends Component {
   constructor(props) {
     super()
     this.store = props
+    this.state = {
+      tabType: '1',
+      cityCode: '',
+      provinceCode: '',
+    }
+  }
+
+  componentWillMount(){
+    const { tabType, cityCode, provinceCode } = this.store.location.query
+    if (tabType) {
+      this.setState({
+        tabType,
+        cityCode,
+        provinceCode
+      })
+    }
   }
   
   render () {
+    const { tabType, cityCode, provinceCode } = this.state
+    
     return (
-      <Tabs size='large' defaultActiveKey="1">
+      <Tabs size='large' defaultActiveKey={tabType}>
         <TabPane tab="出售中" key="1">
           <Saleing />
         </TabPane>
         <TabPane tab="已排期" key="2">
-          <Schedule />
+          <Schedule cityCode={cityCode} provinceCode={provinceCode} />
         </TabPane>
         <TabPane tab="预排期" key="3">
           <Prescheduled />

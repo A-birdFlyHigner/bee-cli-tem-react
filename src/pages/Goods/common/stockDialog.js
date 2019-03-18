@@ -3,7 +3,7 @@ import Reg from '@/utils/reg';
 import { Input, Table, message } from 'antd';
 import * as Sty from './index.less';
 
-const tabelColumns = core => {
+const tabelColumns = (core, status) => {
   const onInputChange = (val, index, name) => {
     let num = val
     const Integer = /^-?\d*$/
@@ -84,11 +84,12 @@ const tabelColumns = core => {
       }
     },
     {
-      title: '调整可售库存',
+      title: status === 'preview' ? '' : '调整可售库存',
       dataIndex: 'editStock',
-      width: 100,
+      width: status === 'preview' ? 0 : 100,
       render: (text, row, index) => {
         return (
+          status === 'preview' ? null :
           <Input
             value={text}
             className={Sty.inputCenter}
@@ -101,20 +102,23 @@ const tabelColumns = core => {
   ];
 };
 
-export default tableData => {
+export default (tableData, status) => {
   const dataList = tableData.map(item => {
     return {
       ...item,
       editStock: '0'
     }
   })
+  const whenFun = () => {
+    return !status === 'preview'
+  }
   return {
     settings: {
       values: { dataSource: dataList },
     },
     items: [
       {
-        label: '批量调整可售库存',
+        label: status === 'preview' ? '' : '批量调整可售库存',
         name: 'batchSetStock',
         component: 'Input',
         follow: true,
@@ -126,6 +130,7 @@ export default tableData => {
           pattern: Reg.Integer,
           message: '请输入整数',
         },
+        when: whenFun,
       },
       {
         name: 'handleBtn',
@@ -157,6 +162,7 @@ export default tableData => {
           validate: true,
           validateWithoutRender: true,
         },
+        when: whenFun,
       },
       {
         label: '',
@@ -166,7 +172,7 @@ export default tableData => {
           return (
             <Table
               rowKey="skuId"
-              columns={tabelColumns(core)}
+              columns={tabelColumns(core, status)}
               pagination={false}
               dataSource={dataSource}
             />

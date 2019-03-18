@@ -13,6 +13,11 @@ export default class StoreInfo extends Component {
         key: 'skuId',
         align: 'center'
       }, {
+        title: 'sku码(发货编码)',
+        dataIndex: 'deliverCode',
+        key: 'deliverCode',
+        align: 'center',
+      }, {
         title: 'SKU规格',
         dataIndex: 'propertyPairList',
         key: 'propertyPairList',
