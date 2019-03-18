@@ -25,7 +25,7 @@ export default [
             hideInMenu: true,
           },
           {
-            path: '/goods/update',
+            path: '/goods/update/:id',
             name: '更新商品',
             component: './Goods/Base/SupplierPublish',
             hideInMenu: true,
