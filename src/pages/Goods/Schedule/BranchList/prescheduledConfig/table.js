@@ -8,7 +8,7 @@ import { setGroupValue, goBack, goSetTime, goRevoke } from '../../../common/comm
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
-const { logisticsMethod, logisticsType, reviewStatus } = commonMessage
+const { logisticsMethod, logisticsType, adminreviewStatus } = commonMessage
 
 // 编辑
 const editItem = (id) => {
@@ -198,12 +198,12 @@ export default {
       return (
         <div className={Sty.store}>
           {
-            record.status !== 2 ? 
-              <span>{reviewStatus[record.status]}</span>
+            record.reviewStatus !== 3 ? 
+              <span>{adminreviewStatus[record.reviewStatus]}</span>
             :
               <div>
                 <span>已拒绝</span><br />
-                <span>原因：{reviewStatus[record.status]}</span><br />
+                <span>原因：{record.reviewReason}</span><br />
               </div>
           }
         </div>
