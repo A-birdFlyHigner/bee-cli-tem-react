@@ -46,12 +46,12 @@ const showDetail = values => {
         },
       },
     ],
-  }
+  };
   LeDialog.show({
     title: '查看详情',
-    content () {
-      return <LeForm {...formConfig} />
-    }
+    content() {
+      return <LeForm {...formConfig} />;
+    },
   });
 };
 

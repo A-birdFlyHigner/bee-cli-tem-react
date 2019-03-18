@@ -1,6 +1,5 @@
 import fetch from 'dva/fetch';
 import { notification, message } from 'antd';
-import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
 
@@ -141,11 +140,28 @@ export default function request(url, option) {
     .then(response => {
       // DELETE and 204 do not return data by default
       // using .json will report an error.
+
+      const contentType = response.headers.get('content-type')
+      if (contentType.includes('text/html')) {
+        return response.text().then(res => {
+          if (Object.prototype.toString.call(res) === '[object String]' && res.indexOf('window.location.href') !== -1) {
+            const result = res.replace('<script>', '').replace('</script>','').slice(22).slice(0,-1);
+            window.location.href = result
+            // document.body.appendChild(result)
+            // eval(res.replace('<script>', '').replace('</script>',''))
+          }
+        })
+      }
+
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();
       }
       return response.json();
+
+
+
     }).then(response => {
+      console.log('response222', response, response.status)
       if (String(response.status) === '1') {
         if (!response.data && typeof(response.data)!=="undefined" && response.data!==0) {
           return 1

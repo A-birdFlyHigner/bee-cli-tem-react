@@ -1,8 +1,10 @@
 
 import Cache from './cache'
+import convertSkus from './skus'
 
 export {
-  Cache
+  Cache,
+  convertSkus
 }
 
 export const emptyFn = (arg) => arg

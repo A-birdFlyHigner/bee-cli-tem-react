@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { LeForm, LeDialog } from '@lib/lepage';
 import { sleep } from '../../common/utils';
 
@@ -6,8 +6,8 @@ const onClickAdd = (err, values, leForm, leList) => {
   const formConfig = {
     settings: {
       values: {
-        purchasing: leList.getSelectedRowKeys()
-      }
+        purchasing: leList.getSelectedRowKeys(),
+      },
     },
     form: {
       layout: {
@@ -22,7 +22,7 @@ const onClickAdd = (err, values, leForm, leList) => {
           type: 'string',
           required: true,
           message: '请填写内容',
-        }
+        },
       },
       {
         label: '仓库名称',
@@ -31,7 +31,7 @@ const onClickAdd = (err, values, leForm, leList) => {
           type: 'string',
           required: true,
           message: '请填写仓库名称',
-        }
+        },
       },
       {
         label: '供应商名称',
@@ -50,14 +50,14 @@ const onClickAdd = (err, values, leForm, leList) => {
         name: 'confirm',
       },
     ],
-  }
+  };
 
   LeDialog.show({
     title: '新建采购单',
     width: '500px',
     enableValidate: true,
-    content () {
-      return <LeForm {...formConfig} />
+    content() {
+      return <LeForm {...formConfig} />;
     },
     onOk: (values, hide) => {
       return new Promise(async (resolve, reject) => {
