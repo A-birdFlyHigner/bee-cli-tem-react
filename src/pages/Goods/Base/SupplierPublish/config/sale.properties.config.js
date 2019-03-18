@@ -8,6 +8,69 @@ import { toDecimal2 } from '@/utils/utils'
 
 const saleCache = Cache.create('sale.properties.config')
 
+// FIXME: 与 sale.properties.config 有重复定义
+const DEFAULT_SKU = {
+  status: 1, // 1可用，0停用
+  costPrice: '', // 成本价, 单位分
+  restriction: 10, // sku限购数量
+  deliverCode: '',// 发货编码
+  propertyValueNames: [],
+  propertyPairIds: [],
+  enableDeliverCode: false
+}
+
+const getDefaultSkus = (saleProperties = [], globalOptions = {}) => {
+  if (saleProperties.length === 0) {
+    const skus = [{
+      ...DEFAULT_SKU,
+      key: 'default',
+      propertyValueNames: ['默认'],
+      propertyPairIds: [],
+    }]
+    return skus
+  }
+
+  const { initValues = {} } = globalOptions
+
+  // ['salePropertyNameId-888', 'salePropertyNameId-999']
+  const relateds = saleProperties.map(salePropertie => {
+    return {
+      name: `${SALE_PROPERTY_NAME_ID}-${salePropertie.propertyNameId}`,
+      propertyNameId: salePropertie.propertyNameId
+    }
+  })
+
+  // [[{ label, value }, { }], [{ label, value }, { }]]
+  const propertyPairGroups = relateds.map(related => {
+    // const propertyPairIds = leForm.getValue(relatedName) || []
+    const propertyPairIds = initValues[related.name] || []
+    if (propertyPairIds.length === 0) {
+      return []
+    }
+
+    const { propertyPairs = [] } = saleProperties.find(property => property.propertyNameId === related.propertyNameId) || {}
+    return propertyPairs
+    .map(propertyPair => {
+      return {
+        label: propertyPair.pvName,
+        value: propertyPair.id,
+        disabled: propertyPair.disabled || false,
+        custom: propertyPair.custom || false,
+        notHas: propertyPair.notHas || false,
+      }
+    })
+    .filter(propertyOption => {
+      return propertyPairIds.indexOf(propertyOption.value) !== -1
+    })
+  })
+
+  // const enableDeliverCode = leForm.getValue('has69') || false
+  const enableDeliverCode = initValues.has69 || false
+  const skus = convertSkus(propertyPairGroups, enableDeliverCode)
+
+  return skus
+}
+
 // 更新sku规格
 const updateSkusValue = (leForm, saleProperties = []) => {
   // ['salePropertyNameId-888', 'salePropertyNameId-999']
@@ -117,7 +180,7 @@ const getBatch = (leForm) => {
       follow: true,
       props: {
         placeholder: '请输入成本价',
-        maxLength: 10,
+        maxLength: 12,
         onChange: (e) => {
           const { value } = e.target
           if (value && !regUtils.Price.test(value)) {
@@ -213,7 +276,7 @@ const getColumns = (leForm, globalOptions = {}) => {
             return (
               <Input
                 value={value}
-                maxLength={10}
+                maxLength={12}
                 onChange={(e) => handleValue(e, false)}
                 onBlur={(e) => handleValue(e, true)}
               />
@@ -267,10 +330,11 @@ const getColumns = (leForm, globalOptions = {}) => {
 }
 
 // sku组合
-const getSkus = (leForm, globalOptions = {}) => {
+const getSkus = (leForm, saleProperties, globalOptions = {}) => {
   return {
       label: 'sku规格',
       name: 'skus',
+      value: getDefaultSkus(saleProperties, globalOptions),
       className: 'no-form-item-sku',
       // component: 'Item',
       render ({ skus = [] }) {
@@ -347,7 +411,7 @@ const getSalePropertiesConfig = (saleProperties = [], globalOptions = {}) => {
           ...getSaleProperties(leForm, saleProperties),
           getHas69(leForm, globalOptions),
           ...getBatch(leForm),
-          getSkus(leForm, globalOptions)
+          getSkus(leForm, saleProperties, globalOptions)
       ]
   }
 }

@@ -11,6 +11,7 @@ import { DEFAULT_FORM_VALUES } from './mock/defaultFormValues'
 
 const saleCache = Cache.create('sale.properties.config')
 const skuMainImageCache = Cache.create('sku.main.image.config')
+const skuNotHasCache = Cache.create('sku.nothas')
 
 const mergeInitValuesFormConfig = (formConfig = {}, initValues = {}) => {
   const {
@@ -67,17 +68,19 @@ const proxySalePropertiesConfig = (saleUnits, saleCategoryProperties) => {
       else {
         propertyPairs.push({
           ...pair,
+          disabled: true,
           custom: false,
         })
       }
     })
 
     const sku = {
-      ...pick(saleUnit, ['skuId', 'status', 'costPrice', 'restriction', 'deliverCode']),
+      ...pick(saleUnit, ['status', 'costPrice', 'restriction', 'deliverCode']),
       key,
       saleUnitId: saleUnit.skuId,
       propertyValueNames,
       propertyPairIds,
+      disabled: true,
       enableDeliverCode: false
     }
     saleCache.set(key, sku)
@@ -86,7 +89,7 @@ const proxySalePropertiesConfig = (saleUnits, saleCategoryProperties) => {
   return proxySaleProperties
 }
 
-const formatSkusValue = (proxySaleProperties, saleCategoryProperties) => {
+const initSkuNotHasCache = (proxySaleProperties, saleCategoryProperties) => {
   // ['salePropertyNameId-888', 'salePropertyNameId-999']
   const relateds = saleCategoryProperties.map(salePropertie => {
     const { propertyNameId } = salePropertie
@@ -96,34 +99,19 @@ const formatSkusValue = (proxySaleProperties, saleCategoryProperties) => {
     }
   })
 
-  // [[{ label, value }, { }], [{ label, value }, { }]]
-  const propertyPairGroups = relateds.map(related => {
+  relateds.forEach(related => {
     const { propertyPairs = [] } = saleCategoryProperties.find(property => property.propertyNameId === related.propertyNameId) || {}
-    const propertyOptions = propertyPairs.map(propertyPair => {
-      return {
-        label: propertyPair.pvName,
-        value: propertyPair.id,
-        disabled: propertyPair.disabled || false,
-        custom: propertyPair.custom || false
-      }
-    })
 
     const propertyPairIds = proxySaleProperties[related.name] || []
     if (propertyPairIds.length === 0) {
-      return propertyOptions.map(propertyOption => {
-        return {
-          ...propertyOption,
-          notHas: true
-        }
+      propertyPairs.forEach(propertyPair => {
+        propertyPair.notHas = true
       })
+
+      // FIXME: 待优化，sku相关逻辑不能放在公共管理
+      skuNotHasCache.set(related.name, true)
     }
-
-    return propertyOptions.filter(propertyOption => {
-      return propertyPairIds.indexOf(propertyOption.value) !== -1
-    })
   })
-
-  return convertSkus(propertyPairGroups)
 }
 
 // 商品属性、仓库属性
@@ -246,12 +234,13 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
   const proxyWarehouseProperties = proxyRestPropertiesConfig(warehouseProperties, warehouseCategoryProperties) // 仓库属性
 
   initSkuMainImagesCahce(saleUnitImages)
+  initSkuNotHasCache(proxySaleProperties, saleCategoryProperties)
 
   const initValues =  {
     ...baseInfo,
     has69,
     ...proxySaleProperties, // { [propertyNameId]: [1000, 10001, 10002] }
-    skus: formatSkusValue(proxySaleProperties, saleCategoryProperties),
+    // skus: formatSkusValue(proxySaleProperties, saleCategoryProperties),
     ...proxyGoodsProperties,
     ...proxyWarehouseProperties,
     goodsMainImageList: formatImagesConfig(resData.mainImages),
@@ -260,6 +249,7 @@ const formatUpdateFormConfig = (resData, categoryProperties, status) => {
 
   const formConfig = getFormConfig(categoryProperties, {
     status,
+    initValues,
     disabledHas69: status === 'update'
   })
 

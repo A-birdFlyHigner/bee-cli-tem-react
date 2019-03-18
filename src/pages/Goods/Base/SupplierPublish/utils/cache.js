@@ -9,7 +9,7 @@ class Cache {
     if (!name) {
       return this.cache
     }
-    return this.cache[name] || null
+    return this.cache[name]
   }
 
   set(name, data) {
@@ -36,7 +36,7 @@ class Cache {
     this.names().forEach((name) => this.updateItem(name, key, value))
   }
 
-  remove (name = null) {
+  reset (name = null) {
     if (!name) {
       this.cache = {}
     } else {
@@ -57,7 +57,7 @@ class Cache {
 
   static clear () {
     Object.keys(this.list).forEach(alias => {
-      this.list[alias].remove()
+      this.list[alias].reset()
     })
   }
 }

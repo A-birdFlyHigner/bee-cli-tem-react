@@ -1,7 +1,9 @@
 import React from 'react'
 import { message as messageApi, Tag } from 'antd';
-import { emptyFn } from '../utils'
+import { emptyFn, Cache } from '../utils'
 import { saveCategoryPropertyPair } from '@/services/goods'
+
+const skuNotHasCache = Cache.create('sku.nothas')
 
 // 属性值输入类型枚举
 const COMPONENT_ENUMS = {
@@ -60,11 +62,15 @@ const handleAddPropertyPair = async (leForm, name, event, okFn = emptyFn) => {
     messageApi.error('属性名创建失败')
   }
   else {
+    // FIXME: 待优化，sku相关逻辑不能放在公共管理
+    const notHas = skuNotHasCache.get(name) || false
+
     // add
     options.push({
       label,
       value: propertyPairId,
-      custom: true
+      custom: true,
+      notHas
     })
 
     // update
@@ -136,7 +142,8 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
           label: propertyPair.pvName,
           value: propertyPair.id,
           disabled: propertyPair.disabled || false,
-          custom: propertyPair.custom || false
+          custom: propertyPair.custom || false,
+          notHas: propertyPair.notHas || false,
         }
       })
     }
