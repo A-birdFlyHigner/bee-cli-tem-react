@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import { filterConfig, filterConfigSupply, operationConfig, tableConfig } from './config';
-import './Index.less';
-import { getPurchaseList, getWarehouseEmunList, changePurchaseState } from '@/services/supply';
+import './index.less';
+import { getPurchaseList, getWarehouseEmunList, changePurchaseState, exportSupplyDeliveryOrder } from '@/services/supply';
 import { leListQuery } from '@/utils/utils';
 import Link from 'umi/link';
 import { Modal } from 'antd';
@@ -132,6 +132,34 @@ class List extends Component {
 
         }
       };
+    } else if (ADMIN_TYPE === 'SUPPLIER') {
+      listConfig.tableConfig.columns[13] = {
+        title: '操作',
+        width: 200,
+        align: 'center',
+        fixed: 'right',
+        render(value, record) {
+          return (<div>
+            {
+              record.status === 0 || record.status === 2 || record.status === 4
+                ?
+                <div>
+                  <a href="javascript:;" onClick={()=>{this.download(record)}}>下载</a>;
+                  <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>
+                </div>
+                : record.status === 1 || record.status === 3
+                  ?
+                  <div>
+                    <a href="javascript:;" onClick={()=>{this.download(record)}}>下载</a>;
+                    <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>;
+                    <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}&differStatus=1`}>异常报告</Link>
+                  </div>
+                  : null
+            }
+          </div>)
+
+        }
+      };
     }
     this.state = {
       listConfig,
@@ -148,6 +176,10 @@ class List extends Component {
         self.list.filterCore.setProps('warehouseCode', { options: data });
       });
     }
+  }
+
+  download = (record) => {
+    exportSupplyDeliveryOrder(record.purchaseNo)
   }
 
   render() {
