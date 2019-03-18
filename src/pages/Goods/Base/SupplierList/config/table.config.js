@@ -1,14 +1,11 @@
 import React from 'react';
-import {
-  LeDialog,
-  LeList
-} from '@lib/lepage';
+import { LeDialog, LeList } from '@lib/lepage';
+import ImgPreview from '@/components/ImgPreview'
 import router from 'umi/router'
 
 // 查看基础商品规格详情
 const showSpecDetailDialog = dataSource => {
 
-  // TODO: 基础商品列表的查看规格，没有按照后端的数据字段展示
   const tableConfig = {
     rowKey: 'skuId',
     columns: [{
@@ -82,29 +79,18 @@ export default {
       title: '商品主图',
       dataIndex: 'mainImages',
       render(value = []) {
-        const [mainImage] = value
-
-        // 商品第一张主图
-        const imgRender = mainImage
-        ?
-          <span>
-            <img src={mainImage.url} alt='' style={{width: '64px', height: '64px'}} /><br />
-          </span>
-        : null
-
-        // TODO: 预览多张大图功能还未实现
-        return (
-          <span>
-            {imgRender}
-          </span>
-        )
+        if (!value || value.length === 0) {
+          return null
+        }
+        const imgs = value.map(item => item.url)
+        return <ImgPreview url={imgs} />
       }
     },
     {
       title: '类目',
       dataIndex: 'pathName',
       render(value) {
-        const symbol = '>'
+        const symbol = '>';
         return value.split(',').map((item, index) => {
           const key = `${item}-${index}`
           return (
@@ -142,12 +128,15 @@ export default {
       title: '品牌名',
       dataIndex: 'brandName',
     },
-    {
-      title: '操作',
-      render(value, item) {
-        const { saleGoodsId: id } = item
-        return <a onClick={() => {router.push(`/goods/update?itemId=${id}`)}}>编辑</a>
-      },
-    },
-  ],
+    ADMIN_TYPE === 'SUPPLIER'
+    ?
+      {
+        title: '操作',
+        render(value, item) {
+          const { saleGoodsId: id } = item
+          return <a onClick={() => {router.push(`/goods/update?itemId=${id}`)}}>编辑</a>
+        },
+      }
+    : null
+  ].filter(item => item !== null)
 };

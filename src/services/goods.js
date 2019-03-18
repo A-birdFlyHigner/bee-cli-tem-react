@@ -119,9 +119,14 @@ export async function getGoodsDetail (params) {
   return request(`${domain}/revision/product/detail?${stringify(params)}`);
 }
 
-// 供应商商品列表
+// 管理后台、供应商商品列表
 export async function queryGoodsList (params) {
-  return request(`${domain}/revision/product/gys/table/query?${stringify(params)}`);
+  const Apis = {
+    ADMIN: '/base/product/query/list',
+    SUPPLIER: '/revision/product/gys/table/query'
+  }
+  const api = Apis[ADMIN_TYPE]
+  return request(`${domain}${api}?${stringify(params)}`);
 }
 
 // 供应商可推广渠道列表

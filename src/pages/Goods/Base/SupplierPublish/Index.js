@@ -350,7 +350,7 @@ class GoodsPublish extends Component {
 
     const form = isInit
     ?
-      <div style={{display: showCategory ? 'none' : 'block'}} className='goods-publish'>
+      <div style={{display: showCategory ? 'none' : 'block'}} className='base-goods-publish'>
         <LeForm
           {...formConfig}
           onMount={(leForm) => this.handleLeFormMount(leForm)}

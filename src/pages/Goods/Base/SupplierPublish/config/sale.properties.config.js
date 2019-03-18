@@ -100,31 +100,33 @@ const handleUpdateSingle = (leForm, { colKey, cellValue, rowItem, rowIndex } = {
       }
   })
 
-  // 更新sku历史记忆
   skus.forEach((sku) => {
     saleCache.set(sku.key, sku)
   })
 
-  // 更新sku表格
   leForm.setValues({
     skus
   })
 }
 
 // 更新批量
-const handleUpdateBatch = (leForm, { colKey, originKey, batchValue, formatValue }) => {
+const handleUpdateBatch = (leForm, { colKey, originKey, batchValue, formatValue = batchValue, updateAllCache }) => {
   const value = leForm.getValue('skus') || []
   const skus = value.map((item) => {
       return {
           ...item,
-          [colKey]: formatValue || batchValue
+          [colKey]: formatValue
       }
   })
 
-  // 更新sku历史记忆
-  skus.forEach((sku) => {
-    saleCache.set(sku.key, sku)
-  })
+  if (updateAllCache) {
+    saleCache.updateAll(colKey, formatValue)
+  }
+  else {
+    skus.forEach((sku) => {
+      saleCache.set(sku.key, sku)
+    })
+  }
 
   leForm.setValues({
     [originKey]: batchValue,
@@ -155,7 +157,8 @@ const getHas69 = (leForm, globalOptions) => {
       onChange: (value) => handleUpdateBatch(leForm, {
         colKey: 'enableDeliverCode',
         originKey: 'has69',
-        batchValue: value
+        batchValue: value,
+        updateAllCache: true // 修改69码，需要更新所有缓存，否则历史记录回写就会存在状态相反的情况
       })
     }
   }
