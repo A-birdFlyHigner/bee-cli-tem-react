@@ -263,7 +263,15 @@ class GoodsPublish extends Component {
     super(props);
 
     Cache.clear()
-    const { itemId = null, mock = false } = getPageQuery()
+    const {
+      match: {
+        params: {
+          id: itemId
+        } = {}
+      } = {}
+    } = this.props
+
+    const { mock = false } = getPageQuery()
     const status = itemId ? 'update' : 'create'
 
     this.status = status // create、update

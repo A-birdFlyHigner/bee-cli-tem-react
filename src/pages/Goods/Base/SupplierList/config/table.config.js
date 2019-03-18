@@ -71,18 +71,27 @@ const showSpecDetailDialog = dataSource => {
 
 export default {
   rowKey: 'saleGoodsId',
+  scroll: { x: 1600 },
   columns: [
     {
       title: '商品Id',
       dataIndex: 'saleGoodsId',
+      width: 100,
+      align: 'center',
+      singleLine: true,
     },
     {
       title: '商品名称',
       dataIndex: 'name',
+      width: 220,
+      mutipleLine: true,
+      className: 'title'
     },
     {
       title: '商品主图',
       dataIndex: 'mainImages',
+      width: 250,
+      align: 'center',
       render(value = []) {
         if (!value || value.length === 0) {
           return null
@@ -94,6 +103,9 @@ export default {
     {
       title: '类目',
       dataIndex: 'pathName',
+      align: 'left',
+      width: 250,
+      mutipleLine: true,
       render(value) {
         const symbol = '>';
         return value.split(',').map((item, index) => {
@@ -109,6 +121,8 @@ export default {
     {
       title: '规格',
       dataIndex: 'saleUnits',
+      width: 100,
+      align: 'left',
       render(value) {
         if (!value || value.length === 0) {
           return '/';
@@ -125,6 +139,9 @@ export default {
     {
       title: '基础价格信息',
       dataIndex: 'salePrice',
+      key: 'price',
+      width: 220,
+      align: 'left',
       render(value) {
         return `成本价：${value}`
       }
@@ -132,16 +149,26 @@ export default {
     {
       title: '品牌名',
       dataIndex: 'brandName',
+      align: 'left',
+      // width: 150,
+      singleLine: true,
     },
-    ADMIN_TYPE === 'SUPPLIER'
-    ?
-      {
-        title: '操作',
-        render(value, item) {
-          const { saleGoodsId: id } = item
-          return <a onClick={() => {router.push(`/goods/update?itemId=${id}`)}}>编辑</a>
-        },
-      }
-    : null
+    {
+      title: '操作',
+      width: 120,
+      align: 'center',
+      fixed: 'right',
+      render(value, item) {
+        const { saleGoodsId: id } = item
+        if (ADMIN_TYPE === 'SUPPLIER') {
+          return <a onClick={() => {router.push(`/goods/update/${id}`)}}>编辑</a>
+        }
+
+        if (ADMIN_TYPE === 'ADMIN') {
+          return <a onClick={() => {router.push(`/goods/base/detail/${id}`)}}>详情</a>
+        }
+        return null
+      },
+    }
   ].filter(item => item !== null)
 };
