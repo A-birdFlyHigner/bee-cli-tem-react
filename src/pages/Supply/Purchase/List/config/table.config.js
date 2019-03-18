@@ -4,7 +4,7 @@ import moment from 'moment'
 import {exportPurchaseOrder,} from '@/services/supply'
 import Link from 'umi/link';
 
-const formatType = 'YYYY-MM-DD HH:mm:ss'
+const formatType = 'YYYY-MM-DD'
 
 const download = values => {
   exportPurchaseOrder(values.purchaseNo).then(res=>{
@@ -13,7 +13,7 @@ const download = values => {
 };
 
 export default {
-  scroll: { x: 1800 },
+  scroll: { x: 2000 },
   columns: [
     {
       title: '序号',
@@ -23,6 +23,7 @@ export default {
     {
       title: '采购单号',
       dataIndex: 'purchaseNo',
+      align: 'center',
       width: 200,
       render(value) {
         return (
@@ -94,7 +95,8 @@ export default {
     {
       title: '供应商确认状态',
       dataIndex: 'supplierConfirmStatus',
-      width: 200,
+      align: 'center',
+      width: 220,
       render(value, record) {
         return (
           <div>
@@ -144,6 +146,7 @@ export default {
     {
       title: '销售订单',
       dataIndex: 'referSellOrderCount',
+      align: 'center',
       width: 200,
       render(value, values) {
         return (
@@ -157,6 +160,7 @@ export default {
     {
       title: '入库单',
       dataIndex: 'inputNo',
+      align: 'center',
       width: 200,
       render(value, values) {
         return (

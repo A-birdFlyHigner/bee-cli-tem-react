@@ -42,6 +42,7 @@ export default (options = {}) => {
         props: {
           placeholder: placeholder,
           showSearch: true,
+          filterOption: false,
           onSearch: handleSearch,
         },
       },

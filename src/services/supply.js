@@ -1,18 +1,18 @@
 import request from '@/utils/request';
 
 // const domain = '/adminApi';
-
 const domain = '/api';
 
 // ADMIN_TYPE === 'ADMIN'
 
 // 获取采购单列表
 export async function getPurchaseList (params) {
-  params.purchaseTime = params.purchaseTime && params.purchaseTime.slice(0,10)
-  params.expectInboundTime = params.expectInboundTime && params.expectInboundTime.slice(0,10)
+  const data = {...params}
+  data.purchaseTime = data.purchaseTime && data.purchaseTime.slice(0,10)
+  data.expectInboundTime = data.expectInboundTime && data.expectInboundTime.slice(0,10)
   return request(`${domain}/purchase/listPurchaseOrder`, {
     method: 'POST',
-    body: params,
+    body: data,
   });
 }
 
@@ -89,10 +89,11 @@ export async function getInputDetailList (params) {
 
 // 获取出库单列表
 export async function getOutputList (params) {
-  params.outboundTime = params.outboundTime && params.outboundTime.slice(0,10)
+  const data = {...params}
+  data.outboundTime = data.outboundTime && data.outboundTime.slice(0,10)
   return request(`${domain}/outbound/listOutboundOrder`, {
     method: 'POST',
-    body: params,
+    body: data,
   });
 }
 
@@ -106,10 +107,11 @@ export async function getOutputDetailList (params) {
 
 // 获取配送单列表
 export async function getDeliveryList (params) {
-  params.expectOutboundTime = params.expectOutboundTime && params.expectOutboundTime.slice(0,10)
+  const data = {...params}
+  data.expectOutboundTime = data.expectOutboundTime && data.expectOutboundTime.slice(0,10)
   return request(`${domain}/delivery/listDeliveryOrder`, {
     method: 'POST',
-    body: params,
+    body: data,
   });
 }
 
@@ -149,10 +151,11 @@ export async function getStockDetailList (params) {
 
 // 获取送货单导出列表
 export async function getExportDeliveryList (params) {
-  params.deliveryDate = params.deliveryDate && params.deliveryDate.slice(0,10)
+  const data = {...params}
+  data.deliveryDate = data.deliveryDate && data.deliveryDate.slice(0,10)
   return request(`${domain}/miniDeliverNote/listForWarehouse`, {
     method: 'POST',
-    body: params,
+    body: data,
   });
 }
 
