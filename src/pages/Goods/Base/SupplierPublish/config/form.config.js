@@ -11,31 +11,6 @@ import { Cache } from '../utils'
 
 const buttonCache = Cache.create('button.config')
 
-// FIXME: 与 sale.properties.config 有重复定义
-const DEFAULT_SKU = {
-  status: 1, // 1可用，0停用
-  costPrice: '', // 成本价, 单位分
-  restriction: 10, // sku限购数量
-  deliverCode: '',// 发货编码
-  propertyValueNames: [],
-  propertyPairIds: [],
-  enableDeliverCode: false
-}
-
-const getDefaultSkus = (saleProperties = []) => {
-  if (saleProperties.length === 0) {
-    const skus = [{
-      ...DEFAULT_SKU,
-      key: 'default',
-      propertyValueNames: ['默认'],
-      propertyPairIds: [],
-    }]
-    return skus
-  }
-
-  return []
-}
-
 // 发布商品表单配置
 export default (categoryProperties = {}, globalOptions = {}) => {
   const {
@@ -48,9 +23,6 @@ export default (categoryProperties = {}, globalOptions = {}) => {
   } = categoryProperties
   return {
     settings: {
-      values: {
-        skus: getDefaultSkus(saleProperties)
-      },
       onChange (changeKeys, values, leForm) {
         const { isSubmit = false } = buttonCache.get()
         if (isSubmit) {
