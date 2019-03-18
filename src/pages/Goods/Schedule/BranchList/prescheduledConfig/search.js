@@ -54,14 +54,6 @@ export default {
       },
     },
     {
-      label: '分公司',
-      name: 'companyName',
-      component: 'Input',
-      props: {
-        placeholder: '请输入分公司',
-      },
-    },
-    {
       label: '总部商品审核状态',
       name: 'reviewStatus',
       component: 'Select',

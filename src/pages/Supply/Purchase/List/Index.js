@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import { filterConfig, filterConfigSupply, operationConfig, tableConfig } from './config';
-import './index.less';
+// import './index.less';
 import { getPurchaseList, getWarehouseEmunList, changePurchaseState, exportSupplyDeliveryOrder } from '@/services/supply';
 import { leListQuery } from '@/utils/utils';
 import Link from 'umi/link';

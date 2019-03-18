@@ -47,7 +47,10 @@ const dialogFormConfig = (number, text) => {
         render: () => {
           return(
             <div>
-              <div className={Sty.dialogMb}>已批量选中{number}个商品，确定批量{text}？</div>                                  
+              <div className={Sty.dialogMb}>已批量选中{number}个商品，确定批量{text}？</div>
+              {
+                text === '回退' ? <div className='globalRed'>商品将回退到审核通过未排期列表中。</div> : null
+              }                        
             </div>
           )
         },
@@ -185,7 +188,16 @@ export function  dialogFormSetGroupConfig(){
           message: '排序值,请输入数字'
         },
         props: {
-          placeholder: '请输入排序值'
+          required: true,          
+          placeholder: '请输入排序值，必须是数字',
+          maxLength: 10,
+          // onChange: (e) => {
+          //   const { value } = e.target
+          //   if (value && !Reg.Num.test(value)) {
+          //     return false
+          //   }
+          //   return false
+          // },
         },
       }
 
@@ -236,7 +248,7 @@ export function allBackoff(err, values, formCore, listCore){
       title: '批量回退',
       width: '400px',
       content () {
-        return <LeForm {...dialogFormConfig(count)} />
+        return <LeForm {...dialogFormConfig(count, '回退')} />
       },
       onOk: ( value, suc ) => {
         backOff({ 
@@ -245,7 +257,7 @@ export function allBackoff(err, values, formCore, listCore){
           if (!res) return
           listCore.refresh();          
           suc()
-          message.success('已批量回退成功');
+          message.success('已批量回退成功！');
         })
       }
     }
@@ -269,6 +281,7 @@ export function goBack (saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return
+          message.warning('已回退成功！')          
           // 关闭弹窗
           suc()
           // TODO: 刷新列表 拿不到leList
@@ -303,7 +316,7 @@ export function allSetSchedule(err, values, formCore, listCore) {
           if (!res) return
           listCore.refresh();          
           suc()
-          message.success('已批量排期成功');
+          message.success('已批量排期成功！');
         })
 
       }
@@ -326,6 +339,7 @@ export function goSetTime(saleGoodsId) {
         productIdList.push(saleGoodsId)
         addOrUpdate({ startTime, endTime, productIdList }).then(res => {
           if (!res) return
+          message.warning('已排期成功！')          
           // 关闭弹窗
           suc()
           // TODO: 刷新列表 拿不到leList
@@ -404,6 +418,7 @@ export function setGroupValue(saleGoodsId) {
           sortNumber: Number(sortValue)
         }).then(res => {
           if (!res) return
+          message.warning('已设置成功！') 
           // 关闭弹窗
           suc()
           // TODO: 刷新列表 拿不到leList
@@ -432,6 +447,7 @@ export function goRevoke(saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return
+          message.warning('已撤销成功！')           
           // 关闭弹窗
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
@@ -465,7 +481,7 @@ export function allRevoke(err, values, formCore, listCore) {
           if (!res) return
           listCore.refresh();          
           suc()
-          message.success('已批量撤销成功');
+          message.success('已批量撤销成功！');
         })
       }
     }
@@ -611,6 +627,7 @@ export function goExamine(saleGoodsId) {
           comment
         }).then(res => {
           if (!res) return
+          message.warning('已审核成功！')
           // 关闭弹窗
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
@@ -658,7 +675,7 @@ export function goallExamine(err, values, formCore, listCore) {
           listCore.refresh();          
           // 关闭弹窗
           suc()
-          const messageText = chooseType===3 ? '已批量拒绝' : '已批量审核'
+          const messageText = chooseType===3 ? '已批量拒绝成功！' : '已批量审核成功！'
           message.success(messageText);          
         })
       }
@@ -684,7 +701,7 @@ export function goadminRevoke(saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return 
-          message.success('撤销推广成功');           
+          message.success('撤销推广成功！');           
           suc()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
@@ -718,7 +735,7 @@ export function alladminRevoke(err, values, formCore, listCore) {
           listCore.refresh();          
           // 关闭弹窗
           suc()
-          message.success('已撤销推广成功'); 
+          message.success('已撤销推广成功！'); 
         })
       }
     }
@@ -742,6 +759,7 @@ export function goadminBack (saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return 
+          message.warning('已回退成功！')
           // 关闭弹窗
           suc()
           // TODO: 刷新列表 拿不到leList
@@ -779,7 +797,7 @@ export function alladminBack(err, values, formCore, listCore){
           listCore.refresh();          
           // 关闭弹窗
           suc()
-          message.success('已批量回退成功'); 
+          message.success('已批量回退成功！'); 
         })
       }
     }

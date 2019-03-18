@@ -14,7 +14,11 @@ const { logisticsMethod, logisticsType, adminreviewStatus } = commonMessage
 const editItem = (id) => {
   router.push({
     pathname: `/goods/schedule/branchdetail/${id}`,
+    query: {
+      tabType: '2'
+    }
   })
+
 }
 
 // 渠道商品规格详情
