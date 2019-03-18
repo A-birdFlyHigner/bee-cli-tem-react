@@ -10,7 +10,7 @@ import {queryProductSpreadChannelList} from '@/services/goods'
 let isLoading = false
 const editItem = (record) => {
   const { saleGoodsId: id } = record
-  router.push(`/goods/update?itemId=${id}`)
+  router.push(`/goods/update/${id}`)
 };
 
 const handleStatus = async (record) => {
