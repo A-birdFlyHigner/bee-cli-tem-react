@@ -32,7 +32,7 @@ const getStoreInfo = (saleUnits) => {
 const getSkuDetail = (saleUnits) => {
   LeDialog.show({
     title: '渠道商品规格详情',
-    width: '800px',
+    width: '1000px',
     maskClosable: true,
     footer () {
       return null
