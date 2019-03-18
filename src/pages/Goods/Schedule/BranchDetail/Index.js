@@ -5,7 +5,6 @@ import {queryBranchProductSpreadDetail, updateSkuPrice } from '@/services/goods'
 import {
   onChange,  
   baseInfo,
-  salseInfo,
   salseEdit,
   logistics,
   wareHouse,
@@ -95,7 +94,6 @@ export default class Detail extends Component {
         },
         items: [
           ...baseInfo,
-          ...salseInfo,
           salseEdit(),
           ...logistics,
           ...wareHouse,
