@@ -15,6 +15,7 @@ const tabelColumns = (core, p) => {
     let num = val
     if (num !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(num)) return
     if (name === 'stockCount' && num > 10000) num = 10000
+    if (num > 100000000) return 
     const dataSource = JSON.parse(JSON.stringify(core.getValue(`dataSource${p}`)))
     dataSource[index][name] = num
     core.setValue(`dataSource${p}`, dataSource)
@@ -71,6 +72,7 @@ const makeProductItem = (productIds, leForm) => {
       let num = val
       if (num !== '' && !Reg[name === 'costPrice' ? 'Price' : 'Num' ].test(num)) return
       if (name === 'stockCount' && num > 10000) num = 10000
+      if (num > 100000000) return 
       const dataSource = leForm.getValue(`dataSource${p}`).map(item => {
         return {
           ...item,
