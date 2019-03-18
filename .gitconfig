@@ -1,1 +1,1 @@
-git config core.ignorecase false
+core.ignorecase=false
