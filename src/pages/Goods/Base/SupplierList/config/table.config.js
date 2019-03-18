@@ -160,7 +160,7 @@ export default {
       render(value, item) {
         const { saleGoodsId: id } = item
         if (ADMIN_TYPE === 'SUPPLIER') {
-          return <a onClick={() => {router.push(`/goods/update?itemId=${id}`)}}>编辑</a>
+          return <a onClick={() => {router.push(`/goods/update/${id}`)}}>编辑</a>
         }
 
         if (ADMIN_TYPE === 'ADMIN') {
