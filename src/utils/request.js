@@ -28,8 +28,8 @@ switch (ADMIN_TYPE) {
   case 'ADMIN':
     break;
   default:
-    // localToken = JSON.parse(sessionStorage[key] || '{}').token
-    localToken = "df4bacf9240b432d82bc27c59db03e65:1204"
+    localToken = JSON.parse(sessionStorage[key] || '{}').token
+    // localToken = "df4bacf9240b432d82bc27c59db03e65:1204"
     if (!localToken) {
       location.href = `${location.origin}/#/login`
     }
