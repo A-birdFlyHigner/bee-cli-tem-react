@@ -80,6 +80,11 @@ export default {
       title: '采购单来源',
       dataIndex: 'source',
       width: 200,
+      render(value) {
+        return (
+          <span>{value === 0 ? '人工创建': '系统生成'}</span>
+        );
+      },
     },
     {
       title: '采购单概况',

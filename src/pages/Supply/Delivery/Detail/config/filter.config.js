@@ -20,7 +20,7 @@ export default (params) => {
       },
       {
         label: '配送日期',
-        name: 'createTime',
+        name: 'expectOutboundTime',
         component: 'Input',
       },
       {

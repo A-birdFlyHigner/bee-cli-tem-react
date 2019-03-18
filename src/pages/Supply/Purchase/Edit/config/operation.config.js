@@ -20,7 +20,7 @@ export default (params) => {
         name: 'warehouseCode',
         component: 'Select',
         props: {
-          placeholder: '请选择采购订单状态',
+          placeholder: '请选择仓库名称',
           options: [],
         },
       },

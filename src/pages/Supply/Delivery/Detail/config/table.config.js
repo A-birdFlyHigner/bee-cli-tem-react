@@ -12,7 +12,7 @@ export default {
     },
     {
       title: 'SKU编码',
-      dataIndex: 'skucode',
+      dataIndex: 'skuCode',
     },
     {
       title: '主图',
@@ -29,20 +29,20 @@ export default {
       title: 'SKU名称',
       dataIndex: 'skuName',
     },
+    // {
+    //   title: '供应商成本价',
+    //   dataIndex: 'supplierPrice',
+    //   render: (value)=>{
+    //     return (value / 100).toFixed(2)
+    //   }
+    // },
     {
-      title: '供应商成本价',
-      dataIndex: 'supplierPrice',
-      render: (value)=>{
-        return (value / 100).toFixed(2)
-      }
-    },
-    {
-      title: '采购数量',
+      title: '配送数量',
       dataIndex: 'expectSkuCount',
     },
     {
-      title: '入库数量',
-      dataIndex: 'inboundSkuCount',
+      title: '出库数量',
+      dataIndex: 'outboundSkuCount',
     },
     {
       title: '差异数量',
