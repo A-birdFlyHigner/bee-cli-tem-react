@@ -30,7 +30,7 @@ switch (ADMIN_TYPE) {
   default:
     localToken = JSON.parse(sessionStorage[key] || '{}').token
     if (!localToken) {
-      location.href = `${location.origin}/#/login`
+      location.href = '/#/login'
     }
 }
 
@@ -179,7 +179,7 @@ export default function request(url, option) {
 
       if (ADMIN_TYPE !== 'ADMIN' && response.errorCode === 10010){
         sessionStorage.removeItem('HQBSFORSHOP')
-        location.href = `${location.origin}/#/login`
+        location.href = '/#/login'
       }
 
       message.error(response.errorMessage || response.message)

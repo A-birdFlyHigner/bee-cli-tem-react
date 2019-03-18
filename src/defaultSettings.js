@@ -1,3 +1,19 @@
+let title = ''
+switch (ADMIN_TYPE) {
+  case 'ADMIN':
+  title = '小区乐管理后台'
+  break;
+
+  case 'BRANCH':
+  title = '小区乐分公司后台'
+  break;
+
+  case 'SUPPLIER':
+  title = '小区乐供应商后台'
+  break;
+  default:
+  title = '小区乐后台'
+}
 module.exports = {
   navTheme: 'dark', // theme for nav menu
   primaryColor: '#1890FF', // primary color of ant design
@@ -9,7 +25,7 @@ module.exports = {
   menu: {
     disableLocal: true,
   },
-  title: '小区乐后台',
+  title,
   pwa: true,
   // your iconfont Symbol Scrip Url
   // eg：//at.alicdn.com/t/font_1039637_btcrd5co4w.js

@@ -8,6 +8,7 @@ import HeaderSearch from '../HeaderSearch';
 import HeaderDropdown from '../HeaderDropdown';
 // import SelectLang from '../SelectLang';
 import styles from './index.less';
+import router from 'umi/router';
 
 export default class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
@@ -63,45 +64,64 @@ export default class GlobalHeaderRight extends PureComponent {
     });
   };
 
+  onMenuClick = (info) => {
+    const {key} = info
+    const {location} = window
+    if (key === 'logout') {
+      if (ADMIN_TYPE !== 'ADMIN'){
+        sessionStorage.removeItem('HQBSFORSHOP')
+        location.href = '/#/login'
+      } else {
+        sessionStorage.clear()
+        location.href = '/api/login/logout'
+      }
+    } 
+    else if (key === 'editPwd') {
+      message.warning('该功能飞到了火星，请静待回归')
+    }
+  }
+
   render() {
+    const userInfo = JSON.parse(sessionStorage.getItem('HQBSFORSHOP') || '{}')
+    const {userName = ''} = userInfo
     const {
       currentUser,
-      fetchingNotices,
-      onNoticeVisibleChange,
-      onMenuClick,
-      onNoticeClear,
+      // fetchingNotices,
+      // onNoticeVisibleChange,
+      // onMenuClick,
+      // onNoticeClear,
       theme,
     } = this.props;
     const menu = (
-      <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-        <Menu.Item key="userCenter">
+      <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
+        {/* <Menu.Item key="userCenter">
           <Icon type="user" />
           <FormattedMessage id="menu.account.center" defaultMessage="account center" />
-        </Menu.Item>
-        <Menu.Item key="userinfo">
+        </Menu.Item> */}
+        <Menu.Item key="editPwd">
           <Icon type="setting" />
-          <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
+          <FormattedMessage id="menu.account.settings" defaultMessage="更改密码" />
         </Menu.Item>
-        <Menu.Item key="triggerError">
+        {/* <Menu.Item key="triggerError">
           <Icon type="close-circle" />
           <FormattedMessage id="menu.account.trigger" defaultMessage="Trigger Error" />
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Divider />
         <Menu.Item key="logout">
           <Icon type="logout" />
-          <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
+          <FormattedMessage id="menu.account.logout" defaultMessage="退出" />
         </Menu.Item>
       </Menu>
     );
-    const noticeData = this.getNoticeData();
-    const unreadMsg = this.getUnreadData(noticeData);
+    // const noticeData = this.getNoticeData();
+    // const unreadMsg = this.getUnreadData(noticeData);
     let className = styles.right;
     if (theme === 'dark') {
       className = `${styles.right}  ${styles.dark}`;
     }
     return (
       <div className={className}>
-        <HeaderSearch
+        {/* <HeaderSearch
           className={`${styles.action} ${styles.search}`}
           placeholder={formatMessage({ id: 'component.globalHeader.search' })}
           dataSource={[
@@ -115,8 +135,8 @@ export default class GlobalHeaderRight extends PureComponent {
           onPressEnter={value => {
             console.log('enter', value); // eslint-disable-line
           }}
-        />
-        <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
+        /> */}
+        {/* <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
           <a
             target="_blank"
             href="https://pro.ant.design/docs/getting-started"
@@ -125,8 +145,8 @@ export default class GlobalHeaderRight extends PureComponent {
           >
             <Icon type="question-circle-o" />
           </a>
-        </Tooltip>
-        <NoticeIcon
+        </Tooltip> */}
+        {/* <NoticeIcon
           className={styles.action}
           count={currentUser.unreadCount}
           onItemClick={(item, tabProps) => {
@@ -171,8 +191,8 @@ export default class GlobalHeaderRight extends PureComponent {
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
             showViewMore
           />
-        </NoticeIcon>
-        {currentUser.name ? (
+        </NoticeIcon> */}
+        {userName ? (
           <HeaderDropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
@@ -181,7 +201,7 @@ export default class GlobalHeaderRight extends PureComponent {
                 src={currentUser.avatar}
                 alt="avatar"
               />
-              <span className={styles.name}>{currentUser.name}</span>
+              <span className={styles.name}>{userName}</span>
             </span>
           </HeaderDropdown>
         ) : (
