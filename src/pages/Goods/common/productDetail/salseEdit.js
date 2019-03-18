@@ -115,12 +115,11 @@ export default function (preview) {
         saleUnits
       })
     }
-    const batchItem = preview ? [] : inputItems.map((item, index) => {
+    const batchItem = preview ? [] : inputItems.map((item) => {
       return {
-        label: (index === 0) ? `批量设置${'      '}${item.title}` : item.title,
+        label: item.title,
         name: `batch${item.dataIndex}`,
-        follow: index === 0,
-        inline: index !== 0,
+        inline: true,
         component: 'Input',
         status: item.disabled ? 'disabled' : 'edit',
         className: Sty.batchSetLabel,
@@ -136,6 +135,10 @@ export default function (preview) {
       label: '销售属性',
       className: 'box-header',
     }, 
+    {
+      label: '批量设置',
+      follow: true,
+    },
     ...batchItem,
     {
       name: 'saleUnits',
