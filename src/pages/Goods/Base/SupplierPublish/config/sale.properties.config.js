@@ -314,12 +314,18 @@ const getColumns = (leForm, globalOptions = {}) => {
               value={status === 'update' || enable ? value : ''}
               disabled={!enable}
               maxLength={20}
-              onChange={(e) => handleUpdateSingle(leForm, {
-                colKey: 'deliverCode',
-                cellValue: e.target.value,
-                rowItem: item,
-                rowIndex: index
-              })}
+              onChange={(e) => {
+                const { value } = e.target
+                if (value && !regUtils.Number.test(value)) {
+                  return
+                }
+                handleUpdateSingle(leForm, {
+                  colKey: 'deliverCode',
+                  cellValue: value,
+                  rowItem: item,
+                  rowIndex: index
+                })
+              }}
             />
           )
         }
