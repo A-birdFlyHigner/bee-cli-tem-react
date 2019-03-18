@@ -1,14 +1,15 @@
 import request from '@/utils/request';
 
-const domain = '/adminApi';
+// const domain = '/adminApi';
 
-// const domain = '/api';
+const domain = '/api';
 
 // ADMIN_TYPE === 'ADMIN'
 
 // 获取采购单列表
 export async function getPurchaseList (params) {
   params.purchaseTime = params.purchaseTime && params.purchaseTime.slice(0,10)
+  params.expectInboundTime = params.expectInboundTime && params.expectInboundTime.slice(0,10)
   return request(`${domain}/purchase/listPurchaseOrder`, {
     method: 'POST',
     body: params,
@@ -88,6 +89,7 @@ export async function getInputDetailList (params) {
 
 // 获取出库单列表
 export async function getOutputList (params) {
+  params.outboundTime = params.outboundTime && params.outboundTime.slice(0,10)
   return request(`${domain}/outbound/listOutboundOrder`, {
     method: 'POST',
     body: params,
@@ -205,6 +207,14 @@ export async function exportPurchaseOrder (purchaseNo) {
 // 下载配送单关联的销售订单
 export async function exportDeliveryOrder (deliveryNo) {
   window.open(`${domain}/delivery/exportDeliveryOrderInvolveExcel/${deliveryNo}`, "_blank");
+  // return request(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, {
+  //   method: 'GET',
+  // });
+}
+
+// 供应商下载采购单关联订单
+export async function exportSupplyDeliveryOrder (purchaseNo) {
+  window.open(`${domain}/purchase/exportPurchaseOrderExcel/${purchaseNo}`, "_blank");
   // return request(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, {
   //   method: 'GET',
   // });

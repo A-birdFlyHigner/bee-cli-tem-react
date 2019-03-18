@@ -1,17 +1,11 @@
 import React from 'react';
-
-const select = values => {
-  console.log('values', this, values);
-};
+import ImgPreview from '@/components/ImgPreview'
 
 export default {
   rowSelection: {
     selectedRowKeys: [],
     onChange: (selectedRowKeys, LeList)=>{},
     selections: true,
-    onSelect(...args) {
-      // console.log(args)
-    },
     getCheckboxProps(record) {
       return {
         disabled: false,
@@ -33,9 +27,7 @@ export default {
       dataIndex: 'skuImage',
       render(value, values, index) {
         return (
-          <span>
-            <img style={{width: '100px'}} src={value} alt="主图" />
-          </span>
+          <ImgPreview url={value} />
         );
       },
     },

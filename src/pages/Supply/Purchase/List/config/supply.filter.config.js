@@ -41,7 +41,24 @@ export default {
       component: 'Select',
       props: {
         placeholder: '请选择采购订单状态',
-        options: purchaseState,
+        options: [
+          {
+            label: '入库完成',
+            value: 1,
+          },
+          {
+            label: '未入库',
+            value: 2,
+          },
+          {
+            label: '部分入库',
+            value: 3,
+          },
+          {
+            label: '全部',
+            value: 99,
+          },
+        ],
       },
     },
     {

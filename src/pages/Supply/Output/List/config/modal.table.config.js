@@ -1,4 +1,5 @@
 import React from 'react';
+import ImgPreview from '@/components/ImgPreview'
 
 export default {
   columns: [
@@ -13,6 +14,9 @@ export default {
     {
       title: '图片',
       dataIndex: 'skuImage',
+      render(value) {
+        return (<ImgPreview url={value} />)
+      },
     },
     {
       title: '商品名称',

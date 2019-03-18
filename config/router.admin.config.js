@@ -128,40 +128,6 @@ export default [
         ],
       },
       // lepage
-      {
-        path: '/lepage',
-        name: 'LePage 示例',
-        icon: 'lepage',
-        hideInMenu: true,        
-        routes: [
-          {
-            path: '/lepage/form',
-            name: '表单',
-            component: './LePage/Form',
-          },
-          {
-            path: '/lepage/list',
-            name: '列表',
-            component: './LePage/List',
-          },
-          {
-            path: '/lepage/preview',
-            name: '预览',
-            component: './LePage/Preview/Base',
-          },
-          {
-            path: '/lepage/preview-dynamic',
-            name: '预览-动态',
-            component: './LePage/Preview/Dynamic',
-          },
-          {
-            path: '/lepage/preview-columns',
-            name: '预览-多列',
-            component: './LePage/Preview/Columns',
-          },
-        ],
-      },
-
       // dashboard
       // { path: '/', redirect: '/dashboard/analysis' },
       // {
