@@ -1,3 +1,4 @@
+import React from 'react'
 import proSetting from './product'
 import Sty from '../Index.less'
 import Reg from '@/utils/reg'
@@ -15,8 +16,15 @@ export default (options, spreadName, configOption) => {
     items: [{
       label: '',
       name: 'spreadName',
-      status: 'preview',
-      className: Sty.spanColor
+      component: 'Item',
+      render: (values) => {
+        const name = values.spreadName
+        return (
+          <div className={Sty.spanColor}>
+            {name}
+          </div>
+        )
+      }
     }, {
       label: '配送方式',
       name: 'logisticsMethod',
