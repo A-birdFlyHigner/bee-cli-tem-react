@@ -13,6 +13,9 @@ export default {
     {
       title: '图片',
       dataIndex: 'skuImage',
+      render(value) {
+        return (<span><img style={{width: '100px'}} src={value} alt="主图" /></span>)
+      },
     },
     {
       title: '商品名称',

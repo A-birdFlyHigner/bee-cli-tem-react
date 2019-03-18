@@ -159,9 +159,9 @@ export default [
             name: '送货单导出',
             component: './Supply/Delivery/Export',
           },
+
         ],
       },
-
       // lepage
       {
         path: '/lepage',

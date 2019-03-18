@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import Link from 'umi/link'
 
 const formatType = 'YYYY-MM-DD HH:mm:ss'
 
@@ -19,7 +20,7 @@ export default {
       render(value, values, index) {
         return (
           <div>
-            <a href={`/supply/purchase/detail?purchaseNo=${value}`}>{value}</a>
+            <Link to={`/supply/purchase/detail?purchaseNo=${value}`}>{value}</Link>
           </div>
         );
       },

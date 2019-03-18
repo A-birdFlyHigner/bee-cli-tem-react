@@ -1,30 +1,33 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
+import moment from 'moment'
 import { filterConfig, operationConfig, tableConfig } from './config';
 import './index.less';
 import {getPurchaseDetail, getPurchaseDetailList} from '@/services/supply'
 import {leListQuery} from '@/utils/utils'
-import moment from 'moment';
+
+const formatType = 'YYYY-MM-DD'
 
 class PurchaseEdit extends Component {
   constructor(props) {
     super(props);
     this.listDataSource = {}
-    let self = this
-    this.purchaseCode  = self.props.location.query.purchaseNo
+    const self = this
+    this.purchaseNo = self.props.location.query.purchaseNo
+    this.differStatus = Number(self.props.location.query.differStatus) || 0
 
     const operationConfigMix = {...operationConfig}
     operationConfigMix.items[0].props.onChange = (value) => {
-      // debugger
       self.list.operationCore.setValue('differStatus', value)
       self.list.filterCore.setValue('differStatus', value ? 1: 0)
+      // self.list.filterCore.setValue('expectInboundTime', undefined)
+      // self.list.filterCore.setValue('loseEfficacyTime', undefined)
       self.list.listCore.fetch()
-      // debugger
     }
     const listConfig = {
       filterConfig: filterConfig({
-        purchaseNo: this.purchaseCode,
-        differStatus: 0,
+        purchaseNo: this.purchaseNo,
+        differStatus: self.differStatus,
       }),
       operationConfig: operationConfigMix,
       tableConfig,
@@ -32,19 +35,45 @@ class PurchaseEdit extends Component {
     }
     this.state = {
       listConfig,
-      modalVisible: false,
     };
   }
 
   componentDidMount() {
-    getPurchaseDetail(this.purchaseCode).then(({supplierName, warehouseName, expectInboundTime, loseEfficacyTime})=>{
+    this.list.operationCore.setValue('differStatus', this.differStatus === 1)
+    getPurchaseDetail(this.purchaseNo).then(({
+      supplierName, warehouseName, expectInboundTime, loseEfficacyTime,
+      source, status, createTime
+      })=>{
+      let statusStr = ''
+      switch(status) {
+        case 0:
+          statusStr = '待提交'
+          break
+        case 1:
+          statusStr = '入库完成'
+          break
+        case 2:
+          statusStr = '未入库'
+          break
+        case 3:
+          statusStr = '部分入库'
+          break
+        case 4:
+          statusStr = '已取消'
+          break
+        default:
+          break
+      }
       this.list.filterCore.setValues({
         warehouseName,
         supplierName,
-        expectInputTime: expectInboundTime && moment(expectInboundTime),
-        invalidTime: loseEfficacyTime && moment(loseEfficacyTime),
-        purchaseCode: this.purchaseCode,
-        differStatus: 0,
+        expectInboundTime: expectInboundTime && moment(expectInboundTime).format(formatType),
+        loseEfficacyTime: loseEfficacyTime && moment(loseEfficacyTime).format(formatType),
+        createTime: createTime && moment(createTime).format(formatType),
+        purchaseNo: this.purchaseNo,
+        differStatus: this.differStatus,
+        source: source === 0 ? '人工创建': '系统生成',
+        status: statusStr,
       })
     })
   }

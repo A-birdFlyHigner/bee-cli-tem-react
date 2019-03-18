@@ -52,3 +52,4 @@ export default (categoryProperties = {}, globalOptions = {}) => {
     buttons: getButtonsConfig(globalOptions)
   }
 }
+

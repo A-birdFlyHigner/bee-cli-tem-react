@@ -34,7 +34,7 @@ export default {
       label: '详细信息',
       name: 'detail',
       component: 'Item',
-      render (values, leForm) {
+      render(values, leForm) {
         return `姓名:${values.name} - 城市:${values.city}`;
       },
     },

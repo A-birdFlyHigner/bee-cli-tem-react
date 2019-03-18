@@ -1,6 +1,5 @@
 import fetch from 'dva/fetch';
 import { notification, message } from 'antd';
-import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
 
@@ -162,6 +161,7 @@ export default function request(url, option) {
 
 
     }).then(response => {
+      console.log('response222', response, response.status)
       if (String(response.status) === '1') {
         return response.data
       }

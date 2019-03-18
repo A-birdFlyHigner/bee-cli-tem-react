@@ -1,11 +1,10 @@
 import React from 'react';
 import {Tooltip, Icon, Modal} from 'antd'
 import moment from 'moment'
-import {exportPurchaseOrder} from '@/services/supply'
+import {exportPurchaseOrder,} from '@/services/supply'
+import Link from 'umi/link';
 
 const formatType = 'YYYY-MM-DD HH:mm:ss'
-
-const {confirm} = Modal
 
 const download = values => {
   exportPurchaseOrder(values.purchaseNo).then(res=>{
@@ -13,55 +12,31 @@ const download = values => {
   })
 };
 
-const cancelConfirm = values => {
-  confirm({
-    title: '取消采购单',
-    content: '是否确定取消该采购单？',
-    onOk() {
-      console.log('cancelConfirm_OK');
-    },
-    onCancel() {
-      console.log('cancelConfirm_Cancel');
-    },
-  })
-};
-const submitConfirm = values => {
-  confirm({
-    title: '提交采购单',
-    content: '是否确定提交该采购单？',
-    onOk() {
-      console.log('submitConfirm_OK');
-    },
-    onCancel() {
-      console.log('submitConfirm_Cancel');
-    },
-  })
-};
-
 export default {
+  scroll: { x: 1800 },
   columns: [
     {
       title: '序号',
       dataIndex: 'key',
-      width: '40px',
+      width: 100,
     },
     {
       title: '采购单号',
       dataIndex: 'purchaseNo',
-      width: '40px',
-      render(value, values, index) {
+      width: 200,
+      render(value) {
         return (
           <div>
-            <a href={`/supply/purchase/detail?purchaseNo=${value}`}>{value}</a>
+            <Link to={`/supply/purchase/detail?purchaseNo=${value}`}>{value}</Link>
           </div>
         );
       },
     },
     {
       title: '采购时间',
-      dataIndex: 'createTime',
-      width: '40px',
-      render(value, values, index) {
+      dataIndex: 'purchaseTime',
+      width: 200,
+      render(value) {
         return (
           <span>{moment(value).format(formatType)}</span>
         );
@@ -70,8 +45,8 @@ export default {
     {
       title: '期望入库时间',
       dataIndex: 'expectInboundTime',
-      width: '40px',
-      render(value, values, index) {
+      width: 200,
+      render(value) {
         return (
           <span>{moment(value).format(formatType)}</span>
         );
@@ -80,11 +55,12 @@ export default {
     {
       title: (
         <div>
-          失效时间 <Tooltip title={`失效时间仅供业务方标记使用，不影响采购单的正常流转和操作`}><Icon type="question-circle" /></Tooltip>
+          失效时间 <Tooltip title="失效时间仅供业务方标记使用，不影响采购单的正常流转和操作"><Icon type="question-circle" /></Tooltip>
         </div>
       ),
       dataIndex: 'loseEfficacyTime',
-      render(value, values, index) {
+      width: 200,
+      render(value) {
         return (
           <span>{moment(value).format(formatType)}</span>
         );
@@ -93,36 +69,82 @@ export default {
     {
       title: '仓库名称',
       dataIndex: 'warehouseName',
+      width: 200,
     },
     {
       title: '供应商名称',
       dataIndex: 'supplierName',
+      width: 200,
     },
     {
       title: '采购单来源',
       dataIndex: 'source',
+      width: 200,
     },
     {
       title: '采购单概况',
       dataIndex: 'purchaseGeneralInfo',
+      width: 200,
     },
     {
       title: '供应商确认状态',
-      dataIndex: 'status1',
+      dataIndex: 'supplierConfirmStatus',
+      width: 200,
+      render(value, record) {
+        return (
+          <div>
+            <span>
+              {
+                record.status === 0 || record.status === 4
+                    ? '/'
+                    : value === 0
+                      ? <p>待确认</p>
+                      :
+                      <div>
+                        <p>已确认</p>
+                        <p>{moment(record.supplierConfirmTime).format(formatType)}</p>
+                      </div>
+              }
+            </span>
+          </div>
+        );
+      },
     },
     {
       title: '采购单状态',
       dataIndex: 'status',
+      width: 200,
+      render(value, record) {
+        return (
+          <div>
+            <span>
+              {
+                value === 0
+                  ? <p>待提交</p>
+                  : value === 1
+                    ? <p>入库完成</p>
+                    : value === 2
+                      ? <p>未入库</p>
+                      : value === 3
+                        ? <p>部分入库</p>
+                        : value === 4
+                          ? <p>已取消</p>
+                          : null
+              }
+            </span>
+          </div>
+        );
+      },
     },
     {
       title: '销售订单',
       dataIndex: 'referSellOrderCount',
-      render(value, values, index) {
+      width: 200,
+      render(value, values) {
         return (
           <div>
-            <span>{value}</span>
-            { value ? <a href="javascript:;" onClick={download.bind(null, values)} >下载</a> : null}
-
+            <span>{value ? value : '/'}</span>
+            { value ? <a onClick={()=>{download(values)}}>下载</a> : null}
           </div>
         );
       },
@@ -130,23 +152,15 @@ export default {
     {
       title: '入库单',
       dataIndex: 'inputNo',
-      render(value, values, index) {
+      width: 200,
+      render(value, values) {
         return (
           <div>
-            <a href={`/supply/input/list?inputNo=${value}`}>查看</a>
-          </div>
-        );
-      },
-    },
-    {
-      title: '操作',
-      render(value, values, index) {
-        return (
-          <div>
-            <a href={`/supply/purchase/detail?purchaseNo=${values}`}>查看</a>;
-            <a href={`/supply/purchase/edit?purchaseNo=${values}`}>编辑</a>;
-            <a href="javascript:;" onClick={cancelConfirm.bind(null, values)} >取消</a>;
-            <a href="javascript:;" onClick={submitConfirm.bind(null, values)} >提交</a>;
+            {
+              values.status === 1 || values.status === 3
+                ? <Link to={`/supply/input/list?purchaseNo=${values.purchaseNo}`}>查看</Link>
+                : '/'
+            }
           </div>
         );
       },

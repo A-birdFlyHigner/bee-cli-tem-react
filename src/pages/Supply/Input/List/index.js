@@ -2,16 +2,10 @@ import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import { filterConfig, tableConfig } from './config';
 import './index.less';
-import {getInputList, getInputDetailList, getSupplierEmunList, getWarehouseEmunList} from '@/services/supply'
+import {getInputList, getInputDetailList, getWarehouseEmunList} from '@/services/supply'
 import { Modal } from 'antd';
 import modalTableConfig from './config/modal.table.config';
 import {leListQuery} from '@/utils/utils'
-
-const listConfig = {
-  filterConfig,
-  tableConfig,
-  ...leListQuery(getInputList)
-};
 
 const listConfigModal = {
   filterConfig: {settings: {
@@ -26,6 +20,11 @@ class List extends Component {
     super(props);
     const self = this
     this.showDetail.bind(this)
+    const listConfig = {
+      filterConfig: filterConfig({purchaseNo: props.location.query.purchaseNo}),
+      tableConfig,
+      ...leListQuery(getInputList)
+    }
     const listConfigCombine = {...listConfig}
     listConfigCombine.tableConfig.columns[8] = {
       title: '操作',
@@ -36,30 +35,13 @@ class List extends Component {
           </div>
         );
       },
-    },
-
+    }
     this.state = {
       listConfig: listConfigCombine,
       listConfigModal,
       modalVisible: false,
     };
   }
-  showDetail = (params) => {
-    // console.log('params', params)
-    // debugger
-    // this.modalList.listCore.setValue('inboundNo', params.inboundNo)
-    const listConfigModalMix = {...listConfigModal}
-    listConfigModalMix.filterConfig.settings.values.inboundNo = params.inboundNo
-    this.setState({
-      modalVisible: true,
-      listConfigModal: listConfigModalMix
-    });
-  };
-  handleCancel = (e) => {
-    this.setState({
-      modalVisible: false,
-    });
-  };
   componentDidMount() {
     const self = this
     getWarehouseEmunList().then((res)=>{
@@ -69,6 +51,21 @@ class List extends Component {
       self.list.filterCore.setProps('warehouseCode', { options: data });
     })
   }
+  showDetail = (params) => {
+    const listConfigModalMix = {...listConfigModal}
+    listConfigModalMix.filterConfig.settings.values.inboundNo = params.inboundNo
+    this.setState({
+      modalVisible: true,
+      listConfigModal: listConfigModalMix
+    });
+  };
+
+  handleCancel = (e) => {
+    this.setState({
+      modalVisible: false,
+    });
+  };
+
   render() {
     const { state } = this;
     return <div>

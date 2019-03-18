@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import { filterConfig, tableConfig } from './config';
 import './index.less';
-import {getOutputList, getOutputDetailList, getSupplierEmunList, getWarehouseEmunList} from '@/services/supply'
+import {getOutputList, getOutputDetailList, getWarehouseEmunList} from '@/services/supply'
 import { Modal } from 'antd';
 import modalTableConfig from './config/modal.table.config';
 import {leListQuery} from '@/utils/utils'

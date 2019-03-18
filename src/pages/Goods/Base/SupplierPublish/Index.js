@@ -407,7 +407,6 @@ class GoodsPublish extends Component {
         />
       </div>
     : null
-
     return (
       <div>
         {category}{form}

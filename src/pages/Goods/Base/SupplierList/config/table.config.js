@@ -8,9 +8,10 @@ const showSpecDetailDialog = dataSource => {
 
   const tableConfig = {
     rowKey: 'skuId',
-    columns: [{
+    columns: [
+      {
         title: 'skuId',
-        dataIndex: 'skuId'
+        dataIndex: 'skuId',
       },
       {
         title: 'sku编码(发货编码)',
@@ -47,8 +48,8 @@ const showSpecDetailDialog = dataSource => {
 
   const listConfig = {
     tableConfig,
-    dataSource
-  }
+    dataSource,
+  };
 
   // FIXME: footer、okText、cancelText 的配置统一收敛到 LePage 中
   LeDialog.show({
@@ -59,12 +60,12 @@ const showSpecDetailDialog = dataSource => {
       overflowX: 'auto'
     },
     footer() {
-      return null
+      return null;
     },
     maskClosable: true,
     content() {
-      return <LeList {...listConfig} />
-    }
+      return <LeList {...listConfig} />;
+    },
   });
 };
 
@@ -110,7 +111,7 @@ export default {
       dataIndex: 'saleUnits',
       render(value) {
         if (!value || value.length === 0) {
-          return '/'
+          return '/';
         }
 
         return (
@@ -118,8 +119,8 @@ export default {
             {value.length}个 <br />
             <a onClick={() => showSpecDetailDialog(value)}>查看</a>
           </span>
-        )
-      }
+        );
+      },
     },
     {
       title: '基础价格信息',

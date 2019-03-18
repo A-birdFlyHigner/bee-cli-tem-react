@@ -142,7 +142,6 @@ class PurchaseEdit extends Component {
       listConfigModal: {},
       modalVisible: false,
     };
-
   }
 
   componentDidMount() {
@@ -160,8 +159,8 @@ class PurchaseEdit extends Component {
             warehouseCode,
             supplierName,
             supplierCode,
-            expectInboundTime: moment(expectInboundTime),
-            loseEfficacyTime: moment(loseEfficacyTime),
+            expectInboundTime: expectInboundTime && moment(expectInboundTime),
+            loseEfficacyTime: loseEfficacyTime &&moment(loseEfficacyTime),
           });
         })
       }
@@ -274,7 +273,6 @@ class PurchaseEdit extends Component {
         }
       })
     }
-
   }
 
   handleOk = () => {

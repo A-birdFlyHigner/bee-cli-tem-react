@@ -1,21 +1,8 @@
 import React from 'react';
 import moment from 'moment';
+import Link from 'umi/link'
 
 const formatType = 'YYYY-MM-DD HH:mm:ss'
-
-// communityAddress: ""
-// communityName: ""
-// consigneeMobile: ""
-// consigneeName: ""
-// delieryGeneralInfo: null
-// deliveryNo: ""
-// opertorName: null
-// outboundNo: "YCWLD2019030100041"
-// outboundTime: 1551419034000
-// status: 0
-// type: 0
-// warehouseCode: ""
-// warehouseName: null
 
 export default {
   columns: [
@@ -33,7 +20,7 @@ export default {
       render(value, values, index) {
         return (
           <div>
-            <a href={`/supply/delivery/detail?deliveryNo=${value}`}>{value}</a>
+            <Link to={`/supply/delivery/detail?deliveryNo=${value}`}>{value}</Link>
           </div>
         );
       },

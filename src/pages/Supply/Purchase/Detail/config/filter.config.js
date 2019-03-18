@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export default (params) => {
   return {
     settings: {
@@ -15,40 +13,44 @@ export default (params) => {
     },
     items: [
       {
+        label: '采购单号',
+        name: 'purchaseNo',
+        component: 'Input',
+      },
+      {
+        label: '采购时间',
+        name: 'createTime',
+        component: 'Input',
+      },
+      {
+        label: '期望入库时间',
+        name: 'expectInboundTime',
+        component: 'Input',
+      },
+      {
+        label: '失效时间',
+        name: 'loseEfficacyTime',
+        component: 'Input',
+      },
+      {
         label: '仓库名称',
         name: 'warehouseName',
         component: 'Input',
-        // value: 'warehouseName',
-        props: {
-          placeholder: '请输入仓库名称',
-        },
       },
       {
         label: '供应商名称',
         name: 'supplierName',
         component: 'Input',
-        // value: 'supplierName',
-        props: {
-          placeholder: '请输入供应商名称',
-        },
       },
       {
-        label: '期望入库时间',
-        name: 'expectInputTime',
-        component: 'DatePicker',
-        // value: moment('2019-01-30 12:00:00'),
-        props: {
-          placeholder: '请选择期望入库时间',
-        },
+        label: '采购单来源',
+        name: 'source',
+        component: 'Input',
       },
       {
-        label: '失效时间',
-        name: 'invalidTime',
-        component: 'DatePicker',
-        // value: moment('2019-01-30 12:00:00'),
-        props: {
-          placeholder: '请选择失效时间',
-        },
+        label: '采购单状态',
+        name: 'status',
+        component: 'Input',
       },
     ],
     buttons: []
