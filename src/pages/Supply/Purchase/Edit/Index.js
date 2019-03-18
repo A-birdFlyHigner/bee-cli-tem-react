@@ -4,9 +4,11 @@ import {leListQuery} from '@/utils/utils'
 import moment from 'moment'
 import { operationConfig, modalFilterConfig, modalTableConfig } from './config';
 import { Modal, Input, message } from 'antd';
-import './index.less';
+import './Index.less';
 import router from 'umi/router';
 import {getPurchaseDetail, getPurchaseDetailList, addPurchase, editPurchase, getBasicItemList, getWarehouseEmunList} from '@/services/supply'
+import styles from '../../common/style.less';
+import ImgPreview from '@/components/ImgPreview'
 
 const formatType = 'YYYY-MM-DD'
 
@@ -52,7 +54,7 @@ class PurchaseEdit extends Component {
           title: '主图',
           dataIndex: 'skuImage',
           render(value) {
-            return (<span><img style={{width: '100px'}} src={value} alt="主图" /></span>)
+            return (<span className={styles.fix_img_preview}><ImgPreview url={value} /></span>)
           },
         },
         {
@@ -217,14 +219,13 @@ class PurchaseEdit extends Component {
   }
 
   save = () => {
+    const self = this
+
     if (this.pageType === 'edit') {
       this.listDataSource.newData = this.list.listCore.getDataSource();
       this.listDataSource.pagination = this.list.listCore.getPageData();
     }
-    console.log('this.listDataSource111', this.listDataSource)
     const list = this.listDataSource.newData
-
-    console.log('this', this)
     let errFlag = false
     const purchaseOrderDetail = list && list.map((item)=>{
       const {skuCode, skuName, skuImage, itemName, supplierPrice} = item
@@ -261,22 +262,22 @@ class PurchaseEdit extends Component {
     }
     if (this.pageType === 'add') {
       addPurchase(saveData).then((res)=>{
-        console.log('res', res)
-        if (res && res.status === 1) {
-          message.success('保存成功')
+        if (res && res === 1) {
+          message.success('新增成功')
+          self.list.listCore.refresh()
         }
       })
     } else {
       editPurchase(saveData).then((res)=>{
-        if (res && res.status === 1) {
-          message.success('保存成功')
+        if (res && res === 1) {
+          message.success('编辑成功')
+          self.list.listCore.refresh()
         }
       })
     }
   }
 
   handleOk = () => {
-    console.log('this.listDataSource', this.listDataSource);
     this.list.listCore.setDataSource(this.listDataSource.newData);
     this.list.listCore.setPageData(this.listDataSource.pagination);
     this.setState({
@@ -291,9 +292,7 @@ class PurchaseEdit extends Component {
   };
 
   deleteRow = values => {
-    console.log('values', this, values.key);
     const data = [...this.listDataSource.newData]
-    console.log('data', data)
     const pagination = {...this.listDataSource.pagination}
     pagination.total -= 1
     const newData = data.filter((item)=>{
@@ -312,7 +311,6 @@ class PurchaseEdit extends Component {
 
   render() {
     const { state } = this;
-    console.log('state.listConfigModal', state.listConfigModal);
     return (
       <div>
         <LeList {...state.listConfig} ref={list => this.list = list} />

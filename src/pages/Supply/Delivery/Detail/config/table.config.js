@@ -1,4 +1,6 @@
 import React from 'react';
+import ImgPreview from '@/components/ImgPreview'
+import styles from '../../../common/style.less';
 
 // const deleteRow = values => {
 //   console.log('values', this, values);
@@ -18,7 +20,7 @@ export default {
       title: '主图',
       dataIndex: 'skuImage',
       render(value) {
-        return (<span><img style={{width: '100px'}} src={value} alt="主图" /></span>)
+        return (<span className={styles.fix_img_preview}><ImgPreview url={value} /></span>)
       },
     },
     {

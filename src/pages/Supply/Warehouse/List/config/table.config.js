@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-const formatType = 'YYYY-MM-DD HH:mm:ss'
+const formatType = 'YYYY-MM-DD'
 
 export default {
   columns: [

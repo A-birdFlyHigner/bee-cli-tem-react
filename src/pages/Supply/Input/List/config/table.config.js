@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Link from 'umi/link'
 
-const formatType = 'YYYY-MM-DD HH:mm:ss'
+const formatType = 'YYYY-MM-DD'
 
 export default {
   columns: [

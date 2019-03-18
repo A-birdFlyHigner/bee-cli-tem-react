@@ -1,5 +1,6 @@
 import React from 'react';
 import ImgPreview from '@/components/ImgPreview'
+import styles from '../../../common/style.less';
 
 export default {
   columns: [
@@ -15,7 +16,7 @@ export default {
       title: '图片',
       dataIndex: 'skuImage',
       render(value) {
-        return (<ImgPreview url={value} />)
+        return (<span className={styles.fix_img_preview}><ImgPreview url={value} /></span>)
       },
     },
     {
