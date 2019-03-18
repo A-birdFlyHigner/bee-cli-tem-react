@@ -1,4 +1,5 @@
 import React from 'react';
+import ImgPreview from '@/components/ImgPreview'
 
 export default {
   columns: [
@@ -14,7 +15,7 @@ export default {
       title: '主图',
       dataIndex: 'skuImage',
       render(value) {
-        return (<span><img style={{width: '100px'}} src={value} alt="主图" /></span>)
+        return (<ImgPreview url={value} />)
       },
     },
     {
@@ -29,7 +30,7 @@ export default {
       title: '供应商成本价',
       dataIndex: 'supplierPrice',
       render: (value)=>{
-        return (value / 100).toFixed(2)
+        return value && (value / 100).toFixed(2)
       }
     },
     {
