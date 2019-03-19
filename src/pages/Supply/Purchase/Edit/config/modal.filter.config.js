@@ -24,7 +24,7 @@ export default (params) => {
       }),
       SearchSelect({
         label: '商品名称',
-        name: 'itemCode',
+        name: 'itemName',
         placeholder: '请输入供应商名称',
         requestService: getGoodsEmunList
       },),
