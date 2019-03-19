@@ -97,6 +97,10 @@ export default {
                 label: '发货时效',
                 value: logisticsType[record.logisticsType],
               },
+              {
+                label: '发货时间',
+                value: `${record.dispatchDate}天`,
+              },
             ]}
           />
         )
@@ -107,22 +111,17 @@ export default {
       key: 'pathName',      
       width: 300,
       mutipleLine: true,
-      render: (vals) => {
-        return (
-          <div>
-            {
-              vals && vals.split(',').map(
-                (item) => (
-                  <span key={item}>
-                    &gt;
-                    { item }<br />
-                  </span>
-                )
-              )
-            }
-          </div>
-        )
-      },
+      render(value) {
+        const symbol = '>';
+        return value.split(',').map((item, index) => {
+          const key = `${item}-${index}`
+          return (
+            <span key={key}>
+              {symbol} {item} <br />
+            </span>
+          )
+        })
+      }
     }, {
       title: '规格',
       dataIndex: 'specifications',

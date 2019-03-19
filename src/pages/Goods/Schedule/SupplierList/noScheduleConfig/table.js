@@ -97,6 +97,10 @@ export default {
                 label: '发货时效',
                 value: ['', '次日达', '预售'][record.logisticsType],
               },
+              {
+                label: '发货时间',
+                value: `${record.dispatchDate}天`,
+              },
             ]}
           />
         );
@@ -106,19 +110,16 @@ export default {
       title: '类目',
       dataIndex: 'pathName',
       width: 150,
-      render: (text) => {
-        return (
-          <div>
-            {text &&
-              text.split(',').map((item) => (
-                <span key={item}>
-                  &gt;
-                  {item}
-                  <br />
-                </span>
-              ))}
-          </div>
-        );
+      render(value) {
+        const symbol = '>';
+        return value.split(',').map((item, index) => {
+          const key = `${item}-${index}`
+          return (
+            <span key={key}>
+              {symbol} {item} <br />
+            </span>
+          )
+        })
       },
     },
     {
