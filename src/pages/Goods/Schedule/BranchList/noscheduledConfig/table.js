@@ -14,6 +14,9 @@ const { logisticsMethod, logisticsType } = commonMessage
 const editItem = (id) => {
   router.push({
     pathname: `/goods/schedule/branchdetail/${id}`,
+    query: {
+      tabType: '1'
+    }
   })
 }
 

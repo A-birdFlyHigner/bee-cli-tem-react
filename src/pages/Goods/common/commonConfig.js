@@ -47,7 +47,10 @@ const dialogFormConfig = (number, text) => {
         render: () => {
           return(
             <div>
-              <div className={Sty.dialogMb}>已批量选中{number}个商品，确定批量{text}？</div>                                  
+              <div className={Sty.dialogMb}>已批量选中{number}个商品，确定批量{text}？</div>
+              {
+                text === '回退' ? <div className='globalRed'>商品将回退到审核通过未排期列表中。</div> : null
+              }                        
             </div>
           )
         },
@@ -185,7 +188,16 @@ export function  dialogFormSetGroupConfig(){
           message: '排序值,请输入数字'
         },
         props: {
-          placeholder: '请输入排序值'
+          required: true,          
+          placeholder: '请输入排序值，必须是数字',
+          maxLength: 10,
+          // onChange: (e) => {
+          //   const { value } = e.target
+          //   if (value && !Reg.Num.test(value)) {
+          //     return false
+          //   }
+          //   return false
+          // },
         },
       }
 
@@ -236,16 +248,16 @@ export function allBackoff(err, values, formCore, listCore){
       title: '批量回退',
       width: '400px',
       content () {
-        return <LeForm {...dialogFormConfig(count)} />
+        return <LeForm {...dialogFormConfig(count, '回退')} />
       },
-      onOk: ( value, suc ) => {
+      onOk: ( value, hide ) => {
         backOff({ 
           channelProductIdList, 
         }).then(res => {
           if (!res) return
           listCore.refresh();          
-          suc()
-          message.success('已批量回退成功');
+          hide()
+          message.success('已批量回退成功！');
         })
       }
     }
@@ -261,7 +273,7 @@ export function goBack (saleGoodsId) {
       content () {
         return <LeForm {...dialogFormTextConfig('回退')} />
       },
-      onOk: (values, suc) => {
+      onOk: (values, hide) => {
         const channelProductIdList = []
         channelProductIdList.push(saleGoodsId)
 
@@ -269,8 +281,9 @@ export function goBack (saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return
+          message.warning('已回退成功！')          
           // 关闭弹窗
-          suc()
+          hide()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
         })
@@ -296,14 +309,14 @@ export function allSetSchedule(err, values, formCore, listCore) {
       content () {
         return <LeForm {...dialogFormSetTimeConfig(count)} />
       },
-      onOk: (value, suc) => {
+      onOk: (value, hide) => {
         const { startTime, endTime } = value.scheduleTime
 
         addOrUpdate({ startTime, endTime, productIdList }).then(res => {
           if (!res) return
           listCore.refresh();          
-          suc()
-          message.success('已批量排期成功');
+          hide()
+          message.success('已批量排期成功！');
         })
 
       }
@@ -320,14 +333,15 @@ export function goSetTime(saleGoodsId) {
       content () {
         return <LeForm {...dialogFormSetTimeConfig()} />
       },
-      onOk: (values, suc) => {
+      onOk: (values, hide) => {
         const { startTime, endTime } = values.scheduleTime
         const productIdList = []
         productIdList.push(saleGoodsId)
         addOrUpdate({ startTime, endTime, productIdList }).then(res => {
           if (!res) return
+          message.warning('已排期成功！')          
           // 关闭弹窗
-          suc()
+          hide()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
         })
@@ -365,7 +379,7 @@ export function joinGroup(err, values, formCore, listCore) {
         content () {
           return <LeForm {...dialogFormJoinGroupConfig(groupNames, count,'加入分组')} />
         },
-        onOk: (value, suc) => {
+        onOk: (value, hide) => {
           // 加入分组接口
           const { id } = value
           addProductToProductGroup({ 
@@ -374,7 +388,7 @@ export function joinGroup(err, values, formCore, listCore) {
           }).then(resData => {
             if (!resData) return
             listCore.refresh();          
-            suc()
+            hide()
             message.success('加入分组成功');
           })
   
@@ -393,10 +407,11 @@ export function setGroupValue(saleGoodsId) {
     {
       title: '设置排序值',
       width: '600px',
+      enableValidate: true,
       content () {
         return <LeForm {...dialogFormSetGroupConfig()} />
       },
-      onOk: (values, suc) => {
+      onOk: (values, hide) => {
         const { sortValue } = values
         
         updateSortNumber({ 
@@ -404,8 +419,9 @@ export function setGroupValue(saleGoodsId) {
           sortNumber: Number(sortValue)
         }).then(res => {
           if (!res) return
+          message.warning('已设置成功！') 
           // 关闭弹窗
-          suc()
+          hide()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
         })
@@ -423,7 +439,7 @@ export function goRevoke(saleGoodsId) {
       content () {
         return <LeForm {...dialogFormTextConfig('撤销推广')} />
       },
-      onOk: (values, suc) => {
+      onOk: (values, hide) => {
 
         const channelProductIdList = []
         channelProductIdList.push(saleGoodsId)
@@ -432,8 +448,9 @@ export function goRevoke(saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return
+          message.warning('已撤销成功！')           
           // 关闭弹窗
-          suc()
+          hide()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
         })
@@ -458,14 +475,14 @@ export function allRevoke(err, values, formCore, listCore) {
       content () {
         return <LeForm {...dialogFormTextConfig('撤销推广')} />
       },
-      onOk: (value, suc) => {
+      onOk: (value, hide) => {
         revokeProductSpeard({ 
           channelProductIdList,
         }).then(res => {
           if (!res) return
           listCore.refresh();          
-          suc()
-          message.success('已批量撤销成功');
+          hide()
+          message.success('已批量撤销成功！');
         })
       }
     }
@@ -599,7 +616,7 @@ export function goExamine(saleGoodsId) {
       content () {
         return <LeForm {...examineFormConfig()} />
       },
-      onOk: (values, suc) => {
+      onOk: (values, hide) => {
         const { chooseType } = values
         const comment = values.rejectReason ? values.rejectReason : ''
         const channelProductIds = []
@@ -611,8 +628,9 @@ export function goExamine(saleGoodsId) {
           comment
         }).then(res => {
           if (!res) return
+          message.warning('已审核成功！')
           // 关闭弹窗
-          suc()
+          hide()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
         })
@@ -639,7 +657,7 @@ export function goallExamine(err, values, formCore, listCore) {
       content () {
         return <LeForm {...examineFormConfig(count)} />
       },
-      onOk: (value, suc) => {
+      onOk: (value, hide) => {
         const { chooseType } = value
         const comment = value.rejectReason ? value.rejectReason : ''
 
@@ -657,8 +675,8 @@ export function goallExamine(err, values, formCore, listCore) {
           if (!res) return
           listCore.refresh();          
           // 关闭弹窗
-          suc()
-          const messageText = chooseType===3 ? '已批量拒绝' : '已批量审核'
+          hide()
+          const messageText = chooseType===3 ? '已批量拒绝成功！' : '已批量审核成功！'
           message.success(messageText);          
         })
       }
@@ -675,7 +693,7 @@ export function goadminRevoke(saleGoodsId) {
       content () {
         return <LeForm {...dialogFormTextConfig('撤销推广')} />
       },
-      onOk: (values, suc) => {
+      onOk: (values, hide) => {
 
         const channelProductIdList = []
         channelProductIdList.push(saleGoodsId)
@@ -684,8 +702,8 @@ export function goadminRevoke(saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return 
-          message.success('撤销推广成功');           
-          suc()
+          message.success('撤销推广成功！');           
+          hide()
           // TODO: 刷新列表 单个数据操作拿不到leList 
           // leList.refresh();
         })
@@ -710,15 +728,15 @@ export function alladminRevoke(err, values, formCore, listCore) {
       content () {
         return <LeForm {...revokeFormConfig(count)} />
       },
-      onOk: (value, suc) => {
+      onOk: (value, hide) => {
         revokeProductPromotion({ 
           channelProductIdList,
         }).then(res => {
           if (!res) return 
           listCore.refresh();          
           // 关闭弹窗
-          suc()
-          message.success('已撤销推广成功'); 
+          hide()
+          message.success('已撤销推广成功！'); 
         })
       }
     }
@@ -734,7 +752,7 @@ export function goadminBack (saleGoodsId) {
       content () {
         return <LeForm {...dialogFormTextConfig('回退')} />
       },
-      onOk: (values, suc) => {
+      onOk: (values, hide) => {
         const channelProductIdList = []
         channelProductIdList.push(saleGoodsId)
 
@@ -742,13 +760,12 @@ export function goadminBack (saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return 
+          message.warning('已回退成功！')
           // 关闭弹窗
-          suc()
+          hide()
           // TODO: 刷新列表 拿不到leList
           // leList.refresh();
         })
-
-        suc()
       }
     }
   )
@@ -771,15 +788,15 @@ export function alladminBack(err, values, formCore, listCore){
       content () {
         return <LeForm {...alladminBackFormConfig(count)} />
       },
-      onOk: ( value, suc ) => {
+      onOk: ( value, hide ) => {
         forceBackProductList({ 
           channelProductIdList, 
         }).then(res => {
           if (!res) return
           listCore.refresh();          
           // 关闭弹窗
-          suc()
-          message.success('已批量回退成功'); 
+          hide()
+          message.success('已批量回退成功！'); 
         })
       }
     }
