@@ -122,7 +122,7 @@ export default {
     {
       title: '类目',
       dataIndex: 'pathName',
-      width: 150,
+      width: 180,
       render(value) {
         const symbol = '>';
         return value.split(',').map((item, index) => {
