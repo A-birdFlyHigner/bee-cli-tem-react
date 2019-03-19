@@ -80,13 +80,10 @@ export default {
         allowClear: true,
         options: [{
           label: '待审核',
-          value: 0
-        }, {
-          label: '审核通过',
           value: 1
         }, {
           label: '审核拒绝',
-          value: 2
+          value: 3
         }]
       },
     }, 
