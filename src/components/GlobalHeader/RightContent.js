@@ -19,7 +19,7 @@ export default class GlobalHeaderRight extends PureComponent {
     switch (ADMIN_TYPE) {
       case 'ADMIN':
       oldProduct = `${oldProduct}`
-      isAdmin = false
+      isAdmin = true
       break;
     
       case 'BRANCH':
