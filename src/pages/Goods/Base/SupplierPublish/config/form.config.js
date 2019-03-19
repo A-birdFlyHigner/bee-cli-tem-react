@@ -21,8 +21,10 @@ export default (categoryProperties = {}, globalOptions = {}) => {
     skuImagePropertyId,
     skuImagePropertyName
   } = categoryProperties
+
   return {
     settings: {
+      scrollToError: true,
       onChange (changeKeys, values, leForm) {
         const { isSubmit = false } = buttonCache.get()
         if (isSubmit) {
