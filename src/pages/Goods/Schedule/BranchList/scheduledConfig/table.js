@@ -91,7 +91,7 @@ export default {
             },
             {
               label: '发货时间',
-              value: `${record.dispatchDate}天`,
+              value: record.logisticsType === 2 ? `${record.dispatchDate}天` : '',
             },
           ]}
         />

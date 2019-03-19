@@ -126,19 +126,16 @@ export default {
       title: '类目',
       dataIndex: 'pathName',
       width: 150,
-      render: (text) => {
-        return (
-          <div>
-            {text &&
-              text.split(',').map((item) => (
-                <span key={item}>
-                  &gt;
-                  {item}
-                  <br />
-                </span>
-              ))}
-          </div>
-        );
+      render(value) {
+        const symbol = '>';
+        return value.split(',').map((item, index) => {
+          const key = `${item}-${index}`
+          return (
+            <span key={key}>
+              {symbol} {item} <br />
+            </span>
+          )
+        })
       },
     },
     {
