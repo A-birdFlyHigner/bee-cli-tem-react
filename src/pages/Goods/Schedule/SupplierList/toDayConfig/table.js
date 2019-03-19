@@ -7,7 +7,7 @@ import SkuDetail from '../../../common/skuDetail';
 import stockConfig from '../../../common/stockDialog';
 import {updateProductStock} from '@/services/goods'
 
-const editItemStock = (record, status) => {
+const editItemStock = (record, status, leList) => {
   const {saleUnits} = record
   LeDialog.show({
     title: `商品名称：${record.name}`,
@@ -31,6 +31,7 @@ const editItemStock = (record, status) => {
         if (res) {
           message.success('更新成功')
           suc()
+          leList.refresh()
         }
       })
       return false
@@ -190,10 +191,10 @@ export default {
       width: 160,
       align: 'center',
       fixed: 'right',
-      render: (text, record) => {
+      render: (text, record, index, {leList}) => {
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={() => editItemStock(record)}>调整库存</a>
+            <a onClick={() => editItemStock(record, null, leList)}>调整库存</a>
           </div>
         );
       },
