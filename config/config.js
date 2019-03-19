@@ -4,7 +4,7 @@ import adminRoutes from './router.admin.config';
 import branchRoutes from './router.branch.config';
 import supplierRoutes from './router.supplier.config';
 import webpackPlugin from './plugin.config';
-import defaultSettings from '../src/defaultSettings';
+import defaultSettings from '../common/defaultSettings';
 import slash from 'slash2';
 
 const { pwa, primaryColor } = defaultSettings;
