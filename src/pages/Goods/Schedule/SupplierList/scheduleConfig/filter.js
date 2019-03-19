@@ -18,7 +18,7 @@ export default {
     }),
     {
       label: '商品名称',
-      name: 'name',
+      name: 'productName',
       component: 'Input',
       props: {
         placeholder: '请输入商品名称',
