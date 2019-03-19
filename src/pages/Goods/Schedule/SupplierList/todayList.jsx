@@ -17,7 +17,14 @@ export default class Wating extends Component {
       filterConfig,
       operationConfig,
       tableConfig,
-      ...leListQuery(listScheduledProduct),
+      ...leListQuery(listScheduledProduct, {
+        beforeFun: (params) => {
+          return {
+            ...params,
+            saleStatus: 1
+          }
+        }
+      }),
     };
     return <LeList {...config} />;
   }

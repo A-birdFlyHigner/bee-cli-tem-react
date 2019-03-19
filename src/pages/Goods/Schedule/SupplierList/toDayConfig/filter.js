@@ -3,9 +3,6 @@ import categoryRule from '@/components/Rules/category';
 
 export default {
   settings: {
-    value: {
-      saleStatus: 1
-    }
   },
   form: {
     inline: true, // 表单布局是否为行内样式
