@@ -21,6 +21,9 @@ const DEFAULT_SKU = {
 
 const getDefaultSkus = (saleProperties = [], globalOptions = {}) => {
   if (saleProperties.length === 0) {
+    const cache = saleCache.get('default')
+    if (cache) return [cache]
+
     const skus = [{
       ...DEFAULT_SKU,
       key: 'default',
