@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
-// const domain = '/adminApi';
-const domain = '/api';
+const domain = '/adminApi';
+// const domain = '/api';
 
 // ADMIN_TYPE === 'ADMIN'
 
