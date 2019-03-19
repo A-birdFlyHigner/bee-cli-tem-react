@@ -84,6 +84,21 @@ export default class GlobalHeaderRight extends PureComponent {
   render() {
     const userInfo = JSON.parse(sessionStorage.getItem('HQBSFORSHOP') || '{}')
     const {userName = ''} = userInfo
+    let oldProduct = '/#/'
+    switch (ADMIN_TYPE) {
+      case 'ADMIN':
+      oldProduct = `${oldProduct}`
+      break;
+    
+      case 'BRANCH':
+      oldProduct = `${oldProduct}branchCom`
+      break;
+    
+      case 'SUPPLIER':
+      oldProduct = `${oldProduct}shop`
+      break;
+      default: 
+    }
     const {
       currentUser,
       // fetchingNotices,
@@ -136,16 +151,15 @@ export default class GlobalHeaderRight extends PureComponent {
             console.log('enter', value); // eslint-disable-line
           }}
         /> */}
-        {/* <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
+        <Tooltip title='老后台链接'>
           <a
             target="_blank"
-            href="https://pro.ant.design/docs/getting-started"
-            rel="noopener noreferrer"
+            href={oldProduct}
             className={styles.action}
           >
-            <Icon type="question-circle-o" />
+            老后台链接
           </a>
-        </Tooltip> */}
+        </Tooltip>
         {/* <NoticeIcon
           className={styles.action}
           count={currentUser.unreadCount}
