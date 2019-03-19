@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
-import { filterConfig, filterConfigSupply, operationConfig, tableConfig } from './config';
 // import './index.less';
 import { getPurchaseList, getWarehouseEmunList, changePurchaseState, exportSupplyDeliveryOrder } from '@/services/supply';
 import { leListQuery } from '@/utils/utils';
 import Link from 'umi/link';
 import { Modal } from 'antd';
+import { filterConfig, filterConfigSupply, operationConfig, tableConfig } from './config';
 
 const { confirm } = Modal;
-
-console.log('ADMIN_TYPE', ADMIN_TYPE);
 
 const cancelConfirm = values => {
   confirm({
     title: '取消采购单',
     content: '是否确定取消该采购单？',
     onOk() {
-      console.log('cancelConfirm_OK');
       const params = {
         purchaseNo: values.purchaseNo,
         status: 4,
@@ -27,7 +24,6 @@ const cancelConfirm = values => {
       });
     },
     onCancel() {
-      console.log('cancelConfirm_Cancel');
     },
   });
 };
@@ -37,7 +33,6 @@ const submitConfirm = values => {
     title: '提交采购单',
     content: '是否确定提交该采购单？',
     onOk() {
-      console.log('submitConfirm_OK');
       const params = {
         purchaseNo: values.purchaseNo,
         status: 2,
@@ -48,13 +43,13 @@ const submitConfirm = values => {
       });
     },
     onCancel() {
-      console.log('submitConfirm_Cancel');
     },
   });
 };
 
 let listConfig = {
   filterConfig,
+  // operationConfig,
   tableConfig,
   ...leListQuery(getPurchaseList),
 };
@@ -76,10 +71,11 @@ if (ADMIN_TYPE === 'BRANCH') {
 class List extends Component {
   constructor(props) {
     super(props);
+    const self = this
     if (ADMIN_TYPE === 'ADMIN') {
       listConfig.tableConfig.columns[13] = {
         title: '操作',
-        width: 200,
+        width: 100,
         align: 'center',
         fixed: 'right',
         render(value, values) {
@@ -101,7 +97,7 @@ class List extends Component {
     } else if (ADMIN_TYPE === 'BRANCH') {
       listConfig.tableConfig.columns[13] = {
         title: '操作',
-        width: 200,
+        width: 120,
         align: 'center',
         fixed: 'right',
         render(value, record) {
@@ -135,7 +131,7 @@ class List extends Component {
     } else if (ADMIN_TYPE === 'SUPPLIER') {
       listConfig.tableConfig.columns[13] = {
         title: '操作',
-        width: 200,
+        width: 120,
         align: 'center',
         fixed: 'right',
         render(value, record) {
@@ -144,13 +140,13 @@ class List extends Component {
               record.status === 0 || record.status === 2 || record.status === 4
                 ?
                 <div>
-                  <a href="javascript:;" onClick={()=>{this.download(record)}}>下载</a>;
+                  <a href="javascript:;" onClick={()=>{self.download(record)}}>下载</a>;
                   <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>
                 </div>
                 : record.status === 1 || record.status === 3
                   ?
                   <div>
-                    <a href="javascript:;" onClick={()=>{this.download(record)}}>下载</a>;
+                    <a href="javascript:;" onClick={()=>{self.download(record)}}>下载</a>;
                     <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>;
                     <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}&differStatus=1`}>异常报告</Link>
                   </div>

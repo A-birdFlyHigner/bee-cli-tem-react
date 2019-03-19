@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import moment from 'moment'
 import { filterConfig, operationConfig, tableConfig } from './config';
-import './index.less';
+import './Index.less'
 import {getPurchaseDetail, getPurchaseDetailList} from '@/services/supply'
 import {leListQuery} from '@/utils/utils'
 

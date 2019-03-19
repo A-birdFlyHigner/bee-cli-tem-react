@@ -3,7 +3,7 @@ import moment from 'moment'
 import Link from 'umi/link'
 import {exportDeliveryOrder} from '@/services/supply'
 
-const formatType = 'YYYY-MM-DD HH:mm:ss'
+const formatType = 'YYYY-MM-DD'
 
 const download = values => {
   exportDeliveryOrder(values.deliveryNo)
