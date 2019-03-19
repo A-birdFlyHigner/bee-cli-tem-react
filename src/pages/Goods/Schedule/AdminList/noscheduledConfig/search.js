@@ -60,25 +60,6 @@ export default {
         placeholder: '请输入分公司',
       },
     },
-    {
-      label: '总部商品审核状态',
-      name: 'reviewStatus',
-      component: 'Select',
-      props: {
-        placeholder: '请选择商品审核状态',
-        allowClear: true,
-        options: [{
-          label: '待审核',
-          value: 0
-        }, {
-          label: '审核通过',
-          value: 1
-        }, {
-          label: '审核拒绝',
-          value: 2
-        }]
-      },
-    }, 
     cityRule({
       label: '城市',
       value: [],
