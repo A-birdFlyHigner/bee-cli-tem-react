@@ -12,7 +12,7 @@ export default {
     }),
     {
       label: '所属分公司',
-      name: 'partnerCompanyId',
+      name: 'branchCompanyName',
       component: 'Input',
       props: {
         placeholder: '请输入所属分公司',

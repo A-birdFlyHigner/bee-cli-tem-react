@@ -9,6 +9,8 @@ import { backOff, addOrUpdate, updateSortNumber, getProductGroupCombo, addProduc
   setProductReviewStatus, revokeProductPromotion, forceBackProductList     
 } from '@/services/goods'
 
+/* eslint no-underscore-dangle: 0 */
+
 const { RangePicker } = DatePicker
 
 // rangepicker的 时间禁用 
@@ -184,20 +186,13 @@ export function  dialogFormSetGroupConfig(){
         name: 'sortValue',
         component: 'Input',
         rules: {
-          pattern: Reg.Num,
+          pattern: Reg.Number,
           message: '排序值,请输入数字'
         },
         props: {
           required: true,          
           placeholder: '请输入排序值，必须是数字',
           maxLength: 10,
-          // onChange: (e) => {
-          //   const { value } = e.target
-          //   if (value && !Reg.Num.test(value)) {
-          //     return false
-          //   }
-          //   return false
-          // },
         },
       }
 
@@ -413,6 +408,11 @@ export function setGroupValue(saleGoodsId) {
       },
       onOk: (values, hide) => {
         const { sortValue } = values
+
+        if (!sortValue && typeof(sortValue)!=="undefined" && sortValue!==0) {
+          message.warning('排序值必填！')     
+          return      
+        }
         
         updateSortNumber({ 
           channelProductId: saleGoodsId, 
