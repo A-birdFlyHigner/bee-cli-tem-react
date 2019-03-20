@@ -13,12 +13,13 @@ const DEFAULT_OPTIONS = {
 export default (options = {}) => {
   return (leForm) => {
 
-    const { label, name, placeholder, requestService, value } = Object.assign({}, DEFAULT_OPTIONS, options);
+    const { label, name, paramName, placeholder, requestService, value } = Object.assign({}, DEFAULT_OPTIONS, options);
 
     const onSearch = async (value) => {
 
+      const paramKey = paramName || name
       const params = {
-        [name]: value,
+        [paramKey]: value,
         page: 1,
         pageSize: 50,
       }
