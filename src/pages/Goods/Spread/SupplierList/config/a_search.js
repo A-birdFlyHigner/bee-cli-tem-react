@@ -3,6 +3,9 @@ import cityRule from '@/components/Rules/citySel';
 import categoryRule from '@/components/Rules/category';
 
 export default {
+  settings: {
+    autoValidate: true,
+  },
   form: {
     inline: true, // 表单布局是否为行内样式
   },
@@ -71,7 +74,9 @@ export default {
       },
       options: {
         type: 'submit',
-        validate: true, // default true
+        validateAfter: (err) => {
+          return !err
+        }
       },
     },
     {
