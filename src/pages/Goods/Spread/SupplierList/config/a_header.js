@@ -3,8 +3,8 @@ import { LeDialog } from '@lib/lepage';
 import router from 'umi/router';
 import {productSpreadRevoke} from '@/services/goods'
 
-const batchCancelSpread = (err, values, formCore, listCore) => {
-  const productIds = listCore.getSelectedRowKeys()
+const batchCancelSpread = (err, values, leForm, leList) => {
+  const productIds = leList.getSelectedRowKeys()
   if (!productIds.length) return message.warning('请至少勾选一项！')
   LeDialog.show({
     title: '批量撤销推广',
@@ -15,7 +15,7 @@ const batchCancelSpread = (err, values, formCore, listCore) => {
     onOk: async (val, suc) => {
       const res = await productSpreadRevoke(productIds)
       if (!res) return
-      listCore.refresh()
+      leList.refresh()
       suc()
     }
   })

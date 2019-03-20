@@ -181,8 +181,8 @@ export default class Detail extends Component {
         isError = true
       }
       else if (!isError) {
-        item.value.productIds.forEach(p => {
-          const list = item.value[`dataSource${p}`]
+        item.getValue('productIds').forEach(p => {
+          const list = item.getValue(`dataSource${p}`)
           list.forEach((q) => {
             const { costPrice, stockCount } = q
             if (!costPrice || !stockCount) {
@@ -211,7 +211,7 @@ export default class Detail extends Component {
       const keys = Object.keys(this.leForm)
 
       for (const i of keys) {
-        const item = this.leForm[i].value
+        const item = this.leForm[i].getValues()
         if (item.productIds.indexOf(pId) > -1) {
           item.cityIds.forEach(cId => {
             citySpreadDetailList.push({
