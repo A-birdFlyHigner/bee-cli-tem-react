@@ -266,6 +266,11 @@ export default class Detail extends Component {
   }
 
   cancelClick = () => {
+    const {edit = false} = this.state
+    if (edit) {
+      router.push('/goods/spread/list?status=3')
+      return
+    }
     router.go(-1)
   }
 
