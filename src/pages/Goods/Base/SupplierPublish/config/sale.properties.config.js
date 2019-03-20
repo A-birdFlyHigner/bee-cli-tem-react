@@ -203,13 +203,12 @@ const getBatch = (leForm) => {
     },
     {
       name: 'batch-restriction',
-      component: 'InputNumber',
       inline: true,
       props: {
         placeholder: '请输入限购数量',
-        min: 1,
         maxLength: 10,
-        onChange: (value) => {
+        onChange: (e) => {
+          const { value } = e.target
           if (value && !regUtils.Num.test(value)) {
             return
           }
@@ -291,16 +290,21 @@ const getColumns = (leForm, globalOptions = {}) => {
           dataIndex: 'restriction',
           render (value, item, index) {
               return (
-                <InputNumber
+                <Input
                   value={value}
-                  min={1}
                   maxLength={10}
-                  onChange={(value) => handleUpdateSingle(leForm, {
-                    colKey: 'restriction',
-                    cellValue: value,
-                    rowItem: item,
-                    rowIndex: index
-                  })}
+                  onChange={(e) => {
+                    const { value } = e.target
+                    if (value && !regUtils.Num.test(value)) {
+                      return
+                    }
+                    handleUpdateSingle(leForm, {
+                      colKey: 'restriction',
+                      cellValue: value,
+                      rowItem: item,
+                      rowIndex: index
+                    })
+                  }}
                 />
               )
           }
