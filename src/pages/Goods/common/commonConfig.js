@@ -229,8 +229,8 @@ export function dialogFormTextConfig(text) {
 }
 
 // 批量回退
-export function allBackoff(err, values, formCore, listCore){
-  const channelProductIdList = listCore.getSelectedRowKeys()
+export function allBackoff(error, values, leForm, {leList}){
+  const channelProductIdList = leList.getSelectedRowKeys()
   const count = channelProductIdList.length
 
   if (!count) {
@@ -250,7 +250,7 @@ export function allBackoff(err, values, formCore, listCore){
           channelProductIdList, 
         }).then(res => {
           if (!res) return
-          listCore.refresh();          
+          leList.refresh();          
           hide()
           message.success('已批量回退成功！');
         })
@@ -286,8 +286,8 @@ export function goBack (saleGoodsId, leList) {
 }
 
 // 批量排期
-export function allSetSchedule(err, values, formCore, listCore) {
-  const productIdList = listCore.getSelectedRowKeys()
+export function allSetSchedule(error, values, leForm, {leList}) {
+  const productIdList = leList.getSelectedRowKeys()
   const count = productIdList.length
 
   if (!count) {
@@ -307,7 +307,7 @@ export function allSetSchedule(err, values, formCore, listCore) {
 
         addOrUpdate({ startTime, endTime, productIdList }).then(res => {
           if (!res) return
-          listCore.refresh();          
+          leList.refresh();          
           hide()
           message.success('已批量排期成功！');
         })
@@ -343,10 +343,10 @@ export function goSetTime(saleGoodsId, leList) {
 }
 
 // 加入分组
-export function joinGroup(err, values, formCore, listCore) {
-  const productIds = listCore.getSelectedRowKeys()
+export function joinGroup(error, values, leForm, {leList}) {
+  const productIds = leList.getSelectedRowKeys()
   const count = productIds.length
-  const cityCode = listCore.filterCore.getValue('cityCode')
+  const cityCode = leList.filterCore.getValue('cityCode')
 
   if (!count) {
     message.warning('请至少勾选一项！')
@@ -378,7 +378,7 @@ export function joinGroup(err, values, formCore, listCore) {
             productIds,
           }).then(resData => {
             if (!resData) return
-            listCore.refresh();          
+            leList.refresh();          
             hide()
             message.success('加入分组成功');
           })
@@ -452,8 +452,8 @@ export function goRevoke(saleGoodsId, leList) {
 }
 
 // 批量撤销
-export function allRevoke(err, values, formCore, listCore) {
-  const channelProductIdList = listCore.getSelectedRowKeys()
+export function allRevoke(error, values, leForm, {leList}) {
+  const channelProductIdList = leList.getSelectedRowKeys()
   const count = channelProductIdList.length
   if (!count) {
     message.warning('请至少勾选一项！')
@@ -472,7 +472,7 @@ export function allRevoke(err, values, formCore, listCore) {
           channelProductIdList,
         }).then(res => {
           if (!res) return
-          listCore.refresh();          
+          leList.refresh();          
           hide()
           message.success('已批量撤销成功！');
         })
@@ -631,8 +631,8 @@ export function goExamine(saleGoodsId, leList) {
 }
 
 // 批量审核
-export function goallExamine(err, values, formCore, listCore) {
-  const channelProductIds = listCore.getSelectedRowKeys()
+export function goallExamine(error, values, leForm, {leList}) {
+  const channelProductIds = leList.getSelectedRowKeys()
   const count = channelProductIds.length
 
   if (!count) {
@@ -663,7 +663,7 @@ export function goallExamine(err, values, formCore, listCore) {
           comment
         }).then(res => {
           if (!res) return
-          listCore.refresh();          
+          leList.refresh();          
           // 关闭弹窗
           hide()
           const messageText = chooseType===3 ? '已批量拒绝成功！' : '已批量审核成功！'
@@ -702,8 +702,8 @@ export function goadminRevoke(saleGoodsId, leList) {
 }
 
 // 总部批量撤销
-export function alladminRevoke(err, values, formCore, listCore) {
-  const channelProductIdList = listCore.getSelectedRowKeys()
+export function alladminRevoke(error, values, leForm, {leList}) {
+  const channelProductIdList = leList.getSelectedRowKeys()
   const count = channelProductIdList.length
   if (!count) {
     message.warning('请至少勾选一项！')
@@ -722,7 +722,7 @@ export function alladminRevoke(err, values, formCore, listCore) {
           channelProductIdList,
         }).then(res => {
           if (!res) return 
-          listCore.refresh();          
+          leList.refresh();          
           // 关闭弹窗
           hide()
           message.success('已撤销推广成功！'); 
@@ -759,8 +759,8 @@ export function goadminBack (saleGoodsId, leList) {
 }
 
 // 总部批量回退
-export function alladminBack(err, values, formCore, listCore){
-  const channelProductIdList = listCore.getSelectedRowKeys()
+export function alladminBack(error, values, leForm, {leList}){
+  const channelProductIdList = leList.getSelectedRowKeys()
   const count = channelProductIdList.length
 
   if (!count) {
@@ -780,7 +780,7 @@ export function alladminBack(err, values, formCore, listCore){
           channelProductIdList, 
         }).then(res => {
           if (!res) return
-          listCore.refresh();          
+          leList.refresh();          
           // 关闭弹窗
           hide()
           message.success('已批量回退成功！'); 
