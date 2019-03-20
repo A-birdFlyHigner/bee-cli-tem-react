@@ -217,22 +217,22 @@ export default {
     width: 120,
     align: 'center',                  
     fixed: 'right',      
-    render: (text, record) => {
+    render: (text, record, index, {leList}) => {
       return (
         <div className="operateBtn-container-inline list-inline">
           {
             record.reviewStatus !== 3?
               <div>
-                <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值({record.sortNumber})</a>
+                <a onClick={()=> setGroupValue(record.saleGoodsId, leList)}>设置排序值({record.sortNumber})</a>
                 <span />
-                <a onClick={()=> goBack(record.saleGoodsId)}>回退</a>
+                <a onClick={()=> goBack(record.saleGoodsId, leList)}>回退</a>
               </div>:
               <div>
                 <a onClick={()=> editItem(record.saleGoodsId)}>编辑</a>
                 <span />
-                <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
+                <a onClick={()=> goSetTime(record.saleGoodsId, leList)}>排期</a>
                 <span />
-                <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId)}>撤销推广</a>
+                <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId, leList)}>撤销推广</a>
               </div>
           }
         </div>

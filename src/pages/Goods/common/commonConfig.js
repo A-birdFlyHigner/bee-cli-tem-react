@@ -260,7 +260,7 @@ export function allBackoff(err, values, formCore, listCore){
 }
 
 // 单个回退
-export function goBack (saleGoodsId) {
+export function goBack (saleGoodsId, leList) {
   LeDialog.show(
     {
       title: '回退',
@@ -276,11 +276,9 @@ export function goBack (saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return
-          message.warning('已回退成功！')          
-          // 关闭弹窗
+          message.warning('已回退成功！')  
+          leList.refresh()
           hide()
-          // TODO: 刷新列表 拿不到leList
-          // leList.refresh();
         })
       }
     }
@@ -320,7 +318,7 @@ export function allSetSchedule(err, values, formCore, listCore) {
 }
 
 // 单个排期
-export function goSetTime(saleGoodsId) {
+export function goSetTime(saleGoodsId, leList) {
   LeDialog.show(
     {
       title: '设置活动时间',
@@ -334,11 +332,9 @@ export function goSetTime(saleGoodsId) {
         productIdList.push(saleGoodsId)
         addOrUpdate({ startTime, endTime, productIdList }).then(res => {
           if (!res) return
-          message.warning('已排期成功！')          
-          // 关闭弹窗
+          message.warning('已排期成功！')     
+          leList.refresh();               
           hide()
-          // TODO: 刷新列表 拿不到leList
-          // leList.refresh();
         })
       }
     }
@@ -397,7 +393,7 @@ export function joinGroup(err, values, formCore, listCore) {
 }
 
 // 单个设置排序值
-export function setGroupValue(saleGoodsId) {
+export function setGroupValue(saleGoodsId, leList) {
   LeDialog.show(
     {
       title: '设置排序值',
@@ -420,10 +416,8 @@ export function setGroupValue(saleGoodsId) {
         }).then(res => {
           if (!res) return
           message.warning('已设置成功！') 
-          // 关闭弹窗
+          leList.refresh();
           hide()
-          // TODO: 刷新列表 拿不到leList
-          // leList.refresh();
         })
       }
     }
@@ -431,7 +425,7 @@ export function setGroupValue(saleGoodsId) {
 }
 
 // 单个撤销
-export function goRevoke(saleGoodsId) {
+export function goRevoke(saleGoodsId, leList) {
   LeDialog.show(
     {
       title: '撤销推广',
@@ -449,10 +443,8 @@ export function goRevoke(saleGoodsId) {
         }).then(res => {
           if (!res) return
           message.warning('已撤销成功！')           
-          // 关闭弹窗
+          leList.refresh();
           hide()
-          // TODO: 刷新列表 单个数据操作拿不到leList 
-          // leList.refresh();
         })
       }
     }
@@ -608,7 +600,7 @@ const alladminBackFormConfig = (count) => {
 }
 
 // 单个审核
-export function goExamine(saleGoodsId) {
+export function goExamine(saleGoodsId, leList) {
   LeDialog.show(
     {
       title: '审核',
@@ -629,10 +621,8 @@ export function goExamine(saleGoodsId) {
         }).then(res => {
           if (!res) return
           message.warning('已审核成功！')
-          // 关闭弹窗
+          leList.refresh();
           hide()
-          // TODO: 刷新列表 单个数据操作拿不到leList 
-          // leList.refresh();
         })
 
       }
@@ -685,7 +675,7 @@ export function goallExamine(err, values, formCore, listCore) {
 }
 
 // 总部单个撤销
-export function goadminRevoke(saleGoodsId) {
+export function goadminRevoke(saleGoodsId, leList) {
   LeDialog.show(
     {
       title: '撤销推广',
@@ -702,10 +692,9 @@ export function goadminRevoke(saleGoodsId) {
           channelProductIdList, 
         }).then(res => {
           if (!res) return 
-          message.success('撤销推广成功！');           
+          message.success('撤销推广成功！');   
+          leList.refresh();        
           hide()
-          // TODO: 刷新列表 单个数据操作拿不到leList 
-          // leList.refresh();
         })
       }
     }
@@ -744,7 +733,7 @@ export function alladminRevoke(err, values, formCore, listCore) {
 }
 
 // 总部单个回退
-export function goadminBack (saleGoodsId) {
+export function goadminBack (saleGoodsId, leList) {
   LeDialog.show(
     {
       title: '回退',
@@ -761,10 +750,8 @@ export function goadminBack (saleGoodsId) {
         }).then(res => {
           if (!res) return 
           message.warning('已回退成功！')
-          // 关闭弹窗
-          hide()
-          // TODO: 刷新列表 拿不到leList
-          // leList.refresh();
+          leList.refresh()
+          hide() 
         })
       }
     }

@@ -208,14 +208,14 @@ export default {
     width: 120,
     align: 'center', 
     fixed: 'right',                                   
-    render: (text, record) => {
+    render: (text, record, index, {leList} ) => {
       return (
         <div className="operateBtn-container-inline list-inline">
           <a onClick={()=> editItem(record.saleGoodsId)}>编辑</a>
           <span />
-          <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
+          <a onClick={()=> goSetTime(record.saleGoodsId, leList)}>排期</a>
           <span />
-          <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId)}>撤销推广</a>
+          <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId, leList)}>撤销推广</a>
         </div>
       )
     }
