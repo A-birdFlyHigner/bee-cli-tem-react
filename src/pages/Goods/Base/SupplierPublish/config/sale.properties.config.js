@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Button, Input, InputNumber } from 'antd'
+import { Table, Button, Input } from 'antd'
 import { SALE_PROPERTY_NAME_ID, getHead, getTip } from './common.config'
 import { getPropertiesWrap } from './properties.config'
 import regUtils from '@/utils/reg'
@@ -185,7 +185,14 @@ const getBatch = (leForm) => {
         placeholder: '请输入成本价',
         maxLength: 12,
         onChange: (e) => {
-          const { value } = e.target
+          let { value = '' } = e.target
+          // 临时方案，暂且将句号替换成小数点
+          // FIXME: START
+          if (value.indexOf('。') > 0 && value.indexOf('.') === -1) {
+            value = value.replace('。', '.')
+          }
+          // FIXME: END
+
           if (value && !regUtils.Price.test(value)) {
             return
           }
@@ -263,7 +270,15 @@ const getColumns = (leForm, globalOptions = {}) => {
           dataIndex: 'costPrice',
           render (value, item, index) {
             const handleValue = (e, isFormat) => {
-              const { value } = e.target
+              let { value = '' } = e.target
+
+              // 临时方案，暂且将句号替换成小数点
+              // FIXME: START
+              if (value.indexOf('。') > 0 && value.indexOf('.') === -1) {
+                value = value.replace('。', '.')
+              }
+              // FIXME: END
+
               if (value && !regUtils.Price.test(value)) {
                 return
               }

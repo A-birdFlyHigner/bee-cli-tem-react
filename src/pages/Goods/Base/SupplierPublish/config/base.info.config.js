@@ -55,7 +55,10 @@ const getBaseInfoConfig = () => {
         props: {
           maxLength: 20,
           placeholder: '请填写品牌',
-          suffix: '非必填，填写后将品牌信息展示在商品详情页面'
+          suffix: '非必填，填写后将品牌信息展示在商品详情页面',
+          style: {
+            width: '250px'
+          }
         },
         rules: {
           type: 'string',

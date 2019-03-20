@@ -7,6 +7,7 @@ import { createGoods, updateGoods } from '@/services/goods';
 import { getPageQuery } from '@/utils/utils'
 
 const buttonCache = Cache.create('button.config')
+const inputTypesCache = Cache.create('input.types')
 const isAMomentObject = '_isAMomentObject'
 
 const getPropertyList = (values, prefix) => {
@@ -25,9 +26,16 @@ const getPropertyList = (values, prefix) => {
 
     // 日期、时间
     if (typeof rawValue === 'object' && rawValue[isAMomentObject] === true) {
+
+      const inputType = inputTypesCache.get(name)
+      const formats = {
+        6: 'YYYY-MM-DD',
+        7: 'YYYY-MM-DD HH:mm:ss'
+      }
+
       // FIXME: 日期格式化后，会带上时间
       propertyValue = [{
-        pvName: moment(rawValue._d).format('YYYY-MM-DD HH:mm:ss') // moment 格式化
+        pvName: moment(rawValue._d).format(formats[inputType]) // moment 格式化
       }]
     }
     // 文本框
