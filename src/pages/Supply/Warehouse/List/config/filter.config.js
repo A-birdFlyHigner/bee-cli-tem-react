@@ -26,6 +26,7 @@ export default {
     SearchSelect({
       label: '供应商名称',
       name: 'supplierCode',
+      paramName: 'supplierName',
       placeholder: '请输入供应商名称',
       requestService: getSupplierEmunList
     },),

@@ -9,7 +9,7 @@ import { filterConfig, filterConfigSupply, operationConfig, tableConfig } from '
 
 const { confirm } = Modal;
 
-const cancelConfirm = values => {
+const cancelConfirm = (values, leList) => {
   confirm({
     title: '取消采购单',
     content: '是否确定取消该采购单？',
@@ -20,7 +20,10 @@ const cancelConfirm = values => {
         operaType: 1,
       };
       changePurchaseState(params).then(res => {
-        console.log('res', res);
+        if (res === 1) {
+          message.success('取消成功')
+          leList.refresh()
+        }
       });
     },
     onCancel() {
@@ -28,7 +31,7 @@ const cancelConfirm = values => {
   });
 };
 
-const submitConfirm = values => {
+const submitConfirm = (values, leList) => {
   confirm({
     title: '提交采购单',
     content: '是否确定提交该采购单？',
@@ -39,9 +42,9 @@ const submitConfirm = values => {
         operaType: 0,
       };
       changePurchaseState(params).then(res => {
-        console.log('res', res);
         if (res === 1) {
           message.success('提交成功')
+          leList.refresh()
         }
       });
     },
@@ -81,7 +84,7 @@ class List extends Component {
         width: 100,
         align: 'center',
         fixed: 'right',
-        render(value, values) {
+        render(value, values, index, {leList}) {
           return (
             <div>
               {
@@ -103,7 +106,7 @@ class List extends Component {
         width: 120,
         align: 'center',
         fixed: 'right',
-        render(value, record) {
+        render(value, record, index, {leList}) {
           return (<div>
             {
               record.status === 0
@@ -111,8 +114,8 @@ class List extends Component {
                 <div>
                   <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>;
                   <Link to={`/supply/purchase/edit?purchaseNo=${record.purchaseNo}`}>编辑</Link>;
-                  <a href="javascript:;" onClick={cancelConfirm.bind(null, record)}>取消</a>;
-                  <a href="javascript:;" onClick={submitConfirm.bind(null, record)}>提交</a>
+                  <a href="javascript:;" onClick={cancelConfirm.bind(null, record, leList)}>取消</a>;
+                  <a href="javascript:;" onClick={submitConfirm.bind(null, record, leList)}>提交</a>
                 </div>
                 : record.status === 2 || record.status === 4
                   ?

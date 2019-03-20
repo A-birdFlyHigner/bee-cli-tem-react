@@ -63,7 +63,7 @@ export default {
       width: 200,
       render(value) {
         return (
-          <span>{moment(value).format(formatType)}</span>
+          <span>{value ? moment(value).format(formatType): '/'}</span>
         );
       },
     },

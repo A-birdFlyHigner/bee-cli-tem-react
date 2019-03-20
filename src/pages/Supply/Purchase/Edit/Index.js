@@ -282,6 +282,7 @@ class PurchaseEdit extends Component {
         message.error('采购数量不能为空，且必须是正整数')
         self.inputRef[item.skuCode].input.focus()
         errFlag = true;
+        return null
       } else {
         return {
           purchaseNo: this.purchaseNo,
@@ -315,6 +316,7 @@ class PurchaseEdit extends Component {
       addPurchase(saveData).then((res) => {
         if (res && res === 1) {
           message.success('新增成功');
+          router.push('/supply/purchase/list');
           // self.list.listCore.refresh()
         }
       });
@@ -322,6 +324,7 @@ class PurchaseEdit extends Component {
       editPurchase(saveData).then((res) => {
         if (res && res === 1) {
           message.success('编辑成功');
+          router.push('/supply/purchase/list');
           // self.list.listCore.refresh()
         }
       });
