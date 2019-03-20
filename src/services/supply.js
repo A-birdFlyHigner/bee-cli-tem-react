@@ -201,24 +201,24 @@ export async function editPurchase (params) {
 
 // 下载采购单关联的销售订单
 export async function exportPurchaseOrder (purchaseNo) {
-  window.open(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, "_blank");
-  // return request(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, {
-  //   method: 'GET',
-  // });
+  // window.open(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, "_blank");
+  return request(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, {
+    method: 'GET',
+  });
 }
 
 // 下载配送单关联的销售订单
 export async function exportDeliveryOrder (deliveryNo) {
-  window.open(`${domain}/delivery/exportDeliveryOrderInvolveExcel/${deliveryNo}`, "_blank");
-  // return request(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, {
-  //   method: 'GET',
-  // });
+  // window.open(`${domain}/delivery/exportDeliveryOrderInvolveExcel/${deliveryNo}`, "_blank");
+  return request(`${domain}/delivery/exportDeliveryOrderInvolveExcel/${deliveryNo}`, {
+    method: 'GET',
+  });
 }
 
 // 供应商下载采购单关联订单
 export async function exportSupplyDeliveryOrder (purchaseNo) {
-  window.open(`${domain}/purchase/exportPurchaseOrderExcel/${purchaseNo}`, "_blank");
-  // return request(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, {
-  //   method: 'GET',
-  // });
+  // window.open(`${domain}/purchase/exportPurchaseOrderExcel/${purchaseNo}`, "_blank");
+  return request(`${domain}/purchase/exportPurchaseOrderExcel/${purchaseNo}`, {
+    method: 'GET',
+  });
 }
