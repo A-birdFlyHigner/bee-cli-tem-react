@@ -161,17 +161,17 @@ class PurchaseEdit extends Component {
     };
   }
 
-  componentDidMount() {
-    const self = this;
+  handleLeMount = (leList, { filterLeForm, operationLeForm }) => {
+    const self = this
     getWarehouseEmunList().then((res) => {
       const data = res && res.map(item => {
         return { value: item.key, label: item.value };
       });
-      self.list.filterCore.setProps('warehouseCode', { options: data });
+      filterLeform.setProps('warehouseCode', { options: data });
       if (self.pageType === 'edit') {
         getPurchaseDetail(this.purchaseNo).then(resp => {
           const { warehouseCode, supplierName, supplierCode, expectInboundTime, loseEfficacyTime } = resp;
-          self.list.filterCore.setValues({
+          filterLeform.setValues({
             purchaseNo: this.purchaseNo,
             warehouseCode,
             supplierName,
@@ -326,8 +326,8 @@ class PurchaseEdit extends Component {
     const mixData = this.listDataSource.newData.map((item)=>{
       return {...item, expectSkuCount: self.listValue[item.skuCode] || 0}
     })
-    this.list.listCore.setDataSource(mixData);
-    this.list.listCore.setPageData(this.listDataSource.pagination);
+    this.list.setDataSource(mixData);
+    this.list.setPageData(this.listDataSource.pagination);
     this.setState({
       modalVisible: false,
     });
@@ -355,15 +355,15 @@ class PurchaseEdit extends Component {
     this.inputRef[values.skuCode] = undefined
     this.listValue[values.skuCode] = undefined
 
-    this.list.listCore.setDataSource(newData);
-    this.list.listCore.setPageData(pagination);
+    this.list.setDataSource(newData);
+    this.list.setPageData(pagination);
   };
 
   render() {
     const { state } = this;
     return (
       <div>
-        <LeList {...state.listConfig} ref={list => this.list = list}/>
+        <LeList {...state.listConfig} onMount={this.handleLeMount} ref={list => this.list = list}/>
         <Modal
           title="添加商品窗口"
           visible={state.modalVisible}

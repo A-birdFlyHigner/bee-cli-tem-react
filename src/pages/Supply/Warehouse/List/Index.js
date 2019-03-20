@@ -69,15 +69,15 @@ class List extends Component {
     };
   }
 
-  componentDidMount() {
-    const self = this
-    getWarehouseEmunList().then((res)=>{
-      const data = res && res.map(item=>{
-        return {value: item.key, label: item.value}
-      })
-      self.list.filterCore.setProps('warehouseCode', { options: data });
-    })
-  }
+  // componentDidMount() {
+  //   const self = this
+  //   getWarehouseEmunList().then((res)=>{
+  //     const data = res && res.map(item=>{
+  //       return {value: item.key, label: item.value}
+  //     })
+  //     self.list.filterCore.setProps('warehouseCode', { options: data });
+  //   })
+  // }
 
   showDetail = (params) => {
     const listConfigModalMix = {...listConfigModal}
@@ -87,6 +87,17 @@ class List extends Component {
       modalVisible: true,
       listConfigModal: listConfigModalMix
     });
+  }
+
+  handleLeMount = (leList, {filterLeForm}) => {
+    if (ADMIN_TYPE !== 'SUPPLIER') {
+      getWarehouseEmunList().then((res) => {
+        const data = res && res.map(item => {
+          return { value: item.key, label: item.value };
+        });
+        filterLeForm.setProps('warehouseCode', { options: data });
+      });
+    }
   }
 
   handleCancel = (e) => {
@@ -99,7 +110,7 @@ class List extends Component {
     const { state } = this;
     return (
       <div>
-        <LeList {...state.listConfig} ref={list => this.list = list}/>
+        <LeList {...state.listConfig} onMount={this.handleLeMount} ref={list => this.list = list}/>
         <Modal
           title="商品在仓库存"
           visible={state.modalVisible}

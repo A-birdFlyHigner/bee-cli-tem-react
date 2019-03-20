@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
-// const domain = '/adminApi';
-const domain = '/api';
+const domain = '/adminApi';
+// const domain = '/api';
 
 // ADMIN_TYPE === 'ADMIN'
 
@@ -161,10 +161,10 @@ export async function getExportDeliveryList (params) {
 
 // 配送单导出
 export async function exportDelivery (deliverCode) {
-  window.open(`${domain}/miniDeliverNote/exportForWarehouse/${deliverCode}`, "_blank");
-  // return request(`${domain}/purchase/exportPurchaseOrderInvolveExcel/${purchaseNo}`, {
-  //   method: 'GET',
-  // });
+  // window.open(`${domain}/miniDeliverNote/exportForWarehouse/${deliverCode}`, "_blank");
+  return request(`${domain}/miniDeliverNote/exportForWarehouse/${deliverCode}`, {
+    method: 'GET',
+  });
 }
 
 // 获取基础商品列表

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
+import moment from 'moment';
 import { filterConfig, operationConfig, tableConfig } from './config';
-import './index.less';
-import { getDeliveryDetail, getDeliveryDetailList } from '@/services/supply';
+import './Index.less';
+import { getDeliveryDetail, getDeliveryDetailList, getWarehouseEmunList } from '@/services/supply';
 import { leListQuery } from '@/utils/utils';
+
+const formatType = 'YYYY-MM-DD'
 
 class PurchaseEdit extends Component {
   constructor(props) {
@@ -13,12 +16,12 @@ class PurchaseEdit extends Component {
     self.deliveryNo = self.props.location.query.deliveryNo
     self.differStatus = Number(self.props.location.query.differStatus) || 0
 
-    const operationConfigMix = { ...operationConfig };
-    operationConfigMix.items[0].props.onChange = (value) => {
-      self.list.operationCore.setValue('differStatus', value);
-      self.list.filterCore.setValue('differStatus', value ? 1 : 0);
-      self.list.listCore.fetch();
-    };
+    const operationConfigMix = operationConfig()
+    // operationConfigMix.items[0].props.onChange = (value) => {
+    //   self.list.operationCore.setValue('differStatus', value);
+    //   self.list.filterCore.setValue('differStatus', value ? 1 : 0);
+    //   self.list.listCore.fetch();
+    // };
     const listConfig = {
       filterConfig: filterConfig({
         deliveryNo: self.deliveryNo,
@@ -33,16 +36,22 @@ class PurchaseEdit extends Component {
     };
   }
 
-  componentDidMount() {
-    this.list.operationCore.setValue('differStatus', this.differStatus === 1)
-    getDeliveryDetail(this.deliveryNo).then(({
-       createTime, warehouseName, deliveryType,
-       communityName, consigneeName, consigneeMobile, communityAddress,
-     }) => {
+  handleLeMount = (leList, {filterLeForm, operationLeForm}) => {
+    if (ADMIN_TYPE !== 'SUPPLIER') {
+      getWarehouseEmunList().then((res) => {
+        const data = res && res.map(item => {
+          return { value: item.key, label: item.value };
+        });
+        filterLeForm.setProps('warehouseCode', { options: data });
+      });
+    }
+    operationLeForm.setValue('differStatus', this.differStatus === 1)
+    getDeliveryDetail(this.deliveryNo).then((
+      { warehouseName, expectOutboundTime, deliveryType, communityName, consigneeName, consigneeMobile, communityAddress, }) => {
       // debugger
-      this.list.filterCore.setValues({
+      filterLeForm.setValues({
         deliveryNo: this.deliveryNo,
-        // createTime: createTime && moment(createTime),
+        expectOutboundTime: expectOutboundTime && moment(expectOutboundTime).format(formatType),
         warehouseName,
         deliveryType: deliveryType === 0 ? '入仓' : '落地配',
         communityName,
@@ -57,7 +66,7 @@ class PurchaseEdit extends Component {
     const { state } = this;
     return (
       <div>
-        <LeList {...state.listConfig} ref={list => this.list = list}/>
+        <LeList {...state.listConfig} onMount={this.handleLeMount} />
       </div>
     );
   }
