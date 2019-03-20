@@ -200,7 +200,7 @@ const getBatch = (leForm) => {
             colKey: 'costPrice',
             originKey: 'batch-costPrice',
             batchValue: value,
-            formatValue: toDecimal2(value)
+            // formatValue: toDecimal2(value)
           })
         },
         onBlur: () => {
@@ -295,7 +295,6 @@ const getColumns = (leForm, globalOptions = {}) => {
                 value={value}
                 maxLength={12}
                 onChange={(e) => handleValue(e, false)}
-                onBlur={(e) => handleValue(e, true)}
               />
             )
           }
