@@ -185,8 +185,8 @@ export default class Detail extends Component {
           const list = item.getValue(`dataSource${p}`)
           list.forEach((q) => {
             const { costPrice, stockCount } = q
-            if (!costPrice || !stockCount) {
-              const { value: { spreadName } = {} } = item
+            if (!costPrice || !stockCount || costPrice === '0') {
+              const { spreadName } = item.getValues()
               if (!isError) {
                 message.warning(`请完善${spreadName}下的商品成本价和推广库存`) 
                 isError = true
