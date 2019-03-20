@@ -143,6 +143,36 @@ export default function request(url, option) {
       // using .json will report an error.
 
       const contentType = response.headers.get('content-type')
+      const contentDisposition = response.headers.get('content-disposition')
+
+      if (contentDisposition) { // 下载文件
+        response.blob().then((blob)=>{
+          const file = contentDisposition.split(';')[1]
+          const fileCode = file.split('=')[1]
+          const fileName = decodeURI(fileCode)
+
+
+          if (navigator.msSaveBlob) {
+            navigator.msSaveBlob(blob, fileName)
+          } else {
+            const a = document.createElement('a')
+            a.download = fileName
+            a.href = URL.createObjectURL(blob)
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+          }
+        })
+
+
+        // return
+        // if (callBack) callBack()
+        // let timeFn = setTimeout(() => {
+        //   self.setExport()
+        //   clearTimeout(timeFn)
+        // }, 2000)
+        // resolve('true')
+      }
       if (contentType.includes('text/html')) {
         return response.text().then(res => {
           if (Object.prototype.toString.call(res) === '[object String]' && res.indexOf('window.location.href') !== -1) {
