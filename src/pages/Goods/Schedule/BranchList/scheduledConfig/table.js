@@ -219,12 +219,12 @@ export default {
     width: 100,
     align: 'center',                
     fixed: 'right',  
-    render: (text, record) => {
+    render: (text, record, index, {leList}) => {
       return (
         <div className="operateBtn-container-inline list-inline">
-          <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值({record.sortNumber})</a>
+          <a onClick={()=> setGroupValue(record.saleGoodsId, leList)}>设置排序值({record.sortNumber})</a>
           <span />
-          <a onClick={()=> goBack(record.saleGoodsId)}>回退</a>
+          <a onClick={()=> goBack(record.saleGoodsId, leList)}>回退</a>
         </div>
       )
     }

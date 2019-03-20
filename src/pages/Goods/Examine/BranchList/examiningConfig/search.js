@@ -90,6 +90,11 @@ export default {
     options: {
       type: 'submit',
       validate: true, // default true
+      validateWithoutRender: false,
+      validateAfter: (err)=> {
+        if(err) return false
+        return true
+      }
     }
   }, {
     props: {

@@ -185,10 +185,10 @@ export default {
     width: 100,
     align: 'center',
     fixed: 'right',  
-    render: (text, record) => {
+    render: (text, record, index, {leList}) => {
       return (
         <div className="operateBtn-container-inline">
-          <a onClick={()=> goadminRevoke(record.saleGoodsId)}>撤销推广</a>
+          <a onClick={()=> goadminRevoke(record.saleGoodsId, leList)}>撤销推广</a>
           <span />
           <a onClick={()=> goBaseDetail(record.saleGoodsId)}>查看</a>
         </div>
