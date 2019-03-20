@@ -71,7 +71,7 @@ export default class Detail extends Component {
         const { logisticsMethod, logisticsType, dispatchDate} = dataList
         this.leForm[key].setValues({
           logisticsMethod,
-          logisticsType,
+          logisticsType: logisticsType === 0 ? '' : logisticsType,
           dispatchDate: dispatchDate === 0 ? '' : dispatchDate
         })
       } else {
