@@ -56,12 +56,12 @@ const skuDetail = record => {
 export default {
   rowKey: 'saleGoodsId',
   scroll: { x: 1500 },
-  rowSelection: {
-    selections: true,
-    getCheckboxProps() {
-      return {};
-    },
-  },
+  // rowSelection: {
+  //   selections: true,
+  //   getCheckboxProps() {
+  //     return {};
+  //   },
+  // },
   columns: [
     {
       title: '渠道商品Id',

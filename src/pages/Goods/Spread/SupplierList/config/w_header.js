@@ -5,7 +5,7 @@ import { message } from 'antd';
 import dialogFormConfig from '../../common/spreadDialog';
 import {queryProductSpreadChannelList} from '@/services/goods'
 
-const setBranchList = async (err, val, leForm, leList) => {
+const setBranchList = async (err, val, leForm, {leList}) => {
   const productIds = leList.getSelectedRowKeys()
   if (!productIds.length) return message.warning('请至少勾选一项！')
   leForm.setProps('batchBtn', {
