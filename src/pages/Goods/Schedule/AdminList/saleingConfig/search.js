@@ -14,7 +14,8 @@ export default function(cityCodes,provinceCodes) {
       value: {
         cityCode,
         provinceCode
-      }
+      },
+      autoValidate: true,      
     },
     form: {
       inline: true, // 表单布局是否为行内样式

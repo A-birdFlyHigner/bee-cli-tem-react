@@ -8,7 +8,8 @@ export default function(cityCode){
     settings:{
       value: {
         cityCode
-      }
+      },
+      autoValidate: true,
     },
     form: {
       inline: true, // 表单布局是否为行内样式
