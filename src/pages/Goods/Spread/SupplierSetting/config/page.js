@@ -72,7 +72,7 @@ export default class Detail extends Component {
         this.leForm[key].setValues({
           logisticsMethod,
           logisticsType,
-          dispatchDate
+          dispatchDate: dispatchDate === 0 ? '' : dispatchDate
         })
       } else {
         dataList = await queryProductSpreadProductBaseDetail({productId: id})
