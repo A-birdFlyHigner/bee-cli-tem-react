@@ -81,6 +81,7 @@ class List extends Component {
         onCancel={this.handleCancel}
         width="80%"
         footer={null}
+        destroyOnClose
       >
         <LeList {...state.listConfigModal} />
       </Modal>

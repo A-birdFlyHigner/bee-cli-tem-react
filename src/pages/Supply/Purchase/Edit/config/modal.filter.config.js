@@ -19,12 +19,13 @@ export default (params) => {
     items: [
       categoryRule({
         label: '类目',
-        name: 'categoryId',
+        name: 'categoryCode',
         value: [],
       }),
       SearchSelect({
         label: '商品名称',
         name: 'itemCode',
+        paramName: 'itemName',
         placeholder: '请输入供应商名称',
         requestService: getGoodsEmunList,
       }),
