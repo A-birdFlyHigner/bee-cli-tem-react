@@ -1,8 +1,10 @@
 import categoryRule from '@/components/Rules/category'
+import regUtils from '@/utils/reg'
 
 export default {
   settings: {
     initValues: {},
+    autoValidate: true,
   },
   form: {
     inline: false,
@@ -31,6 +33,10 @@ export default {
       props: {
         placeholder: '请输入商品Id',
       },
+      rules: {
+        pattern: regUtils.Number,
+        message: '商品Id,请输入数字'
+      }
     },
     {
       label: 'skuId',
@@ -38,6 +44,10 @@ export default {
       props: {
         placeholder: '请输入skuId',
       },
+      rules: {
+        pattern: regUtils.Number,
+        message: 'skuId,请输入数字'
+      }
     },
   ],
 
@@ -49,6 +59,9 @@ export default {
       },
       options: {
         type: 'submit',
+        validateAfter (err) {
+          return err === null
+        }
       },
     },
     {
