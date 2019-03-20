@@ -4,6 +4,7 @@ import { emptyFn, Cache } from '../utils'
 import { saveCategoryPropertyPair } from '@/services/goods'
 
 const skuNotHasCache = Cache.create('sku.nothas')
+const inputTypesCache = Cache.create('input.types')
 
 // 属性值输入类型枚举
 const COMPONENT_ENUMS = {
@@ -135,6 +136,9 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
     let customInputItem = null
     let selectedTagItem = null
 
+    // 记录销售属性、商品属性、仓库属性对应的输入类型，用于提交前数据校验
+    inputTypesCache.set(name, inputType)
+
     // 有选项
     if ([1, 2, 3, 4].indexOf(inputType) !== -1) {
       restProps.options = propertyPairs.map(propertyPair => {
@@ -167,6 +171,13 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
     }
     else {
       restProps.onChange = (value) => handleChangeValue(leForm, name, value, okFn)
+    }
+
+    // 输入框样式
+    if ([5, 6, 7].indexOf(inputType) !== -1) {
+      restProps.style = {
+        width: '220px'
+      }
     }
 
     // 日期格式

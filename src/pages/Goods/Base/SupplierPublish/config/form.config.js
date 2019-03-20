@@ -25,6 +25,7 @@ export default (categoryProperties = {}, globalOptions = {}) => {
   return {
     settings: {
       scrollToError: true,
+      // autoValidate: true,
       onChange (changeKeys, values, leForm) {
         const { isSubmit = false } = buttonCache.get()
         if (isSubmit) {

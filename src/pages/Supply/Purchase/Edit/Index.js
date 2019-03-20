@@ -270,7 +270,7 @@ class PurchaseEdit extends Component {
     const list = this.listDataSource.newData;
     let errFlag = false;
     const purchaseOrderDetail = list && list.map((item) => {
-      const { skuCode, skuName, skuImage, itemName, supplierPrice } = item;
+      const { skuCode, skuName, skuImage, itemCode, supplierPrice } = item;
       if (!this.checkData(this.inputRef[item.skuCode].state.value)) {
         message.error('采购数量不能为空，且必须是正整数')
         self.inputRef[item.skuCode].input.focus()
@@ -281,7 +281,7 @@ class PurchaseEdit extends Component {
           skuCode,
           skuName,
           skuImage,
-          itemName,
+          itemCode,
           supplierPrice,
           expectSkuCount: this.inputRef[item.skuCode].state.value,
         };
