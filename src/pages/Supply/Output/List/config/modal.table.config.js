@@ -28,7 +28,7 @@ export default {
       dataIndex: 'skuName',
     },
     {
-      title: '入库数量',
+      title: '出库数量',
       dataIndex: 'skuCount',
     },
   ],

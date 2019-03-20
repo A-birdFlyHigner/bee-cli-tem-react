@@ -1,11 +1,11 @@
-import SearchSelect from '@/components/Rules/SearchSelect'
-import {getSupplierEmunList} from '@/services/supply'
+import SearchSelect from '@/components/Rules/SearchSelect';
+import { getSupplierEmunList } from '@/services/supply';
 
 export default (params) => {
   return {
     settings: {
       initValues: {},
-      values: params
+      values: params,
     },
     form: {
       inline: false,
@@ -28,8 +28,8 @@ export default (params) => {
         label: '供应商名称',
         name: 'supplierCode',
         placeholder: '请输入供应商名称',
-        requestService: getSupplierEmunList
-      },),
+        requestService: getSupplierEmunList,
+      }),
       {
         label: '期望入库时间',
         name: 'expectInboundTime',
@@ -47,6 +47,6 @@ export default (params) => {
         },
       },
     ],
-    buttons: []
+    buttons: [],
   };
 }

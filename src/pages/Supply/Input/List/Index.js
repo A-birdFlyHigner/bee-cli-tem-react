@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import { filterConfig, tableConfig } from './config';
-import './index.less';
+import './Index.less';
 import {getInputList, getInputDetailList, getWarehouseEmunList} from '@/services/supply'
 import { Modal } from 'antd';
 import modalTableConfig from './config/modal.table.config';
@@ -42,15 +42,18 @@ class List extends Component {
       modalVisible: false,
     };
   }
-  componentDidMount() {
-    const self = this
-    getWarehouseEmunList().then((res)=>{
-      const data = res.map(item=>{
-        return {value: item.key, label: item.value}
-      })
-      self.list.filterCore.setProps('warehouseCode', { options: data });
-    })
+
+  handleLeMount = (leList, {filterLeForm}) => {
+    if (ADMIN_TYPE !== 'SUPPLIER') {
+      getWarehouseEmunList().then((res) => {
+        const data = res && res.map(item => {
+          return { value: item.key, label: item.value };
+        });
+        filterLeForm.setProps('warehouseCode', { options: data });
+      });
+    }
   }
+
   showDetail = (params) => {
     const listConfigModalMix = {...listConfigModal}
     listConfigModalMix.filterConfig.settings.values.inboundNo = params.inboundNo
@@ -69,7 +72,7 @@ class List extends Component {
   render() {
     const { state } = this;
     return <div>
-      <LeList {...state.listConfig} ref={list => this.list = list}/>
+      <LeList {...state.listConfig} onMount={this.handleLeMount} />
       <Modal
         title="入库单详情"
         visible={state.modalVisible}
@@ -77,7 +80,7 @@ class List extends Component {
         width="80%"
         footer={null}
       >
-        <LeList {...state.listConfigModal} ref={list => this.modalList = list}/>
+        <LeList {...state.listConfigModal} />
       </Modal>
     </div>
   }

@@ -5,7 +5,7 @@ import {exportDelivery} from '@/services/supply'
 const formatType = 'YYYY-MM-DD'
 const download = (record) => {
   exportDelivery(record.deliverCode)
-};
+}
 
 export default {
   columns: [
