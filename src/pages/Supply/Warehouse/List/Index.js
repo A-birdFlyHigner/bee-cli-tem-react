@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 import { filterConfig, tableConfig } from './config';
-import './index.less';
+import './Index.less';
 import {getStockList, getStockDetailList, getWarehouseEmunList} from '@/services/supply'
 import { Modal } from 'antd';
 import modalTableConfig from './config/modal.table.config';
@@ -69,16 +69,6 @@ class List extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   const self = this
-  //   getWarehouseEmunList().then((res)=>{
-  //     const data = res && res.map(item=>{
-  //       return {value: item.key, label: item.value}
-  //     })
-  //     self.list.filterCore.setProps('warehouseCode', { options: data });
-  //   })
-  // }
-
   showDetail = (params) => {
     const listConfigModalMix = {...listConfigModal}
     listConfigModalMix.filterConfig.settings.values.warehouseCode = params.warehouseCode
@@ -110,7 +100,7 @@ class List extends Component {
     const { state } = this;
     return (
       <div>
-        <LeList {...state.listConfig} onMount={this.handleLeMount} ref={list => this.list = list}/>
+        <LeList {...state.listConfig} onMount={this.handleLeMount} />
         <Modal
           title="商品在仓库存"
           visible={state.modalVisible}
@@ -119,7 +109,7 @@ class List extends Component {
           footer={null}
           destroyOnClose
         >
-          <LeList {...state.listConfigModal} ref={list => this.modalList = list}/>
+          <LeList {...state.listConfigModal} />
         </Modal>
       </div>)
   }

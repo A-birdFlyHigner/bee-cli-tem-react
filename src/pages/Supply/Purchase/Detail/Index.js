@@ -16,12 +16,7 @@ class PurchaseEdit extends Component {
     this.purchaseNo = self.props.location.query.purchaseNo
     this.differStatus = Number(self.props.location.query.differStatus) || 0
 
-    const operationConfigMix = operationConfig()
-    // operationConfigMix.items[0].props.onChange = (value) => {
-    //   self.list.operationCore.setValue('differStatus', value)
-    //   self.list.filterCore.setValue('differStatus', value ? 1: 0)
-    //   self.list.fetch()
-    // }
+    const operationConfigMix = { ...operationConfig}
     const listConfig = {
       filterConfig: filterConfig({
         purchaseNo: this.purchaseNo,
@@ -80,7 +75,7 @@ class PurchaseEdit extends Component {
     const { state } = this;
     return (
       <div>
-        <LeList {...state.listConfig} onMount={this.handleLeMount} ref={list => this.list = list}/>
+        <LeList {...state.listConfig} onMount={this.handleLeMount} />
       </div>
     );
   }

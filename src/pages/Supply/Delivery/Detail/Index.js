@@ -16,18 +16,13 @@ class PurchaseEdit extends Component {
     self.deliveryNo = self.props.location.query.deliveryNo
     self.differStatus = Number(self.props.location.query.differStatus) || 0
 
-    const operationConfigMix = operationConfig()
-    // operationConfigMix.items[0].props.onChange = (value) => {
-    //   self.list.operationCore.setValue('differStatus', value);
-    //   self.list.filterCore.setValue('differStatus', value ? 1 : 0);
-    //   self.list.listCore.fetch();
-    // };
+    // const operationConfigMix = {...operationConfig()}
     const listConfig = {
       filterConfig: filterConfig({
         deliveryNo: self.deliveryNo,
         differStatus: self.differStatus,
       }),
-      operationConfig: operationConfigMix,
+      operationConfig: operationConfig,
       tableConfig,
       ...leListQuery(getDeliveryDetailList),
     };

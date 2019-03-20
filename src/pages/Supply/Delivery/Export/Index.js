@@ -32,7 +32,7 @@ class ExampleDemo extends Component {
 
   render() {
     const { state } = this;
-    return <LeList {...state.listConfig} onMount={this.handleLeMount} ref={list => this.list = list} />
+    return <LeList {...state.listConfig} onMount={this.handleLeMount} />
   }
 }
 
