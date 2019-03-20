@@ -189,7 +189,7 @@ export default {
       render: (text, record) => {
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={() => editItemStock(record)}>编辑</a>
+            <a onClick={() => editItemStock(record)}>重新推广</a>
             <br />
           </div>
         );
