@@ -8,12 +8,23 @@ export default {
     },
   },
   items: [
-    {
-      label: '仅查看差异产品',
-      name: 'differStatus',
-      component: 'Checkbox',
-      props: {}
+    (leForm) => {
+     return {
+        label: '仅查看差异产品',
+        name: 'differStatus',
+        component: 'Checkbox',
+        props: {
+          onChange: (value) => {
+            console.log('leForm', leForm)
+            leForm.setValue('differStatus', value);
+            leForm.$instance.$leList.setParams({
+              differStatus: value ? 1 : 0
+            });
+            leForm.$instance.$leList.fetch();
+          }
+        }
+      }
     },
   ],
   buttons: []
-};
+}

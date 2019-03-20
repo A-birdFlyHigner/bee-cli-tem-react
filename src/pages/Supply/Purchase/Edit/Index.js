@@ -34,7 +34,7 @@ class PurchaseEdit extends Component {
     let listConfigCombine = {};
     if (self.pageType === 'edit') {
       listConfigCombine = {
-        filterConfig: { ...operationConfig({ purchaseNo: self.purchaseNo }) },
+        filterConfig: operationConfig({ purchaseNo: self.purchaseNo }),
         ...leListQuery(getPurchaseDetailList),
       };
       listConfigCombine.filterConfig.items[0].props = {
@@ -50,7 +50,7 @@ class PurchaseEdit extends Component {
       };
     } else {
       listConfigCombine = {
-        filterConfig: { ...operationConfig() },
+        filterConfig: operationConfig(),
         // ...leListQuery(purchaseDetailList)
       };
     }
@@ -100,12 +100,12 @@ class PurchaseEdit extends Component {
         {
           title: '操作',
           width: '80px',
-          render(value, values) {
+          render(value, values, index, {leList}) {
             return (
               <div>
                 <a onClick={(e) => {
                   e.preventDefault();
-                  self.deleteRow(values);
+                  self.deleteRow(values, leList);
                 }}
                 >
                   删除
@@ -161,17 +161,18 @@ class PurchaseEdit extends Component {
     };
   }
 
-  componentDidMount() {
-    const self = this;
+  handleLeMount = (leList, { filterLeForm, operationLeForm }) => {
+    const self = this
+    self.leList = leList
     getWarehouseEmunList().then((res) => {
       const data = res && res.map(item => {
         return { value: item.key, label: item.value };
       });
-      self.list.filterCore.setProps('warehouseCode', { options: data });
+      filterLeForm.setProps('warehouseCode', { options: data });
       if (self.pageType === 'edit') {
         getPurchaseDetail(this.purchaseNo).then(resp => {
           const { warehouseCode, supplierName, supplierCode, expectInboundTime, loseEfficacyTime } = resp;
-          self.list.filterCore.setValues({
+          filterLeForm.setValues({
             purchaseNo: this.purchaseNo,
             warehouseCode,
             supplierName,
@@ -184,8 +185,8 @@ class PurchaseEdit extends Component {
     })
   }
 
-  onSelectChange = (selectedRowKeys, LeList) => {
-    const data = LeList.getDataSource();
+  onSelectChange = (selectedRowKeys, leList) => {
+    const data = leList.getDataSource();
     const addData = data.filter(item => {
       for (let i = 0; i < selectedRowKeys.length; i++) {
         if (item.skuCode === selectedRowKeys[i]) {
@@ -207,8 +208,7 @@ class PurchaseEdit extends Component {
       }
       return false;
     });
-
-    const { pageSize } = this.list.listCore;
+    const { pageSize } = leList.getPageData()
     const { length } = newData;
     this.listDataSource = {
       newData,
@@ -216,12 +216,12 @@ class PurchaseEdit extends Component {
     };
   };
 
-  showModal = (error, values) => {
+  showModal = (error, values, leForm, {leList}) => {
+    const self = this
     if (this.listDataSource.newData === undefined) {
-      this.listDataSource.newData = this.list.listCore.getDataSource();
-      this.listDataSource.pagination = this.list.listCore.getPageData();
+      this.listDataSource.newData = leList.getDataSource();
+      this.listDataSource.pagination = leList.getPageData();
     }
-    // console.log('this', this.listDataSource.newData)
     const selectedList = this.listDataSource.newData && this.listDataSource.newData.map(item => item.skuCode) || [];
     if (!values.warehouseCode) {
       message.error('仓库不能为空');
@@ -232,7 +232,12 @@ class PurchaseEdit extends Component {
       return;
     }
 
+    console.log('values', values)
     const listConfigModalCombine = {
+      params: {
+        supplierCode: values.supplierCode,
+        warehouseCode: values.warehouseCode,
+      },
       filterConfig: {
         ...modalFilterConfig({
           supplierCode: values.supplierCode,
@@ -240,7 +245,9 @@ class PurchaseEdit extends Component {
         }),
       },
       tableConfig: modalTableConfig(selectedList),
-      ...leListQuery(getBasicItemList),
+          ...leListQuery(getBasicItemList, {
+
+      }),
     };
     listConfigModalCombine.tableConfig.rowSelection.onChange = this.onSelectChange;
 
@@ -263,14 +270,14 @@ class PurchaseEdit extends Component {
     }
   }
 
-  save = () => {
+  save = (error, values, leForm, {leList}) => {
     const self = this
-    this.listDataSource.newData = this.list.listCore.getDataSource();
-    this.listDataSource.pagination = this.list.listCore.getPageData();
+    this.listDataSource.newData = leList.getDataSource();
+    this.listDataSource.pagination = leList.getPageData();
     const list = this.listDataSource.newData;
     let errFlag = false;
     const purchaseOrderDetail = list && list.map((item) => {
-      const { skuCode, skuName, skuImage, itemCode, supplierPrice } = item;
+      const { skuCode, skuName, skuImage, itemCode, itemName, supplierPrice } = item;
       if (!this.checkData(this.inputRef[item.skuCode].state.value)) {
         message.error('采购数量不能为空，且必须是正整数')
         self.inputRef[item.skuCode].input.focus()
@@ -282,6 +289,7 @@ class PurchaseEdit extends Component {
           skuName,
           skuImage,
           itemCode,
+          itemName,
           supplierPrice,
           expectSkuCount: this.inputRef[item.skuCode].state.value,
         };
@@ -292,7 +300,7 @@ class PurchaseEdit extends Component {
       return;
     }
 
-    const temp = this.list.listCore.getFilterData();
+    const temp = leList.getFilterData();
     const { expectInboundTime } = temp;
     const { loseEfficacyTime } = temp;
     const saveData = {
@@ -322,13 +330,12 @@ class PurchaseEdit extends Component {
 
   handleOk = () => {
     const self = this
-    // console.log('this.listDataSource', this.listDataSource);
     const mixData = this.listDataSource.newData.map((item)=>{
       return {...item, expectSkuCount: self.listValue[item.skuCode] || 0}
     })
-    this.list.listCore.setDataSource(mixData);
-    this.list.listCore.setPageData(this.listDataSource.pagination);
-    this.setState({
+    self.leList.setDataSource(mixData);
+    self.leList.setPageData(this.listDataSource.pagination);
+    self.setState({
       modalVisible: false,
     });
   };
@@ -339,7 +346,8 @@ class PurchaseEdit extends Component {
     });
   };
 
-  deleteRow = values => {
+  deleteRow = (values, leList) => {
+    const self = this
     const data = [...this.listDataSource.newData];
     const pagination = { ...this.listDataSource.pagination };
     pagination.total -= 1;
@@ -355,15 +363,23 @@ class PurchaseEdit extends Component {
     this.inputRef[values.skuCode] = undefined
     this.listValue[values.skuCode] = undefined
 
-    this.list.listCore.setDataSource(newData);
-    this.list.listCore.setPageData(pagination);
+    self.leList.setDataSource(newData);
+    self.leList.setPageData(pagination);
   };
+
+  handleM2 = (leList) => {
+    console.log('leList2', leList)
+    const self = this
+    self.leList2 = leList
+  }
 
   render() {
     const { state } = this;
+
+    console.log('state', state)
     return (
       <div>
-        <LeList {...state.listConfig} ref={list => this.list = list}/>
+        <LeList {...state.listConfig} onMount={this.handleLeMount} />
         <Modal
           title="添加商品窗口"
           visible={state.modalVisible}
@@ -372,7 +388,7 @@ class PurchaseEdit extends Component {
           width="80%"
           destroyOnClose
         >
-          <LeList {...state.listConfigModal} ref={modalList => this.modalList = modalList}/>
+          <LeList {...state.listConfigModal} onMount={this.handleM2} />
         </Modal>
       </div>
     );

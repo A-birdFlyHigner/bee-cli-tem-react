@@ -1,11 +1,11 @@
-import categoryRule from '@/components/Rules/category'
-import SearchSelect from '@/components/Rules/SearchSelect'
-import {getGoodsEmunList} from '@/services/supply'
+import categoryRule from '@/components/Rules/category';
+import SearchSelect from '@/components/Rules/SearchSelect';
+import { getGoodsEmunList } from '@/services/supply';
 
 export default (params) => {
   return {
     settings: {
-      values: params
+      values: params,
     },
 
     form: {
@@ -20,14 +20,14 @@ export default (params) => {
       categoryRule({
         label: '类目',
         name: 'categoryId',
-        value: []
+        value: [],
       }),
       SearchSelect({
         label: '商品名称',
         name: 'itemCode',
         placeholder: '请输入供应商名称',
-        requestService: getGoodsEmunList
-      },),
+        requestService: getGoodsEmunList,
+      }),
       {
         label: 'SKU编码',
         name: 'skuCode',
@@ -43,7 +43,8 @@ export default (params) => {
         props: {
           type: 'primary',
           children: '查询',
-          onClick(err, values, formCore, listCore) {
+          onClick(err, values, leForm, {leList}) {
+            // leList.setParams(params)
           },
         },
         options: {
@@ -54,7 +55,8 @@ export default (params) => {
       {
         props: {
           children: '重置',
-          onClick(err, values, formCore, listCore) {
+          onClick(err, values, leForm, {leList}) {
+
           },
         },
         options: {

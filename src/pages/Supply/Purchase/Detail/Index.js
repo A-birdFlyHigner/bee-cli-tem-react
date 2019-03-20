@@ -16,14 +16,7 @@ class PurchaseEdit extends Component {
     this.purchaseNo = self.props.location.query.purchaseNo
     this.differStatus = Number(self.props.location.query.differStatus) || 0
 
-    const operationConfigMix = {...operationConfig}
-    operationConfigMix.items[0].props.onChange = (value) => {
-      self.list.operationCore.setValue('differStatus', value)
-      self.list.filterCore.setValue('differStatus', value ? 1: 0)
-      // self.list.filterCore.setValue('expectInboundTime', undefined)
-      // self.list.filterCore.setValue('loseEfficacyTime', undefined)
-      self.list.listCore.fetch()
-    }
+    const operationConfigMix = { ...operationConfig}
     const listConfig = {
       filterConfig: filterConfig({
         purchaseNo: this.purchaseNo,
@@ -38,14 +31,14 @@ class PurchaseEdit extends Component {
     };
   }
 
-  componentDidMount() {
-    this.list.operationCore.setValue('differStatus', this.differStatus === 1)
-    getPurchaseDetail(this.purchaseNo).then(({
-      supplierName, warehouseName, expectInboundTime, loseEfficacyTime,
-      source, status, createTime
-      })=>{
+  handleLeMount = (leList, {filterLeForm, operationLeForm}) => {
+    console.log('leList, filterLeform, operationLeform', leList, filterLeForm, operationLeForm)
+    operationLeForm.setValue('differStatus', this.differStatus === 1)
+    getPurchaseDetail(this.purchaseNo).then((
+      {supplierName, warehouseName, expectInboundTime, loseEfficacyTime, source, status, createTime }
+      ) => {
       let statusStr = ''
-      switch(status) {
+      switch (status) {
         case 0:
           statusStr = '待提交'
           break
@@ -64,7 +57,7 @@ class PurchaseEdit extends Component {
         default:
           break
       }
-      this.list.filterCore.setValues({
+      filterLeForm.setValues({
         warehouseName,
         supplierName,
         expectInboundTime: expectInboundTime && moment(expectInboundTime).format(formatType),
@@ -72,7 +65,7 @@ class PurchaseEdit extends Component {
         createTime: createTime && moment(createTime).format(formatType),
         purchaseNo: this.purchaseNo,
         differStatus: this.differStatus,
-        source: source === 0 ? '人工创建': '系统生成',
+        source: source === 0 ? '人工创建' : '系统生成',
         status: statusStr,
       })
     })
@@ -82,7 +75,7 @@ class PurchaseEdit extends Component {
     const { state } = this;
     return (
       <div>
-        <LeList {...state.listConfig} ref={list => this.list = list}/>
+        <LeList {...state.listConfig} onMount={this.handleLeMount} />
       </div>
     );
   }

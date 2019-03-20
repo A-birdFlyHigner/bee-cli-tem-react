@@ -4,7 +4,7 @@ import { LeList } from '@lib/lepage';
 import { getPurchaseList, getWarehouseEmunList, changePurchaseState, exportSupplyDeliveryOrder } from '@/services/supply';
 import { leListQuery } from '@/utils/utils';
 import Link from 'umi/link';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import { filterConfig, filterConfigSupply, operationConfig, tableConfig } from './config';
 
 const { confirm } = Modal;
@@ -40,6 +40,9 @@ const submitConfirm = values => {
       };
       changePurchaseState(params).then(res => {
         console.log('res', res);
+        if (res === 1) {
+          message.success('提交成功')
+        }
       });
     },
     onCancel() {
@@ -162,14 +165,13 @@ class List extends Component {
     };
   }
 
-  componentDidMount() {
-    const self = this;
+  handleLeMount = (leList, { filterLeForm }) => {
     if (ADMIN_TYPE !== 'SUPPLIER') {
       getWarehouseEmunList().then((res) => {
         const data = res && res.map(item => {
           return { value: item.key, label: item.value };
         });
-        self.list.filterCore.setProps('warehouseCode', { options: data });
+        filterLeForm.setProps('warehouseCode', { options: data });
       });
     }
   }
@@ -180,7 +182,7 @@ class List extends Component {
 
   render() {
     const { state } = this;
-    return <LeList {...state.listConfig} ref={list => this.list = list} />;
+    return <LeList {...state.listConfig} onMount={this.handleLeMount} />;
   }
 }
 
