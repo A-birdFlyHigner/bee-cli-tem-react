@@ -47,6 +47,7 @@ const showSpecDetailDialog = dataSource => {
   }
 
   const listConfig = {
+    pageSize: 200,
     tableConfig,
     dataSource,
   };
