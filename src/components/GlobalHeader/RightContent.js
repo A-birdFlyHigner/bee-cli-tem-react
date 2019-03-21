@@ -113,13 +113,13 @@ export default class GlobalHeaderRight extends PureComponent {
     }
     return (
       <div className={className}>
-        <Tooltip title='老后台链接'>
+        <Tooltip title='旧版后台'>
           <a
             target="_blank"
             href={oldProduct}
             className={styles.action}
           >
-            老后台链接
+            旧版后台
           </a>
         </Tooltip>
         {userName ? (
