@@ -33,7 +33,6 @@ class PurchaseEdit extends Component {
   }
 
   handleLeMount = (leList, {filterLeForm, operationLeForm}) => {
-    console.log('leList, filterLeform, operationLeform', leList, filterLeForm, operationLeForm)
     operationLeForm.setValue('differStatus', this.differStatus === 1)
     getPurchaseDetail(this.purchaseNo).then((
       {supplierName, warehouseName, expectInboundTime, loseEfficacyTime, source, status, createTime }
