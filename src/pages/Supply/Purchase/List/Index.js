@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 // import './index.less';
-import moment from 'moment'
-import { getPurchaseList, getWarehouseEmunList, changePurchaseState, exportSupplyDeliveryOrder } from '@/services/supply';
+import moment from 'moment';
+import {
+  getPurchaseList,
+  getWarehouseEmunList,
+  changePurchaseState,
+  exportSupplyDeliveryOrder,
+  getInputDetailList,
+} from '@/services/supply';
 import { leListQuery } from '@/utils/utils';
 import Link from 'umi/link';
 import { Modal, message } from 'antd';
 import { filterConfig, filterConfigSupply, operationConfig, tableConfig } from './config';
+import modalTableConfig from '../../Input/List/config/modal.table.config';
 
 const { confirm } = Modal;
 
@@ -22,8 +29,8 @@ const cancelConfirm = (values, leList) => {
       };
       changePurchaseState(params).then(res => {
         if (res === 1) {
-          message.success('取消成功')
-          leList.refresh()
+          message.success('取消成功');
+          leList.refresh();
         }
       });
     },
@@ -44,8 +51,8 @@ const submitConfirm = (values, leList) => {
       };
       changePurchaseState(params).then(res => {
         if (res === 1) {
-          message.success('提交成功')
-          leList.refresh()
+          message.success('提交成功');
+          leList.refresh();
         }
       });
     },
@@ -58,55 +65,70 @@ let listConfig = {
   filterConfig,
   // operationConfig,
   tableConfig,
-  ...leListQuery(getPurchaseList, {beforeFun: (params)=> {
-    let {purchaseTimeStart, purchaseTimeEnd} = params
-      purchaseTimeStart = purchaseTimeStart && moment(purchaseTimeStart).valueOf()
-      purchaseTimeEnd = purchaseTimeEnd && moment(purchaseTimeEnd).valueOf()
-      return {...params, purchaseTimeStart, purchaseTimeEnd}
-    }}),
+  ...leListQuery(getPurchaseList, {
+    beforeFun: (params) => {
+      let { purchaseTimeStart, purchaseTimeEnd } = params;
+      purchaseTimeStart = purchaseTimeStart && moment(purchaseTimeStart).valueOf();
+      purchaseTimeEnd = purchaseTimeEnd && moment(purchaseTimeEnd).valueOf();
+      return { ...params, purchaseTimeStart, purchaseTimeEnd };
+    },
+  }),
 };
+
+const listConfigModal = {
+  filterConfig: {settings: {
+      values: {purchaseNo: undefined}
+    }},
+  tableConfig: modalTableConfig,
+  ...leListQuery(getInputDetailList)
+};
+
 if (ADMIN_TYPE === 'BRANCH') {
   listConfig = {
     filterConfig,
     operationConfig,
     tableConfig,
-    ...leListQuery(getPurchaseList, {beforeFun: (params)=> {
-        let {purchaseTimeStart, purchaseTimeEnd} = params
-        purchaseTimeStart = purchaseTimeStart && moment(purchaseTimeStart).valueOf()
-        purchaseTimeEnd = purchaseTimeEnd && moment(purchaseTimeEnd).valueOf()
-        return {...params, purchaseTimeStart, purchaseTimeEnd}
-      }}),
+    ...leListQuery(getPurchaseList, {
+      beforeFun: (params) => {
+        let { purchaseTimeStart, purchaseTimeEnd } = params;
+        purchaseTimeStart = purchaseTimeStart && moment(purchaseTimeStart).valueOf();
+        purchaseTimeEnd = purchaseTimeEnd && moment(purchaseTimeEnd).valueOf();
+        return { ...params, purchaseTimeStart, purchaseTimeEnd };
+      },
+    }),
   };
 } else if (ADMIN_TYPE === 'SUPPLIER') {
   listConfig = {
     filterConfig: filterConfigSupply,
     tableConfig,
-    ...leListQuery(getPurchaseList, {beforeFun: (params)=> {
-        let {purchaseTimeStart, purchaseTimeEnd} = params
-        purchaseTimeStart = purchaseTimeStart && moment(purchaseTimeStart).valueOf()
-        purchaseTimeEnd = purchaseTimeEnd && moment(purchaseTimeEnd).valueOf()
-        return {...params, purchaseTimeStart, purchaseTimeEnd}
-      }}),
+    ...leListQuery(getPurchaseList, {
+      beforeFun: (params) => {
+        let { purchaseTimeStart, purchaseTimeEnd } = params;
+        purchaseTimeStart = purchaseTimeStart && moment(purchaseTimeStart).valueOf();
+        purchaseTimeEnd = purchaseTimeEnd && moment(purchaseTimeEnd).valueOf();
+        return { ...params, purchaseTimeStart, purchaseTimeEnd };
+      },
+    }),
   };
 }
 
 class List extends Component {
   constructor(props) {
     super(props);
-    const self = this
+    const self = this;
     if (ADMIN_TYPE === 'ADMIN') {
       listConfig.tableConfig.columns[13] = {
         title: '操作',
         width: 100,
         align: 'center',
         fixed: 'right',
-        render(value, values, index, {leList}) {
+        render(value, values, index, { leList }) {
           return (
             <div>
               {
                 values.status === 1
                   ?
-                    <span>
+                  <span>
                       <Link to={`/supply/purchase/detail?purchaseNo=${values.purchaseNo}`}>查看</Link>;
                       <Link to={`/supply/purchase/detail?purchaseNo=${values.purchaseNo}&differStatus=1`}>差异报告</Link>
                     </span>
@@ -122,11 +144,11 @@ class List extends Component {
         width: 120,
         align: 'center',
         fixed: 'right',
-        render(value, record, index, {leList}) {
+        render(value, record, index, { leList }) {
           return (<div>
             {
               record.status === 0
-              ?
+                ?
                 <div>
                   <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>;
                   <Link to={`/supply/purchase/edit?purchaseNo=${record.purchaseNo}`}>编辑</Link>;
@@ -134,23 +156,41 @@ class List extends Component {
                   <a href="javascript:;" onClick={submitConfirm.bind(null, record, leList)}>提交</a>
                 </div>
                 : record.status === 2 || record.status === 4
+                ?
+                <div>
+                  <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>
+                </div>
+                : record.status === 1 || record.status === 3
                   ?
-                    <div>
-                      <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>
-                    </div>
-                    : record.status === 1 || record.status === 3
-                      ?
-                        <div>
-                          <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>;
-                          <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}&differStatus=1`}>异常报告</Link>
-                        </div>
-                        : null
+                  <div>
+                    <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>;
+                    <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}&differStatus=1`}>异常报告</Link>
+                  </div>
+                  : null
             }
-          </div>)
+          </div>);
 
-        }
+        },
       };
     } else if (ADMIN_TYPE === 'SUPPLIER') {
+      listConfig.tableConfig.columns[12] = {
+        title: '入库单',
+        dataIndex: 'inputNo',
+        align: 'center',
+        width: 200,
+        render(value, values) {
+          return (
+            <div>
+              {
+                values.status === 1 || values.status === 3
+                  ? <a href="javascript:;" onClick={() => {self.showDetail(values)}}>查看</a>
+                  : '/'
+              }
+            </div>
+          );
+        },
+      }
+
       listConfig.tableConfig.columns[13] = {
         title: '操作',
         width: 120,
@@ -162,25 +202,30 @@ class List extends Component {
               record.status === 0 || record.status === 2 || record.status === 4
                 ?
                 <div>
-                  <a href="javascript:;" onClick={()=>{self.download(record)}}>下载</a>;
+                  <a href="javascript:;" onClick={() => {
+                    self.download(record);
+                  }}>下载</a>;
                   <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>
                 </div>
                 : record.status === 1 || record.status === 3
-                  ?
-                  <div>
-                    <a href="javascript:;" onClick={()=>{self.download(record)}}>下载</a>;
-                    <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>;
-                    <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}&differStatus=1`}>异常报告</Link>
-                  </div>
-                  : null
+                ?
+                <div>
+                  <a href="javascript:;" onClick={() => {
+                    self.download(record);
+                  }}>下载</a>;
+                  <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}`}>查看</Link>;
+                  <Link to={`/supply/purchase/detail?purchaseNo=${record.purchaseNo}&differStatus=1`}>异常报告</Link>
+                </div>
+                : null
             }
-          </div>)
-
-        }
+          </div>);
+        },
       };
     }
     this.state = {
       listConfig,
+      listConfigModal,
+      modalVisible: false,
     };
   }
 
@@ -193,15 +238,44 @@ class List extends Component {
         filterLeForm.setProps('warehouseCode', { options: data });
       });
     }
-  }
+  };
 
   download = (record) => {
-    exportSupplyDeliveryOrder(record.purchaseNo)
-  }
+    exportSupplyDeliveryOrder(record.purchaseNo);
+  };
+
+  showDetail = (params) => {
+    const listConfigModalMix = {...listConfigModal}
+    listConfigModalMix.filterConfig.settings.values.purchaseNo = params.purchaseNo
+    this.setState({
+      modalVisible: true,
+      listConfigModal: listConfigModalMix
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      modalVisible: false,
+    });
+  };
 
   render() {
     const { state } = this;
-    return <LeList {...state.listConfig} onMount={this.handleLeMount} />;
+    return (
+      <div>
+        <LeList {...state.listConfig} onMount={this.handleLeMount} />
+        <Modal
+          title="入库单详情"
+          visible={state.modalVisible}
+          onCancel={this.handleCancel}
+          width="80%"
+          footer={null}
+          destroyOnClose
+        >
+          <LeList {...state.listConfigModal} />
+        </Modal>
+      </div>
+    )
   }
 }
 
