@@ -8,20 +8,24 @@ import { setGroupValue, goBack, goSetTime, goRevoke } from '../../../common/comm
 import commonMessage from '@/static/commonMessage'
 import * as Sty from '../index.less'
 
-const { logisticsMethod, logisticsType, reviewStatus } = commonMessage
+const { logisticsMethod, logisticsType, adminreviewStatus } = commonMessage
 
 // 编辑
 const editItem = (id) => {
   router.push({
     pathname: `/goods/schedule/branchdetail/${id}`,
+    query: {
+      tabType: '2'
+    }
   })
+
 }
 
 // 渠道商品规格详情
 const getSkuDetail = (saleUnits) => {
   LeDialog.show({
     title: '渠道商品规格详情',
-    width: '800px',
+    width: '1000px',
     maskClosable: true,
     footer () {
       return null
@@ -95,6 +99,10 @@ export default {
               label: '发货时效',
               value: logisticsType[record.logisticsType],
             },
+            {
+              label: '发货时间',
+              value: record.logisticsType === 2 ? `${record.dispatchDate}天` : '',
+            },
           ]}
         />
       )
@@ -105,21 +113,16 @@ export default {
     key: 'pathName',      
     width: 300,
     mutipleLine: true,
-    render: (vals) => {
-      return (
-        <div>
-          {
-            vals && vals.split(',').map(
-              (item) => (
-                <span key={item}>
-                  &gt;
-                  { item }<br />
-                </span>
-              )
-            )
-          }
-        </div>
-      )
+    render(value) {
+      const symbol = '>';
+      return value.split(',').map((item, index) => {
+        const key = `${item}-${index}`
+        return (
+          <span key={key}>
+            {symbol} {item} <br />
+          </span>
+        )
+      })
     },
   }, {
     title: '规格',
@@ -190,20 +193,20 @@ export default {
     }
   }, {
     title: '总部审核状态',
-    dataIndex: 'status',
-    key: 'status',
+    dataIndex: 'reviewStatus',
+    key: 'reviewStatus',
     width: 200,                                                           
     align: 'center',                      
     render: (value, record) => {
       return (
         <div className={Sty.store}>
           {
-            record.status !== 2 ? 
-              <span>{reviewStatus[record.status]}</span>
+            record.reviewStatus !== 3 ? 
+              <span>{adminreviewStatus[record.reviewStatus]}</span>
             :
               <div>
                 <span>已拒绝</span><br />
-                <span>原因：{reviewStatus[record.status]}</span><br />
+                <span>原因：{record.reviewReason}</span><br />
               </div>
           }
         </div>
@@ -214,22 +217,22 @@ export default {
     width: 120,
     align: 'center',                  
     fixed: 'right',      
-    render: (text, record) => {
+    render: (text, record, index, {leList}) => {
       return (
         <div className="operateBtn-container-inline list-inline">
           {
-            record.status !== 2?
+            record.reviewStatus !== 3?
               <div>
-                <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值({record.sortNumber})</a>
+                <a onClick={()=> setGroupValue(record.saleGoodsId, leList)}>设置排序值({record.sortNumber})</a>
                 <span />
-                <a onClick={()=> goBack(record.saleGoodsId)}>回退</a>
+                <a onClick={()=> goBack(record.saleGoodsId, leList)}>回退</a>
               </div>:
               <div>
                 <a onClick={()=> editItem(record.saleGoodsId)}>编辑</a>
                 <span />
-                <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
+                <a onClick={()=> goSetTime(record.saleGoodsId, leList)}>排期</a>
                 <span />
-                <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId)}>撤销推广</a>
+                <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId, leList)}>撤销推广</a>
               </div>
           }
         </div>

@@ -29,7 +29,6 @@ export default class SpreadList extends Component {
   
   render () {
     const { tabType, cityCode } = this.state
-
     // 只有直营分公司有【预排期】，加盟分公司没有预排期状态 2 直营 
     const branchJoinType = JSON.parse(window.sessionStorage.getItem('HQBSFORSHOP')).userInfo.branchJoinType? JSON.parse(window.sessionStorage.getItem('HQBSFORSHOP')).userInfo.branchJoinType:''
     return (
@@ -38,7 +37,7 @@ export default class SpreadList extends Component {
           <Noscheduled />
         </TabPane>
         {
-          branchJoinType && branchJoinType===2 
+          branchJoinType && branchJoinType===2
           ?
             <TabPane tab="预排期" key="2">
               <Prescheduled />

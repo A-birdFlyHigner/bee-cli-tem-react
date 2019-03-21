@@ -13,6 +13,8 @@ export default {
 
   'menu.goods': '商品',
   'menu.goods.publish': '发布商品',
+  'menu.account.settings': '修改密码',
+  'menu.account.logout': '退出登录',
 
   // 'menu.dashboard': 'Dashboard',
   // 'menu.dashboard.analysis': '分析页',
@@ -48,5 +50,4 @@ export default {
   // 'menu.account.center': '个人中心',
   // 'menu.account.settings': '个人设置',
   // 'menu.account.trigger': '触发报错',
-  // 'menu.account.logout': '退出登录',
 };

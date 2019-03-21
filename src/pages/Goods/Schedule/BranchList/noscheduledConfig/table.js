@@ -14,6 +14,9 @@ const { logisticsMethod, logisticsType } = commonMessage
 const editItem = (id) => {
   router.push({
     pathname: `/goods/schedule/branchdetail/${id}`,
+    query: {
+      tabType: '1'
+    }
   })
 }
 
@@ -21,7 +24,7 @@ const editItem = (id) => {
 const getSkuDetail = (saleUnits) => {
   LeDialog.show({
     title: '渠道商品规格详情',
-    width: '800px',
+    width: '1000px',
     maskClosable: true,
     footer () {
       return null
@@ -95,6 +98,10 @@ export default {
               label: '发货时效',
               value: logisticsType[record.logisticsType],
             },
+            {
+              label: '发货时间',
+              value: record.logisticsType === 2 ? `${record.dispatchDate}天` : '',
+            },
           ]}
         />
       )
@@ -105,21 +112,16 @@ export default {
     key: 'pathName',      
     width: 300,
     mutipleLine: true,
-    render: (vals) => {
-      return (
-        <div>
-          {
-            vals && vals.split(',').map(
-              (item) => (
-                <span key={item}>
-                  &gt;
-                  { item }<br />
-                </span>
-              )
-            )
-          }
-        </div>
-      )
+    render(value) {
+      const symbol = '>';
+      return value.split(',').map((item, index) => {
+        const key = `${item}-${index}`
+        return (
+          <span key={key}>
+            {symbol} {item} <br />
+          </span>
+        )
+      })
     },
   }, {
     title: '规格',
@@ -206,14 +208,14 @@ export default {
     width: 120,
     align: 'center', 
     fixed: 'right',                                   
-    render: (text, record) => {
+    render: (text, record, index, {leList} ) => {
       return (
         <div className="operateBtn-container-inline list-inline">
           <a onClick={()=> editItem(record.saleGoodsId)}>编辑</a>
           <span />
-          <a onClick={()=> goSetTime(record.saleGoodsId)}>排期</a>
+          <a onClick={()=> goSetTime(record.saleGoodsId, leList)}>排期</a>
           <span />
-          <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId)}>撤销推广</a>
+          <a className='table-operate' onClick={()=> goRevoke(record.saleGoodsId, leList)}>撤销推广</a>
         </div>
       )
     }

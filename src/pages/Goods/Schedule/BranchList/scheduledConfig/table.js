@@ -32,7 +32,7 @@ const getStoreInfo = (saleUnits) => {
 const getSkuDetail = (saleUnits) => {
   LeDialog.show({
     title: '渠道商品规格详情',
-    width: '800px',
+    width: '1000px',
     maskClosable: true,
     footer () {
       return null
@@ -89,6 +89,10 @@ export default {
               label: '发货时效',
               value: logisticsType[record.logisticsType],
             },
+            {
+              label: '发货时间',
+              value: record.logisticsType === 2 ? `${record.dispatchDate}天` : '',
+            },
           ]}
         />
       )
@@ -99,21 +103,16 @@ export default {
     key: 'pathName',      
     width: 300,
     mutipleLine: true,
-    render: (vals) => {
-      return (
-        <div>
-          {
-            vals && vals.split(',').map(
-              (item) => (
-                <span key={item}>
-                  &gt;
-                  { item }<br />
-                </span>
-              )
-            )
-          }
-        </div>
-      )
+    render(value) {
+      const symbol = '>';
+      return value.split(',').map((item, index) => {
+        const key = `${item}-${index}`
+        return (
+          <span key={key}>
+            {symbol} {item} <br />
+          </span>
+        )
+      })
     },
   }, {
     title: '规格',
@@ -220,12 +219,12 @@ export default {
     width: 100,
     align: 'center',                
     fixed: 'right',  
-    render: (text, record) => {
+    render: (text, record, index, {leList}) => {
       return (
         <div className="operateBtn-container-inline list-inline">
-          <a onClick={()=> setGroupValue(record.saleGoodsId)}>设置排序值({record.sortNumber})</a>
+          <a onClick={()=> setGroupValue(record.saleGoodsId, leList)}>设置排序值({record.sortNumber})</a>
           <span />
-          <a onClick={()=> goBack(record.saleGoodsId)}>回退</a>
+          <a onClick={()=> goBack(record.saleGoodsId, leList)}>回退</a>
         </div>
       )
     }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
+import router from 'umi/router'
 import { LeForm } from '@lib/lepage'
 import { message } from 'antd'
 import {queryBranchProductSpreadDetail, updateSkuPrice } from '@/services/goods'
 import {
   onChange,  
   baseInfo,
-  salseInfo,
   salseEdit,
   logistics,
   wareHouse,
@@ -21,7 +21,7 @@ const compare = (big, small) => {
 // 确定 err, values
 const confirm = (err, values)=> {
   const skuPriceInfos = []
-  const { saleUnits } = values  
+  const { saleUnits, tabType } = values  
   let isValid = true
 
   // 请求接口前校验 会员价格
@@ -65,7 +65,25 @@ const confirm = (err, values)=> {
     skuPriceInfos: skuPriceInfosList
   }).then(res => {
     if (!res) return
-    window.history.back(-1)  
+    // 区分是预排期编辑还是未排期编辑
+    if (tabType === '2') {
+      router.push({
+        pathname: '/goods/schedule/branchlist',
+        query: {
+          tabType: '2'
+        }
+      })
+    } 
+    if (tabType === '1') {
+      router.push({
+        pathname: '/goods/schedule/branchlist',
+        query: {
+          tabType: '1'
+        }
+      })
+    }
+    message.success('编辑成功!');      
+    
   })
   return false
 }
@@ -79,9 +97,13 @@ export default class Detail extends Component {
 
   constructor(props) {
     super(props)
+    this.store = props
+    const { tabType } = this.store.location.query?this.store.location.query:''
+
     const { match } = this.props
     const { params } = match
     this.state = {
+      tabType,
       productId: params.id,
       leFormConf: {
         settings: {
@@ -95,7 +117,6 @@ export default class Detail extends Component {
         },
         items: [
           ...baseInfo,
-          ...salseInfo,
           salseEdit(),
           ...logistics,
           ...wareHouse,
@@ -128,11 +149,13 @@ export default class Detail extends Component {
   onMountLeForm = (formCore) => {
 
     this.formCore = formCore
-    const {productId} = this.state
-    
+    const { productId, tabType } = this.state
     queryBranchProductSpreadDetail({channelProductId: productId}).then(res => {
       if (!res) return
-      formCore.setValues(res)
+      formCore.setValues({
+        ...res,
+        tabType
+      })
     })
   }
 

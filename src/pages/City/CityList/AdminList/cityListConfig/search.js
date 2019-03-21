@@ -1,4 +1,6 @@
 import cityRule from '@/components/Rules/citySel/index'
+import SearchSelect from '@/components/Rules/branchCitySelect'
+import {queryBranchName} from '@/services/city'
 
 export default {
   form: {
@@ -10,14 +12,13 @@ export default {
       value: [],
       deep: 2,
     }),
-    {
+    SearchSelect({
       label: '所属分公司',
       name: 'partnerCompanyId',
-      component: 'Input',
-      props: {
-        placeholder: '请输入所属分公司',
-      },
-    },
+      placeholder: '请输入所属分公司',
+      requestService: queryBranchName
+    },),
+
   ],
   buttons: [{
     props: {

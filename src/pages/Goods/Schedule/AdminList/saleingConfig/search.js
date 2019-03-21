@@ -6,15 +6,16 @@ export default function(cityCodes,provinceCodes) {
   console.log('---cityCode', cityCodes)
   console.log('---provinceCode', provinceCodes)
   
-  const cityCode = cityCodes.toString()
-  const provinceCode = provinceCodes.toString()
+  const cityCode = cityCodes?cityCodes.toString():''
+  const provinceCode = provinceCodes?provinceCodes.toString():''
   
   return {
     settings:{
       value: {
         cityCode,
         provinceCode
-      }
+      },
+      autoValidate: true,      
     },
     form: {
       inline: true, // 表单布局是否为行内样式
@@ -100,6 +101,11 @@ export default function(cityCodes,provinceCodes) {
       options: {
         type: 'submit',
         validate: true, // default true
+        validateWithoutRender: false,
+        validateAfter: (err)=> {
+          if(err) return false
+          return true
+        }
       }
     }, {
       props: {

@@ -3,9 +3,7 @@ import categoryRule from '@/components/Rules/category';
 
 export default {
   settings: {
-    value: {
-      // saleStatus: 1
-    }
+    autoValidate: true,
   },
   form: {
     inline: true, // 表单布局是否为行内样式
@@ -18,7 +16,7 @@ export default {
     }),
     {
       label: '商品名称',
-      name: 'name',
+      name: 'productName',
       component: 'Input',
       props: {
         placeholder: '请输入商品名称',
@@ -70,7 +68,9 @@ export default {
       },
       options: {
         type: 'submit',
-        validate: true, // default true
+        validateAfter: (err) => {
+          return !err
+        }
       },
     },
     {

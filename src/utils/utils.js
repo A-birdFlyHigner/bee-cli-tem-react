@@ -212,7 +212,7 @@ export const importCDN = (url, name) =>
     document.head.appendChild(dom);
   });
 
-export function leListQuery(service) {
+export function leListQuery(service, {beforeFun = null, queryFUn = null} = {}) {
 
   return {
     formatBefore(queryParams) {
@@ -227,24 +227,27 @@ export function leListQuery(service) {
           query[i] = moment(query[i]).format('YYYY-MM-DD HH:mm:ss')
         }
       }
-      return {
+      const params = {
         ...query,
         page: query.currentPage,
         categoryId,
         categoryCode,
       }
+      return beforeFun ? beforeFun(params) : params
     },
     query: async queryParams => {
       const data = await service(queryParams);
+      if (queryFUn) return queryFUn(data, queryParams)
       const List = data.list || data.rows || []
       const resultList = List.map((item, index)=>{
         return {...item, key: (queryParams.currentPage - 1) * queryParams.pageSize + index + 1}
       })
-      return {
+      const result = {
         total: data.total,
         dataList: resultList,
         currentPage: queryParams.currentPage,
-      };
+      }
+      return result
     },
   };
 }

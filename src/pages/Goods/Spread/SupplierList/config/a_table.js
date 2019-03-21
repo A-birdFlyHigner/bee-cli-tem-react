@@ -7,7 +7,7 @@ import SkuDetail from '../../../common/skuDetail';
 import stockConfig from '../../../common/stockDialog';
 import {updateProductStock, productSpreadRevoke} from '@/services/goods'
 
-const editItemStock = record => {
+const editItemStock = (record, leList) => {
   const {saleUnits} = record
   LeDialog.show({
     title: `商品名称：${record.name}`,
@@ -29,6 +29,7 @@ const editItemStock = record => {
         if (res) {
           message.success('更新成功')
           suc()
+          leList.refresh()
         }
       })
       return false
@@ -36,7 +37,7 @@ const editItemStock = record => {
   });
 };
 
-const handleCancelSpread = (id) => {
+const handleCancelSpread = (id, leList) => {
   LeDialog.show({
     title: '撤销推广',
     maskClosable: true,
@@ -46,6 +47,7 @@ const handleCancelSpread = (id) => {
       if (!res) return
       message.success('撤销成功')
       suc();
+      leList.refresh()
     },
   });
 };
@@ -110,6 +112,10 @@ export default {
                 label: '发货时效',
                 value: ['', '次日达', '预售'][record.logisticsType],
               },
+              {
+                label: '发货时间',
+                value: record.logisticsType === 2 ? `${record.dispatchDate}天` : '',
+              },
             ]}
           />
         );
@@ -118,20 +124,17 @@ export default {
     {
       title: '类目',
       dataIndex: 'pathName',
-      width: 150,
-      render: (text) => {
-        return (
-          <div>
-            {text &&
-              text.split(',').map((item) => (
-                <span key={item}>
-                  &gt;
-                  {item}
-                  <br />
-                </span>
-              ))}
-          </div>
-        );
+      width: 180,
+      render(value) {
+        const symbol = '>';
+        return value.split(',').map((item, index) => {
+          const key = `${item}-${index}`
+          return (
+            <span key={key}>
+              {symbol} {item} <br />
+            </span>
+          )
+        })
       },
     },
     {
@@ -198,12 +201,12 @@ export default {
       width: 160,
       align: 'center',
       fixed: 'right',
-      render: (text, record) => {
+      render: (text, record, index, {leList}) => {
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={() => editItemStock(record)}>调整库存</a>
+            <a onClick={() => editItemStock(record, leList)}>调整库存</a>
             <br />
-            <a onClick={() => handleCancelSpread(record.saleGoodsId)}>撤销推广</a>
+            <a onClick={() => handleCancelSpread(record.saleGoodsId, leList)}>撤销推广</a>
           </div>
         );
       },
