@@ -223,6 +223,9 @@ export function leListQuery(service, {beforeFun = null, queryFUn = null} = {}) {
       const keys = Object.keys(query)
       const mom = '_isAMomentObject'
       for (const i of keys) {
+        if (queryParams[i] === '') {
+          query[i] = undefined
+        }
         if (queryParams[i][mom]) {
           query[i] = moment(query[i]).format('YYYY-MM-DD HH:mm:ss')
         }
