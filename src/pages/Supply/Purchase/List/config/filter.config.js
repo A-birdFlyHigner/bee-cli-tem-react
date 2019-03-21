@@ -1,5 +1,6 @@
 import { purchaseState, purchaseSource, supplierState } from '@/pages/Supply/common/constants';
 import SearchSelect from '@/components/Rules/SearchSelect'
+import timeRule from '@/components/Rules/timeSel/index'
 import {getSupplierEmunList} from '@/services/supply'
 
 export default {
@@ -18,26 +19,12 @@ export default {
       columns: 3,
     },
   },
-
   items: [
-    {
-      label: '采购开始时间',
-      name: 'purchaseTimeStart',
-      component: 'DatePicker',
-      props: {
-        showTime: true,
-        placeholder: '请选择采购开始时间',
-      },
-    },
-    {
-      label: '采购结束时间',
-      name: 'purchaseTimeEnd',
-      component: 'DatePicker',
-      props: {
-        showTime: true,
-        placeholder: '请选择采购结束时间',
-      },
-    },
+    timeRule({
+      label: '采购时间',
+      name: ['purchaseTimeStart', 'purchaseTimeEnd'],
+      placeholder: ['请选择开始时间', '请选择结束时间'],
+    }),
     SearchSelect({
       label: '供应商名称',
       name: 'supplierCode',

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tooltip, Icon, Modal} from 'antd'
+import {Tooltip, Icon} from 'antd'
 import moment from 'moment'
 import {exportPurchaseOrder,} from '@/services/supply'
 import Link from 'umi/link';
@@ -35,7 +35,7 @@ export default {
     },
     {
       title: '采购时间',
-      dataIndex: 'purchaseTime',
+      dataIndex: 'createTime',
       width: 200,
       render(value,record) {
         return (
