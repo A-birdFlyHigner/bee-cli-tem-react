@@ -13,11 +13,21 @@ export default (values)=> {
 
     items: [
       {
-        label: '出库时间',
-        name: 'outboundTime',
+        label: '出库开始时间',
+        name: 'outboundTimeStart',
         component: 'DatePicker',
         props: {
-          placeholder: '请选择入库时间',
+          showTime: true,
+          placeholder: '请选择出库开始时间',
+        },
+      },
+      {
+        label: '出库结束时间',
+        name: 'outboundTimeEnd',
+        component: 'DatePicker',
+        props: {
+          showTime: true,
+          placeholder: '请选择出库结束时间',
         },
       },
       {

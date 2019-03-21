@@ -21,11 +21,21 @@ export default {
 
   items: [
     {
-      label: '采购时间',
-      name: 'purchaseTime',
+      label: '采购开始时间',
+      name: 'purchaseTimeStart',
       component: 'DatePicker',
       props: {
-        placeholder: '请选择采购时间',
+        showTime: true,
+        placeholder: '请选择采购开始时间',
+      },
+    },
+    {
+      label: '采购结束时间',
+      name: 'purchaseTimeEnd',
+      component: 'DatePicker',
+      props: {
+        showTime: true,
+        placeholder: '请选择采购结束时间',
       },
     },
     SearchSelect({
