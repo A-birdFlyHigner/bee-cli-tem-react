@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
-// const domain = '/adminApi';
-const domain = '/api';
+const domain = '/adminApi';
+// const domain = '/api';
 
 // ADMIN_TYPE === 'ADMIN'
 
@@ -25,7 +25,7 @@ export async function exportInputList (params) {
 export async function getSupplierEmunList (params) {
   return request(`${domain}/supplyChainCommon/likeSearch/supplierName`, {
     method: 'POST',
-    body: {params},
+    body: params,
   });
 }
 

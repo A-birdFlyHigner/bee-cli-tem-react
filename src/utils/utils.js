@@ -217,8 +217,9 @@ export function leListQuery(service) {
   return {
     formatBefore(queryParams) {
       const query = JSON.parse(JSON.stringify(queryParams))
-      let { categoryId = []} = query
+      let { categoryId = [], categoryCode = []} = query
       categoryId = categoryId[categoryId.length - 1]
+      categoryCode = categoryCode[categoryCode.length - 1]
       const keys = Object.keys(query)
       const mom = '_isAMomentObject'
       for (const i of keys) {
@@ -229,7 +230,8 @@ export function leListQuery(service) {
       return {
         ...query,
         page: query.currentPage,
-        categoryId
+        categoryId,
+        categoryCode,
       }
     },
     query: async queryParams => {
