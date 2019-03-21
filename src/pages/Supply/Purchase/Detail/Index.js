@@ -7,6 +7,7 @@ import {getPurchaseDetail, getPurchaseDetailList} from '@/services/supply'
 import {leListQuery} from '@/utils/utils'
 
 const formatType = 'YYYY-MM-DD'
+const formatType1 = 'YYYY-MM-DD HH:mm:ss'
 
 class PurchaseEdit extends Component {
   constructor(props) {
@@ -62,7 +63,7 @@ class PurchaseEdit extends Component {
         supplierName,
         expectInboundTime: expectInboundTime && moment(expectInboundTime).format(formatType),
         loseEfficacyTime: loseEfficacyTime && moment(loseEfficacyTime).format(formatType),
-        createTime: createTime && moment(createTime).format(formatType),
+        createTime: createTime && moment(createTime).format(formatType1),
         purchaseNo: this.purchaseNo,
         differStatus: this.differStatus,
         source: source === 0 ? '人工创建' : '系统生成',

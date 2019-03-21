@@ -48,7 +48,7 @@ class PurchaseEdit extends Component {
         deliveryNo: this.deliveryNo,
         expectOutboundTime: expectOutboundTime && moment(expectOutboundTime).format(formatType),
         warehouseName,
-        deliveryType: deliveryType === 0 ? '入仓' : '落地配',
+        deliveryType: deliveryType === 3 ? '入仓' : '落地配',
         communityName,
         consigneeName,
         consigneeMobile,
@@ -56,6 +56,8 @@ class PurchaseEdit extends Component {
       });
     });
   }
+
+  // 2.落地配;3.入仓
 
   render() {
     const { state } = this;

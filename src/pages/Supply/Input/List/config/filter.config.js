@@ -18,11 +18,21 @@ export default (params) => {
 
     items: [
       {
-        label: '入库时间',
-        name: 'inboundTime',
+        label: '入库开始时间',
+        name: 'inboundTimeStart',
         component: 'DatePicker',
         props: {
-          placeholder: '请选择入库时间',
+          showTime: true,
+          placeholder: '请选择入库开始时间',
+        },
+      },
+      {
+        label: '入库结束时间',
+        name: 'inboundTimeEnd',
+        component: 'DatePicker',
+        props: {
+          showTime: true,
+          placeholder: '请选择入库结束时间',
         },
       },
       {
