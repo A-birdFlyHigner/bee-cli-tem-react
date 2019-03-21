@@ -37,9 +37,12 @@ export default {
       title: '采购时间',
       dataIndex: 'purchaseTime',
       width: 200,
-      render(value) {
+      render(value,record) {
         return (
-          <span>{moment(value).format(formatType)}</span>
+          <span>
+            <p>{moment(value).format("YYYY-MM-DD HH:mm:ss")}</p>
+            <p>{record.creatorName && `(${record.creatorName})`}</p>
+          </span>
         );
       },
     },

@@ -25,7 +25,7 @@ export async function exportInputList (params) {
 export async function getSupplierEmunList (params) {
   return request(`${domain}/supplyChainCommon/likeSearch/supplierName`, {
     method: 'POST',
-    body: {params},
+    body: params,
   });
 }
 

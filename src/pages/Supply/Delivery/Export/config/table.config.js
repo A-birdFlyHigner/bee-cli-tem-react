@@ -2,7 +2,8 @@ import React from 'react';
 import moment from 'moment'
 import {exportDelivery} from '@/services/supply'
 
-const formatType = 'YYYY-MM-DD'
+const formatType = 'YYYY-MM-DD HH:mm:ss'
+
 const download = (record) => {
   exportDelivery(record.deliverCode)
 }
