@@ -1,4 +1,5 @@
 import SearchSelect from '@/components/Rules/SearchSelect'
+import timeRule from '@/components/Rules/timeSel/index'
 import {getSupplierEmunList} from '@/services/supply'
 
 export default (params) => {
@@ -17,24 +18,11 @@ export default (params) => {
     },
 
     items: [
-      {
-        label: '入库开始时间',
-        name: 'inboundTimeStart',
-        component: 'DatePicker',
-        props: {
-          showTime: true,
-          placeholder: '请选择入库开始时间',
-        },
-      },
-      {
-        label: '入库结束时间',
-        name: 'inboundTimeEnd',
-        component: 'DatePicker',
-        props: {
-          showTime: true,
-          placeholder: '请选择入库结束时间',
-        },
-      },
+      timeRule({
+        label: '入库时间',
+        name: ['inboundTimeStart', 'inboundTimeEnd'],
+        placeholder: ['请选择开始时间', '请选择结束时间'],
+      }),
       {
         label: '入库单号',
         name: 'inboundNo',
