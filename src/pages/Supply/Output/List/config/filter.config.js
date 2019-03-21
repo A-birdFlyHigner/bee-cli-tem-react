@@ -1,3 +1,5 @@
+import timeRule from '@/components/Rules/timeSel/index'
+
 export default (values)=> {
   return {
     settings: {
@@ -12,24 +14,11 @@ export default (values)=> {
     },
 
     items: [
-      {
-        label: '出库开始时间',
-        name: 'outboundTimeStart',
-        component: 'DatePicker',
-        props: {
-          showTime: true,
-          placeholder: '请选择出库开始时间',
-        },
-      },
-      {
-        label: '出库结束时间',
-        name: 'outboundTimeEnd',
-        component: 'DatePicker',
-        props: {
-          showTime: true,
-          placeholder: '请选择出库结束时间',
-        },
-      },
+      timeRule({
+        label: '出库时间',
+        name: ['outboundTimeStart', 'outboundTimeEnd'],
+        placeholder: ['请选择开始时间', '请选择结束时间'],
+      }),
       {
         label: '出库单号',
         name: 'outboundNo',
