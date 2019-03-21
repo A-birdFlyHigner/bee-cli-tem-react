@@ -25,6 +25,7 @@ export default {
       name: 'purchaseTimeStart',
       component: 'DatePicker',
       props: {
+        showTime: true,
         placeholder: '请选择采购开始时间',
       },
     },
@@ -33,6 +34,7 @@ export default {
       name: 'purchaseTimeEnd',
       component: 'DatePicker',
       props: {
+        showTime: true,
         placeholder: '请选择采购结束时间',
       },
     },

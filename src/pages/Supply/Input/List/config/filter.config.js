@@ -22,6 +22,7 @@ export default (params) => {
         name: 'inboundTimeStart',
         component: 'DatePicker',
         props: {
+          showTime: true,
           placeholder: '请选择入库开始时间',
         },
       },
@@ -30,6 +31,7 @@ export default (params) => {
         name: 'inboundTimeEnd',
         component: 'DatePicker',
         props: {
+          showTime: true,
           placeholder: '请选择入库结束时间',
         },
       },

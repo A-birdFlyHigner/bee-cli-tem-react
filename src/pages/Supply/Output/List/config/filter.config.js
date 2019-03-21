@@ -17,6 +17,7 @@ export default (values)=> {
         name: 'outboundTimeStart',
         component: 'DatePicker',
         props: {
+          showTime: true,
           placeholder: '请选择出库开始时间',
         },
       },
@@ -25,6 +26,7 @@ export default (values)=> {
         name: 'outboundTimeEnd',
         component: 'DatePicker',
         props: {
+          showTime: true,
           placeholder: '请选择出库结束时间',
         },
       },
