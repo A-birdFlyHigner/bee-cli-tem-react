@@ -276,15 +276,16 @@ class PurchaseEdit extends Component {
     this.listDataSource.pagination = leList.getPageData();
     const list = this.listDataSource.newData;
     let errFlag = false;
-    const purchaseOrderDetail = list && list.map((item) => {
+    const purchaseOrderDetail = []
+    errFlag = list && list.some((item) => {
       const { skuCode, skuName, skuImage, itemCode, itemName, supplierPrice } = item;
       if (!this.checkData(this.inputRef[item.skuCode].state.value)) {
         message.error('采购数量不能为空，且必须是正整数')
         self.inputRef[item.skuCode].input.focus()
         errFlag = true;
-        return null
+        return true
       } else {
-        return {
+        purchaseOrderDetail.push({
           purchaseNo: this.purchaseNo,
           skuCode,
           skuName,
@@ -293,8 +294,9 @@ class PurchaseEdit extends Component {
           itemName,
           supplierPrice,
           expectSkuCount: this.inputRef[item.skuCode].state.value,
-        };
+        });
       }
+      return false
     });
 
     if (errFlag) {

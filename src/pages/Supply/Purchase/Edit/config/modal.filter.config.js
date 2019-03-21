@@ -26,7 +26,7 @@ export default (params) => {
         label: '商品名称',
         name: 'itemCode',
         paramName: 'itemName',
-        placeholder: '请输入供应商名称',
+        placeholder: '请输入商品名称',
         requestService: getGoodsEmunList,
       }),
       {
