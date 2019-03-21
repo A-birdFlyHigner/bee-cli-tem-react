@@ -8,7 +8,8 @@ export default function(cityCode){
     settings:{
       value: {
         cityCode
-      }
+      },
+      autoValidate: true,
     },
     form: {
       inline: true, // 表单布局是否为行内样式
@@ -112,6 +113,11 @@ export default function(cityCode){
       options: {
         type: 'submit',
         validate: true, // default true
+        validateWithoutRender: false,
+        validateAfter: (err)=> {
+          if(err) return false
+          return true
+        }
       }
     }, {
       props: {

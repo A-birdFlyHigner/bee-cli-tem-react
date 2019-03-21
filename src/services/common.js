@@ -50,3 +50,22 @@ export async function commomUploadPicture(data) {
     body: data
   });
 }
+
+export async function branchComUpdatePassword(data) {
+  debugger
+  return request(`${domain}/partner/updateBranchCompanyProxyAccountPassword`, {
+    method: 'POST',
+    body: {
+      ...data
+    }
+  });
+}
+
+export async function shopUpdateAccountPassword(data) {
+  return request(`${domain}/shop/updateAccountPassword`, {
+    method: 'POST',
+    body: {
+      ...data
+    }
+  });
+}

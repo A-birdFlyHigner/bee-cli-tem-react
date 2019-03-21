@@ -110,7 +110,7 @@ export default (tableData, status) => {
     }
   })
   const whenFun = () => {
-    return !status === 'preview'
+    return !(status === 'preview')
   }
   return {
     settings: {

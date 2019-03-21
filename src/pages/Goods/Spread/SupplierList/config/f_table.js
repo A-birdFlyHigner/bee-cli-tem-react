@@ -73,6 +73,10 @@ export default {
                 label: '发货时效',
                 value: ['', '次日达', '预售'][record.logisticsType],
               },
+              {
+                label: '发货时间',
+                value: record.logisticsType === 2 ? `${record.dispatchDate}天` : '',
+              },
             ]}
           />
         );
@@ -81,20 +85,17 @@ export default {
     {
       title: '类目',
       dataIndex: 'pathName',
-      width: 250,
-      render: (text) => {
-        return (
-          <div>
-            {text &&
-              text.split(',').map((item) => (
-                <span key={item}>
-                  &gt;
-                  {item}
-                  <br />
-                </span>
-              ))}
-          </div>
-        );
+      width: 350,
+      render(value) {
+        const symbol = '>';
+        return value.split(',').map((item, index) => {
+          const key = `${item}-${index}`
+          return (
+            <span key={key}>
+              {symbol} {item} <br />
+            </span>
+          )
+        })
       },
     },
     {
@@ -188,7 +189,7 @@ export default {
       render: (text, record) => {
         return (
           <div className="operateBtn-container-inline">
-            <a onClick={() => editItemStock(record)}>编辑</a>
+            <a onClick={() => editItemStock(record)}>重新推广</a>
             <br />
           </div>
         );

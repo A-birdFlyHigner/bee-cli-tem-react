@@ -71,8 +71,8 @@ export default class Detail extends Component {
         const { logisticsMethod, logisticsType, dispatchDate} = dataList
         this.leForm[key].setValues({
           logisticsMethod,
-          logisticsType,
-          dispatchDate
+          logisticsType: logisticsType === 0 ? '' : logisticsType,
+          dispatchDate: dispatchDate === 0 ? '' : dispatchDate
         })
       } else {
         dataList = await queryProductSpreadProductBaseDetail({productId: id})
@@ -141,7 +141,7 @@ export default class Detail extends Component {
         branchList = branchList.filter(item => {
           return item.children.length
         })
-        if (!branchList) return message.warning('请选择有效推广渠道')
+        if (!branchList) return message.warning('请选择城市')
         const cityIds = []
         const spreadName = branchList.map(p => {
           const cityName = p.children.map(q => {
@@ -150,7 +150,7 @@ export default class Detail extends Component {
           }).join('、')
           return `${p.title}（${cityName}）`
         }).join('；')
-        if (!cityIds.length) return message.warning('请选择有效推广渠道')
+        if (!cityIds.length) return message.warning('请选择城市')
         const {spreadList, productIds} = this.state
         this.setState({
           spreadList: [
@@ -181,12 +181,12 @@ export default class Detail extends Component {
         isError = true
       }
       else if (!isError) {
-        item.value.productIds.forEach(p => {
-          const list = item.value[`dataSource${p}`]
+        item.getValue('productIds').forEach(p => {
+          const list = item.getValue(`dataSource${p}`)
           list.forEach((q) => {
             const { costPrice, stockCount } = q
-            if (!costPrice || !stockCount) {
-              const { value: { spreadName } = {} } = item
+            if (!costPrice || !stockCount || costPrice === '0') {
+              const { spreadName } = item.getValues()
               if (!isError) {
                 message.warning(`请完善${spreadName}下的商品成本价和推广库存`) 
                 isError = true
@@ -211,7 +211,7 @@ export default class Detail extends Component {
       const keys = Object.keys(this.leForm)
 
       for (const i of keys) {
-        const item = this.leForm[i].value
+        const item = this.leForm[i].getValues()
         if (item.productIds.indexOf(pId) > -1) {
           item.cityIds.forEach(cId => {
             citySpreadDetailList.push({
@@ -266,6 +266,11 @@ export default class Detail extends Component {
   }
 
   cancelClick = () => {
+    const {edit = false} = this.state
+    if (edit) {
+      router.push('/goods/spread/list?status=3')
+      return
+    }
     router.go(-1)
   }
 

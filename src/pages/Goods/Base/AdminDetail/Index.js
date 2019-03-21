@@ -5,7 +5,6 @@ import {
   onChange,
   baseInfo,
   salseInfo,
-  logistics,
   wareHouse,
   skuMainImg,
   productInfo,
@@ -33,7 +32,6 @@ export default class Detail extends Component {
         items: [
           ...baseInfo,
           ...salseInfo,
-          ...logistics,
           ...wareHouse,
           ...skuMainImg,
           ...productInfo,

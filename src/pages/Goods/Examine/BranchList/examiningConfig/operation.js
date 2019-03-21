@@ -43,8 +43,8 @@ const dialogFormConfig = (count) => {
   }
 }
 
-const setBranchList = (err, values, formCore, listCore) => {
-  const channelProductIdList = listCore.getSelectedRowKeys()
+const setBranchList = (err, values, leForm, {leList}) => {
+  const channelProductIdList = leList.getSelectedRowKeys()
   const count = channelProductIdList.length
   if (!count) {
     message.warning('请至少勾选一项！')
@@ -67,7 +67,7 @@ const setBranchList = (err, values, formCore, listCore) => {
         }
         spreadReviewProduct(option).then(res =>{
           if( !res ) return
-          listCore.refresh()
+          leList.refresh()
           hide()
           message.success('已拒绝成功');
         })

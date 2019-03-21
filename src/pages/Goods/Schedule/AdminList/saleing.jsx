@@ -16,7 +16,7 @@ export default class Saleing extends Component {
   
   render () {
     const config = {
-      filterConfig,
+      filterConfig: filterConfig(),
       operationConfig,
       tableConfig,
       ...leListQuery(queryHotProductList)

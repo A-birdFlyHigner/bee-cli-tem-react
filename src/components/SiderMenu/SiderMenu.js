@@ -73,14 +73,14 @@ export default class SiderMenu extends PureComponent {
             onCollapse(collapse);
           }
         }}
-        width={256}
+        width={224}
         theme={theme}
         className={siderClassName}
       >
         <div className={styles.logo} id="logo">
           <Link to="/">
             <img src={logo} alt="logo" />
-            <h1>{title}</h1>
+            {/* <h1>{title}</h1> */}
           </Link>
         </div>
         <Suspense fallback={<PageLoading />}>

@@ -4,6 +4,10 @@ import timeRule from '@/components/Rules/timeSel/index'
 import categoryRule from '@/components/Rules/category'
 
 export default {
+  settings: {
+    value: {},
+    autoValidate: true,
+  },
   form: {
     inline: true, // 表单布局是否为行内样式
   },
@@ -80,13 +84,10 @@ export default {
         allowClear: true,
         options: [{
           label: '待审核',
-          value: 0
-        }, {
-          label: '审核通过',
           value: 1
         }, {
           label: '审核拒绝',
-          value: 2
+          value: 3
         }]
       },
     }, 
@@ -112,6 +113,11 @@ export default {
     options: {
       type: 'submit',
       validate: true, // default true
+      validateWithoutRender: false,
+      validateAfter: (err)=> {
+        if(err) return false
+        return true
+      }
     }
   }, {
     props: {

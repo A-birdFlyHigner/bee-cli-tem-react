@@ -9,6 +9,10 @@ import categoryRule from '@/components/Rules/category'
 // }
 
 export default {
+  settings: {
+    value: {},
+    autoValidate: true,
+  },
   form: {
     inline: true, // 表单布局是否为行内样式
   },
@@ -90,6 +94,11 @@ export default {
     options: {
       type: 'submit',
       validate: true, // default true
+      validateWithoutRender: false,
+      validateAfter: (err)=> {
+        if(err) return false
+        return true
+      }
     }
   }, {
     props: {
