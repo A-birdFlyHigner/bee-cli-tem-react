@@ -41,7 +41,7 @@ export default {
         return (
           <span>
             <p>{moment(value).format("YYYY-MM-DD HH:mm:ss")}</p>
-            <p>{record.creater}</p>
+            <p>{record.creatorName && `(${record.creatorName})`}</p>
           </span>
         );
       },

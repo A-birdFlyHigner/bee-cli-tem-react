@@ -6,6 +6,7 @@ import {getInputList, getInputDetailList, getWarehouseEmunList} from '@/services
 import { Modal } from 'antd';
 import modalTableConfig from './config/modal.table.config';
 import {leListQuery} from '@/utils/utils'
+import moment from 'moment';
 
 const listConfigModal = {
   filterConfig: {settings: {
@@ -23,7 +24,12 @@ class List extends Component {
     const listConfig = {
       filterConfig: filterConfig({purchaseNo: props.location.query.purchaseNo}),
       tableConfig,
-      ...leListQuery(getInputList)
+      ...leListQuery(getInputList, {beforeFun: (params)=> {
+          let {inboundTimeStart, inboundTimeEnd} = params
+          inboundTimeStart = inboundTimeStart && moment(inboundTimeStart).valueOf()
+          inboundTimeEnd = inboundTimeEnd && moment(inboundTimeEnd).valueOf()
+          return {...params, inboundTimeStart, inboundTimeEnd}
+        }})
     }
     const listConfigCombine = {...listConfig}
     listConfigCombine.tableConfig.columns[8] = {

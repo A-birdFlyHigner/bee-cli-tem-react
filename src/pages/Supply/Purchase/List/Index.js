@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { LeList } from '@lib/lepage';
 // import './index.less';
+import moment from 'moment'
 import { getPurchaseList, getWarehouseEmunList, changePurchaseState, exportSupplyDeliveryOrder } from '@/services/supply';
 import { leListQuery } from '@/utils/utils';
 import Link from 'umi/link';
@@ -57,20 +58,35 @@ let listConfig = {
   filterConfig,
   // operationConfig,
   tableConfig,
-  ...leListQuery(getPurchaseList),
+  ...leListQuery(getPurchaseList, {beforeFun: (params)=> {
+    let {purchaseTimeStart, purchaseTimeEnd} = params
+      purchaseTimeStart = purchaseTimeStart && moment(purchaseTimeStart).valueOf()
+      purchaseTimeEnd = purchaseTimeEnd && moment(purchaseTimeEnd).valueOf()
+      return {...params, purchaseTimeStart, purchaseTimeEnd}
+    }}),
 };
 if (ADMIN_TYPE === 'BRANCH') {
   listConfig = {
     filterConfig,
     operationConfig,
     tableConfig,
-    ...leListQuery(getPurchaseList),
+    ...leListQuery(getPurchaseList, {beforeFun: (params)=> {
+        let {purchaseTimeStart, purchaseTimeEnd} = params
+        purchaseTimeStart = purchaseTimeStart && moment(purchaseTimeStart).valueOf()
+        purchaseTimeEnd = purchaseTimeEnd && moment(purchaseTimeEnd).valueOf()
+        return {...params, purchaseTimeStart, purchaseTimeEnd}
+      }}),
   };
 } else if (ADMIN_TYPE === 'SUPPLIER') {
   listConfig = {
     filterConfig: filterConfigSupply,
     tableConfig,
-    ...leListQuery(getPurchaseList),
+    ...leListQuery(getPurchaseList, {beforeFun: (params)=> {
+        let {purchaseTimeStart, purchaseTimeEnd} = params
+        purchaseTimeStart = purchaseTimeStart && moment(purchaseTimeStart).valueOf()
+        purchaseTimeEnd = purchaseTimeEnd && moment(purchaseTimeEnd).valueOf()
+        return {...params, purchaseTimeStart, purchaseTimeEnd}
+      }}),
   };
 }
 

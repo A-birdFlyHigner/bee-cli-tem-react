@@ -6,6 +6,7 @@ import {getOutputList, getOutputDetailList, getWarehouseEmunList} from '@/servic
 import { Modal } from 'antd';
 import modalTableConfig from './config/modal.table.config';
 import {leListQuery} from '@/utils/utils'
+import moment from 'moment';
 
 const listConfigModal = {
   filterConfig: {settings: {
@@ -25,7 +26,12 @@ class List extends Component {
     const listConfigCombine = {
       filterConfig: filterConfig(this.queryParams),
       tableConfig,
-      ...leListQuery(getOutputList)
+      ...leListQuery(getOutputList, {beforeFun: (params)=> {
+          let {outboundTimeStart, outboundTimeEnd} = params
+          outboundTimeStart = outboundTimeStart && moment(outboundTimeStart).valueOf()
+          outboundTimeEnd = outboundTimeEnd && moment(outboundTimeEnd).valueOf()
+          return {...params, outboundTimeStart, outboundTimeEnd}
+        }})
     }
     listConfigCombine.tableConfig.columns[8] = {
       title: '操作',
