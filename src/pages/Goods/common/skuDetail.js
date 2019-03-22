@@ -52,7 +52,7 @@ export default class SkuDetail extends Component {
   render() {
     const { saleUnits, columns } = this.state;
     return (
-      <div style={{ margin: '20px 0' }}>
+      <div style={{ margin: '20px 0', height: '500px', overflow: 'auto' }}>
         <Table rowKey='skuId' dataSource={saleUnits} columns={columns} pagination={false} />
       </div>
     );

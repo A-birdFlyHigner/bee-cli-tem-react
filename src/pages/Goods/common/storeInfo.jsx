@@ -66,7 +66,7 @@ export default class StoreInfo extends Component {
   render () {
     const { saleUnitsInfo, columns } = this.state;
     return (
-      <div style={{margin: '20px 0'}}>
+      <div style={{margin: '20px 0', height: '500px', overflow: 'auto'}}>
         <Table 
           dataSource={saleUnitsInfo} 
           columns={columns} 
