@@ -120,11 +120,11 @@ export default [
             name: '商品在仓库存管理',
             component: './Supply/Warehouse/List',
           },
-          {
-            path: '/supply/delivery/export',
-            name: '送货单导出',
-            component: './Supply/Delivery/Export',
-          },
+          // {
+          //   path: '/supply/delivery/export',
+          //   name: '送货单导出',
+          //   component: './Supply/Delivery/Export',
+          // },
         ],
       },
       // lepage
