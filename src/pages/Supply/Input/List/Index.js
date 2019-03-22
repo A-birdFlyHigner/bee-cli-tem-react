@@ -34,7 +34,7 @@ class List extends Component {
     const listConfigCombine = {...listConfig}
     listConfigCombine.tableConfig.columns[8] = {
       title: '操作',
-      render(value, values, index) {
+      render(value, values) {
         return (
           <div>
             <a href="javascript:;" onClick={()=>{self.showDetail(values)}} >查看</a>
