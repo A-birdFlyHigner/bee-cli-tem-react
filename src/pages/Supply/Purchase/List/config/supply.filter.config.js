@@ -31,6 +31,7 @@ export default {
       name: 'supplierConfirmStatus',
       component: 'Select',
       props: {
+        allowClear: true,
         placeholder: '请选择供应商确认状态',
         options: supplierState,
       },
@@ -40,6 +41,7 @@ export default {
       name: 'status',
       component: 'Select',
       props: {
+        allowClear: true,
         placeholder: '请选择采购订单状态',
         options: [
           {
@@ -66,6 +68,7 @@ export default {
       name: 'referSellOrderCount',
       component: 'Select',
       props: {
+        allowClear: true,
         placeholder: '请选择是否关联销售订单',
         options: [
           {
