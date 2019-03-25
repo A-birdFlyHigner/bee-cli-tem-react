@@ -5,7 +5,7 @@ import { queryCategoryList } from '@/services/common';
 import Sty from './index.less';
 
 const FN = () => {}
-async function fetchData (parentId = 0) {
+async function fetchData (parentId = -1) {
   const resData = await queryCategoryList({ parentId })
   if (!resData) {
     messageApi.error('获取类目失败!')
