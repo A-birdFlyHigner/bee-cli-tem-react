@@ -37,6 +37,7 @@ export default {
       name: 'warehouseCode',
       component: 'Select',
       props: {
+        allowClear: true,
         placeholder: '请选择采购订单状态',
         options: [],
       },
@@ -46,6 +47,7 @@ export default {
       name: 'status',
       component: 'Select',
       props: {
+        allowClear: true,
         placeholder: '请选择采购订单状态',
         options: purchaseState,
       },
@@ -55,6 +57,7 @@ export default {
       name: 'source',
       component: 'Select',
       props: {
+        allowClear: true,
         placeholder: '请选择采购订单来源',
         options: purchaseSource,
       },
@@ -64,6 +67,7 @@ export default {
       name: 'supplierConfirmStatus',
       component: 'Select',
       props: {
+        allowClear: true,
         placeholder: '请选择供应商确认状态',
         options: supplierState,
       },

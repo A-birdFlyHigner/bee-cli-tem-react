@@ -43,6 +43,9 @@ export default (list) =>{
       {
         title: '供应商成本价',
         dataIndex: 'supplierPrice',
+        render: (value)=>{
+          return value && (value / 100).toFixed(2)
+        }
       },
     ],
   };
