@@ -18,7 +18,7 @@ export default class Saleing extends Component {
     const config = {
       filterConfig: filterConfig(),
       operationConfig,
-      tableConfig,
+      tableConfig: tableConfig('1'),
       ...leListQuery(queryHotProductList)
     }
     return (

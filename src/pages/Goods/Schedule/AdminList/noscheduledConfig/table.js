@@ -14,6 +14,9 @@ const { logisticsMethod, logisticsType } = commonMessage
 const goBaseDetail = (id) => {
   router.push({
     pathname: `/goods/schedule/adminProductdetail/${id}`,
+    query: {
+      tabType: '4'
+    }
   })
 }
 
