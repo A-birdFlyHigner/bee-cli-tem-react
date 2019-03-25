@@ -3,7 +3,7 @@ import { ImageTextCard } from '@/components/InfoCard';
 import { LeDialog, LeForm } from '@lib/lepage'
 import router from 'umi/router';
 import SkuDetail from '../../../common/skuDetail';
-import { message } from 'antd';
+import { Popover, message } from 'antd';
 import dialogFormConfig from '../../common/spreadDialog';
 import {queryProductSpreadChannelList} from '@/services/goods'
 
@@ -173,6 +173,20 @@ export default {
       dataIndex: 'alreadySpreadCityNums',
       width: 200,
       align: 'center',
+      render: (text, record) => {
+        const content = (
+          <div>
+            {record.alreadySpreadCityNameList.map(p => {
+            return <p key={p}>{p}</p>
+            })}
+          </div>
+        )
+        return (
+          <Popover content={content}>
+            <a>{text}</a>
+          </Popover> 
+        )
+      }
     },
     {
       title: '操作',

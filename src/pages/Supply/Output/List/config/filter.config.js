@@ -40,6 +40,7 @@ export default (values)=> {
         name: 'warehouseCode',
         component: 'Select',
         props: {
+          allowClear: true,
           placeholder: '请选择采购订单状态',
           options: [],
         },

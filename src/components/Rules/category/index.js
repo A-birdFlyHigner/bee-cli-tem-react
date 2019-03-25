@@ -63,7 +63,7 @@ export default (option = {}) => {
     }
 
     setTimeout(() => {
-      queryCategoryList({parentId: 0}).then(res => {
+      queryCategoryList({parentId: -1}).then(res => {
         if (!res) return
         const options = makeItem(0, res)
         leFrom.setProps(name, {options});

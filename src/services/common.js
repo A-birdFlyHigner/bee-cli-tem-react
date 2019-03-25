@@ -52,7 +52,6 @@ export async function commomUploadPicture(data) {
 }
 
 export async function branchComUpdatePassword(data) {
-  debugger
   return request(`${domain}/partner/updateBranchCompanyProxyAccountPassword`, {
     method: 'POST',
     body: {
