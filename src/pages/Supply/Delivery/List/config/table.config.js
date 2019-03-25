@@ -43,7 +43,7 @@ export default {
       width: 200,
       render(value, values, index) {
         return (
-          <span>{value === 3 ? '入库' : '落地配'}</span>
+          <span>{value === 3 ? '入仓' : '落地配'}</span>
         );
       },
     },

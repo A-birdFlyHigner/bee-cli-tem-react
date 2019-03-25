@@ -34,7 +34,7 @@ export default {
     },
     SearchSelect({
       label: '小区名称',
-      name: 'communityCode',
+      name: 'communityId',
       paramName: 'communityName',
       placeholder: '请输入小区名称',
       requestService: getVillageEmunList
