@@ -20,6 +20,7 @@ export default {
       name: 'warehouseCode',
       component: 'Select',
       props: {
+        allowClear: true,
         placeholder: '请选择仓库名称',
       },
     },

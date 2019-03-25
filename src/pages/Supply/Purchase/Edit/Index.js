@@ -82,6 +82,9 @@ class PurchaseEdit extends Component {
         {
           title: '供应商成本价',
           dataIndex: 'supplierPrice',
+          render: (value)=>{
+            return value && (value / 100).toFixed(2)
+          }
         },
         {
           title: '采购数量',
