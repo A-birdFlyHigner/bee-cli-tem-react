@@ -130,7 +130,7 @@ export default {
     {
       title: '类目',
       dataIndex: 'pathName',
-      width: 150,
+      width: 300,
       render(value) {
         const symbol = '>';
         return value.split(',').map((item, index) => {
@@ -181,11 +181,11 @@ export default {
             })}
           </div>
         )
-        return (
+        return text ? (
           <Popover content={content}>
             <a>{text}</a>
           </Popover> 
-        )
+        ) : text
       }
     },
     {
