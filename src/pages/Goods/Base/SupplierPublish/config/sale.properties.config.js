@@ -181,6 +181,9 @@ const getBatch = (leForm) => {
       label: '批量设置',
       name: 'batch-costPrice',
       follow: true,
+      layout: {
+        label: 'w350'
+      },
       props: {
         placeholder: '请输入成本价',
         maxLength: 12,
@@ -240,6 +243,7 @@ const getColumns = (leForm, globalOptions = {}) => {
       {
         title: '状态',
         dataIndex: 'status',
+        width: 80,
         render (value, item, index) {
           const status = value === 1 ? '可售' : '停售'
           const opposite = value === 1 ? 0 : 1
@@ -261,6 +265,7 @@ const getColumns = (leForm, globalOptions = {}) => {
       {
           title: 'sku组合',
           dataIndex: 'propertyValueNames',
+          width: 170,
           render (value, item, index) {
             return value.join('-')
           }
@@ -268,6 +273,7 @@ const getColumns = (leForm, globalOptions = {}) => {
       {
           title: '成本价',
           dataIndex: 'costPrice',
+          width: 180,
           render (value, item, index) {
             const handleValue = (e, isFormat) => {
               let { value = '' } = e.target
@@ -302,6 +308,7 @@ const getColumns = (leForm, globalOptions = {}) => {
       {
           title: '限购数量',
           dataIndex: 'restriction',
+          width: 180,
           render (value, item, index) {
               return (
                 <Input
@@ -327,6 +334,7 @@ const getColumns = (leForm, globalOptions = {}) => {
       {
         title: 'sku编码(发货编码)',
         dataIndex: 'deliverCode',
+        width: 220,
         render (value, item, index) {
           const { status } = globalOptions
           const { enableDeliverCode: enable } = item

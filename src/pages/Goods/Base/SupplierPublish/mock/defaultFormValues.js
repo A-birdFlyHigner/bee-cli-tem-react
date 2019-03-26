@@ -9,7 +9,7 @@ export const DEFAULT_FORM_VALUES = {
     {
       height: 640,
       order: 1,
-      type: 1,
+      // type: 1,
       uid: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
       url: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
       width: 640,
@@ -19,7 +19,7 @@ export const DEFAULT_FORM_VALUES = {
     {
       height: 640,
       order: 1,
-      type: 1,
+      // type: 1,
       uid: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
       url: "https://img.gegejia.com/40a2b699b96242a082dd6b17c7943560.jpg",
       width: 640,
