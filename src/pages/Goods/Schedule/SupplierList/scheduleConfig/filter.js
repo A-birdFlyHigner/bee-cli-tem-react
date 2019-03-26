@@ -47,6 +47,21 @@ export default {
       },
     },
     {
+      label: '排期类型',
+      name: 'scheduleType',
+      component: 'Select',
+      props: {
+        placeholder: '请选择商品出售状态',
+        options: [{
+          label: '默认普通排期',
+          value: 0,
+        },{
+          label: '秒杀品排期',
+          value: 1,
+        },]
+      },
+    },
+    {
       label: '渠道skuId',
       name: 'skuId',
       component: 'Input',
