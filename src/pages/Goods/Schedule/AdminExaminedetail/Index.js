@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import router from 'umi/router'
 import { LeForm } from '@lib/lepage'
 import { message } from 'antd'
 import { getAdminProductDetail,setProductReviewStatus } from '@/services/goods'
@@ -18,7 +19,7 @@ import {
 // 确定
 const confirm = async (err, values)=> {
   // 总部审核详情的接口 2 通过 3 拒绝
-  const { saleGoodsId } = values
+  const { saleGoodsId, tabType } = values
   const status = values.examineData.chooseType + 1
   const comment = values.examineData.rejuctReason ? values.examineData.rejuctReason : ''
   const channelProductIds = []
@@ -41,23 +42,39 @@ const confirm = async (err, values)=> {
     } else {
       message.warning('拒绝成功！')      
     }
-    window.history.back(-1)
+
+    router.push({
+      pathname: '/goods/schedule/adminList',
+      query: {
+        tabType
+      }
+    })
   })
   return false
 }
 
 // 取消
-const cancel = ()=> {
-  window.history.back(-1)
+const cancel = (err, values)=> {
+  const { tabType } = values
+  router.push({
+    pathname: '/goods/schedule/adminList',
+    query: {
+      tabType
+    }
+  })
 }
 
 export default class Detail extends Component {
 
   constructor(props) {
     super(props)
+    this.store = props    
     const { match } = this.props
     const { params } = match
+    const { tabType } = this.store.location.query?this.store.location.query:''
+    
     this.state = {
+      tabType,
       productId: params.id,
       leFormConf: {
         settings: {
@@ -103,11 +120,14 @@ export default class Detail extends Component {
 
   onMountLeForm = (formCore) => {
     this.formCore = formCore
-    const { productId } = this.state
+    const { productId, tabType } = this.state
 
     getAdminProductDetail({productId: Number(productId)}).then(res => {
       if (!res) return
-      formCore.setValues(res)
+      formCore.setValues({
+        ...res,
+        tabType
+      })
     })
   }
 

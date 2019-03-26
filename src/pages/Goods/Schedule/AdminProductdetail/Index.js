@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import router from 'umi/router'
 import { LeForm } from '@lib/lepage'
 import { getAdminProductDetail } from '@/services/goods'
+import { Button } from 'antd'
 
 import {
   onChange,
@@ -13,7 +15,15 @@ import {
   productImg,
 } from '@/pages/Goods/common/productDetail'
 
-
+const goBack = (record)=>{
+  const tabType = record.getValue('tabType')
+  router.push({
+    pathname: '/goods/schedule/adminList',
+    query: {
+      tabType
+    }
+  })
+}
 
 export default class Detail extends Component {
 
@@ -21,7 +31,11 @@ export default class Detail extends Component {
     super(props)
     const { match } = this.props
     const { params } = match
+    this.store = props        
+    const { tabType } = this.store.location.query?this.store.location.query:''
+
     this.state = {
+      tabType,
       productId: params.id,
       leFormConf: {
         settings: {
@@ -34,6 +48,17 @@ export default class Detail extends Component {
           },
         },
         items: [
+          {
+            name: 'operateBtn',
+            component: 'Item',
+            render: (text, record) => {
+              return(
+                <div className="operateBtn" onClick={()=> goBack(record)}>
+                  <Button>返回</Button>                            
+                </div>
+              )
+            },
+          },
           ...baseInfo,
           salseEdit(true),
           ...logistics,
@@ -48,11 +73,14 @@ export default class Detail extends Component {
 
   onMountLeForm = (formCore) => {
     this.formCore = formCore
-    const { productId } = this.state
+    const { productId, tabType } = this.state
 
     getAdminProductDetail({productId: Number(productId)}).then(res => {
       if (!res) return
-      formCore.setValues(res)
+      formCore.setValues({
+        ...res,
+        tabType
+      })
     })
   }
 

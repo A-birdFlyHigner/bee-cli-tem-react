@@ -20,10 +20,11 @@ export default [
   }, {
     name: 'saleUnitImages',
     value: [],
+    component: 'Item',
     render (values) {
       const {saleUnitImages = []} = values
       return (
-        <div className={Sty.skuImgBox}>
+        <div className={Sty.ImgBoxItem}>
           {
             saleUnitImages.map((item) => {
               return (

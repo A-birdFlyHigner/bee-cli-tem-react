@@ -3,7 +3,7 @@ import { ImageTextCard } from '@/components/InfoCard';
 import { LeDialog, LeForm } from '@lib/lepage'
 import router from 'umi/router';
 import SkuDetail from '../../../common/skuDetail';
-import { message } from 'antd';
+import { Popover, message } from 'antd';
 import dialogFormConfig from '../../common/spreadDialog';
 import {queryProductSpreadChannelList} from '@/services/goods'
 
@@ -89,7 +89,7 @@ const skuDetail = record => {
 
 export default {
   rowKey: 'saleGoodsId',
-  scroll: { x: 1300 },
+  scroll: { x: 1500 },
   rowSelection: {
     selectedRowKeys: [],
     selections: true,
@@ -130,7 +130,7 @@ export default {
     {
       title: '类目',
       dataIndex: 'pathName',
-      width: 150,
+      width: 300,
       render(value) {
         const symbol = '>';
         return value.split(',').map((item, index) => {
@@ -173,6 +173,20 @@ export default {
       dataIndex: 'alreadySpreadCityNums',
       width: 200,
       align: 'center',
+      render: (text, record) => {
+        const content = (
+          <div>
+            {record.alreadySpreadCityNameList.map(p => {
+            return <p key={p}>{p}</p>
+            })}
+          </div>
+        )
+        return text ? (
+          <Popover content={content}>
+            <a>{text}</a>
+          </Popover> 
+        ) : text
+      }
     },
     {
       title: '操作',
