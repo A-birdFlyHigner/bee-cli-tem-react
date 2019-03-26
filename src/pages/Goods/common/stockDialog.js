@@ -170,12 +170,15 @@ export default (tableData, status) => {
         render: (values, core) => {
           const { dataSource } = values;
           return (
-            <Table
-              rowKey="skuId"
-              columns={tabelColumns(core, status)}
-              pagination={false}
-              dataSource={dataSource}
-            />
+            <div style={{height: '500px', overflow: 'auto'}}>
+              <Table
+                rowKey="skuId"
+                scroll={{x: 800}}
+                columns={tabelColumns(core, status)}
+                pagination={false}
+                dataSource={dataSource}
+              />
+            </div>
           );
         },
       },

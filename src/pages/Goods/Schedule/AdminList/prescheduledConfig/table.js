@@ -10,6 +10,9 @@ const { adminreviewStatus } = commonMessage
 const goExamineDetail = (id) => {
   router.push({
     pathname: `/goods/schedule/adminExaminedetail/${id}`,
+    query: {
+      tabType: '3'
+    }
   })
 }
 
@@ -53,7 +56,7 @@ export default {
       return (
         <div className="operateBtn-container-inline">
           {
-            record.reviewStatus === 3 
+            record.reviewStatus !== 3 
             ? 
               <div>-</div>
             :

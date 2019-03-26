@@ -90,11 +90,7 @@ export function dialogFormSetTimeConfig(count) {
                 placeholder={['开始时间','结束时间']}
                 onChange={e => changeTime(e,leFormCore)}
                 className='scheduleRange'
-                showTime={{
-                  hideDisabledOptions: true,
-                  defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],
-                }}
-                format="YYYY-MM-DD HH:mm:ss"
+                format="YYYY-MM-DD"
               />
             </div>
           )
@@ -346,8 +342,8 @@ export function goSetTime(saleGoodsId, leList) {
 export function joinGroup(error, values, leForm, {leList}) {
   const productIds = leList.getSelectedRowKeys()
   const count = productIds.length
-  const cityCode = leList.filterCore.getValue('cityCode')
-
+  // TODO: 后续更改掉leForm取filterLeForm的示例
+  const cityCode = leList.$instance.$filterLeForm.getValue('cityCode')
   if (!count) {
     message.warning('请至少勾选一项！')
     return

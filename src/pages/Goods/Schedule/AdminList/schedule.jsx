@@ -23,7 +23,7 @@ export default class Saleing extends Component {
     const config = {
       filterConfig: filterConfig(cityCode,provinceCode),
       operationConfig,
-      tableConfig,
+      tableConfig: tableConfig('2'),      
       ...leListQuery(querySchedulingProductList)
     }
     return (

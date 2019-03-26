@@ -5,45 +5,25 @@ export default [
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
     routes: [
-      { path: '/', redirect: '/goods/schedule/branchlist' },
+      { path: '/', redirect: '/goods/examine/branchlist' },
       // goods
       {
         path: '/goods',
         name: '商品管理',
         icon: 'goods',
         routes: [
-          // 基础
-          {
-            path: '/goods/base/list',
-            name: '基础商品列表',
-            component: './Goods/Base/SupplierList',
-            hideInMenu: true,            
-          },
-          {
-            path: '/goods/publish',
-            name: '新增商品',
-            component: './Goods/Base/SupplierPublish',
-            hideInMenu: true,
-          },
-          {
-            path: '/goods/base/detail/:id',
-            name: '商品详情',
-            component: './Goods/Base/AdminDetail',
-            hideInMenu: true,
-          },
 
-          // 推广
+          // 审核
           {
-            path: '/goods/spread/list',
-            name: '推广商品列表',
-            component: './Goods/Spread/SupplierList',
-            hideInMenu: true,            
+            path: '/goods/examine/branchlist',
+            name: '商品审核列表',
+            component: './Goods/Examine/BranchList',
           },
           {
-            path: '/goods/spread/setting',
-            name: '设置推广',
-            component: './Goods/Spread/SupplierSetting',
-            hideInMenu: true,
+            path: '/goods/examine/branchdetail/:id',
+            name: '审核商品详情',
+            component: './Goods/Examine/BranchDetail',
+            hideInMenu: true,            
           },
 
           // 排期
@@ -57,19 +37,6 @@ export default [
             name: '编辑商品详情',
             component: './Goods/Schedule/BranchDetail',
             hideInMenu: true,
-          },
-
-          // 审核
-          {
-            path: '/goods/examine/branchlist',
-            name: '商品审核列表',
-            component: './Goods/Examine/BranchList',
-          },
-          {
-            path: '/goods/examine/branchdetail/:id',
-            name: '审核商品详情',
-            component: './Goods/Examine/BranchDetail',
-            hideInMenu: true,            
           },
 
         ],

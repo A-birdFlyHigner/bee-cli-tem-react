@@ -9,10 +9,11 @@ export default [
   }, {
     name: 'mainImages',
     value: [],
+    component: 'Item',
     render (values) {
       const { mainImages = [] } = values
       return (
-        <div className={Sty.skuImgBox}>
+        <div className={Sty.ImgBoxItem}>
           <div>商品主图：</div>
           {
             mainImages.map((item) => {
@@ -29,11 +30,12 @@ export default [
     }
   }, {
     name: 'detailImages',
+    component: 'Item',
     value: [],
     render (values) {
       const { detailImages = [] } = values
       return (
-        <div className={Sty.skuImgBox}>
+        <div className={Sty.ImgBoxItem}>
           <div>商品详情图：</div>
           {
             detailImages.map((item) => {
