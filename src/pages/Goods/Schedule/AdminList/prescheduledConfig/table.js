@@ -56,7 +56,7 @@ export default {
       return (
         <div className="operateBtn-container-inline">
           {
-            record.reviewStatus !== 3 
+            record.reviewStatus === 3 
             ? 
               <div>-</div>
             :
