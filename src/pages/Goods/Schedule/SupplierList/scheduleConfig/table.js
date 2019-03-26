@@ -56,7 +56,7 @@ const skuDetail = record => {
 
 export default {
   rowKey: 'saleGoodsId',
-  scroll: { x: 1500 },
+  scroll: { x: 1800 },
   columns: [
     {
       title: '渠道商品Id',
@@ -105,7 +105,7 @@ export default {
     {
       title: '类目',
       dataIndex: 'pathName',
-      width: 180,
+      width: 300,
       render(value) {
         const symbol = '>';
         return value.split(',').map((item, index) => {

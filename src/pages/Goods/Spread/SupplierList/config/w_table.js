@@ -89,7 +89,7 @@ const skuDetail = record => {
 
 export default {
   rowKey: 'saleGoodsId',
-  scroll: { x: 1300 },
+  scroll: { x: 1500 },
   rowSelection: {
     selectedRowKeys: [],
     selections: true,
