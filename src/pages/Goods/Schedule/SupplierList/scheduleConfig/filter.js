@@ -50,13 +50,14 @@ export default {
       label: '排期类型',
       name: 'scheduleType',
       component: 'Select',
+      value: 0,
       props: {
         placeholder: '请选择商品出售状态',
         options: [{
-          label: '默认普通排期',
+          label: '普通排期',
           value: 0,
         },{
-          label: '秒杀品排期',
+          label: '活动排期',
           value: 1,
         },]
       },
@@ -91,7 +92,9 @@ export default {
     {
       props: {
         children: '重置',
-        onClick() {},
+        onClick(err, values, leForm) {
+          leForm.setValue('scheduleType', 0)
+        },
       },
       options: {
         type: 'reset',
