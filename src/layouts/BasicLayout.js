@@ -71,14 +71,12 @@ class BasicLayout extends React.Component {
     if (ADMIN_TYPE === 'ADMIN') {
       const res = await getUserInfoNew() || {}
       const { menuList = [] } = res
-      const newPid = menuList.find(item => {
-        return item.url === '/leadmin'
-      })
-      const newMenuList = !newPid ? [] : menuList.filter(item => {
-        return item.pid === newPid.id
+      const newMenu = menuList.find(item => {
+        return item.url === '/leadmin' && item.pid === 0
       })
       this.setState({
-        menuList: newMenuList
+        menuList,
+        newPid: newMenu ? newMenu.id : ''
       })
     }
   }
@@ -125,6 +123,7 @@ class BasicLayout extends React.Component {
   };
 
   makeMenuList = (list, pid) => {
+    const { newPid } = this.state
     const result = list.filter(item => {
       return item.pid === pid
     }).map(item => {
@@ -134,7 +133,7 @@ class BasicLayout extends React.Component {
         path: item.url === '/' ? String(item.id) : item.url,
         children: this.makeMenuList(list, item.id)
       }
-      if (pid === 0) {
+      if (pid === newPid) {
         opt.icon = 'icon'
       }
       return opt
@@ -155,9 +154,12 @@ class BasicLayout extends React.Component {
     } = this.props;
     let menuData = defaultMenuData
     if (ADMIN_TYPE === 'ADMIN') {
-      const { menuList = [] } = this.state
-      const adminMenuData = this.makeMenuList(menuList, 0)
-      menuData = adminMenuData
+      const { menuList = [], newPid } = this.state
+      if (newPid) {
+        menuData = this.makeMenuList(menuList, newPid)
+      } else {
+        menuData = []
+      }
     }
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
