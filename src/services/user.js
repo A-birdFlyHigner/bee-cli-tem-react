@@ -13,7 +13,7 @@ export async function queryCurrent() {
 
 // 获取管理后台菜单
 export async function getUserInfoNew (params) {
-  return request(`${domain}/user/userNew`, {
+  return request(`${domain}/user/user`, {
     method: 'POST',
     body: {
       ...params,

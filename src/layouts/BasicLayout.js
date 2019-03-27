@@ -70,8 +70,15 @@ class BasicLayout extends React.Component {
     });
     if (ADMIN_TYPE === 'ADMIN') {
       const res = await getUserInfoNew() || {}
+      const { menuList = [] } = res
+      const newPid = menuList.find(item => {
+        return item.url === '/leadmin'
+      })
+      const newMenuList = !newPid ? [] : menuList.filter(item => {
+        return item.pid === newPid.id
+      })
       this.setState({
-        menuList: res.menuList || []
+        menuList: newMenuList
       })
     }
   }
