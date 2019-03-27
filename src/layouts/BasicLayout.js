@@ -128,7 +128,7 @@ class BasicLayout extends React.Component {
         children: this.makeMenuList(list, item.id)
       }
       if (pid === 0) {
-        opt.icon = ''
+        opt.icon = 'icon'
       }
       return opt
     })
