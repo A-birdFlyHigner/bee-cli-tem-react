@@ -13,6 +13,7 @@ import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './BasicLayout.less';
+import {getUserInfoNew} from '@/services/user'
 
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
@@ -45,7 +46,14 @@ const query = {
 };
 
 class BasicLayout extends React.Component {
-  componentDidMount() {
+  constructor (props) {
+    super(props)
+    this.state = {
+      menuList: []
+    }
+  }
+
+  componentDidMount = async () => {
     const {
       dispatch,
       route: { routes, authority },
@@ -60,6 +68,18 @@ class BasicLayout extends React.Component {
       type: 'menu/getMenuData',
       payload: { routes, authority },
     });
+    if (ADMIN_TYPE === 'ADMIN') {
+      const res = await getUserInfoNew() || {}
+      this.setState({
+        menuList: res.menuList || []
+      })
+    }
+  }
+
+  componentWillUnmount () {
+    this.setState = () => {
+      return null
+    }
   }
 
   getContext() {
@@ -97,6 +117,24 @@ class BasicLayout extends React.Component {
     return <SettingDrawer />;
   };
 
+  makeMenuList = (list, pid) => {
+    const result = list.filter(item => {
+      return item.pid === pid
+    }).map(item => {
+      const opt = {
+        id: item.id,
+        name: item.name,
+        path: item.url === '/' ? String(item.id) : item.url,
+        children: this.makeMenuList(list, item.id)
+      }
+      if (pid === 0) {
+        opt.icon = ''
+      }
+      return opt
+    })
+    return result
+  }
+
   render() {
     const {
       navTheme,
@@ -104,11 +142,16 @@ class BasicLayout extends React.Component {
       children,
       location: { pathname },
       isMobile,
-      menuData,
+      menuData: defaultMenuData,
       breadcrumbNameMap,
       fixedHeader,
     } = this.props;
-
+    let menuData = defaultMenuData
+    if (ADMIN_TYPE === 'ADMIN') {
+      const { menuList = [] } = this.state
+      const adminMenuData = this.makeMenuList(menuList, 0)
+      menuData = adminMenuData
+    }
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
     const layout = (
@@ -118,9 +161,9 @@ class BasicLayout extends React.Component {
             logo={logo}
             theme={navTheme}
             onCollapse={this.handleMenuCollapse}
-            menuData={menuData}
             isMobile={isMobile}
             {...this.props}
+            menuData={menuData}
           />
         )}
         <Layout
