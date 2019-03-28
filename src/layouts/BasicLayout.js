@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
-import { Layout } from 'antd';
+import router from 'umi/router';
+import { Layout, message } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
@@ -13,7 +14,7 @@ import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './BasicLayout.less';
-import {getUserInfoNew} from '@/services/user'
+import {getUserInfoNew} from '@/services/user';
 
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
@@ -141,6 +142,18 @@ class BasicLayout extends React.Component {
     return result
   }
 
+  getMenuItem = (menuData) => {
+    let route = ''
+    if (menuData.length) {
+      if (menuData[0].children && menuData[0].children.length) {
+        route = this.getMenuItem(menuData[0].children)
+      } else {
+        route = menuData[0].path
+      }
+    }
+    return route
+  }
+
   render() {
     const {
       navTheme,
@@ -157,6 +170,11 @@ class BasicLayout extends React.Component {
       const { menuList = [], newPid } = this.state
       if (newPid) {
         menuData = this.makeMenuList(menuList, newPid)
+        const {location} = window
+        if (location.hash === '#/') {
+          const path = this.getMenuItem(menuData)
+          router.push(path)
+        }
       } else {
         menuData = []
       }
