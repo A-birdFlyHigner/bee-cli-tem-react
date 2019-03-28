@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
-import { Layout } from 'antd';
+import router from 'umi/router';
+import { Layout, message } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
@@ -13,6 +14,7 @@ import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './BasicLayout.less';
+import {getUserInfoNew} from '@/services/user';
 
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
@@ -45,7 +47,14 @@ const query = {
 };
 
 class BasicLayout extends React.Component {
-  componentDidMount() {
+  constructor (props) {
+    super(props)
+    this.state = {
+      menuList: []
+    }
+  }
+
+  componentDidMount = async () => {
     const {
       dispatch,
       route: { routes, authority },
@@ -60,6 +69,23 @@ class BasicLayout extends React.Component {
       type: 'menu/getMenuData',
       payload: { routes, authority },
     });
+    if (ADMIN_TYPE === 'ADMIN') {
+      const res = await getUserInfoNew() || {}
+      const { menuList = [] } = res
+      const newMenu = menuList.find(item => {
+        return item.url === '/leadmin' && item.pid === 0
+      })
+      this.setState({
+        menuList,
+        newPid: newMenu ? newMenu.id : ''
+      })
+    }
+  }
+
+  componentWillUnmount () {
+    this.setState = () => {
+      return null
+    }
   }
 
   getContext() {
@@ -97,6 +123,37 @@ class BasicLayout extends React.Component {
     return <SettingDrawer />;
   };
 
+  makeMenuList = (list, pid) => {
+    const { newPid } = this.state
+    const result = list.filter(item => {
+      return item.pid === pid
+    }).map(item => {
+      const opt = {
+        id: item.id,
+        name: item.name,
+        path: item.url === '/' ? String(item.id) : item.url,
+        children: this.makeMenuList(list, item.id)
+      }
+      if (pid === newPid) {
+        opt.icon = 'icon'
+      }
+      return opt
+    })
+    return result
+  }
+
+  getMenuItem = (menuData) => {
+    let route = ''
+    if (menuData.length) {
+      if (menuData[0].children && menuData[0].children.length) {
+        route = this.getMenuItem(menuData[0].children)
+      } else {
+        route = menuData[0].path
+      }
+    }
+    return route
+  }
+
   render() {
     const {
       navTheme,
@@ -104,11 +161,24 @@ class BasicLayout extends React.Component {
       children,
       location: { pathname },
       isMobile,
-      menuData,
+      menuData: defaultMenuData,
       breadcrumbNameMap,
       fixedHeader,
     } = this.props;
-
+    let menuData = defaultMenuData
+    if (ADMIN_TYPE === 'ADMIN') {
+      const { menuList = [], newPid } = this.state
+      if (newPid) {
+        menuData = this.makeMenuList(menuList, newPid)
+        const {location} = window
+        if (location.hash === '#/') {
+          const path = this.getMenuItem(menuData)
+          router.push(path)
+        }
+      } else {
+        menuData = []
+      }
+    }
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
     const layout = (
@@ -118,9 +188,9 @@ class BasicLayout extends React.Component {
             logo={logo}
             theme={navTheme}
             onCollapse={this.handleMenuCollapse}
-            menuData={menuData}
             isMobile={isMobile}
             {...this.props}
+            menuData={menuData}
           />
         )}
         <Layout

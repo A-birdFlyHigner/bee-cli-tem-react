@@ -5,7 +5,7 @@ export default [
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
     routes: [
-      { path: '/', redirect: '/goods/base/list' },
+      { path: '/', redirect: '/' },
 
       // goods
       {
