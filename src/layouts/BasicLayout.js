@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import router from 'umi/router';
-import { Layout, message } from 'antd';
+import { Layout } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
@@ -15,6 +15,7 @@ import SiderMenu from '@/components/SiderMenu';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './BasicLayout.less';
 import {getUserInfoNew} from '@/services/user';
+import { iconOption } from '@/defaultSettings'
 
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
@@ -135,7 +136,7 @@ class BasicLayout extends React.Component {
         children: this.makeMenuList(list, item.id)
       }
       if (pid === newPid) {
-        opt.icon = 'icon'
+        opt.icon = iconOption[opt.name] || 'icon-yujiazai'
       }
       return opt
     })
@@ -153,7 +154,7 @@ class BasicLayout extends React.Component {
     }
     return route
   }
-
+  
   render() {
     const {
       navTheme,
@@ -178,6 +179,13 @@ class BasicLayout extends React.Component {
       } else {
         menuData = []
       }
+    } else {
+      menuData = menuData.map(item => {
+        return {
+          ...item,
+          icon: iconOption[item.name] || 'icon-yujiazai'
+        }
+      })
     }
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
