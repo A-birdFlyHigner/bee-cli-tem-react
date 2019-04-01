@@ -13,6 +13,10 @@ export default class Saleing extends Component {
     super()
     this.store = props
   }
+
+  onMountLeList = (leList)=>{
+    this.leList = leList
+  }
   
   render () {
     const config = {
@@ -22,7 +26,7 @@ export default class Saleing extends Component {
       ...leListQuery(queryHotProductList)
     }
     return (
-      <LeList {...config} />
+      <LeList {...config} onMount={this.onMountLeList} />
     )
   }
 }

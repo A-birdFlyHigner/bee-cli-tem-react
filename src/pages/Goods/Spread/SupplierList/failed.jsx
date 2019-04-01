@@ -11,6 +11,10 @@ export default class Failed extends Component {
     super();
     this.store = props;
   }
+  
+  onListMount = (leList) => {
+    this.leList = leList
+  }
 
   render() {
     const config = {
@@ -19,6 +23,6 @@ export default class Failed extends Component {
       tableConfig,
       ...leListQuery(queryProductSpreadFailureList),
     };
-    return <LeList {...config} />;
+    return <LeList onMount={this.onListMount} {...config} />;
   }
 }

@@ -12,6 +12,10 @@ export default class Wating extends Component {
     this.store = props;
   }
 
+  onListMount = (leList) => {
+    this.leList = leList
+  }
+
   render() {
     const config = {
       filterConfig,
@@ -19,6 +23,6 @@ export default class Wating extends Component {
       tableConfig,
       ...leListQuery(listUnScheduledProduct),
     };
-    return <LeList {...config} />;
+    return <LeList onMount={this.onListMount} {...config} />;
   }
 }

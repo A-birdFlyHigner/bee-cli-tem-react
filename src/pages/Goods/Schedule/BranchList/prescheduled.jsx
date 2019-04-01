@@ -14,6 +14,10 @@ export default class Prescheduled extends Component {
     this.store = props
   }
   
+  onMountLeList = (leList)=>{
+    this.leList = leList
+  }
+
   render () {
     const config = {
       filterConfig,
@@ -22,7 +26,7 @@ export default class Prescheduled extends Component {
       ...leListQuery(listPreScheduledProduct)
     }
     return (
-      <LeList {...config} />
+      <LeList {...config} onMount={this.onMountLeList} />
     )
   }
 }
