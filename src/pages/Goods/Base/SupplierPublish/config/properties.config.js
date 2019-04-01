@@ -133,6 +133,7 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
     const name = `${namePrefix}-${propertyNameId}`
     const message = `${MESSAGE_PREFIX[inputType]}${label}`
     const restProps = {}
+    const restRules = {}
     let customInputItem = null
     let selectedTagItem = null
 
@@ -155,6 +156,7 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
     // 限制长度
     if ([5].indexOf(inputType) !== -1) {
       restProps.maxLength = 128
+      restRules.whitespace = true
     }
 
     // 显示占位符
@@ -265,6 +267,7 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
           className: 'gp-properties-comp'
         },
         rules: {
+          ...restRules,
           required,
           message,
         }

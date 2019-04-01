@@ -26,6 +26,7 @@ const getBaseInfoConfig = () => {
         rules: {
           type: 'string',
           required: true,
+          whitespace: true,
           message: '长名称不能为空，40个汉字以内',
           max: 40
         }
@@ -45,6 +46,7 @@ const getBaseInfoConfig = () => {
         rules: {
           type: 'string',
           required: true,
+          whitespace: true,
           message: '短名称不能为空，20个汉字以内',
           max: 20
         }
