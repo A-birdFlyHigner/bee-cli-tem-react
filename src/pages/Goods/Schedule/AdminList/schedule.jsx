@@ -17,6 +17,10 @@ export default class Saleing extends Component {
       provinceCode: this.store.provinceCode||'',
     }
   }
+
+  onMountLeList = (leList)=>{
+    this.leList = leList
+  }
   
   render () {
     const { cityCode,provinceCode }= this.state    
@@ -27,7 +31,7 @@ export default class Saleing extends Component {
       ...leListQuery(querySchedulingProductList)
     }
     return (
-      <LeList {...config} />
+      <LeList {...config} onMount={this.onMountLeList} />
     )
   }
 }

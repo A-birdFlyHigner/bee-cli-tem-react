@@ -17,6 +17,10 @@ export default class Scheduled extends Component {
     }
   }
   
+  onMountLeList = (leList)=>{
+    this.leList = leList
+  }
+
   render () {
     const { cityCode }= this.state
     const config = {
@@ -26,7 +30,7 @@ export default class Scheduled extends Component {
       ...leListQuery(listScheduledProduct)
     }
     return (
-      <LeList {...config} />
+      <LeList {...config} onMount={this.onMountLeList} />
     )
   }
 }
