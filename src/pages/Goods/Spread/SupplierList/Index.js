@@ -13,22 +13,35 @@ export default class SpreadList extends Component {
     const { query } = location
     const { status = '1' } = query
     this.state = {
-      status
+      status,
+      refList: {
+        '1': 'wait',
+        '2': 'audit',
+        '3': 'fail'
+      }
     }
   }
 
+  onChange = (activeKey) => {
+    const {refs} = this
+    const {refList} = this.state
+    const pageRef = refs[refList[activeKey]]
+    if (!pageRef || !pageRef.leList) return
+    pageRef.leList.refresh()
+  }
+
   render() {
-    const { status } = this.state
+    const { status, refList } = this.state
     return (
-      <Tabs size="large" defaultActiveKey={status}>
+      <Tabs size="large" defaultActiveKey={status} onChange={this.onChange}>
         <TabPane tab="等待推广" key="1">
-          <Waiting />
+          <Waiting ref={refList['1']} />
         </TabPane>
         <TabPane tab="推广审核中" key="2">
-          <Auditing />
+          <Auditing ref={refList['2']} />
         </TabPane>
         <TabPane tab="推广失败" key="3">
-          <Failed />
+          <Failed ref={refList['3']} />
         </TabPane>
       </Tabs>
     );
