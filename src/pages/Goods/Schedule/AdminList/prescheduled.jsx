@@ -13,6 +13,10 @@ class Prescheduled extends Component {
     super()
     this.store = props
   }
+
+  onMountLeList = (leList)=>{
+    this.leList = leList
+  }
   
   render () {
     const config = {
@@ -21,7 +25,7 @@ class Prescheduled extends Component {
       tableConfig,
       ...leListQuery(queryPreScheduleProductList)
     }
-    return <LeList {...config} />
+    return <LeList {...config} onMount={this.onMountLeList} />
     
   }
 }

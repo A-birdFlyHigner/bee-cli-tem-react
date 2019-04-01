@@ -12,6 +12,10 @@ export default class ExaminList extends Component {
     this.store = props
     this.state = {
       tabType: '1',
+      refList: {
+        '1': 'examining',
+        '2': 'spreadFailure',
+      }
     }
   }
 
@@ -23,16 +27,24 @@ export default class ExaminList extends Component {
       })
     }
   }
+
+  onChange = (activeKey) => {
+    const {refs} = this
+    const {refList} = this.state
+    const pageRef = refs[refList[activeKey]]
+    if (!pageRef || !pageRef.leList) return
+    pageRef.leList.refresh()
+  }
   
   render () {
-    const { tabType } = this.state
+    const { tabType, refList } = this.state
     return (
-      <Tabs size='large' defaultActiveKey={tabType}>
+      <Tabs size='large' defaultActiveKey={tabType} onChange={this.onChange}>
         <TabPane tab="推广审核中" key="1">
-          <Examining />
+          <Examining ref={refList['1']} />
         </TabPane>
         <TabPane tab="推广失败" key="2">
-          <SpreadFailure />
+          <SpreadFailure ref={refList['2']} />
         </TabPane>
       </Tabs>
     )

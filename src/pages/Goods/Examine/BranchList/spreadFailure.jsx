@@ -13,6 +13,10 @@ export default class SpreadFailure extends Component {
     this.store = props
   }
   
+  onMountLeList = (leList)=>{
+    this.leList = leList
+  }
+  
   render () {
     const config = {
       filterConfig,
@@ -21,7 +25,7 @@ export default class SpreadFailure extends Component {
       ...leListQuery(spreadFailureProductionList)
     }
     return (
-      <LeList {...config} />
+      <LeList {...config} onMount={this.onMountLeList}/>
     )
   }
 }

@@ -14,6 +14,11 @@ export default class SpreadList extends Component {
     this.state = {
       tabType: '1',
       cityCode: '',
+      refList: {
+        '1': 'noscheduled',
+        '2': 'prescheduled',
+        '3': 'scheduled',
+      }
     }
   }
 
@@ -26,27 +31,35 @@ export default class SpreadList extends Component {
       })
     }
   }
+
+  onChange = (activeKey) => {
+    const {refs} = this
+    const {refList} = this.state
+    const pageRef = refs[refList[activeKey]]
+    if (!pageRef || !pageRef.leList) return
+    pageRef.leList.refresh()
+  }
   
   render () {
-    const { tabType, cityCode } = this.state
+    const { tabType, cityCode, refList } = this.state
     // 只有直营分公司有【预排期】，加盟分公司没有预排期状态 2 直营 
     const branchJoinType = JSON.parse(window.sessionStorage.getItem('HQBSFORSHOP')).userInfo.branchJoinType? JSON.parse(window.sessionStorage.getItem('HQBSFORSHOP')).userInfo.branchJoinType:''
     return (
-      <Tabs size='large' defaultActiveKey={tabType}>
+      <Tabs size='large' defaultActiveKey={tabType} onChange={this.onChange}>
         <TabPane tab="未排期" key="1">
-          <Noscheduled />
+          <Noscheduled ref={refList['1']} />
         </TabPane>
         {
           branchJoinType && branchJoinType===2
           ?
             <TabPane tab="预排期" key="2">
-              <Prescheduled />
+              <Prescheduled ref={refList['2']} />
             </TabPane>
           : 
             null
         }
         <TabPane tab="已排期" key="3">
-          <Scheduled cityCode={cityCode} />
+          <Scheduled ref={refList['3']} cityCode={cityCode} />
         </TabPane>
       </Tabs>
     )

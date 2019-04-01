@@ -13,6 +13,10 @@ class Noscheduled extends Component {
     super()
     this.store = props
   }
+
+  onMountLeList = (leList)=>{
+    this.leList = leList
+  }
   
   render () {
     const config = {
@@ -21,7 +25,7 @@ class Noscheduled extends Component {
       tableConfig,
       ...leListQuery(queryUnScheduleProductList)
     }
-    return <LeList {...config} />
+    return <LeList {...config} onMount={this.onMountLeList} />
   }
 }
 
