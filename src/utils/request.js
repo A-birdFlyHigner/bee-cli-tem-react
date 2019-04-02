@@ -2,6 +2,7 @@ import fetch from 'dva/fetch';
 import { notification, message } from 'antd';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
+import NumTool from './num'
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
