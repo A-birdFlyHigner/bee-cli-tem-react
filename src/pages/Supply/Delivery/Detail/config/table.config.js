@@ -35,7 +35,7 @@ export default {
     //   title: '供应商成本价',
     //   dataIndex: 'supplierPrice',
     //   render: (value)=>{
-    //     return (value / 100).toFixed(2)
+    //     return (Number(value).div(100)).toFixed(2)
     //   }
     // },
     {

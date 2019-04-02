@@ -103,7 +103,7 @@ const formatOptions = [
         return {
           ...omit(item, ['key', 'propertyValueNames']),
           // 成本价乘以100，转成单位分
-          costPrice: Number(costPrice) * 100
+          costPrice: Number(costPrice).mul(100)
         }
       })
     },

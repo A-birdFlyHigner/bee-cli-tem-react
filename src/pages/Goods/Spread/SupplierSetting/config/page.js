@@ -222,7 +222,7 @@ export default class Detail extends Component {
               spreadSkuList: item[`dataSource${pId}`].map(sku => {
                 return {
                   ...sku,
-                  costPrice: sku.costPrice * 100
+                  costPrice: Number(sku.costPrice).mul(100)
                 }
               })
             })
