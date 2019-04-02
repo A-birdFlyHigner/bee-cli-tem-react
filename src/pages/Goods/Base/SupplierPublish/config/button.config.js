@@ -41,7 +41,7 @@ const getPropertyList = (values, prefix) => {
     // 文本框
     else if (typeof rawValue === 'string') {
       propertyValue = [{
-        pvName: rawValue
+        pvName: rawValue.trim()
       }]
     }
     // 单选（不可自定义、可自定义）
