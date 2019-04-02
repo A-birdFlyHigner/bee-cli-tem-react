@@ -51,11 +51,11 @@ const confirm = (err, values)=> {
 
   const skuPriceInfosList = []
   saleUnits.forEach(element => {
-    skuPriceInfosList.push({
-      grossProfit: element.grossProfit*100,
-      marketPrice: Number(element.marketPrice*100),
-      memberPrice: Number(element.memberPrice*100),
-      nonMemberPrice: Number(element.nonmemberPrice*100),
+    skuPriceInfosList.push({ 
+      grossProfit: Number(element.grossProfit).sub(100),
+      marketPrice: Number(element.marketPrice).sub(100),
+      memberPrice: Number(element.memberPrice).sub(100),
+      nonMemberPrice: Number(element.nonmemberPrice).sub(100),
       skuId: element.skuId
     })
   })
