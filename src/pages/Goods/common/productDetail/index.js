@@ -13,8 +13,8 @@ const onChange = (changeKeys, values, core) => {
   const skuList = values.saleUnits.map(sku => {
     const {memberPrice, nonmemberPrice, costPrice, grossProfit} = sku
     const grossNum = (grossProfit === '-' || grossProfit === '-.' || grossProfit === '.') ? '0' : grossProfit
-    const memeberCommission = ((memberPrice*10000 - memberPrice*techServiceRate*100 - costPrice*10000 - grossNum*10000)/10000).toFixed(2)
-    const noMemeberCommission = ((nonmemberPrice*10000 - nonmemberPrice*techServiceRate*100 - costPrice*10000 - grossNum*10000)/10000).toFixed(2)
+    const memeberCommission = (Number(Number(memberPrice).mul(10000) - Number(memberPrice).mul(Number(techServiceRate).mul(100)) - Number(costPrice).mul(10000) - Number(grossNum).mul(10000)).div(10000)).toFixed(2)
+    const noMemeberCommission = (Number(Number(nonmemberPrice).mul(10000) - Number(nonmemberPrice).mul(Number(techServiceRate).mul(100)) - Number(costPrice).mul(10000) - Number(grossNum).mul(10000)).div(10000)).toFixed(2)
     return {
       ...sku,
       memeberCommission,

@@ -36,10 +36,10 @@ const confirm = async (err, values)=> {
     saleUnits.forEach(item => {
       const { grossProfit, marketPrice, memberPrice, nonmemberPrice, skuId, memeberCommission, noMemeberCommission } = item
       skuPriceInfos.push({
-        grossProfit: grossProfit * 100,
-        marketPrice: marketPrice * 100,
-        memberPrice: memberPrice * 100,
-        nonMemberPrice: nonmemberPrice * 100,
+        grossProfit: Number(grossProfit).mul(100),
+        marketPrice: Number(marketPrice).mul(100),
+        memberPrice: Number(memberPrice).mul(100),
+        nonMemberPrice: Number(nonmemberPrice).mul(100),
         skuId
       })
       if( !compare(marketPrice, nonmemberPrice) || !compare(nonmemberPrice, memberPrice) || !compare(memberPrice, 0) ){
