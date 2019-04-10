@@ -2,6 +2,7 @@ import React from 'react'
 import { message as messageApi, Tag } from 'antd';
 import { emptyFn, Cache } from '../utils'
 import { saveCategoryPropertyPair } from '@/services/goods'
+import Reg from '@/utils/reg';
 
 const skuNotHasCache = Cache.create('sku.nothas')
 const inputTypesCache = Cache.create('input.types')
@@ -27,6 +28,17 @@ const MESSAGE_PREFIX = {
   6: '请选择',
   7: '请选择',
 }
+
+const SIGNLESS_INTEGER = [
+  '允收期（天）',
+  '保质期（天）',
+]
+
+const SIGNLESS_FLOAT = [
+  '重量(kg)',
+  '体积(m3)',
+  '面积(m²)',
+]
 
 // 添加属性对
 const handleAddPropertyPair = async (leForm, name, event, okFn = emptyFn) => {
@@ -120,7 +132,7 @@ const handleChangeValue = (leForm, name, value, okFn = emptyFn) => {
 
 // 属性项包装
 const getPropertiesWrap = (leForm, properties = [], options = {}) => {
-  const { okFn = emptyFn, namePrefix = 'pnId' } = options
+  const { okFn = emptyFn, namePrefix = 'pnId', propertyType = '' } = options
   const result = properties.map(property => {
     const {
       propertyName: label,
@@ -131,7 +143,7 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
     } = property
 
     const name = `${namePrefix}-${propertyNameId}`
-    const message = `${MESSAGE_PREFIX[inputType]}${label}`
+    let message = `${MESSAGE_PREFIX[inputType]}${label}`
     const restProps = {}
     const restRules = {}
     let customInputItem = null
@@ -151,6 +163,17 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
           notHas: propertyPair.notHas || false,
         }
       })
+    }
+
+    if (propertyType === 'warehouse') {
+      if (SIGNLESS_INTEGER.indexOf(label) > -1) {
+        restRules.pattern = Reg.Num
+        message = `${message}，正整数`
+      }
+      if (SIGNLESS_FLOAT.indexOf(label) > -1) {
+        restRules.pattern = Reg.Weight
+        message = `${message}，整数，支持3位小数`
+      }
     }
 
     // 限制长度
@@ -254,7 +277,6 @@ const getPropertiesWrap = (leForm, properties = [], options = {}) => {
         }
       }
     }
-
     return [{
         label,
         name,

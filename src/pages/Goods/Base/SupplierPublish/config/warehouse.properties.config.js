@@ -10,6 +10,7 @@ const getWarehousePropertiesConfig = (warehouseProperties = []) => {
       getTip('注：仓库属性根据商品类目展示，仅仓库传输时使用，不展示在前端'),
       ...getPropertiesWrap(leForm, warehouseProperties, {
         namePrefix: WAREHOUSE_PROPERTY_NAME_ID,
+        propertyType: 'warehouse'
       })
     ]
   }

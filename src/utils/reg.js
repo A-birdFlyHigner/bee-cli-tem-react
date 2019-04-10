@@ -12,6 +12,7 @@ class RegUtils {
     this.passowdExp = /^[0-9a-zA-Z]{6,12}$/;
     this.IpCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
     this.Price = /^(([1-9]\d*)|0)(\.\d{0,2})?$/;
+    this.Weight = /^(([1-9]\d*)|0)(\.\d{1,3})?$/;
     this.NumEng = /^[A-Za-z0-9]+$/; // 数字和字母
     this.ChineseEng = /^[A-Z a-z\u4e00-\u9fa5]+$/; // 英文(包括空格)和汉字
     this.specialReg = /^[\u4e00-\u9fa5-/& '.a-zA-Z0-9]+$/; // 中文,字母，数字，-/& '. 字符
