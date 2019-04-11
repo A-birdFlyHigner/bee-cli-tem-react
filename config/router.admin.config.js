@@ -120,6 +120,11 @@ export default [
             name: '商品在仓库存管理',
             component: './Supply/Warehouse/List',
           },
+          {
+            path: '/supply/local/delivery/list',
+            name: '本地配送范围管理',
+            component: './Supply/LocalDelivery/AdminList',
+          },
           // {
           //   path: '/supply/delivery/export',
           //   name: '送货单导出',

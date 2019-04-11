@@ -15,10 +15,10 @@ module.exports = {
   // your iconfont Symbol Scrip Url
   // eg：//at.alicdn.com/t/font_1039637_btcrd5co4w.js
   // 注意：如果需要图标多色，Iconfont图标项目里要进行批量去色处理
-  iconfontUrl: '//at.alicdn.com/t/font_288366_tiq1h49zor.js',
+  iconfontUrl: '//at.alicdn.com/t/font_288366_qh251qdb0ci.js',
   iconOption: {
     '商品管理': 'icon-shangpinguanli-baise',
-    '城市管理': 'icon-chengshiguanli-huise',
+    '城市管理': 'icon-chengshiguanli-huise1',
     '供应链': 'icon-gongyinglian-huise',
   }
 };
