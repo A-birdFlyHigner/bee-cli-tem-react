@@ -1,12 +1,20 @@
 # React + LePage脚手架模板
 
+## node/npm 安装
+
+- 打开nodejs官网：[node下载](<https://nodejs.org/en/>)
+- 点击下载完后，一路点安装 就安装完成了
+- 然后打开-终端-输入node -v 会返回当前安装的版本号
+
+## 项目依赖
+
 - 因lePage上传的是私有仓库，所以需要使用[gnpm](http://npm.test.gegejia.com/package/@lib/hello-world)安装依赖
 
 ```jsx
 gnpm install
 ```
 
-- 启动
+## 启动
 
 ```jsx
 npm start
