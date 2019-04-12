@@ -1,5 +1,8 @@
+import React from 'react'
+
 export default {
   settings: {
+    value: {name: '', city: ''},
     globalStatus: 'preview',
   },
 
@@ -34,8 +37,15 @@ export default {
       label: '详细信息',
       name: 'detail',
       component: 'Item',
-      render(values, leForm) {
-        return `姓名:${values.name} - 城市:${values.city}`;
+      props: {
+        style: {
+          margin: '20px 0 0 0'
+        }
+      },
+      render(values) {
+        const { name, city } = values
+        const div = <div style={{margin: '10px 0 0 40px'}}>{`姓名:${name} - 城市:${city}`}</div>
+        return name === null ? null : div
       },
     },
   ],

@@ -56,6 +56,7 @@ const showDetail = values => {
 };
 
 export default {
+  rowKey: 'id',
   // rowSelection: {
   //   selectedRowKeys: [1, 2],
   //   onChange: onSelectChange,

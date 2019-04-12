@@ -1,83 +1,37 @@
-# 小区乐新版后台
+# React + LePage脚手架模板
 
-> 基于 React + LePage 的脚手架项目
+- 因lePage上传的是私有仓库，所以需要使用[gnpm](http://npm.test.gegejia.com/package/@lib/hello-world)安装依赖
 
-## 目录结构
-
-### 路由配置
-
-### Host
-
-``` 
-# local
-127.0.0.1 test-life-seller.51bushou.com
-
-# test
-空
-```
-
-- 清除host
-
-```
-chrome://net-internals/#sockets
-```
-
-### Nginx
-
-- /usr/local/etc/nginx/nginx.conf
-
-```
-# 引入自己定义的config
-include my_conf/*.conf;
-```
-
-- my_conf/life_seller.conf
-
-``` conf
-server {
-    listen       80;
-    server_name  test-life-seller.51bushou.com;
-
-    location ^~ /(leadmin|lebranch|lesupplier)/ {
-        # rewrite ^(.*)[^.(js|css|png|jpg|jpeg|gif)]$ / break;
-
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host  $http_host;
-        proxy_set_header X-Nginx-Proxy true;
-        proxy_set_header Connection "";
-        proxy_pass   http://127.0.0.1:8000/;
-        proxy_redirect default ;
-    }
-
-    location /api/ {
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host  $http_host;
-        proxy_set_header X-Nginx-Proxy true;
-        proxy_set_header Connection "";
-        proxy_pass   http://101.37.228.181/api/;
-        proxy_redirect default ;
-    }
-
-    location / {
-        proxy_pass   http://127.0.0.1:8000/;
-    }
-}
+```jsx
+gnpm install
 ```
 
 - 启动
 
-```
-$ nginx
-```
-
-- 重启
-
-```
-$ nginx -s reload
+```jsx
+npm start
 ```
 
-- 停止
+## 目录结构
 
-```
-$ nginx -s stop
-```
+### common
+
+- defaultSettings.js  项目默认配置
+- defaultTheme.js 项目样式相关配置
+
+### config
+
+- config.js  项目结构设置，包含打包设置，代理设置等
+- router.config.js  路由配置
+
+### mock
+
+- mock数据相关
+
+### src
+
+- components 公共组件存放位置
+- layouts 布局相关
+- pages 页面开发文件
+- services api接口相关
+- utils 工具类

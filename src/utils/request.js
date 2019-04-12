@@ -1,8 +1,8 @@
 import fetch from 'dva/fetch';
-import { notification, message } from 'antd';
+import { notification } from 'antd';
+import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
-import NumTool from './num'
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -21,20 +21,6 @@ const codeMessage = {
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
 };
-
-let localToken = ''
-const key = 'HQBSFORSHOP'
-const { location } = window
-switch (ADMIN_TYPE) {
-  case 'ADMIN':
-    break;
-  default:
-    localToken = JSON.parse(sessionStorage[key] || '{}').token
-    // localToken = "df4bacf9240b432d82bc27c59db03e65:1204"
-    if (!localToken) {
-      location.href = '/#/login'
-    }
-}
 
 const checkStatus = response => {
   if (response.status >= 200 && response.status < 300) {
@@ -111,7 +97,7 @@ export default function request(url, option) {
     } else {
       // newOptions.body is FormData
       newOptions.headers = {
-        Accept: '*/*',
+        Accept: 'application/json',
         ...newOptions.headers,
       };
     }
@@ -132,87 +118,16 @@ export default function request(url, option) {
       sessionStorage.removeItem(`${hashcode}:timestamp`);
     }
   }
-  newOptions.headers = {
-    ...newOptions.headers,
-    token: localToken
-  }
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))
     .then(response => {
       // DELETE and 204 do not return data by default
       // using .json will report an error.
-
-      const contentType = response.headers.get('content-type')
-      const contentDisposition = response.headers.get('content-disposition')
-
-      if (contentDisposition) { // 下载文件
-        response.blob().then((blob)=>{
-          const file = contentDisposition.split(';')[1]
-          const fileCode = file.split('=')[1]
-          const fileName = decodeURI(fileCode)
-
-
-          if (navigator.msSaveBlob) {
-            navigator.msSaveBlob(blob, fileName)
-          } else {
-            const a = document.createElement('a')
-            a.download = fileName
-            a.href = URL.createObjectURL(blob)
-            document.body.appendChild(a)
-            a.click()
-            document.body.removeChild(a)
-          }
-        })
-
-
-        // return
-        // if (callBack) callBack()
-        // let timeFn = setTimeout(() => {
-        //   self.setExport()
-        //   clearTimeout(timeFn)
-        // }, 2000)
-        // resolve('true')
-      }
-      if (contentType.includes('text/html')) {
-        return response.text().then(res => {
-          if (Object.prototype.toString.call(res) === '[object String]' && res.indexOf('window.location.href') !== -1) {
-            const result = res.replace('<script>', '').replace('</script>','').slice(22).slice(0,-1);
-            window.location.href = result
-            // document.body.appendChild(result)
-            // eval(res.replace('<script>', '').replace('</script>',''))
-          }
-        })
-      }
-
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();
       }
       return response.json();
-
-    }).then(response => {
-      if (String(response.status) === '1') {
-        if (!response.data && typeof(response.data)!=="undefined" && response.data!==0) {
-          return 1
-        } 
-        return response.data
-      }
-      const result = response.data
-      if(ADMIN_TYPE === 'ADMIN' 
-        && typeof result === 'string' 
-        && result.indexOf("<script>") !== -1 
-        && result.indexOf("</script>") !== -1) {
-        eval(result.replace("<script>",""))
-        return null
-      }
-
-      if (ADMIN_TYPE !== 'ADMIN' && response.errorCode === 10010){
-        sessionStorage.removeItem('HQBSFORSHOP')
-        location.href = '/#/login'
-      }
-
-      message.error(response.errorMessage || response.message)
-      return null
     })
     .catch(e => {
       const status = e.name;
@@ -226,15 +141,15 @@ export default function request(url, option) {
       }
       // environment should not be used
       if (status === 403) {
-        // router.push('/exception/403');
+        router.push('/exception/403');
         return;
       }
       if (status <= 504 && status >= 500) {
-        // router.push('/exception/500');
+        router.push('/exception/500');
         return;
       }
       if (status >= 404 && status < 422) {
-        // router.push('/exception/404');
+        router.push('/exception/404');
       }
     });
 }

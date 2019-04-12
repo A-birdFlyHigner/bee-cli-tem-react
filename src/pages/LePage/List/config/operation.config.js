@@ -2,7 +2,7 @@ import React from 'react';
 import { LeForm, LeDialog } from '@lib/lepage';
 import { sleep } from '../../common/utils';
 
-const onClickAdd = (err, values, leForm, leList) => {
+const onClickAdd = (err, values, leForm, {leList}) => {
   const formConfig = {
     settings: {
       values: {

@@ -69,10 +69,9 @@ export default {
 
   reducers: {
     changeLayoutCollapsed(state, { payload }) {
-      const payload1 = false
       return {
         ...state,
-        collapsed: payload1,
+        collapsed: payload,
       };
     },
     saveNotices(state, { payload }) {

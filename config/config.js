@@ -1,30 +1,13 @@
 // https://umijs.org/config/
 import os from 'os';
-import adminRoutes from './router.admin.config';
-import branchRoutes from './router.branch.config';
-import supplierRoutes from './router.supplier.config';
+import pageRoutes from './router.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../common/defaultSettings';
 import defaultTheme from '../common/defaultTheme';
 import slash from 'slash2';
 
 const { pwa, primaryColor } = defaultSettings;
-const { NODE_ENV, APP_TYPE, TEST, ADMIN_TYPE = 'ADMIN' } = process.env;
-
-let pageRoutes = []
-switch (ADMIN_TYPE) {
-  case 'ADMIN':
-  pageRoutes = adminRoutes
-  break;
-
-  case 'BRANCH':
-  pageRoutes = branchRoutes
-  break;
-
-  case 'SUPPLIER':
-  pageRoutes = supplierRoutes
-  break;
-}
+const { NODE_ENV, APP_TYPE, TEST } = process.env;
 
 const plugins = [
   [
@@ -68,13 +51,8 @@ const plugins = [
 export default {
   // add for transfer to umi
   plugins,
-  history: 'hash',
-  outputPath: './dist/le' + ADMIN_TYPE.toLowerCase(),
-  base: '/le' + ADMIN_TYPE.toLowerCase() + '/',
-  publicPath: '/le' + ADMIN_TYPE.toLowerCase() + '/',
   define: {
     APP_TYPE: APP_TYPE || '',
-    ADMIN_TYPE: ADMIN_TYPE || ''
   },
   treeShaking: true,
   targets: {

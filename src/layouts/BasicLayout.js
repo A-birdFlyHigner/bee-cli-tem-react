@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-import router from 'umi/router';
 import { Layout } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
@@ -14,7 +13,6 @@ import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './BasicLayout.less';
-import {getUserInfoNew} from '@/services/user';
 import { iconOption } from '@/defaultSettings'
 
 // lazy load SettingDrawer
@@ -48,14 +46,8 @@ const query = {
 };
 
 class BasicLayout extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      menuList: []
-    }
-  }
 
-  componentDidMount = async () => {
+  componentDidMount() {
     const {
       dispatch,
       route: { routes, authority },
@@ -70,17 +62,6 @@ class BasicLayout extends React.Component {
       type: 'menu/getMenuData',
       payload: { routes, authority },
     });
-    if (ADMIN_TYPE === 'ADMIN') {
-      const res = await getUserInfoNew() || {}
-      const { menuList = [] } = res
-      const newMenu = menuList.find(item => {
-        return item.url === '/leadmin' && item.pid === 0
-      })
-      this.setState({
-        menuList,
-        newPid: newMenu ? newMenu.id : ''
-      })
-    }
   }
 
   componentWillUnmount () {
@@ -162,31 +143,10 @@ class BasicLayout extends React.Component {
       children,
       location: { pathname },
       isMobile,
-      menuData: defaultMenuData,
+      menuData,
       breadcrumbNameMap,
       fixedHeader,
     } = this.props;
-    let menuData = defaultMenuData
-    if (ADMIN_TYPE === 'ADMIN') {
-      const { menuList = [], newPid } = this.state
-      if (newPid) {
-        menuData = this.makeMenuList(menuList, newPid)
-        const {location} = window
-        if (location.hash === '#/') {
-          const path = this.getMenuItem(menuData)
-          router.push(path)
-        }
-      } else {
-        menuData = []
-      }
-    } else {
-      menuData = menuData.map(item => {
-        return {
-          ...item,
-          icon: iconOption[item.name] || 'icon-yujiazai'
-        }
-      })
-    }
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
     const layout = (
