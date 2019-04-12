@@ -411,6 +411,7 @@ export default {
       props: {
         size: 'default',
         style: {
+          minWidth: '32px',
           width: '32px',
           height: '32px',
           fontSize: '32px',

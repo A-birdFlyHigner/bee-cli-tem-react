@@ -1,109 +1,89 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'umi/locale';
-import { LeDialog, LeForm } from '@lib/lepage'
-import { Spin, Menu, Icon, Tooltip, message } from 'antd';
+import { Spin, Tag, Menu, Icon, Avatar } from 'antd';
+import moment from 'moment';
+import groupBy from 'lodash/groupBy';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
-import changePwdConf from './config/changePwd'
-import Reg from '@/utils/reg'
-import Md5 from 'js-md5'
-import {branchComUpdatePassword, shopUpdateAccountPassword } from '@/services/common'
-// import router from 'umi/router';
 
 export default class GlobalHeaderRight extends PureComponent {
-
-  componentWillMount () {
-    let isAdmin
-    let oldProduct = '/#/'
-    const userInfo = JSON.parse(sessionStorage.getItem('HQBSFORSHOP') || '{}')
-    switch (ADMIN_TYPE) {
-      case 'ADMIN':
-      oldProduct = `${oldProduct}`
-      isAdmin = true
-      break;
-    
-      case 'BRANCH':
-      oldProduct = `${oldProduct}branchCom`
-      isAdmin = false
-      break;
-    
-      case 'SUPPLIER':
-      oldProduct = `${oldProduct}shop`
-      isAdmin = false
-      break;
-      default: 
+  getNoticeData() {
+    const { notices = [] } = this.props;
+    if (notices.length === 0) {
+      return {};
     }
-    this.setState({
-      userInfo,
-      oldProduct,
-      isAdmin
-    })
+    const newNotices = notices.map(notice => {
+      const newNotice = { ...notice };
+      if (newNotice.datetime) {
+        newNotice.datetime = moment(notice.datetime).fromNow();
+      }
+      if (newNotice.id) {
+        newNotice.key = newNotice.id;
+      }
+      if (newNotice.extra && newNotice.status) {
+        const color = {
+          todo: '',
+          processing: 'blue',
+          urgent: 'red',
+          doing: 'gold',
+        }[newNotice.status];
+        newNotice.extra = (
+          <Tag color={color} style={{ marginRight: 0 }}>
+            {newNotice.extra}
+          </Tag>
+        );
+      }
+      return newNotice;
+    });
+    return groupBy(newNotices, 'type');
   }
 
-  onMenuClick = (info) => {
-    const {key} = info
-    const {location} = window
-    if (key === 'logout') {
-      if (ADMIN_TYPE !== 'ADMIN'){
-        sessionStorage.removeItem('HQBSFORSHOP')
-        location.href = '/#/login'
-      } else {
-        sessionStorage.clear()
-        location.href = '/api/login/logout'
+  getUnreadData = noticeData => {
+    const unreadMsg = {};
+    Object.entries(noticeData).forEach(([key, value]) => {
+      if (!unreadMsg[key]) {
+        unreadMsg[key] = 0;
       }
-    } 
-    else if (key === 'editPwd') {
-      const onOk = async (values, ok) => {
-        const {password, confirmPassword} = values
-        if (!password) return message.warning('请输入新密码,6-12位字母或数字且区分大小写')
-        if (!Reg.passowdExp.test(password)) return message.warning('新密码格式错误,6-12位字母或数字且区分大小写')
-        if (!confirmPassword) return message.warning('请输入确认密码，与新密码一致')
-        if (password !== confirmPassword) return message.warning('新密码和确认密码不一致')
-        const params = {
-          password: Md5(password),
-          confirmPassword: Md5(confirmPassword),
-        }
-        let res
-        if (ADMIN_TYPE === 'BRANCH') {
-          res = await branchComUpdatePassword(params)
-        } 
-        else if (ADMIN_TYPE === 'SUPPLIER') {
-          res = await shopUpdateAccountPassword(params)
-        } else {
-          return message.warning('请求有误，请联系平台客服')
-        }
-        if (!res) return false
-        message.success('修改成功，请用新密码登录')
-        sessionStorage.removeItem('HQBSFORSHOP')
-        location.href = '/#/login'
-        ok()
-        return true
+      if (Array.isArray(value)) {
+        unreadMsg[key] = value.filter(item => !item.read).length;
       }
-      LeDialog.show({
-        title: '修改密码',
-        content: <LeForm {...changePwdConf} />,
-        onOk
-      })
-    }
+    });
+    return unreadMsg;
+  };
+
+  changeReadState = clickedItem => {
+    const { id } = clickedItem;
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'global/changeNoticeReadState',
+      payload: id,
+    });
   };
 
   render() {
-    const {userInfo = {}, oldProduct = '', isAdmin = true} = this.state
-    const {userName = ''} = userInfo
     const {
+      currentUser,
+      onMenuClick,
       theme,
     } = this.props;
     const menu = (
-      <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
-        {isAdmin ? null : 
-        <Menu.Item key="editPwd">
+      <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
+        {/* <Menu.Item key="userCenter">
+          <Icon type="user" />
+          <FormattedMessage id="menu.account.center" defaultMessage="account center" />
+        </Menu.Item>
+        <Menu.Item key="userinfo">
           <Icon type="setting" />
-          <FormattedMessage id="menu.account.settings" defaultMessage="修改密码" />
-        </Menu.Item>}
-        {isAdmin ? null : <Menu.Divider />}
+          <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
+        </Menu.Item>
+        <Menu.Item key="triggerError">
+          <Icon type="close-circle" />
+          <FormattedMessage id="menu.account.trigger" defaultMessage="Trigger Error" />
+        </Menu.Item> */}
+        {/* <Menu.Divider /> */}
         <Menu.Item key="logout">
           <Icon type="logout" />
-          <FormattedMessage id="menu.account.logout" defaultMessage="退出" />
+          <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
         </Menu.Item>
       </Menu>
     );
@@ -113,19 +93,16 @@ export default class GlobalHeaderRight extends PureComponent {
     }
     return (
       <div className={className}>
-        <Tooltip title='旧版后台'>
-          <a
-            target="_blank"
-            href={oldProduct}
-            className={styles.action}
-          >
-            旧版后台
-          </a>
-        </Tooltip>
-        {userName ? (
+        {currentUser.name ? (
           <HeaderDropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
-              <span className={styles.name}>{userName}</span>
+              <Avatar
+                size="small"
+                className={styles.avatar}
+                src={currentUser.avatar}
+                alt="avatar"
+              />
+              <span className={styles.name}>{currentUser.name}</span>
             </span>
           </HeaderDropdown>
         ) : (
