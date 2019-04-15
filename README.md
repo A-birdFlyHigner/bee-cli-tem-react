@@ -43,3 +43,9 @@ npm start
 - pages 页面开发文件
 - services api接口相关
 - utils 工具类
+
+### lepage文档
+
+具体开发规范可以参考[lepage](https://fe-lebooks.gegejia.com/doc-lepage/leForm/)
+
+ps：文档持续开发中
