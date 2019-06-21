@@ -4,6 +4,9 @@ export async function query() {
   return request('/api/users');
 }
 
-export async function queryCurrent() {
-  return request('/api/currentUser');
+export async function queryCurrent(data) {
+  return request('/api/user/user', {
+    method: 'POST',
+    body: data
+  });
 }

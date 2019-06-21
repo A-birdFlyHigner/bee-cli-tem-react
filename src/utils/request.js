@@ -1,5 +1,5 @@
 import fetch from 'dva/fetch';
-import { notification } from 'antd';
+import { notification, message } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
@@ -122,12 +122,50 @@ export default function request(url, option) {
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))
     .then(response => {
+
+      const contentType = response.headers.get('content-type')
+      const contentDisposition = response.headers.get('content-disposition')
+
+      if (contentDisposition) { // 下载文件
+        response.blob().then((blob)=>{
+          const file = contentDisposition.split(';')[1]
+          const fileCode = file.split('=')[1]
+          const fileName = decodeURI(fileCode)
+          
+          if (navigator.msSaveBlob) {
+            navigator.msSaveBlob(blob, fileName)
+          } else {
+            const a = document.createElement('a')
+            a.download = fileName
+            a.href = URL.createObjectURL(blob)
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+          }
+        })
+      }
+      if (contentType.includes('text/html')) {
+        return response.text().then(res => {
+          if (Object.prototype.toString.call(res) === '[object String]' && res.indexOf('window.location.href') !== -1) {
+            const result = res.replace('<script>', '').replace('</script>','').slice(22).slice(0,-1);
+            window.location.href = result
+          }
+        })
+      }
       // DELETE and 204 do not return data by default
       // using .json will report an error.
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();
       }
       return response.json();
+    })
+    .then((response) => {
+      const { status, data } = response
+      if (String(status) === '1') {
+        return data
+      }
+      message.error(response.errorMessage || response.message)
+      return null
     })
     .catch(e => {
       const status = e.name;
