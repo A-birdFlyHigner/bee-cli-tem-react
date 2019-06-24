@@ -69,8 +69,9 @@ class HeaderView extends Component {
       return;
     }
     if (key === 'logout') {
+      const {location} = window
       sessionStorage.clear()
-      router.push('/api/login/logout');
+      location.href = '/api/login/logout'
       // dispatch({
       //   type: 'login/logout',
       // });
