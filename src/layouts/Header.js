@@ -69,9 +69,11 @@ class HeaderView extends Component {
       return;
     }
     if (key === 'logout') {
-      dispatch({
-        type: 'login/logout',
-      });
+      sessionStorage.clear()
+      router.push('/api/login/logout');
+      // dispatch({
+      //   type: 'login/logout',
+      // });
     }
   };
 
