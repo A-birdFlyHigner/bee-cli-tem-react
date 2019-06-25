@@ -53,6 +53,7 @@ export default {
   plugins,
   history: 'hash',
   // hash: true,
+  publicPath: './',
   define: {
     APP_TYPE: APP_TYPE || '',
   },
