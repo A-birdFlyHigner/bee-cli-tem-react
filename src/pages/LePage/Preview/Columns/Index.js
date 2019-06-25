@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LeForm } from '@lib/lepage';
 import { formConfig } from './config';
-import './index.less';
+import './Index.less';
 
 class PreviewColumnsDemo extends Component {
   constructor(props) {

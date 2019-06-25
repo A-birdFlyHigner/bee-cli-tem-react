@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { LeForm } from '@lib/lepage';
 import { formConfig } from './config';
-import './index.less';
+import './Index.less';
 
 class PreviewDemo extends PureComponent {
   constructor(props) {
