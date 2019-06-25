@@ -15,31 +15,31 @@ export default [
           {
             path: '/lepage/form',
             name: '表单',
-            component: './LePage/Form',
+            component: './LePage/Form/Index',
             icon: 'icon-shangpinguanli-baise'
           },
           {
             path: '/lepage/list',
             name: '列表',
-            component: './LePage/List',
+            component: './LePage/List/Index',
             icon: 'icon-shangpinguanli-baise'
           },
           {
             path: '/lepage/preview',
             name: '预览',
-            component: './LePage/Preview/Base',
+            component: './LePage/Preview/Base/Index',
             icon: 'icon-shangpinguanli-baise'
           },
           {
             path: '/lepage/preview-dynamic',
             name: '预览-动态',
-            component: './LePage/Preview/Dynamic',
+            component: './LePage/Preview/Dynamic/Index',
             icon: 'icon-shangpinguanli-baise'
           },
           {
             path: '/lepage/preview-columns',
             name: '预览-多列',
-            component: './LePage/Preview/Columns',
+            component: './LePage/Preview/Columns/Index',
             icon: 'icon-shangpinguanli-baise'
           },
         ],
