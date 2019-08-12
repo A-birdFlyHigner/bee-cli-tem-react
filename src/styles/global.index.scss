@@ -1,0 +1,246 @@
+@import '~antd/lib/style/themes/default.less';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.globalSpin {
+  width: 100%;
+  margin: 40px 0 !important;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+$screen-xs: 480px;
+@media (max-width: $screen-xs) {
+  .ant-table {
+    width: 100%;
+    overflow-x: auto;
+
+    &-thead > tr,
+    &-tbody > tr {
+      > th,
+      > td {
+        white-space: pre;
+
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.base-goods-publish {
+  .no-form-item-content-elem > * {
+    min-width: auto !important;
+  }
+
+  .no-form-item-inline {
+    margin-bottom: 0 !important;
+  }
+
+  .no-form-item-label {
+    color: #444;
+  }
+
+  .no-form-item-content-suffix {
+    color: #888;
+    font-size: 10px;
+  }
+
+  .no-form-item-error {
+    margin-top: 5px;
+    // font-size: 10px;
+  }
+
+  .col-w350 {
+    display: inline-block;
+    width: 395px;
+  }
+
+  .ant-select-selection--single {
+    min-width: 220px;
+  }
+
+  .no-form-item-top + .no-form-item-content {
+    margin-top: 5px;
+  }
+
+  .no-form-item-saleGoodsId {
+    display: none;
+  }
+
+  // skus 规格项目
+  .no-form-item-sku {
+    margin-top: 15px;
+
+    .ant-table-wrapper {
+      width: 830px;
+    }
+
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+      padding: 5px;
+    }
+  }
+
+  // 自定义标签
+  .no-form-item-custom-tag {
+    .no-form-item-label {
+      color: #888;
+    }
+
+    .no-form-item-content-elem {
+      display: flex;
+    }
+
+    // 自定义标签
+    .ant-tag {
+      height: 22px;
+      margin-top: 4px;
+      line-height: 22px;
+    }
+  }
+
+  .ant-upload {
+    min-width: auto;
+  }
+
+  .ant-calendar-picker > div {
+    width: 100%;
+  }
+
+  .no-form-item-sku-main-image-list {
+    .no-form-item-label {
+      display: inline-block;
+      margin-top: 114px;
+      line-height: 14px;
+    }
+
+    .ant-upload-list-picture-card .ant-upload-list-item,
+    .ant-upload-select-picture-card {
+      width: 128px;
+      height: 128px;
+    }
+  }
+
+  // 商品主图
+  .no-form-item-goods-main-image-list {
+    .ant-upload-list-picture-card .ant-upload-list-item,
+    .ant-upload-select-picture-card {
+      width: 128px;
+      height: 128px;
+    }
+
+    .no-form-item-content-elem > span {
+      display: block;
+    }
+  }
+
+  // 商品详情图
+  .no-form-item-goods-detail-image-list {
+    .ant-upload-list-picture-card {
+      width: 780px;
+      max-height: 600px;
+      margin: 0 10px 15px 0;
+      padding: 15px;
+      overflow-y: auto;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+    }
+
+    .ant-upload-list-picture-card .ant-upload-list-item {
+      width: auto;
+      max-width: 750px;
+      height: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .ant-upload-select-picture-card {
+      width: 128px;
+      height: 128px;
+    }
+    // .no-form-item-content-elem > span {
+    //   display: block;
+    // }
+  }
+
+  // 头部标题栏
+  .gp-head {
+    display: flex;
+    height: 20px;
+    margin: 20px 0 10px;
+    line-height: 20px;
+
+    em {
+      display: inline-block;
+      width: 2px;
+      height: 20px;
+      margin-right: 10px;
+      background: #333;
+    }
+
+    span {
+      color: #333;
+      font-weight: bold;
+    }
+  }
+
+  // 提示
+  .gp-tip {
+    margin: 10px 0 10px 12px;
+    color: #f60;
+    font-size: 10px;
+    line-height: 14px;
+  }
+
+  // 属性项
+  .gp-properties-item > .no-form-item-control {
+    width: 80%;
+  }
+
+  // 属性列表
+  .gp-properties-comp {
+    display: flex;
+    flex-flow: row wrap;
+    width: auto;
+  }
+}
+
+.base-goods-list {
+  .ant-table-row td.title {
+    max-width: 220px;
+    word-wrap: break-word;
+    word-break: normal;
+  }
+
+  .antd-pro-components-img-preview-index-imgView {
+    width: 64px;
+    height: 64px;
+  }
+}

@@ -6,7 +6,7 @@
     },
       "overrides":[
         {
-          "files": ["config/*.js","scripts/**/*.js", "SERVER.js"],
+          "files": ["build/*/*.js"],
           "rules": {
             "import/no-commonjs": "off"
           }
