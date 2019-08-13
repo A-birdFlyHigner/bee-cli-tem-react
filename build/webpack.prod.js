@@ -4,25 +4,22 @@
  * @Author: 太一
  * @Date: 2019-08-08 15:00:58
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-12 14:32:19
+ * @LastEditTime: 2019-08-12 20:26:50
  */
-const path = require('path')
-const merge = require('webpack-merge')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const pathJoin = require('./webpack.utils').pathJoin
 
-const webpackConfig = require('./webpack.base')
-
-module.exports = merge(webpackConfig, {
-  output: {
-    filename: 'script/[name].[hash:7].js',
-    path: path.resolve(__dirname, '../dist'),
-    publicPath: './'
-  },
+module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'style/[name].[hash:7].css'
     })
   ],
+  output: {
+    filename: 'script/[name].[hash:7].js',
+    path: pathJoin('dist'),
+    publicPath: './'
+  },
   module: {
     rules: [
       {
@@ -41,4 +38,4 @@ module.exports = merge(webpackConfig, {
       }
     ]
   }
-})
+}
