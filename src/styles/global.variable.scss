@@ -1,0 +1,30 @@
+/* Colors
+-------------------------- */
+$--color-white: #fff !default;
+$--color-gray: #f0f2f5 !default;
+$--color-black: #1e1e1e !default;
+$--color-dark: #001529 !default;
+
+$--color-primary: #40a9ff !default;
+
+$--color-success: #52c41a !default;
+$--color-warning: #ffba00 !default;
+$--color-danger: #f5222d !default;
+$--color-default: #5b5777 !default;
+
+/* Font
+-------------------------- */
+$--font-size-base: 14px;
+$--font-size-small: 12px;
+$--font-family-base: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+$--font-family-satisfy: Orbitron, sans-serif;
+
+/* Sidebar
+-------------------------- */
+$--sidebar-width: 260px;
+$--sidebar-background: #242530;
+
+/* Header
+-------------------------- */
+$--header-height: 64px;
+$--header-background: $--color-white;

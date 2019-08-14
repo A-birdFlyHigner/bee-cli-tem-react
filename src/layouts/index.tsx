@@ -4,10 +4,11 @@ import DocumentTitle from 'react-document-title'
 // import Footer from './Footer';
 import Header from './components/Header'
 import PageLoading from '@components/PageLoading'
+import { hot } from 'react-hot-loader'
 // import SiderMenu from '@components/SiderMenu';
 // import getPageTitle from '@/utils/getPageTitle';
 
-export default class LayoutView extends Component {
+class LayoutView extends Component {
   render() {
     return (
       <Fragment>
@@ -21,3 +22,4 @@ export default class LayoutView extends Component {
     )
   }
 }
+export default hot(module)(LayoutView)

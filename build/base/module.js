@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 18:13:19
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-14 15:17:29
+ * @LastEditTime: 2019-08-14 17:55:17
  */
 const pathJoin = require('../webpack.utils').pathJoin
 const IS_DEVELOPMENT = process.env.APP_ENV === 'development'
@@ -34,17 +34,7 @@ const styleRules = [
   },
   {
     test: /\.css$/,
-    use: [
-      // {
-      //   loader: MiniCssExtractPlugin.loader,
-      //   options: {
-      //     publicPath: '../'
-      //   }
-      // },
-      'style-loader',
-      'css-loader',
-      'postcss-loader'
-    ]
+    use: [...css_loader]
   }
 ]
 
@@ -52,30 +42,19 @@ const scriptRules = [
   {
     test: /\.(j|t)sx?$/,
     include: [pathJoin('src')],
-    use: [
-      {
-        loader: 'babel-loader',
-        options: {
-          babelrc: false,
-          presets: [
-            ['@babel/preset-env', { targets: { browsers: ['chrome >= 47'] }, useBuiltIns: 'usage', corejs: 3 }],
-            '@babel/preset-typescript',
-            '@babel/preset-react'
-          ],
-          plugins: [
-            ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
-            ['@babel/plugin-proposal-decorators', { legacy: true }],
-            ['@babel/plugin-proposal-class-properties', { loose: true }],
-            '@babel/plugin-syntax-dynamic-import',
-            'react-hot-loader/babel'
-          ]
-        }
-      },
-      'ts-loader'
-    ].filter(Boolean)
+    use: ['babel-loader', 'awesome-typescript-loader']
   }
 ]
 
+const imageRules = [
+  {
+    test: /\.(jpe?g|png|gif|svg)$/i,
+    loaders: [
+      'file-loader?hash=sha512&digest=hex&name=img/[hash].[ext]',
+      'image-webpack-loader?bypassOnDebug&optipng.optimizationLevel=7&gifsicle.interlaced=false'
+    ]
+  }
+]
 module.exports = {
-  rules: [...styleRules, ...scriptRules]
+  rules: [...styleRules, ...scriptRules, ...imageRules]
 }

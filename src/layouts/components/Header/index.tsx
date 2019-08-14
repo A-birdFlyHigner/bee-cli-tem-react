@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 // // import { NavLink } from 'react-router-dom'
 import { Icon, Button, Modal } from 'antd'
-export default class Header extends React.Component {
+export default class Header extends Component {
   handleExit = () => {
     Modal.confirm({
       title: '提示',
@@ -13,13 +13,11 @@ export default class Header extends React.Component {
     })
   }
   render() {
-    const { handleExit } = this
-    console.log(handleExit)
     return (
       <section>
         <span className="mars-header__icon">
           <Icon type={1 ? 'menu-unfold' : 'menu-fold'} />
-          <Button>89</Button>
+          <Button>89deeessseeddu</Button>
         </span>
       </section>
     )
