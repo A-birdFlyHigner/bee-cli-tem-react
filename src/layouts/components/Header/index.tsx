@@ -17,7 +17,7 @@ export default class Header extends Component {
       <section>
         <span className="mars-header__icon">
           <Icon type={1 ? 'menu-unfold' : 'menu-fold'} />
-          <Button>89deeessseeddu</Button>
+          <Button>d</Button>
         </span>
       </section>
     )
