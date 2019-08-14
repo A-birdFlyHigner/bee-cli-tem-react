@@ -4,25 +4,19 @@
  * @Author: 太一
  * @Date: 2019-08-08 15:00:50
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-12 20:25:44
+ * @LastEditTime: 2019-08-14 13:45:23
  */
 const webpack = require('webpack')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const pathJoin = require('./webpack.utils.js').pathJoin
+const YAML = require('yamljs')
+const projectConfig = YAML.load(pathJoin('config', 'project.config.yml'))
 
 module.exports = {
-  devtool: 'eval-source-map',
-  // devServer: {
-  //   port: config.devPort,
-  //   hot: true,
-  //   disableHostCheck: true,
-  //   host: '0.0.0.0',
-  //   after: function() {
-  //     openBrowser(`http://localhost:${config.devPort}`)
-  //   }
-  // },
+  devtool: 'eval',
   devServer: {
-    port: 8889,
+    port: projectConfig.devPort,
     host: '0.0.0.0',
     publicPath: '/',
     quiet: true,
@@ -35,7 +29,7 @@ module.exports = {
     new CaseSensitivePathsPlugin(),
     new FriendlyErrorsWebpackPlugin({
       compilationSuccessInfo: {
-        messages: ['You application is running here: http://localhost:8889']
+        messages: [`You application is running here: http://localhost:${projectConfig.devPort}`]
       }
     })
   ]

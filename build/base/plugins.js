@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 18:14:55
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-12 14:11:43
+ * @LastEditTime: 2019-08-14 14:39:26
  */
 const webpack = require('webpack')
 const YAML = require('yamljs')
@@ -23,13 +23,13 @@ const DEFINE_GLOBAL = {
 }
 globalSource && Object.assign(DEFINE_GLOBAL, globalSource)
 
-const htmlConfig = YAML.load(pathJoin('config', 'html.config.yml'))
+const projectConfig = YAML.load(pathJoin('config', 'project.config.yml'))
 module.exports = [
   new webpack.EnvironmentPlugin(['APP_ENV']),
   new ProgressBarPlugin(),
   new webpack.DefinePlugin(DEFINE_GLOBAL),
   new HtmlWebpackPlugin({
-    title: htmlConfig.title,
+    title: projectConfig.title,
     filename: 'index.html',
     favicon: pathJoin('public', 'favicon.ico'),
     template: pathJoin('public', 'index.html'),

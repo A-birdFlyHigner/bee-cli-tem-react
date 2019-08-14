@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 18:13:19
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-13 10:15:58
+ * @LastEditTime: 2019-08-14 15:17:29
  */
 const pathJoin = require('../webpack.utils').pathJoin
 const IS_DEVELOPMENT = process.env.APP_ENV === 'development'
@@ -31,6 +31,20 @@ const styleRules = [
         }
       }
     ]
+  },
+  {
+    test: /\.css$/,
+    use: [
+      // {
+      //   loader: MiniCssExtractPlugin.loader,
+      //   options: {
+      //     publicPath: '../'
+      //   }
+      // },
+      'style-loader',
+      'css-loader',
+      'postcss-loader'
+    ]
   }
 ]
 
@@ -49,11 +63,11 @@ const scriptRules = [
             '@babel/preset-react'
           ],
           plugins: [
-            ['import', { libraryName: 'antd', libraryDirectory: 'lib', style: true }],
+            ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
             ['@babel/plugin-proposal-decorators', { legacy: true }],
             ['@babel/plugin-proposal-class-properties', { loose: true }],
-            '@babel/plugin-syntax-dynamic-import'
-            // 'react-hot-loader/babel'
+            '@babel/plugin-syntax-dynamic-import',
+            'react-hot-loader/babel'
           ]
         }
       },

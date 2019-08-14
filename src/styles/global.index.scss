@@ -3,35 +3,35 @@
 html,
 body,
 #root {
-  height: 100%;
+  height: 100%
 }
 
 .colorWeak {
-  filter: invert(80%);
+  filter: invert(80%)
 }
 
 .ant-layout {
-  min-height: 100vh;
+  min-height: 100vh
 }
 
 canvas {
-  display: block;
+  display: block
 }
 
 body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale
 }
 
 .globalSpin {
   width: 100%;
-  margin: 40px 0 !important;
+  margin: 40px 0 !important
 }
 
 ul,
 ol {
-  list-style: none;
+  list-style: none
 }
 $screen-xs: 480px;
 @media (max-width: $screen-xs) {
@@ -46,7 +46,7 @@ $screen-xs: 480px;
         white-space: pre;
 
         > span {
-          display: block;
+          display: block
         }
       }
     }
@@ -55,20 +55,20 @@ $screen-xs: 480px;
 
 .base-goods-publish {
   .no-form-item-content-elem > * {
-    min-width: auto !important;
+    min-width: auto !important
   }
 
   .no-form-item-inline {
-    margin-bottom: 0 !important;
+    margin-bottom: 0 !important
   }
 
   .no-form-item-label {
-    color: #444;
+    color: #444
   }
 
   .no-form-item-content-suffix {
     color: #888;
-    font-size: 10px;
+    font-size: 10px
   }
 
   .no-form-item-error {
@@ -78,19 +78,19 @@ $screen-xs: 480px;
 
   .col-w350 {
     display: inline-block;
-    width: 395px;
+    width: 395px
   }
 
   .ant-select-selection--single {
-    min-width: 220px;
+    min-width: 220px
   }
 
   .no-form-item-top + .no-form-item-content {
-    margin-top: 5px;
+    margin-top: 5px
   }
 
   .no-form-item-saleGoodsId {
-    display: none;
+    display: none
   }
 
   // skus 规格项目
@@ -98,52 +98,52 @@ $screen-xs: 480px;
     margin-top: 15px;
 
     .ant-table-wrapper {
-      width: 830px;
+      width: 830px
     }
 
     .ant-table-thead > tr > th,
     .ant-table-tbody > tr > td {
-      padding: 5px;
+      padding: 5px
     }
   }
 
   // 自定义标签
   .no-form-item-custom-tag {
     .no-form-item-label {
-      color: #888;
+      color: #888
     }
 
     .no-form-item-content-elem {
-      display: flex;
+      display: flex
     }
 
     // 自定义标签
     .ant-tag {
       height: 22px;
       margin-top: 4px;
-      line-height: 22px;
+      line-height: 22px
     }
   }
 
   .ant-upload {
-    min-width: auto;
+    min-width: auto
   }
 
   .ant-calendar-picker > div {
-    width: 100%;
+    width: 100%
   }
 
   .no-form-item-sku-main-image-list {
     .no-form-item-label {
       display: inline-block;
       margin-top: 114px;
-      line-height: 14px;
+      line-height: 14px
     }
 
     .ant-upload-list-picture-card .ant-upload-list-item,
     .ant-upload-select-picture-card {
       width: 128px;
-      height: 128px;
+      height: 128px
     }
   }
 
@@ -152,11 +152,11 @@ $screen-xs: 480px;
     .ant-upload-list-picture-card .ant-upload-list-item,
     .ant-upload-select-picture-card {
       width: 128px;
-      height: 128px;
+      height: 128px
     }
 
     .no-form-item-content-elem > span {
-      display: block;
+      display: block
     }
   }
 
@@ -169,7 +169,7 @@ $screen-xs: 480px;
       padding: 15px;
       overflow-y: auto;
       border: 1px solid #d9d9d9;
-      border-radius: 4px;
+      border-radius: 4px
     }
 
     .ant-upload-list-picture-card .ant-upload-list-item {
@@ -178,12 +178,12 @@ $screen-xs: 480px;
       height: auto;
       padding: 0;
       border: 0;
-      border-radius: 0;
+      border-radius: 0
     }
 
     .ant-upload-select-picture-card {
       width: 128px;
-      height: 128px;
+      height: 128px
     }
     // .no-form-item-content-elem > span {
     //   display: block;
@@ -202,12 +202,12 @@ $screen-xs: 480px;
       width: 2px;
       height: 20px;
       margin-right: 10px;
-      background: #333;
+      background: #333
     }
 
     span {
       color: #333;
-      font-weight: bold;
+      font-weight: bold
     }
   }
 
@@ -216,19 +216,19 @@ $screen-xs: 480px;
     margin: 10px 0 10px 12px;
     color: #f60;
     font-size: 10px;
-    line-height: 14px;
+    line-height: 14px
   }
 
   // 属性项
   .gp-properties-item > .no-form-item-control {
-    width: 80%;
+    width: 80%
   }
 
   // 属性列表
   .gp-properties-comp {
     display: flex;
     flex-flow: row wrap;
-    width: auto;
+    width: auto
   }
 }
 
@@ -236,11 +236,44 @@ $screen-xs: 480px;
   .ant-table-row td.title {
     max-width: 220px;
     word-wrap: break-word;
-    word-break: normal;
+    word-break: normal
   }
 
   .antd-pro-components-img-preview-index-imgView {
     width: 64px;
-    height: 64px;
+    height: 64px
   }
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_288366_m2s7hqndevk.eot');
+  src: url('//at.alicdn.com/t/font_288366_m2s7hqndevk.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_288366_m2s7hqndevk.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_288366_m2s7hqndevk.woff') format('woff'),
+    url('//at.alicdn.com/t/font_288366_m2s7hqndevk.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_288366_m2s7hqndevk.svg#iconfont') format('svg')
+}
+
+.logoIcon {
+  display: block;
+  font-family: 'iconfont' !important;
+  margin: 0 20px 0 24px;
+  padding-top: 15px;
+  font-size: 40px;
+  color: #fff;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale
+}
+
+.ggjIcon {
+  font-family: 'iconfont' !important;
+  margin-right: 10px;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale
 }
