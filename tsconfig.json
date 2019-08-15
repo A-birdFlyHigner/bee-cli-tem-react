@@ -17,6 +17,7 @@
             "@components/*": ["components/*"],
             "@views/*": ["views/*"],
             "@styles/*": ["styles/*"],
+            "@routers/*": ["routers/*"],
         },
         "jsx": "react",
         "alwaysStrict": true,
