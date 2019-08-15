@@ -1,7 +1,7 @@
-import Loadable from 'react-loadable'
-import LoadingBar from '@components/PageLoading'
+import React, { Component } from 'react'
 
-export default Loadable({
-  loader: () => import('./view'),
-  loading: LoadingBar
-})
+export default class Home extends Component {
+  render() {
+    return <div>首页title</div>
+  }
+}

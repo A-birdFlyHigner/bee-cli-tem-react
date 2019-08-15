@@ -4,7 +4,15 @@
  * @Author: 太一
  * @Date: 2019-08-15 10:01:02
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-15 10:17:28
+ * @LastEditTime: 2019-08-15 14:22:22
  */
 import HomeRouter from './modules/home'
+
+/**
+ * Route-Map
+ * 路由映射表
+ * 用于建立映射路由配置，有先后顺序，路由依次向下 fallback
+ * path：路由路径
+ * component：路由对应的页面级组件
+ */
 export default [...HomeRouter]
