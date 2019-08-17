@@ -4,9 +4,9 @@
  * @Author: 太一
  * @Date: 2019-08-15 10:01:02
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-15 14:22:22
+ * @LastEditTime: 2019-08-17 19:05:25
  */
-import HomeRouter from './modules/home'
+import DeliveryRouter from './modules/delivery'
 
 /**
  * Route-Map
@@ -15,4 +15,4 @@ import HomeRouter from './modules/home'
  * path：路由路径
  * component：路由对应的页面级组件
  */
-export default [...HomeRouter]
+export default [...DeliveryRouter]

@@ -4,13 +4,14 @@
  * @Author: 太一
  * @Date: 2019-08-08 18:14:55
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-14 17:52:59
+ * @LastEditTime: 2019-08-17 17:33:23
  */
 const webpack = require('webpack')
+const pathJoin = require('../webpack.utils').pathJoin
 const YAML = require('yamljs')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const pathJoin = require('../webpack.utils').pathJoin
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 
 const APP_ENV = process.env.APP_ENV
 const prefix = `global.${APP_ENV}.yml`
@@ -21,13 +22,18 @@ const DEFINE_GLOBAL = {
   IS_TEST: APP_ENV === 'test',
   IS_PRODUCTION: APP_ENV === 'production'
 }
+
 globalSource && Object.assign(DEFINE_GLOBAL, globalSource)
 
 const projectConfig = YAML.load(pathJoin('config', 'project.config.yml'))
+
 module.exports = [
+  new MomentLocalesPlugin({
+    localesToKeep: ['es-us', 'zh-cn']
+  }),
   new webpack.EnvironmentPlugin(['APP_ENV']),
-  new ProgressBarPlugin(),
   new webpack.DefinePlugin(DEFINE_GLOBAL),
+  // new ProgressBarPlugin(),
   new HtmlWebpackPlugin({
     title: projectConfig.title,
     filename: 'index.html',

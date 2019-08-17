@@ -1,7 +1,20 @@
 import React, { Component } from 'react'
 // // import { NavLink } from 'react-router-dom'
-import { Icon, Button, Modal } from 'antd'
-export default class Header extends Component {
+import { Layout, Modal } from 'antd'
+const { Header } = Layout
+
+export interface Props {
+  username: string
+  logout: () => void
+}
+
+export default class HeaderLayout extends Component<Props> {
+  constructor(props) {
+    super(props)
+  }
+  static defaultProps = {
+    username: ''
+  }
   handleExit = () => {
     Modal.confirm({
       title: '提示',
@@ -13,13 +26,24 @@ export default class Header extends Component {
     })
   }
   render() {
+    const { username, logout } = this.props
     return (
-      <section>
-        <span className="mars-header__icon">
-          <Icon type={1 ? 'menu-unfold' : 'menu-fold'} />
-          <Button>d</Button>
-        </span>
-      </section>
+      <Header className="header-wrapper">
+        <div className="container">
+          <span className="headerName"> 鲁班管理</span>
+        </div>
+        {username && (
+          <div className="user">
+            <span>
+              你好，
+              {username}
+            </span>
+            <span className="logout" onClick={logout}>
+              退出
+            </span>
+          </div>
+        )}
+      </Header>
     )
   }
 }

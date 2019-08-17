@@ -4,14 +4,13 @@
  * @Author: 太一
  * @Date: 2019-08-15 14:16:03
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-15 14:18:25
+ * @LastEditTime: 2019-08-16 09:59:58
  */
-//过场组件默认采用通用的，若传入了loading，则采用传入的过场组件
 import Loadable from 'react-loadable'
 import loadingComponent from '@components/PageLoading'
-export default (loader: any, loading = loadingComponent) => {
+export default (loader: any) => {
   return Loadable({
     loader,
-    loading
+    loading: loadingComponent
   })
 }

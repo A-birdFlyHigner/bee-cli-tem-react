@@ -1,25 +1,23 @@
-import React, { Suspense, Component, Fragment } from 'react'
-import { Layout } from 'antd'
-import DocumentTitle from 'react-document-title'
-// import Footer from './Footer';
-import Header from './components/Header'
-import PageLoading from '@components/PageLoading'
-import { hot } from 'react-hot-loader'
-// import SiderMenu from '@components/SiderMenu';
-// import getPageTitle from '@/utils/getPageTitle';
+import React from 'react'
+// import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { HashRouter, Switch, Route } from 'react-router-dom'
+import Loading from './components/Loading'
 
-class LayoutView extends Component {
+import MainRoot from './main'
+class LayoutView extends React.Component {
   render() {
     return (
-      <Fragment>
-        <DocumentTitle title="89898">
-          <Layout>
-            <Header />
-          </Layout>
-        </DocumentTitle>
-        <Suspense fallback={<PageLoading />} />
-      </Fragment>
+      <HashRouter>
+        <Loading spinning={false}>
+          <div className="mars-container">
+            <Switch>
+              <Route path="/" component={MainRoot} />
+            </Switch>
+          </div>
+        </Loading>
+      </HashRouter>
     )
   }
 }
-export default hot(module)(LayoutView)
+
+export default LayoutView

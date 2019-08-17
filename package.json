@@ -10,6 +10,7 @@
 		"build": "npm run clean && cross-env NODE_ENV=production APP_ENV=production webpack",
 		"start": "cross-env NODE_ENV=development APP_ENV=development webpack-dev-server",
 		"test": "cross-env NODE_ENV=production APP_ENV=test webpack",
+		"analyz": "npm run build analyz",
 		"clean": "rimraf dist"
 	},
 	"husky": {
@@ -72,6 +73,7 @@
 		"tslint-react": "^4.0.0",
 		"typescript": "^3.5.3",
 		"typescript-eslint-parser": "^22.0.0",
+		"uglifyjs-webpack-plugin": "^2.2.0",
 		"webpack": "^4.39.1",
 		"webpack-cli": "^3.3.6",
 		"webpack-dev-server": "^3.7.2",
@@ -79,22 +81,32 @@
 		"yamljs": "^0.3.0"
 	},
 	"dependencies": {
-		"@bee/ui": "^1.0.3",
+		"@bee/layout": "0.0.3",
+		"@bee/utils": "0.0.0",
 		"@lib/lepage": "^2.0.5",
+		"@types/react-dom": "^16.8.5",
+		"@types/react-loadable": "^5.5.1",
 		"antd": "^3.21.2",
 		"awesome-typescript-loader": "^5.2.1",
 		"axios": "^0.19.0",
 		"core-js": "^3.2.1",
 		"file-loader": "^4.2.0",
 		"image-webpack-loader": "^5.0.0",
+		"less-loader": "^5.0.0",
 		"mobx": "^5.13.0",
 		"mobx-react": "^6.1.1",
+		"moment-locales-webpack-plugin": "^1.1.0",
+		"optimize-css-assets-webpack-plugin": "^5.0.3",
+		"purify-css": "^1.2.5",
+		"purifycss-webpack": "^0.7.0",
 		"qs": "^6.7.0",
 		"react": "^16.8.6",
 		"react-document-title": "^2.0.3",
 		"react-dom": "^16.8.6",
 		"react-loadable": "^5.5.0",
 		"react-router-dom": "^5.0.1",
-		"sass-resources-loader": "^2.0.1"
+		"sass-resources-loader": "^2.0.1",
+		"terser-webpack-plugin": "^1.4.1",
+		"webpack-bundle-analyzer": "^3.4.1"
 	}
 }

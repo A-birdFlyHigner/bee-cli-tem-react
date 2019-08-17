@@ -5,7 +5,7 @@ import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 
 import Layouts from './layouts'
-import '@styles/global.index.scss'
+import '@styles/global.index.less'
 
 const render = (Component: React.ComponentType) => {
   ReactDOM.render(<Component />, document.getElementById('app'))
