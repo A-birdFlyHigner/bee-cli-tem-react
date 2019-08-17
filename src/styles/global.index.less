@@ -34,19 +34,22 @@ ul,
 ol {
   list-style: none
 }
+
 @screen-xs: 480px;
+
 @media (max-width: @screen-xs) {
   .ant-table {
     width: 100%;
     overflow-x: auto;
 
-    &-thead > tr,
-    &-tbody > tr {
-      > th,
-      > td {
+    &-thead>tr,
+    &-tbody>tr {
+
+      >th,
+      >td {
         white-space: pre;
 
-        > span {
+        >span {
           display: block
         }
       }
@@ -55,7 +58,7 @@ ol {
 }
 
 .base-goods-publish {
-  .no-form-item-content-elem > * {
+  .no-form-item-content-elem>* {
     min-width: auto !important
   }
 
@@ -86,7 +89,7 @@ ol {
     min-width: 220px
   }
 
-  .no-form-item-top + .no-form-item-content {
+  .no-form-item-top+.no-form-item-content {
     margin-top: 5px
   }
 
@@ -102,8 +105,8 @@ ol {
       width: 830px
     }
 
-    .ant-table-thead > tr > th,
-    .ant-table-tbody > tr > td {
+    .ant-table-thead>tr>th,
+    .ant-table-tbody>tr>td {
       padding: 5px
     }
   }
@@ -130,7 +133,7 @@ ol {
     min-width: auto
   }
 
-  .ant-calendar-picker > div {
+  .ant-calendar-picker>div {
     width: 100%
   }
 
@@ -150,13 +153,14 @@ ol {
 
   // 商品主图
   .no-form-item-goods-main-image-list {
+
     .ant-upload-list-picture-card .ant-upload-list-item,
     .ant-upload-select-picture-card {
       width: 128px;
       height: 128px
     }
 
-    .no-form-item-content-elem > span {
+    .no-form-item-content-elem>span {
       display: block
     }
   }
@@ -186,6 +190,7 @@ ol {
       width: 128px;
       height: 128px
     }
+
     // .no-form-item-content-elem > span {
     //   display: block;
     // }
@@ -221,7 +226,7 @@ ol {
   }
 
   // 属性项
-  .gp-properties-item > .no-form-item-control {
+  .gp-properties-item>.no-form-item-control {
     width: 80%
   }
 
@@ -247,7 +252,8 @@ ol {
 }
 
 @font-face {
-  font-family: 'iconfont';  /* project id 288366 */
+  font-family: 'iconfont';
+  /* project id 288366 */
   src: url('//at.alicdn.com/t/font_288366_ryc4ej0oy8.eot');
   src: url('//at.alicdn.com/t/font_288366_ryc4ej0oy8.eot?#iefix') format('embedded-opentype'),
     url('//at.alicdn.com/t/font_288366_ryc4ej0oy8.woff2') format('woff2'),
@@ -293,4 +299,12 @@ ol {
   margin: 24px;
   width: calc(~"100% - 48px");
   min-height: 80vh;
+}
+
+.global_header {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 2px 8px 0;
+  top: 0;
 }

@@ -7,6 +7,15 @@ import { Route, Switch } from 'react-router-dom'
 import routers from '../routers'
 import menuData from './menu'
 const { Content, Sider } = Layout
+
+const style = {
+  sider: {
+    position: 'fixed',
+    height: '100vh',
+    left: 0,
+    minWidth: 200
+  }
+}
 interface State {
   collapsed: boolean
 }
@@ -24,11 +33,11 @@ class LayoutView extends Component<any, State> {
     const { collapsed } = this.state
     return (
       <Layout>
-        <Sider breakpoint="sm">
+        <Sider breakpoint="sm" style={style.sider}>
           <BanmaLogo />
           <SiderMenu collapsed={collapsed} menuData={menuData} />
         </Sider>
-        <Content>
+        <Content style={{ margin: '80px 0 0 200px' }}>
           <Header logout={this.logout} />
           <Card className="application-main">
             <Switch>

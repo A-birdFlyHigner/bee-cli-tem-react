@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 18:13:19
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-17 15:37:36
+ * @LastEditTime: 2019-08-17 19:52:42
  */
 const pathJoin = require('../webpack.utils').pathJoin
 const IS_DEVELOPMENT = process.env.APP_ENV === 'development'
@@ -25,8 +25,8 @@ const cssLoader = modules => ({
 })
 
 const baseLoaders = modules => [
-  // IS_DEVELOPMENT ?  'style-loader' :MiniCssExtractPlugin.loader,
-  'style-loader',
+  IS_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
+  // 'style-loader',
   cssLoader(modules),
   'postcss-loader'
 ]

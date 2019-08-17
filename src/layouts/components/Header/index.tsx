@@ -1,20 +1,12 @@
 import React, { Component } from 'react'
-// // import { NavLink } from 'react-router-dom'
-import { Layout, Modal } from 'antd'
+import { Layout, Modal, Avatar } from 'antd'
 const { Header } = Layout
-
 export interface Props {
   username: string
   logout: () => void
 }
 
 export default class HeaderLayout extends Component<Props> {
-  constructor(props) {
-    super(props)
-  }
-  static defaultProps = {
-    username: ''
-  }
   handleExit = () => {
     Modal.confirm({
       title: '提示',
@@ -26,23 +18,14 @@ export default class HeaderLayout extends Component<Props> {
     })
   }
   render() {
-    const { username, logout } = this.props
     return (
-      <Header className="header-wrapper">
-        <div className="container">
-          <span className="headerName"> 鲁班管理</span>
+      <Header className="global_header">
+        {/* <div>
+          <span> 鲁班管理</span>
+        </div> */}
+        <div>
+          <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>太一</Avatar>
         </div>
-        {username && (
-          <div className="user">
-            <span>
-              你好，
-              {username}
-            </span>
-            <span className="logout" onClick={logout}>
-              退出
-            </span>
-          </div>
-        )}
       </Header>
     )
   }
