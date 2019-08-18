@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Layout, Modal, Avatar } from 'antd'
 const { Header } = Layout
 export interface Props {
-  username: string
+  username?: string
   logout: () => void
 }
 

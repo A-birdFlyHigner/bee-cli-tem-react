@@ -1,13 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import moment from 'moment'
-import 'moment/locale/zh-cn'
-moment.locale('zh-cn')
+import { HashRouter, Switch, Route } from 'react-router-dom'
+import LayoutsView from './layouts'
 
-import Layouts from './layouts'
 import '@styles/global.index.less'
+
+class App extends React.Component {
+  render() {
+    return (
+      <HashRouter>
+        <Switch>
+          <Route path="/" component={LayoutsView} />
+        </Switch>
+      </HashRouter>
+    )
+  }
+}
 
 const render = (Component: React.ComponentType) => {
   ReactDOM.render(<Component />, document.getElementById('app'))
 }
-render(Layouts)
+render(App)

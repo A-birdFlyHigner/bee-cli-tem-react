@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 15:00:58
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-17 18:46:33
+ * @LastEditTime: 2019-08-18 13:05:40
  */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
@@ -13,21 +13,21 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const pathJoin = require('./webpack.utils').pathJoin
 const analyz = process.argv[2] === 'analyz'
 const optimization = {
-  splitChunks: {
-    cacheGroups: {
-      default: false,
-      buildup: {
-        chunks: 'all',
-        test: /[\\/]node_modules[\\/]/
-      },
-      vendor: {
-        name: 'vendor',
-        test: /[\\/]node_modules[\\/](react|react-dom|lodash|moment|immutable|mobx|mobx-react|axios)[\\/]/,
-        chunks: 'all',
-        priority: 10
-      }
-    }
-  },
+  // splitChunks: {
+  //   cacheGroups: {
+  //     default: false,
+  //     buildup: {
+  //       chunks: 'all',
+  //       test: /[\\/]node_modules[\\/]/
+  //     },
+  //     vendor: {
+  //       name: 'vendor',
+  //       test: /[\\/]node_modules[\\/](react|react-dom|lodash|moment|immutable|mobx|mobx-react|axios)[\\/]/,
+  //       chunks: 'all',
+  //       priority: 10
+  //     }
+  //   }
+  // },
   minimizer: [
     new TerserPlugin({
       parallel: true,
@@ -46,7 +46,7 @@ const optimization = {
 
 const plugins = [
   new MiniCssExtractPlugin({
-    filename: 'style/[name].[hash:7].css',
+    filename: 'style/[name].[hash:5].css',
     chunkFilename: 'style/[name].[id].[contenthash].css'
   })
 ]
@@ -56,8 +56,8 @@ module.exports = {
   optimization,
   plugins,
   output: {
-    filename: 'script/[name].[hash:7].js',
-    chunkFilename: 'script/[name].[hash:8].import.js', //动态import文件名
+    filename: 'script/[name].[hash:5].js',
+    chunkFilename: 'script/[name].[hash:5].chunk.js', //动态import文件名
     path: pathJoin('dist'),
     publicPath: './'
   },

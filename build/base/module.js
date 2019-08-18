@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 18:13:19
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-17 19:52:42
+ * @LastEditTime: 2019-08-18 12:18:53
  */
 const pathJoin = require('../webpack.utils').pathJoin
 const IS_DEVELOPMENT = process.env.APP_ENV === 'development'
@@ -12,24 +12,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const YAML = require('yamljs')
 const theme = YAML.load(pathJoin('config', 'theme.yml'))
 
-const cssLoader = modules => ({
-  loader: 'css-loader',
-  options: {
-    modules: modules
-      ? {
-          mode: 'local',
-          localIdentName: '[local]--[hash:base64:8]'
-        }
-      : false
-  }
-})
-
-const baseLoaders = modules => [
-  IS_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
-  // 'style-loader',
-  cssLoader(modules),
-  'postcss-loader'
-]
+const baseLoaders = [IS_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
 
 const styleRules = [
   {
@@ -37,7 +20,7 @@ const styleRules = [
     test: /\.scss$/,
     exclude: /node_modules/,
     use: [
-      ...baseLoaders(true),
+      ...baseLoaders,
       {
         loader: 'sass-resources-loader',
         options: {
@@ -56,12 +39,12 @@ const styleRules = [
   {
     test: /\.css$/,
     include: /node_modules/,
-    use: [...baseLoaders(false)]
+    use: [...baseLoaders]
   },
   {
     test: /\.less$/,
     use: [
-      ...baseLoaders(false),
+      ...baseLoaders,
       {
         loader: 'less-loader',
         options: {
@@ -85,11 +68,7 @@ const scriptRules = [
         options: {
           babelrc: false,
           presets: [
-            [
-              '@babel/preset-env',
-              // https://github.com/babel/babel/blob/master/packages/babel-preset-env/data/plugins.json#L32
-              { targets: { browsers: ['chrome >= 47'] }, useBuiltIns: 'usage', corejs: 3 }
-            ],
+            ['@babel/preset-env', { targets: { browsers: ['chrome >= 47'] }, useBuiltIns: 'usage', corejs: 3 }],
             '@babel/preset-typescript',
             '@babel/preset-react'
           ],
@@ -102,7 +81,7 @@ const scriptRules = [
           ]
         }
       }
-    ] //'awesome-typescript-loader'
+    ]
   }
 ]
 
