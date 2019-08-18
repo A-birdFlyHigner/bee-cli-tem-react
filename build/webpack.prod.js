@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 15:00:58
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-18 13:05:40
+ * @LastEditTime: 2019-08-18 19:30:38
  */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
@@ -13,21 +13,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const pathJoin = require('./webpack.utils').pathJoin
 const analyz = process.argv[2] === 'analyz'
 const optimization = {
-  // splitChunks: {
-  //   cacheGroups: {
-  //     default: false,
-  //     buildup: {
-  //       chunks: 'all',
-  //       test: /[\\/]node_modules[\\/]/
-  //     },
-  //     vendor: {
-  //       name: 'vendor',
-  //       test: /[\\/]node_modules[\\/](react|react-dom|lodash|moment|immutable|mobx|mobx-react|axios)[\\/]/,
-  //       chunks: 'all',
-  //       priority: 10
-  //     }
-  //   }
-  // },
   minimizer: [
     new TerserPlugin({
       parallel: true,

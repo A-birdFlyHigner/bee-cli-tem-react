@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-09 10:08:32
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-18 12:19:17
+ * @LastEditTime: 2019-08-18 19:49:18
  */
 const pathJoin = require('../webpack.utils').pathJoin
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
@@ -15,6 +15,7 @@ module.exports = {
   entry: ['@babel/polyfill', pathJoin('src', 'app.tsx')],
   // performance: { hints: false },
   resolve: {
+    mainFiles: ['index'],
     extensions: ['.jsx', '.js', '.ts', '.tsx'],
     plugins: [
       new TsconfigPathsPlugin({

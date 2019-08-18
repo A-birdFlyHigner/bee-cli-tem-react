@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react'
 import './style.scss'
 interface Props {
   userInfo?: object
+  store?: any
 }
 @inject('store')
 @observer

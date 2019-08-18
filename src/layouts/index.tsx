@@ -5,7 +5,7 @@ import { hot } from 'react-hot-loader'
 import { SiderMenu, BanmaLogo } from '@bee/layout'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import routers from '../routers'
+import routers from '@routers'
 import menuData from './menu'
 import NoMatch from '@views/404'
 const { Content, Sider } = Layout

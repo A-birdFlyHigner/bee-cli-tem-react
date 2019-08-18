@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 15:00:50
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-17 17:34:35
+ * @LastEditTime: 2019-08-18 19:30:16
  */
 const webpack = require('webpack')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
@@ -27,7 +27,7 @@ module.exports = {
     new CaseSensitivePathsPlugin(),
     new FriendlyErrorsWebpackPlugin({
       compilationSuccessInfo: {
-        messages: [`You application is running here: http://localhost:${projectConfig.devPort}`]
+        messages: [`You application is running here: http://localhost:${projectConfig.devPort}/#/home`]
       }
     })
   ]

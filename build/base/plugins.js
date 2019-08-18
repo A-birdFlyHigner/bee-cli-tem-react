@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 18:14:55
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-17 17:33:23
+ * @LastEditTime: 2019-08-18 19:28:01
  */
 const webpack = require('webpack')
 const pathJoin = require('../webpack.utils').pathJoin
@@ -32,7 +32,12 @@ module.exports = [
     localesToKeep: ['es-us', 'zh-cn']
   }),
   new webpack.EnvironmentPlugin(['APP_ENV']),
-  new webpack.DefinePlugin(DEFINE_GLOBAL),
+  new webpack.DefinePlugin({
+    ...DEFINE_GLOBAL,
+    'process.env': {
+      NODE_ENV: '"production"'
+    }
+  }),
   // new ProgressBarPlugin(),
   new HtmlWebpackPlugin({
     title: projectConfig.title,

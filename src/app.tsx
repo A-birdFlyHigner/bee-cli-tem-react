@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { HashRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import LayoutsView from './layouts'
-import store from '@stores/index'
+import store from '@stores'
 import '@styles/global.index.less'
 class App extends React.Component {
   render() {

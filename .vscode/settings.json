@@ -1,8 +1,0 @@
-{
-  "css.validate": false,
-  "less.validate": true,
-  "scss.validate": true,
-  "prettier.stylelintIntegration": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.formatOnSave": true
-}
