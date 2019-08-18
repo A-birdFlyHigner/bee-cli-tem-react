@@ -4,43 +4,36 @@ import Header from './components/Header'
 import { hot } from 'react-hot-loader'
 import { SiderMenu, BanmaLogo } from '@bee/layout'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import { inject, observer } from 'mobx-react'
 import routers from '../routers'
 import menuData from './menu'
 import NoMatch from '@views/404'
 const { Content, Sider } = Layout
 
-const style = {
-  sider: {
-    position: 'fixed',
-    height: '100vh',
-    left: 0,
-    minWidth: 200
-  }
-}
 interface State {
   collapsed: boolean
 }
+@inject('store')
+@observer
 class LayoutView extends Component<any, State> {
   state = {
     collapsed: false
   }
-  onCollapse = collapsed => {
-    this.setState({ collapsed })
-  }
-  logout = () => {
-    return
+  async componentDidMount() {
+    await this.props.store.globalStore.setMenu(menuData)
+    await this.props.store.globalStore.setUserName('太一')
   }
   render() {
-    const { collapsed } = this.state
+    const { menu } = this.props.store.globalStore
     return (
       <Layout>
-        <Sider breakpoint="sm" style={style.sider}>
+        <Sider breakpoint="sm" className="global_sider">
           <BanmaLogo />
-          <SiderMenu collapsed={collapsed} menuData={menuData} />
+          <SiderMenu menuData={menu} />
         </Sider>
         <Content style={{ margin: '80px 0 0 200px' }}>
-          <Header logout={this.logout} />
-          <Card className="application-main">
+          <Header />
+          <Card className="application_main">
             <Switch>
               <Route path="/404" component={NoMatch} />
               {routers.map(item => {

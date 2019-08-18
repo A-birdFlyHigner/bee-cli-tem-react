@@ -1,5 +1,7 @@
 /* Colors
 -------------------------- */
+@import '~bourbon/core/_bourbon.scss';
+
 $--color-white: #fff !default;
 $--color-gray: #f0f2f5 !default;
 $--color-black: #1e1e1e !default;
@@ -16,8 +18,15 @@ $--color-default: #5b5777 !default;
 -------------------------- */
 $--font-size-base: 14px;
 $--font-size-small: 12px;
-$--font-family-base: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
-$--font-family-satisfy: Orbitron, sans-serif;
+$--font-family-base: "Helvetica Neue",
+  Helvetica,
+  "PingFang SC",
+  "Hiragino Sans GB",
+  "Microsoft YaHei",
+  Arial,
+  sans-serif;
+$--font-family-satisfy: Orbitron,
+  sans-serif;
 
 /* Sidebar
 -------------------------- */

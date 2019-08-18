@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-15 10:15:02
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-17 19:05:33
+ * @LastEditTime: 2019-08-18 19:13:42
  */
 import Loadable from '../loadable'
 export default [

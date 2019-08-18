@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { Layout, Modal, Avatar } from 'antd'
+import { Layout, Modal, Avatar, Popover, Button } from 'antd'
 const { Header } = Layout
-export interface Props {
-  username?: string
-  logout: () => void
+import { inject, observer } from 'mobx-react'
+import './style.scss'
+interface Props {
+  userInfo?: object
 }
-
+@inject('store')
+@observer
 export default class HeaderLayout extends Component<Props> {
   handleExit = () => {
     Modal.confirm({
@@ -20,12 +22,17 @@ export default class HeaderLayout extends Component<Props> {
   render() {
     return (
       <Header className="global_header">
-        {/* <div>
-          <span> 鲁班管理</span>
-        </div> */}
-        <div>
-          <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>太一</Avatar>
-        </div>
+        <h2>鲁班系统</h2>
+        <Popover
+          content={
+            <Button type="primary" onClick={this.handleExit}>
+              退出账户
+            </Button>
+          }
+          placement="bottom"
+        >
+          <Avatar style={{ color: '#fff', backgroundColor: '#1a1a1a' }}>{this.props.store.globalStore.userName}</Avatar>
+        </Popover>
       </Header>
     )
   }
