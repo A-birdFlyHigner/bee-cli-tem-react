@@ -4,30 +4,23 @@
  * @Author: 太一
  * @Date: 2019-08-08 15:00:50
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-18 19:30:16
+ * @LastEditTime: 2019-08-21 14:31:43
  */
 const webpack = require('webpack')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const pathJoin = require('./webpack.utils.js').pathJoin
-const YAML = require('yamljs')
-const projectConfig = YAML.load(pathJoin('config', 'project.config.yml'))
-
+const projectConfig = require(pathJoin('config', 'project.config.js'))
 module.exports = {
   devtool: 'eval-source-map',
-  devServer: {
-    port: projectConfig.devPort,
-    host: '0.0.0.0',
-    disableHostCheck: true,
-    hot: true
-  },
+  devServer: projectConfig.devServer,
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new CaseSensitivePathsPlugin(),
     new FriendlyErrorsWebpackPlugin({
       compilationSuccessInfo: {
-        messages: [`You application is running here: http://localhost:${projectConfig.devPort}/#/home`]
+        messages: [`You application is running here: http://localhost:${projectConfig.devServer.port}/#/home`]
       }
     })
   ]

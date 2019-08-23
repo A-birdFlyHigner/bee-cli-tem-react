@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 15:00:58
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-18 19:30:38
+ * @LastEditTime: 2019-08-23 09:48:36
  */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
@@ -31,7 +31,7 @@ const optimization = {
 
 const plugins = [
   new MiniCssExtractPlugin({
-    filename: 'style/[name].[hash:5].css',
+    filename: 'style/[id].[hash:5].css',
     chunkFilename: 'style/[name].[id].[contenthash].css'
   })
 ]
@@ -41,7 +41,7 @@ module.exports = {
   optimization,
   plugins,
   output: {
-    filename: 'script/[name].[hash:5].js',
+    filename: 'script/[id].[hash:5].js',
     chunkFilename: 'script/[name].[hash:5].chunk.js', //动态import文件名
     path: pathJoin('dist'),
     publicPath: './'

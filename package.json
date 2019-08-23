@@ -25,8 +25,8 @@
       "tslint --fix",
       "git add"
     ],
-    "src/**/*.scss": [
-      "stylelint --syntax scss --fix",
+    "src/**/*.less": [
+      "stylelint --syntax less --fix",
       "git add"
     ]
   },
@@ -61,14 +61,14 @@
     "progress-bar-webpack-plugin": "^1.12.1",
     "react-hot-loader": "^4.12.11",
     "rimraf": "^2.6.3",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^7.3.1",
     "style-loader": "^1.0.0",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
-    "stylelint-scss": "^3.9.3",
+    "stylelint-scss": "^3.9.4",
     "ts-loader": "^6.0.4",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "tslint": "^5.18.0",
+    "tslint": "^5.19.0",
     "tslint-react": "^4.0.0",
     "typescript": "^3.5.3",
     "typescript-eslint-parser": "^22.0.0",
@@ -80,11 +80,11 @@
   },
   "dependencies": {
     "@bee/layout": "0.0.3",
-    "@bee/utils": "0.0.0",
+    "@bee/utils": "0.0.12",
     "@lib/lepage": "^2.0.5",
-    "@types/react-dom": "^16.8.5",
+    "@types/react-dom": "^16.9.0",
     "@types/react-loadable": "^5.5.1",
-    "@types/react-router-dom": "^4.3.4",
+    "@types/react-router-dom": "^4.3.5",
     "antd": "^3.21.2",
     "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.19.0",

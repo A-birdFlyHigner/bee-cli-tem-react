@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 18:13:19
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-18 17:15:38
+ * @LastEditTime: 2019-08-21 14:20:50
  */
 const pathJoin = require('../webpack.utils').pathJoin
 const IS_DEVELOPMENT = process.env.APP_ENV === 'development'
@@ -29,28 +29,6 @@ const styleRules = [
         options: {
           modifyVars: theme,
           javascriptEnabled: true,
-          sourceMap: IS_DEVELOPMENT
-        }
-      }
-    ]
-  },
-  {
-    enforce: 'pre',
-    test: /\.scss$/,
-    loader: 'sass-resources-loader',
-    options: {
-      resources: [pathJoin('src', 'styles', 'global.mixins.scss'), pathJoin('src', 'styles', 'global.variable.scss')]
-    }
-  },
-  {
-    test: /\.scss$/,
-    exclude: /node_modules/,
-    use: [
-      ...baseLoaders,
-      {
-        loader: 'sass-loader',
-        options: {
-          includePaths: [require('bourbon').includePaths],
           sourceMap: IS_DEVELOPMENT
         }
       }
@@ -106,7 +84,8 @@ const scriptRules = [
             'react-hot-loader/babel'
           ]
         }
-      }
+      },
+      'awesome-typescript-loader'
     ]
   }
 ]

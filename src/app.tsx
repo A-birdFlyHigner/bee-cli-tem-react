@@ -1,20 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter, Switch, Route } from 'react-router-dom'
-import { Provider } from 'mobx-react'
+import { HashRouter, Switch, Route, match } from 'react-router-dom'
 import LayoutsView from './layouts'
-import store from '@stores'
 import '@styles/global.index.less'
+import { Location, History } from 'history'
 class App extends React.Component {
   render() {
     return (
-      <Provider store={store}>
-        <HashRouter>
-          <Switch>
-            <Route path="/" component={LayoutsView} />
-          </Switch>
-        </HashRouter>
-      </Provider>
+      <HashRouter>
+        <Switch>
+          <Route path="/" component={LayoutsView} />
+        </Switch>
+      </HashRouter>
     )
   }
 }
@@ -23,3 +20,9 @@ const render = (Component: React.ComponentType) => {
   ReactDOM.render(<Component />, document.getElementById('app'))
 }
 render(App)
+
+export interface PageProps<Params> {
+  match: match<Params>
+  location: Location
+  history: History
+}

@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-15 20:40:41
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-18 19:29:48
+ * @LastEditTime: 2019-08-23 10:08:04
  */
 declare module '*.png'
 declare module '*.gif'
@@ -23,9 +23,5 @@ declare namespace JSX {
   }
 }
 
-// @ts-ignore
-declare const process: {
-  env: {
-    [key: string]: any
-  }
-}
+declare const BUILD_ENV: string
+declare const APP_ENV: string

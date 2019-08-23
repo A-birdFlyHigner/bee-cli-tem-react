@@ -4,33 +4,21 @@
  * @Author: 太一
  * @Date: 2019-08-15 20:40:41
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-16 18:28:54
+ * @LastEditTime: 2019-08-23 11:13:50
  */
 const menuData = [
   {
-    name: '投放中心',
+    name: '一级导航',
     icon: 'pay-circle',
-    path: 'delivery',
+    path: 'nav1',
     children: [
       {
-        name: '页面列表',
-        path: 'pageList'
+        name: '二级导航1',
+        path: 'page1'
       },
       {
-        name: '资源位列表',
-        path: 'resourcesList'
-      },
-      {
-        name: '投放列表',
-        path: 'throwList'
-      },
-      {
-        name: '运营位列表',
-        path: 'operatingList'
-      },
-      {
-        name: '选品列表',
-        path: 'selectionList'
+        name: '二级导航2',
+        path: 'page2'
       }
     ]
   }

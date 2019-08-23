@@ -4,7 +4,7 @@
  * @Author: 太一
  * @Date: 2019-08-08 18:14:55
  * @LastEditors: 太一
- * @LastEditTime: 2019-08-18 19:28:01
+ * @LastEditTime: 2019-08-22 17:51:07
  */
 const webpack = require('webpack')
 const pathJoin = require('../webpack.utils').pathJoin
@@ -16,6 +16,7 @@ const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const APP_ENV = process.env.APP_ENV
 const prefix = `global.${APP_ENV}.yml`
 const globalSource = YAML.load(pathJoin('config', prefix))
+const GOLBAL_CONST = YAML.load(pathJoin('config', 'gobal.const.yml'))
 const DEFINE_GLOBAL = {
   APP_ENV,
   IS_DEVELOPMENT: APP_ENV === 'development',
@@ -25,20 +26,24 @@ const DEFINE_GLOBAL = {
 
 globalSource && Object.assign(DEFINE_GLOBAL, globalSource)
 
-const projectConfig = YAML.load(pathJoin('config', 'project.config.yml'))
-
+const projectConfig = require(pathJoin('config', 'project.config.js'))
+const GOLBAL_ALL = { ...DEFINE_GLOBAL, ...GOLBAL_CONST }
+const GLOBAL_DEFINE = {}
+for (let k in GOLBAL_ALL) {
+  GLOBAL_DEFINE[k] = JSON.stringify(GOLBAL_ALL[k])
+}
 module.exports = [
   new MomentLocalesPlugin({
     localesToKeep: ['es-us', 'zh-cn']
   }),
   new webpack.EnvironmentPlugin(['APP_ENV']),
   new webpack.DefinePlugin({
-    ...DEFINE_GLOBAL,
+    ...GLOBAL_DEFINE,
     'process.env': {
       NODE_ENV: '"production"'
     }
   }),
-  // new ProgressBarPlugin(),
+  new ProgressBarPlugin(),
   new HtmlWebpackPlugin({
     title: projectConfig.title,
     filename: 'index.html',
