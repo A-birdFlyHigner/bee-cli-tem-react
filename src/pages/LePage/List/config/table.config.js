@@ -71,10 +71,15 @@ export default {
   //     };
   //   },
   // },
+  onChange (pagination, filters, sorter) {
+    debugger
+  },
   columns: [
     {
       title: '采购时间',
       dataIndex: 'purchasing',
+      sorter: true,
+      sortOrder: 'ascend'
     },
     {
       title: '仓库名称',
