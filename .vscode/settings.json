@@ -1,0 +1,7 @@
+{
+    "editor.formatOnSave": true,
+    "prettier.stylelintIntegration": true,
+    "beautify.ignore": ["**/*.css", "**/*.js", "**/*.ts", "**/*.tsx"],
+    "typescript.tsdk": "node_modules/typescript/lib"
+  }
+  
