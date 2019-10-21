@@ -1,13 +1,4 @@
-<!--
- * @Title: 标题
- * @Descripttion: 文件头部描述
- * @Author: 太一
- * @Date: 2019-08-22 15:16:53
- * @LastEditors: 太一
- * @LastEditTime: 2019-08-23 10:12:05
- -->
-
-## Lepage-typescript-cli
+## bee-cli-tem-react
 
 ### 写在开头
 
@@ -120,3 +111,4 @@
 ```javascript
 //待完善
 ```
+
