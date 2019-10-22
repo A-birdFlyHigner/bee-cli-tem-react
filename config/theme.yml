@@ -1,0 +1,43 @@
+  # Layout
+  layout-header-background: '#FFFFFF'
+  layout-header-height: '80px'
+  nav-header-height: '80px'
+  # 导航
+  layout-sider-background: '#1A1A1A'
+  menu-dark-bg: '#1A1A1A'
+  menu-item-color: '#FFFFFF'
+  menu-dark-submenu-bg: '#1A1A1A'
+  menu-item-active-bg: '#000000'
+  menu-dark-item-active-bg: '#000000'
+  menu-dark-highlight-color: '#FFFFFF'
+  # 通体
+  primary-color: '#333333'
+  layout-body-background: '#F0F0F0'
+  text-color: '#333333'
+  # Buttons
+  btn-primary-color: '#fff'
+  btn-primary-bg: '#1A1A1A'
+  # 下拉框
+  item-hover-bg: '#F5F5F5'
+  item-hover-color: '#333333'
+  item-active-bg: '#F5F5F5'
+  # 表格
+  table-row-hover-bg: '#FAFAFA'
+  table-selected-row-bg: '#FAFAFA'
+  #  行高
+  line-height-base: 1
+  # Tree
+  # tree-directory-selected-bg: '#FFFFFF'
+  # Radio
+  radio-dot-color: '#0076FF'
+  # Checkbox
+  checkbox-color: '#0076FF'
+  # Breadcrumb
+  breadcrumb-link-color-hover: '#1A1A1A'
+
+  # tabs
+  tabs-title-font-size: 16px
+  tabs-horizontal-padding: 6px 16px
+  # zIndex
+  zindex-dropdown: 100001
+  zindex-message: 100000
