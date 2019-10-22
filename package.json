@@ -1,11 +1,10 @@
 {
-  "name": "ts_lepage_template_v1.0",
-  "version": "1.0.0",
-  "description": "typescript lepage 脚手架",
+  "name": "{{projectName}}",
+  "version": "{{projectVersion}}",
+  "description": "{{projectDescription}}",
   "main": "index.js",
-  "repository": "git@gitlab.ops.yangege.cn:beehive/effect/lepage_template_v1.0.git",
-  "author": "太一 <taiyi.gegejia.com>",
-  "license": "MIT",
+  "author": "{{author}}",
+  "license": "{{license}}",
   "scripts": {
     "build": "npm run clean && cross-env NODE_ENV=production APP_ENV=production webpack",
     "start": "cross-env NODE_ENV=development APP_ENV=development webpack-dev-server",
