@@ -1,0 +1,127 @@
+@import '~antd/es/cascader/style/index.css';
+@import '~antd/es/upload/style/index.css';
+@import '~antd/es/table/style/index.css';
+@import '~antd/es/input-number/style/index.css';
+@import '~antd/es/tree-select/style/index.css';
+@import '~antd/es/date-picker/style/index.css';
+@import '~antd/es/rate/style/index.css';
+@import '~antd/es/radio/style/index.css';
+@import '~antd/es/slider/style/index.css';
+@import '~antd/es/modal/style/index.css';
+@import '~antd/es/input/style/index.css';
+@import '~antd/es/checkbox/style/index.css';
+@import '~@lib/lepage/lib/index.css';
+
+.pageTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 10px 20px;
+  &:before {
+    content: '|';
+    font-weight: 600;
+    font-size: 30px;
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
+  }
+}
+
+.content {
+  margin: 24px;
+  margin-top: 12px;
+  padding: 15px !important;
+  padding-top: @layout-header-height;
+  background: #fff;
+
+}
+
+a {
+  color: #2C82FC;
+}
+
+:global(.no-form .no-form-item-inline) {
+  margin: 0 10px 12px 0;
+}
+
+:global(.no-form .box-header) {
+  background: #f0f2f5;
+  padding: 10px 15px;
+  margin: 15px 0;
+  line-height: 37px;
+  box-sizing: content-box;
+  margin-left: -15px;
+}
+
+:global(.no-form .box-header .no-form-item-label) {
+  font-size: 18px;
+  font-weight: 600;
+  width: auto;
+  &:before {
+    content: '|';
+    font-weight: 600;
+    font-size: 30px;
+    position: relative;
+    margin-right: 5px;
+    top: 2px;
+  }
+  &:after {
+    content: ''
+  }
+}
+
+:global(.operateBtn-container-inline) {
+  line-height: 20px;
+  span {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding: 0 5px;
+    &:before {
+      content: '|';
+    }
+  }
+}
+
+:global(.spread-tree) {
+  margin-top: -5px !important;
+  li {
+    ul {
+      padding: 0 !important;
+    }
+  }
+}
+
+:global(.ant-tree-switcher) {
+  display: none !important;
+}
+
+:global(.ant-tabs-content) {
+  margin-top: 30px;
+}
+
+:global(.globalRed) {
+  color: red;
+}
+
+:global(.globalRange) {
+  input{
+    width: 156px !important;
+  }
+}
+
+:global(.globalRange .ant-calendar-picker) {
+  width: 360px !important;
+}
+
+:global(.scheduleRange){
+  margin-top: 20px;
+  width: 360px !important;
+  input{
+    width: 156px !important;
+  }
+}
+
+:global(.operateBtn) {
+  position: absolute;
+  top: 93px;
+  left: 340px;
+}
