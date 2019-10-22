@@ -1,6 +1,7 @@
 {
   "plugins": [
     "@bee/layout",
+    "@bee/bee-cli-plugin-webpack-ts",
     {
       "name": "@lib/fe-admin",
       "version": "^0.2.10"
